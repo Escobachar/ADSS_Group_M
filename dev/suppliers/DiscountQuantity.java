@@ -3,16 +3,16 @@ package suppliers;
 public class DiscountQuantity {
     private int catalogNumber;
     private int amount;
+    private double singlePrice;
     private double discountPrice;
 
-    // Constructor
-    public DiscountQuantity(int catalogNumber, int amount, double discountPrice) {
+    public DiscountQuantity(int catalogNumber, int amount, double singlePrice, double discountPrice) {
         this.catalogNumber = catalogNumber;
         this.amount = amount;
+        this.singlePrice = singlePrice;
         this.discountPrice = discountPrice;
     }
 
-    // Getters and Setters
     public int getCatalogNumber() {
         return catalogNumber;
     }
@@ -29,6 +29,14 @@ public class DiscountQuantity {
         this.amount = amount;
     }
 
+    public double getSinglePrice() {
+        return singlePrice;
+    }
+
+    public void setSinglePrice(double singlePrice) {
+        this.singlePrice = singlePrice;
+    }
+
     public double getDiscountPrice() {
         return discountPrice;
     }
@@ -37,11 +45,11 @@ public class DiscountQuantity {
         this.discountPrice = discountPrice;
     }
 
-    public double CalculateDiscount(int boughtAmount) {
+    public double calculateDiscount(int boughtAmount) {
         return boughtAmount >= amount ? discountPrice * boughtAmount : 0;
     }
 
-    public double TotalPrice(int boughtAmount) {
-        return boughtAmount - CalculateDiscount(boughtAmount);
+    public double totalPrice(int boughtAmount) {
+        return boughtAmount * singlePrice - calculateDiscount(boughtAmount);
     }
 }
