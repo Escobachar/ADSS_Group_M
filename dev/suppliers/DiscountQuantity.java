@@ -29,6 +29,19 @@ public class DiscountQuantity {
         this.amount = amount;
     }
 
+    public void incrementAmount(int increment) {
+        amount += increment;
+    }
+
+    public void decrementAmount(int decrement) {
+        decrement = Math.abs(decrement);
+        if (decrement >= amount) {
+            amount = 0;
+        } else {
+            amount -= decrement;
+        }
+    }
+
     public double getSinglePrice() {
         return singlePrice;
     }
@@ -37,12 +50,38 @@ public class DiscountQuantity {
         this.singlePrice = singlePrice;
     }
 
+    public void incrementSinglePrice(double increment) {
+        singlePrice += increment;
+    }
+
+    public void decrementSinglePrice(double decrement) {
+        decrement = Math.abs(decrement);
+        if (decrement >= singlePrice) {
+            singlePrice = 0;
+        } else {
+            singlePrice -= decrement;
+        }
+    }
+
     public double getDiscountPrice() {
         return discountPrice;
     }
 
     public void setDiscountPrice(int discountPrice) {
         this.discountPrice = discountPrice;
+    }
+
+    public void incrementDiscountPrice(double increment) {
+        discountPrice += increment;
+    }
+
+    public void decrementDiscountPrice(double decrement) {
+        decrement = Math.abs(decrement);
+        if (decrement >= discountPrice) {
+            discountPrice = 0;
+        } else {
+            discountPrice -= decrement;
+        }
     }
 
     public double calculateDiscount(int boughtAmount) {

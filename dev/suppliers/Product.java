@@ -44,6 +44,19 @@ public class Product {
         this.price = price;
     }
 
+    public void incrementPrice(double increment) {
+        this.price += increment;
+    }
+
+    public void decrementPrice(double decrement) {
+        decrement = Math.abs(decrement);
+        if (decrement >= price) {
+            price = 0;
+        } else {
+            price -= decrement;
+        }
+    }
+
     public int getSupplierID() {
         return supplierID;
     }
@@ -74,17 +87,6 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public void incrementPrice(double increment) {
-        this.price += increment;
-    }
-
-    public void decrementPrice(double decrement) {
-        if (decrement > 0)
-            this.price -= decrement;
-        else
-            this.price += decrement;
     }
 
     @Override
