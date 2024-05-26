@@ -48,6 +48,7 @@ public class Product {
         this.price += increment;
     }
 
+
     public void decrementPrice(double decrement) {
         decrement = Math.abs(decrement);
         if (decrement >= price) {
