@@ -118,7 +118,7 @@ public class Supplier {
 
     public Product getProduct(int catalogNumber) {
         for (HashMap<Integer, Product> products : categories.values()) {
-            for (Product product : products) {
+            for (Product product : products.values()) {
                 if (product.getCatalogNumber() == catalogNumber)
                     return product;
             }
@@ -126,7 +126,7 @@ public class Supplier {
         return null;
     }
 
-    public Product geProduct(Category category, int catalogNumber) {
+    public Product getProduct(Category category, int catalogNumber) {
         if (categories.containsKey(category)) {
             categories.get(category).get(catalogNumber);
         }
@@ -142,12 +142,12 @@ public class Supplier {
         if (!categories.containsKey(category)) {
             addCategory(category);
         }
-        categories.get(category).add(product);
+        categories.get(category).put(product.getCatalogNumber(), product);
     }
 
     public void removeProduct(Category category, Product product) {
         if (categories.containsKey(category))
-            categories.get(category).remove(product);
+            categories.get(category).remove(product.getCatalogNumber());
     }
 
     public void addDeliveryDay(int day) {

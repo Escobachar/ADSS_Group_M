@@ -1,7 +1,6 @@
 package suppliers.DomainLayer;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 public class SuppliersFacade {
@@ -17,7 +16,7 @@ public class SuppliersFacade {
 
     public void addSupplier(String name, int id, String bankAccount, String paymentOption,
             HashMap<String, String> contacts, List<Integer> deliveryDays,
-            HashMap<Category, LinkedList<Product>> categories, boolean isDelivering) {
+            HashMap<Category, HashMap<Integer, Product>> categories, boolean isDelivering) {
         Supplier supplier = new Supplier(name, id, bankAccount, paymentOption, contacts, deliveryDays, categories,
                 isDelivering);
         suppliers.put(id, supplier);
@@ -83,8 +82,12 @@ public class SuppliersFacade {
         suppliers.get(supplierId).addProduct(product.getCategory(), product);
     }
 
-    public void editProductInSupplier(int supplierId, Category category, int catalogNumber){
-        suppliers.get(supplierId).
+    public Product getProductInSupplier(int supplierId, Category category, int catalogNumber) {
+        return suppliers.get(supplierId).getProduct(category, catalogNumber);
+    }
+
+    public Product getProductInSupplier(int supplierId, int catalogNumber) {
+        return suppliers.get(supplierId).getProduct(catalogNumber);
     }
 
     public void removeProductFromSupplier(int supplierId, Product product) {
