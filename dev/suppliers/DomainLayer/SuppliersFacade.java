@@ -94,4 +94,12 @@ public class SuppliersFacade {
         suppliers.get(supplierId).removeProduct(product.getCategory(), product);
     }
 
+    public List<Product> getPurchasedProductsFromSupplier(int supplierId) {
+        return suppliers.get(supplierId).getPurchasedProducts();
+    }
+
+    public HashMap<Integer, Product> getAllSupplierProducts(int supplierId) {
+        return suppliers.get(supplierId).getAllProducts();
+    }
+
 }

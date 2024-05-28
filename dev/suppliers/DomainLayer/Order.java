@@ -10,26 +10,24 @@ enum Day {
 
 public class Order {
     final private int orderId;
-    private int supplierId;
+    private Supplier supplier;
     final private Date creationDate;
     private Date deliveryDate;
     private HashMap<Product, Integer> items;
     private List<Day> constDeliveryDays;
     private double price;
     private boolean isChanged;
-    private boolean isDelivering;
 
-    public Order(int orderId, int supplierId, Date creationDate, Date deliveryDate, HashMap<Product, Integer> items,
-            boolean isDelivering, List<Day> deliveryDays) {
+    public Order(int orderId, Supplier supplier, Date creationDate, Date deliveryDate, HashMap<Product, Integer> items,
+            List<Day> deliveryDays) {
         this.orderId = orderId;
-        this.supplierId = supplierId;
+        this.supplier = supplier;
         this.creationDate = creationDate;
         this.deliveryDate = deliveryDate;
         this.items = items;
         priceCalculation();
         this.isChanged = false;
         this.constDeliveryDays = deliveryDays;
-        this.isDelivering = isDelivering;
         increaseProductOrdersCount();
     }
 
@@ -70,11 +68,11 @@ public class Order {
     }
 
     public int getSupplierId() {
-        return supplierId;
+        return supplier.getId();
     }
 
-    public void setSupplierId(int supplierId) {
-        this.supplierId = supplierId;
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
     public Date getCreationDate() {
@@ -153,22 +151,7 @@ public class Order {
     }
 
     public boolean isDelivering() {
-        return isDelivering;
+        return supplier.isDelivering();
     }
 
-    public void setDelivering(boolean delivering) {
-        isDelivering = delivering;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "supplierId=" + supplierId +
-                ", creationDate=" + creationDate +
-                ", deliveryDate=" + deliveryDate +
-                ", items=" + items +
-                ", price=" + getPrice() +
-                ", isDelivering=" + isDelivering +
-                '}';
-    }
 }

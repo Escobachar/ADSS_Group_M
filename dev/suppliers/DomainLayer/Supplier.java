@@ -160,4 +160,25 @@ public class Supplier {
             deliveryDays.remove(day);
     }
 
+    public List<Product> getPurchasedProducts() {
+        List<Product> products = new LinkedList<Product>();
+        for (HashMap<Integer, Product> productsMap : categories.values()) {
+            for (Product product : productsMap.values()) {
+                if (product.getOrdersCount() > 0)
+                    products.add(product);
+            }
+        }
+        return products;
+    }
+
+    public HashMap<Integer, Product> getAllProducts() {
+        HashMap<Integer, Product> products = new HashMap<Integer, Product>();
+        for (HashMap<Integer, Product> productsMap : categories.values()) {
+            for (Product product : productsMap.values()) {
+                products.put(product.getCatalogNumber(), product);
+            }
+        }
+        return products;
+    }
+
 }

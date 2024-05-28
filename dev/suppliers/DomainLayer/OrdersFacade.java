@@ -13,9 +13,10 @@ public class OrdersFacade {
         orders = new HashMap<Integer, Order>();
     }
 
-    public void addOrder(int supplierId, Date creationDate, Date deliveryDate, HashMap<Product, Integer> items,
-            boolean isDelivering, List<Day> deliveryDays) {
-        Order order = new Order(orderIdCounter, supplierId, creationDate, deliveryDate, items, isDelivering,
+    public void addOrder(Supplier supplier, Date creationDate, Date deliveryDate,
+            HashMap<Product, Integer> items,
+            List<Day> deliveryDays) {
+        Order order = new Order(orderIdCounter, supplier, creationDate, deliveryDate, items,
                 deliveryDays);
         orders.put(orderIdCounter, order);
         orderIdCounter++;
@@ -49,10 +50,6 @@ public class OrdersFacade {
         orders.get(orderId).setDeliveryDate(deliveryDate);
     }
 
-    public void editOrderIsDelivering(int orderId, boolean isDelivering) {
-        orders.get(orderId).setDelivering(isDelivering);
-    }
-
     public double getOrderPrice(int orderId) {
         return orders.get(orderId).getPrice();
     }
@@ -68,4 +65,19 @@ public class OrdersFacade {
         }
         return thisWeekOrders;
     }
+
+    public HashMap<Integer, Order> getThisWeekPickupOrders() {
+        HashMap<Integer, Order> thisWeekPickupOrders = new HashMap<Integer, Order>();
+        for (Order order : orders.values()) {
+            if (!order.isDelivering()) {
+                if (order.getConstDeliveryDays() != null) {
+                    thisWeekPickupOrders.put(order.getOrderId(), order);
+                } else if (order.getDeliveryDate().getTime() - new Date().getTime() < 7 * 24 * 60 * 60 * 1000) {
+                    thisWeekPickupOrders.put(order.getOrderId(), order);
+                }
+            }
+        }
+        return thisWeekPickupOrders;
+    }
+
 }
