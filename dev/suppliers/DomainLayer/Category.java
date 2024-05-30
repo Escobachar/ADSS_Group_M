@@ -4,13 +4,11 @@ public class Category {
     private int number;
     private String name;
 
-    // Constructor
     public Category(int number, String name) {
         this.number = number;
         this.name = name;
     }
 
-    // Getters and Setters
     public int getNumber() {
         return number;
     }

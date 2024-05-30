@@ -16,18 +16,21 @@ public class OrdersFacade {
     public void addOrder(Supplier supplier, Date creationDate, Date deliveryDate,
             HashMap<Product, Integer> items,
             List<Day> deliveryDays) {
+        if (deliveryDate.before(creationDate)) {
+            throw new IllegalArgumentException("Delivery date must be after creation date");
+        }
         Order order = new Order(orderIdCounter, supplier, creationDate, deliveryDate, items,
                 deliveryDays);
         orders.put(orderIdCounter, order);
         orderIdCounter++;
     }
 
-    public void addOrderDeliveryDay(int orderId, Day day) {
-        orders.get(orderId).addConstDeliveryDay(day);
+    public void addOrderConstDeliveryDay(int orderId, Day day) {
+        getOrder(orderId).addConstDeliveryDay(day);
     }
 
-    public void removeOrderDeliveryDay(int orderId, Day day) {
-        orders.get(orderId).removeConstDeliveryDay(day);
+    public void removeOrderConstDeliveryDay(int orderId, Day day) {
+        getOrder(orderId).removeConstDeliveryDay(day);
     }
 
     public void removeOrder(int orderId) {
@@ -35,23 +38,36 @@ public class OrdersFacade {
     }
 
     public Order getOrder(int orderId) {
-        return orders.get(orderId);
+        Order order = orders.get(orderId);
+        if (order == null) {
+            throw new IllegalArgumentException("Order not found");
+        }
+        return order;
     }
 
     // if quantity is 0, remove the item from the order
-    public void editOrderItem(int orderId, Product product, int quantity) {
+    public void ChangeOrderItemQuantity(int orderId, Product product, int quantity) {
+        Order order = getOrder(orderId);
+        if (!order.containsItem(product)) {
+            throw new IllegalArgumentException("Product not found in order " + orderId);
+        }
         if (quantity <= 0) {
-            orders.get(orderId).removeItem(product);
+            order.removeItem(product);
         } else
-            orders.get(orderId).addItem(product, quantity);
+            order.addItem(product, quantity); // addItem removes the product and adds it again with the new quantity
     }
 
-    public void editOrderDeliveryDate(int orderId, Date deliveryDate) {
-        orders.get(orderId).setDeliveryDate(deliveryDate);
+    public void setOrderDeliveryDate(int orderId, Date deliveryDate) {
+        Order order = getOrder(orderId);
+        if (deliveryDate.before(new Date())) { // new date = now
+            throw new IllegalArgumentException("Delivery date must be after today");
+        }
+        order.setDeliveryDate(deliveryDate);
     }
 
     public double getOrderPrice(int orderId) {
-        return orders.get(orderId).getPrice();
+        Order order = getOrder(orderId);
+        return order.getPrice();
     }
 
     public HashMap<Integer, Order> getThisWeekOrders() {

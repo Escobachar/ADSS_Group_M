@@ -154,4 +154,8 @@ public class Order {
         return supplier.isDelivering();
     }
 
+    public boolean containsItem(Product product) {
+        return items.containsKey(product);
+    }
+
 }

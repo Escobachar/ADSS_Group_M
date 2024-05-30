@@ -11,95 +11,114 @@ public class SuppliersFacade {
     }
 
     public void addSupplier(Supplier supplier) {
+        if (suppliers.containsKey(supplier.getId())) {
+            throw new IllegalArgumentException("Supplier with ID " + supplier.getId() + " already exists");
+        }
         suppliers.put(supplier.getId(), supplier);
     }
 
     public void addSupplier(String name, int id, String bankAccount, String paymentOption,
             HashMap<String, String> contacts, List<Integer> deliveryDays,
             HashMap<Category, HashMap<Integer, Product>> categories, boolean isDelivering) {
+        if (suppliers.containsKey(id)) {
+            throw new IllegalArgumentException("Supplier with ID " + id + " already exists");
+        }
         Supplier supplier = new Supplier(name, id, bankAccount, paymentOption, contacts, deliveryDays, categories,
                 isDelivering);
         suppliers.put(id, supplier);
+    }
+
+    public Supplier getSupplier(int supplierId) {
+        if (!suppliers.containsKey(supplierId)) {
+            throw new IllegalArgumentException("Supplier with ID " + supplierId + " not found");
+        }
+        return suppliers.get(supplierId);
     }
 
     public void removeSupplier(int supplierId) {
         suppliers.remove(supplierId);
     }
 
-    public Supplier getSupplier(int supplierId) {
-        return suppliers.get(supplierId);
+    public void setSupplierName(int supplierId, String name) {
+        getSupplier(supplierId).setName(name);
     }
 
-    public void editSupplierName(int supplierId, String name) {
-        suppliers.get(supplierId).setName(name);
+    public void setSupplierBankAccount(int supplierId, String bankAccount) {
+        getSupplier(supplierId).setBankAccount(bankAccount);
     }
 
-    public void editSupplierBankAccount(int supplierId, String bankAccount) {
-        suppliers.get(supplierId).setBankAccount(bankAccount);
+    public void setSupplierPaymentOption(int supplierId, String paymentOption) {
+        getSupplier(supplierId).setPaymentOption(paymentOption);
     }
 
-    public void editSupplierPaymentOption(int supplierId, String paymentOption) {
-        suppliers.get(supplierId).setPaymentOption(paymentOption);
+    public void setSupplierContacts(int supplierId, HashMap<String, String> contacts) {
+        if (contacts.isEmpty())
+            throw new IllegalArgumentException("Contacts list cannot be empty");
+        getSupplier(supplierId).setContacts(contacts);
     }
 
-    public void editSupplierContacts(int supplierId, HashMap<String, String> contacts) {
-        suppliers.get(supplierId).setContacts(contacts);
+    public void setSupplierDeliveryDays(int supplierId, List<Integer> deliveryDays) {
+        getSupplier(supplierId).setDeliveryDays(deliveryDays);
     }
 
-    public void editSupplierDeliveryDays(int supplierId, List<Integer> deliveryDays) {
-        suppliers.get(supplierId).setDeliveryDays(deliveryDays);
+    public void setSupplierCategories(int supplierId, HashMap<Category, HashMap<Integer, Product>> categories) {
+        if (categories.isEmpty())
+            throw new IllegalArgumentException("Categories list cannot be empty");
+        getSupplier(supplierId).setCategories(categories);
     }
 
-    public void editSupplierCategories(int supplierId, HashMap<Category, HashMap<Integer, Product>> categories) {
-        suppliers.get(supplierId).setCategories(categories);
-    }
-
-    public void editSupplierIsDelivering(int supplierId, boolean isDelivering) {
-        suppliers.get(supplierId).setDelivering(isDelivering);
+    public void setSupplierIsDelivering(int supplierId, boolean isDelivering) {
+        getSupplier(supplierId).setDelivering(isDelivering);
     }
 
     public void addSupplierContact(int supplierId, String contactName, String contactDetails) {
-        suppliers.get(supplierId).addContact(contactName, contactDetails);
+        getSupplier(supplierId).addContact(contactName, contactDetails);
     }
 
     public void removeSupplierContact(int supplierId, String contactName) {
-        suppliers.get(supplierId).removeContact(contactName);
+        getSupplier(supplierId).removeContact(contactName);
     }
 
     public void addSupplierCategory(int supplierId, Category category) {
-        suppliers.get(supplierId).addCategory(category);
+        getSupplier(supplierId).addCategory(category);
     }
 
     public void addSupplierDeliveryDay(int supplierId, int day) {
-        suppliers.get(supplierId).addDeliveryDay(day);
+        getSupplier(supplierId).addDeliveryDay(day);
     }
 
     public void removeSupplierDeliveryDay(int supplierId, int day) {
-        suppliers.get(supplierId).removeDeliveryDay(day);
+        getSupplier(supplierId).removeDeliveryDay(day);
     }
 
     public void addProductToSupplier(int supplierId, Product product) {
-        suppliers.get(supplierId).addProduct(product.getCategory(), product);
+        getSupplier(supplierId).addProduct(product.getCategory(), product);
     }
 
     public Product getProductInSupplier(int supplierId, Category category, int catalogNumber) {
-        return suppliers.get(supplierId).getProduct(category, catalogNumber);
+        Product product = getSupplier(supplierId).getProduct(category, catalogNumber);
+        if (product == null)
+            throw new IllegalArgumentException("Product " + catalogNumber + " not found in supplier " + supplierId);
+        return product;
     }
 
     public Product getProductInSupplier(int supplierId, int catalogNumber) {
-        return suppliers.get(supplierId).getProduct(catalogNumber);
+        Product product = getSupplier(supplierId).getProduct(catalogNumber);
+        if (product == null)
+            throw new IllegalArgumentException("Product " + catalogNumber + " not found in supplier " + supplierId);
+        return product;
     }
 
     public void removeProductFromSupplier(int supplierId, Product product) {
-        suppliers.get(supplierId).removeProduct(product.getCategory(), product);
+        getSupplier(supplierId).removeProduct(product.getCategory(), product);
     }
 
     public List<Product> getPurchasedProductsFromSupplier(int supplierId) {
-        return suppliers.get(supplierId).getPurchasedProducts();
+        return getSupplier(supplierId).getPurchasedProducts();
     }
 
     public HashMap<Integer, Product> getAllSupplierProducts(int supplierId) {
-        return suppliers.get(supplierId).getAllProducts();
+        return getSupplier(supplierId).getAllProducts();
     }
 
 }
