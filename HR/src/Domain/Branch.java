@@ -1,5 +1,5 @@
-package Domain;
 
+package Domain;
 import java.util.*;
 
 public class Branch {
@@ -17,7 +17,7 @@ public class Branch {
         this.branchName=name;
         this.location=location;
         this.network=network;
-        branchManager=new BranchManager(0,"no Branch Manager",0,0,new Date(0,0,0),null,"half",0,this);
+        branchManager=new BranchManager(0,"no Branch Manager","0",0,new Date(0,0,0),null,"half",0,this);
         employeesList=new ArrayList<Employee>();
         employeesShifts=new Set[Network.shifts][Network.days];
         rolesOfShifts = new HashMap<Role,Integer[][]>();

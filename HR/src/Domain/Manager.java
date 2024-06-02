@@ -1,9 +1,6 @@
 package Domain;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 abstract public class Manager extends Employee{
         private List<String> access;
@@ -31,15 +28,18 @@ abstract public class Manager extends Employee{
         }
 
         public void UpdateEmployee(int ID,String name, String bankAccountDetails, int salary,Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,boolean isManager,Branch branch  ){
-            List<Employee> gel=branch.getEmployeesList();
-            for(Employee ge:gel)
-                if(ge.getID()==ID)
-                    ge=new GeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,roles,isManager,branch);
-           // branch.setEmployeesList(gel);
+            if(Network.CheckAddEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,roles,isManager,branch)) {
+                List<Employee> gel = branch.getEmployeesList();
+                branch.getGeneralEmployee(ID).copyGeneralEmployee(new GeneralEmployee(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, roles, isManager, branch));
+            }
         }
 
         public void updateShiftsOfBranch(Branch branch){
-            Set<Integer>[][] employeesShifts = new Set[2][7];
+            Set<Integer>[][] employeesShifts = new Set[Network.shifts][Network.days];
+            for (int i = 0; i < Network.shifts; i++)
+                for (int j = 0; j < Network.days; j++)
+                    employeesShifts[i][j]=new HashSet<Integer>();
+
             for(Employee e:branch.getEmployeesList()){
                 if(e instanceof GeneralEmployee) {
                     GeneralEmployee ge=(GeneralEmployee)e;

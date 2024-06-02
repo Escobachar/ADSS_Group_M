@@ -24,9 +24,9 @@ public class Network {
         //name - only letters and spaces
         // bankAccountDetails - 8-15 numbers only
         //salary - >0
-        //dates - check for invalid dates
         //partOfJob - "Full" or "Half"
         //vacationsDays - >0
+        //roles - not empty
         int count=0;
         for(int i=ID;i>0;i=i/10, count++);
         if(count!=9)
@@ -36,7 +36,25 @@ public class Network {
             if(name.charAt(i)!=' ' && !(name.charAt(i)>64 && name.charAt(i)<90) && !(name.charAt(i)>96 && name.charAt(i)<123))
                 return false;
 
+        if(bankAccountDetails.length()<8 || bankAccountDetails.length()>15)
+            return false;
+        for(int i=0;i<bankAccountDetails.length();i++) {
+            if (!(bankAccountDetails.charAt(i) > 47 && bankAccountDetails.charAt(i) < 58))
+                return false;
 
+        }
+
+        if(salary<=0)
+            return false;
+
+        if(!(partOfJob.equals("Half") || partOfJob.equals("Full")))
+            return false;
+
+        if(vacationsDays<0)
+            return false;
+
+        if(roles.isEmpty())
+            return false;
 
         return true;
     }

@@ -8,7 +8,7 @@ public class GeneralEmployee extends Employee {
     private boolean[][] ShiftsRequest;
     private Branch branch;
 
-    public GeneralEmployee(int ID, String name, int bankAccountDetails, int salary, Date startOfEmployment , Date endOfEmployment, String partOfJob, int vacationsDays, List<Role> roles, boolean isManager, Branch branch  ){
+    public GeneralEmployee(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment , Date endOfEmployment, String partOfJob, int vacationsDays, List<Role> roles, boolean isManager, Branch branch  ){
         super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays);
         this.isManager=isManager;
         this.ShiftsRequest=new boolean[Network.shifts][Network.days];
@@ -18,10 +18,30 @@ public class GeneralEmployee extends Employee {
                 ShiftsRequest[i][j]=false;
         this.branch=branch;
     }
-    public GeneralEmployee(int ID, String name, int bankAccountDetails, int salary, Date startOfEmployment, String partOfJob, int vacationsDays, List<Role> roles, boolean isManager, Branch branch  ){
+    public GeneralEmployee(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment, String partOfJob, int vacationsDays, List<Role> roles, boolean isManager, Branch branch  ){
         this(ID, name, bankAccountDetails, salary, startOfEmployment, null, partOfJob, vacationsDays,roles,isManager,branch);
 
     }
+
+    public void copyGeneralEmployee(GeneralEmployee other){
+        this.setID(other.getID());
+        this.setName(other.getName());
+        this.setBankAccountDetails(other.getBankAccountDetails());
+        this.setSalary(other.getSalary());
+        this.setStartOfEmployment(other.getStartOfEmployment());
+        this.setEndOfEmployment(other.getEndOfEmployment());
+        this.setPartOfJob(other.getPartOfJob());
+        this.setVacationsDays(other.getVacationsDays());
+        this.roles = new LinkedList<>();
+        this.roles.addAll(other.roles);
+        this.isManager=other.isManager;
+        this.ShiftsRequest=new boolean[Network.shifts][Network.days];
+        for(int i=0;i<Network.shifts;i++)
+            for(int j=0;j<Network.days;j++)
+                this.ShiftsRequest[i][j]=other.ShiftsRequest[i][j];
+        this.branch=other.branch;
+    }
+
 
 
     public boolean[][] getShiftsRequest(){return ShiftsRequest;}

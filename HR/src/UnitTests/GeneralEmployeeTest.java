@@ -1,10 +1,8 @@
 package UnitTests;
+
 import Domain.*;
 import java.util.*;
-import java.util.Date;
 import org.junit.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GeneralEmployeeTest {
     public GeneralEmployee ge;
@@ -40,18 +38,19 @@ public class GeneralEmployeeTest {
 
     @Test
     public void updateShifts0() {
-        assertFalse(Arrays.deepEquals(ShiftsRequest1,ge.getShiftsRequest()), "expected false");
+
+        Assert.assertFalse("expected false",Arrays.deepEquals(ShiftsRequest1,ge.getShiftsRequest()));
     }
 
     @Test
     public void updateShifts1() {
         ge.updateShifts(ShiftsRequest1);
-        assertTrue(Arrays.deepEquals(ShiftsRequest1,ge.getShiftsRequest()),"expected true");
+        Assert.assertTrue("expected true",Arrays.deepEquals(ShiftsRequest1,ge.getShiftsRequest()));
     }
 
     @Test
     public void updateShifts2() {
         ge.updateShifts(ShiftsRequest2);
-        assertFalse(Arrays.deepEquals(ShiftsRequest1,ge.getShiftsRequest()),"expected false");
+        Assert.assertFalse("expected false",Arrays.deepEquals(ShiftsRequest1,ge.getShiftsRequest()));
     }
 }
