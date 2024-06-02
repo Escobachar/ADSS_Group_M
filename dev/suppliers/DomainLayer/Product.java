@@ -115,6 +115,18 @@ public class Product {
             return this.price * amount;
     }
 
+    public String[] productToString (int amount){
+        String[] prodact = new String[6];
+        prodact[0] = String.valueOf(this.catalogNumber);
+        prodact[1] = this.name;
+        prodact[2] = String.valueOf(amount);
+        prodact[3] = String.valueOf(this.price);
+        double discountForAmount = (this.discount.getAmount() <= amount)? getDiscount().getDiscountPrecentage() : 1;
+        prodact[4] = String.valueOf(discountForAmount);
+        prodact[5] = String.valueOf(discountForAmount *this.price * amount);
+        return prodact;
+    }
+
     @Override
     public String toString() {
         return "Product{" +

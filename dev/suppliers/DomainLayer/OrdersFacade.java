@@ -14,12 +14,14 @@ public class OrdersFacade {
         orders = new HashMap<Integer, Order>();
     }
 
+
     public static OrdersFacade getInstance() {
         if (instance == null) {
             instance = new OrdersFacade();
         }
         return instance;
     }
+
 
     public void addOrder(Supplier supplier, Date creationDate, Date deliveryDate,
             HashMap<Product, Integer> items,
@@ -45,6 +47,9 @@ public class OrdersFacade {
         orders.remove(orderId);
     }
 
+    public List<String[]> orderIdToString (int orderId){
+        return getOrder(orderId).orderToString();
+    }
     public Order getOrder(int orderId) {
         Order order = orders.get(orderId);
         if (order == null) {

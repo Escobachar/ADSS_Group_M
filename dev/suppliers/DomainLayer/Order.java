@@ -1,5 +1,6 @@
 package suppliers.DomainLayer;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -62,7 +63,15 @@ public class Order {
             this.constDeliveryDays.add(day);
         }
     }
-
+    public List<String[]> orderToString()
+    {
+        List<String[]> order = new ArrayList<>();
+        for (HashMap.Entry<Product, Integer> entry : this.items.entrySet()) {
+            Product product = entry.getKey();
+            order.add(product.productToString(entry.getValue()));
+        }
+        return order;
+    }
     public int getOrderId() {
         return orderId;
     }
