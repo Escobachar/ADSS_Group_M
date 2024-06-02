@@ -26,7 +26,9 @@ public class DiscountQuantity {
     public void setAmount(int amount) {
         this.amount = amount;
     }
-
+    public void setDiscount(double discount) {
+        this.discountPrecentage = discount;
+    }
     public void incrementAmount(int increment) {
         amount += increment;
     }

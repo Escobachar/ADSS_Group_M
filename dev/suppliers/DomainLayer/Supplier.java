@@ -8,7 +8,7 @@ public class Supplier {
     private String name;
     private int id;
     private String bankAccount;
-    private String paymentOption;
+    private String paymentMethod;
     private HashMap<String, String> contacts;
     private List<Integer> deliveryDays;
     private HashMap<Category, HashMap<Integer, Product>> categories;
@@ -20,7 +20,7 @@ public class Supplier {
         this.name = name;
         this.id = id;
         this.bankAccount = bankAccount;
-        this.paymentOption = paymentOption;
+        this.paymentMethod = paymentOption;
         this.contacts = contacts;
         this.deliveryDays = deliveryDays;
         this.categories = categories;
@@ -31,7 +31,7 @@ public class Supplier {
         this.name = name;
         this.id = id;
         this.bankAccount = bankAccount;
-        this.paymentOption = paymentOption;
+        this.paymentMethod = paymentOption;
         this.contacts = new HashMap<String, String>();
         this.deliveryDays = new LinkedList<Integer>();
         this.categories = new HashMap<Category, HashMap<Integer, Product>>();
@@ -50,10 +50,6 @@ public class Supplier {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getBankAccount() {
         return bankAccount;
     }
@@ -62,12 +58,12 @@ public class Supplier {
         this.bankAccount = bankAccount;
     }
 
-    public String getPaymentOption() {
-        return paymentOption;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setPaymentOption(String paymentOption) {
-        this.paymentOption = paymentOption;
+    public void setPaymentMethod(String paymentOption) {
+        this.paymentMethod = paymentOption;
     }
 
     public HashMap<String, String> getContacts() {
@@ -128,7 +124,7 @@ public class Supplier {
 
     public Product getProduct(Category category, int catalogNumber) {
         if (categories.containsKey(category)) {
-            categories.get(category).get(catalogNumber);
+            return categories.get(category).get(catalogNumber);
         }
         return null;
     }
@@ -145,9 +141,11 @@ public class Supplier {
         categories.get(category).put(product.getCatalogNumber(), product);
     }
 
-    public void removeProduct(Category category, Product product) {
-        if (categories.containsKey(category))
-            categories.get(category).remove(product.getCatalogNumber());
+    public void removeProduct(int catalogNumber) {
+        for (HashMap<Integer, Product> products : categories.values()) {
+            if (products.containsKey(catalogNumber))
+                products.remove(catalogNumber);
+        }
     }
 
     public void addDeliveryDay(int day) {
@@ -180,5 +178,7 @@ public class Supplier {
         }
         return products;
     }
-
+    public String getContactDetails(String contactName) {
+        return contacts.get(contactName);
+    }
 }
