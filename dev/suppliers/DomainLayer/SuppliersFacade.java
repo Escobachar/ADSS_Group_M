@@ -5,9 +5,11 @@ import java.util.List;
 
 public class SuppliersFacade {
     private HashMap<Integer, Supplier> suppliers;
+    private HashMap<String, Integer> categories;
 
     public SuppliersFacade() {
         suppliers = new HashMap<Integer, Supplier>();
+        categories = new HashMap<String, Integer>();
     }
 
     public void addSupplier(Supplier supplier) {
@@ -48,7 +50,7 @@ public class SuppliersFacade {
     }
 
     public void setSupplierPaymentOption(int supplierId, String paymentOption) {
-        getSupplier(supplierId).setPaymentOption(paymentOption);
+        getSupplier(supplierId).setPaymentMethod(paymentOption);
     }
 
     public void setSupplierContacts(int supplierId, HashMap<String, String> contacts) {
@@ -109,8 +111,8 @@ public class SuppliersFacade {
         return product;
     }
 
-    public void removeProductFromSupplier(int supplierId, Product product) {
-        getSupplier(supplierId).removeProduct(product.getCategory(), product);
+    public void removeProductFromSupplier(int supplierId, int catalogNumber) {
+        getSupplier(supplierId).removeProduct(catalogNumber);
     }
 
     public List<Product> getPurchasedProductsFromSupplier(int supplierId) {
@@ -121,4 +123,66 @@ public class SuppliersFacade {
         return getSupplier(supplierId).getAllProducts();
     }
 
+    public void addCategory(String name) {
+        int number = categories.size() + 1;
+        categories.put(name, number);
+    }
+
+    public void removeCategory(String name) {
+        categories.remove(name);
+    }
+
+    public int getCategoryNumber(String name) {
+        if (!categories.containsKey(name))
+            throw new IllegalArgumentException("Category " + name + " not found");
+        return categories.get(name);
+    }
+
+    public Category getCategory(String name) {
+        return new Category(name, getCategoryNumber(name));
+    }
+
+    // price //discount value // discount amount // catalog number
+    public void setCatalogNumber(int newCatalogNumber, int supplierId, int catalogNumber) {
+        Product product = getProductInSupplier(supplierId, catalogNumber);
+        removeProductFromSupplier(supplierId, catalogNumber);
+        product.setCatalogNumber(newCatalogNumber);
+        addProductToSupplier(supplierId, product);
+    }
+
+    public void setDiscountAmount(int newDiscountAmount, int supplierId, int catalogNumber) {
+        getProductInSupplier(supplierId, catalogNumber).getDiscount().setAmount(newDiscountAmount);
+    }
+
+    public void setDiscountPrecentage(double newDiscount, int supplierId, int catalogNumber) {
+        getProductInSupplier(supplierId, catalogNumber).getDiscount().setDiscount(newDiscount);
+    }
+
+    public void setProductName(String newName, int supplierId, int catalogNumber) {
+        getProductInSupplier(supplierId, catalogNumber).setName(newName);
+    }
+
+    public void setPrice(double newPrice, int supplierId, int catalogNumber) {
+        getProductInSupplier(supplierId, catalogNumber).setPrice(newPrice);
+    }
+
+    public void changeSupplierBankAccount(int supplierId, String bankAccount) {
+        getSupplier(supplierId).setBankAccount(bankAccount);
+    }
+
+    public void changeSupplierPaymentOption(int supplierId, String paymentOption) {
+        getSupplier(supplierId).setPaymentMethod(paymentOption);
+    }
+
+    public void changeSupplierIsDelivering(int supplierId, boolean isDelivering) {
+        getSupplier(supplierId).setDelivering(isDelivering);
+    }
+
+    public void changeSupplierName(int supplierId, String name) {
+        getSupplier(supplierId).setName(name);
+    }
+
+    public void changeSupplierPaymentMethod(int supplierId, String paymentMethod) {
+        getSupplier(supplierId).setPaymentMethod(paymentMethod);
+    }
 }

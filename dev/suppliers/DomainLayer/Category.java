@@ -1,27 +1,27 @@
 package suppliers.DomainLayer;
 
 public class Category {
-    private int number;
-    private String name;
+    private int categoryId;
+    private String categoryName;
 
-    public Category(int number, String name) {
-        this.number = number;
-        this.name = name;
+    public Category(String name, int number) {
+        this.categoryId = number;
+        this.categoryName = name;
     }
 
-    public int getNumber() {
-        return number;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setCategoryId(int number) {
+        this.categoryId = number;
     }
 
-    public String getName() {
-        return name;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCategoryName(String name) {
+        this.categoryName = name;
     }
 }
