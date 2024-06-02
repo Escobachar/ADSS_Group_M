@@ -5,9 +5,17 @@ import java.util.List;
 
 public class SuppliersFacade {
     private HashMap<Integer, Supplier> suppliers;
+    private static SuppliersFacade instance;
 
-    public SuppliersFacade() {
+    private SuppliersFacade() {
         suppliers = new HashMap<Integer, Supplier>();
+    }
+
+    public static SuppliersFacade getInstance() {
+        if (instance == null) {
+            instance = new SuppliersFacade();
+        }
+        return instance;
     }
 
     public void addSupplier(Supplier supplier) {

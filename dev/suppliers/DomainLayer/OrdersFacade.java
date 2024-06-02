@@ -5,12 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 
 public class OrdersFacade {
+    private static OrdersFacade instance;
     private int orderIdCounter;
     private HashMap<Integer, Order> orders;
 
-    public OrdersFacade() {
+    private OrdersFacade() {
         orderIdCounter = 1;
         orders = new HashMap<Integer, Order>();
+    }
+
+
+    public static OrdersFacade getInstance() {
+        if (instance == null) {
+            instance = new OrdersFacade();
+        }
+        return instance;
     }
 
 
@@ -90,7 +99,7 @@ public class OrdersFacade {
         HashMap<Integer, Order> thisWeekPickupOrders = new HashMap<Integer, Order>();
         for (Order order : orders.values()) {
             if (!order.isDelivering()) {
-                if (order.getConstDeliveryDays() != null) {
+                if (!order.getConstDeliveryDays().isEmpty()) {
                     thisWeekPickupOrders.put(order.getOrderId(), order);
                 } else if (order.getDeliveryDate().getTime() - new Date().getTime() < 7 * 24 * 60 * 60 * 1000) {
                     thisWeekPickupOrders.put(order.getOrderId(), order);
