@@ -10,6 +10,7 @@ import suppliers.PresentationLayer.OrdersService;
 import suppliers.PresentationLayer.SuppliersService;
 
 public class Main {
+    private SuppliersService ss = new SuppliersService();
 
     public void menuLoop() {
         boolean flag = true;
@@ -44,8 +45,8 @@ public class Main {
         while (flag) {
             System.out.println("1. Add Supplier");
             System.out.println("2. Edit Supplier");
-            System.out.println("3. Delete Supplier");
-            System.out.println("4. Edit Supplier");
+            System.out.println("3. Remove Supplier");
+            System.out.println("4. Display Supplier");
             System.out.println("5. Back");
             int choice = 0;
             try {
@@ -62,10 +63,10 @@ public class Main {
                     editSupplier();
                     break;
                 case 3:
-                    deleteSupplier();
+                    removeSupplier();
                     break;
                 case 4:
-                    editSupplier();
+                    displaySupplier();
                     break;
                 case 5:
                     flag = false;
@@ -142,11 +143,189 @@ public class Main {
             }
             categories.put(category, products);
         }
-        ss.addSupplier(name, id, bankAccount, paymentOption, contacts, deliveryDays, categories, isDelivering);
+        System.out.println(
+                ss.addSupplier(name, id, bankAccount, paymentOption, contacts, deliveryDays, categories, isDelivering));
     }
 
-    public static void main(String[] args) {
-        SuppliersService ss = new SuppliersService();
+    private Product createProductObj(int supplierID, Category category) {
+        System.out.println("Enter product catalog number");
+        int catalogNumber = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter product name");
+        String productName = System.console().readLine();
+        System.out.println("Enter product price");
+        double productPrice = Double.parseDouble(System.console().readLine());
+        System.out.println("Enter product discount precentage");
+        double discountPercentage = Double.parseDouble(System.console().readLine());
+        System.out.println("Enter product discount amount");
+        int discountAmount = Integer.parseInt(System.console().readLine());
+        DiscountQuantity dq = new DiscountQuantity(catalogNumber, discountAmount, productPrice,
+                discountPercentage);
+        Product product = new Product(productName, catalogNumber, productPrice, supplierID, category, dq);
 
     }
+
+    public void editSupplier() {
+        boolean flag = true;
+        while (flag) {
+            System.out.println("1. Edit supplier card");
+            System.out.println("2. Edit supplier products");
+            System.out.println("3. Back");
+            int choice = Integer.parseInt(System.console().readLine());
+            switch (choice) {
+                case 1:
+                    editSupplierCard();
+                    break;
+                case 2:
+                    editSupplierProducts();
+                    break;
+                case 3:
+                    flag = false;
+                default:
+                    System.out.println("Invalid choice");
+            }
+        }
+    }
+
+    public void editSupplierCard() {
+        boolean flag = true;
+        while (flag) {
+            System.out.println("1. Edit supplier name");
+            System.out.println("2. Edit supplier bank account");
+            System.out.println("3. Edit supplier payment option");
+            System.out.println("4. Edit supplier contacts");
+            System.out.println("5. Back");
+            int choice = Integer.parseInt(System.console().readLine());
+            switch (choice) {
+                case 1:
+                    editSupplierName();
+                    break;
+                case 2:
+                    editSupplierBankAccount();
+                    break;
+                case 3:
+                    editSupplierPaymentOption();
+                    break;
+                case 4:
+                    editSupplierContacts();
+                    break;
+                case 5:
+                    flag = false;
+                default:
+                    System.out.println("Invalid choice");
+            }
+        }
+
+    }
+
+    public void editSupplierName() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter new supplier name");
+        String name = System.console().readLine();
+        System.out.println(ss.setSupplierName(id, name));
+    }
+
+    public void editSupplierBankAccount() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter new supplier bank account");
+        String bankAccount = System.console().readLine();
+        System.out.println(ss.setSupplierBankAccount(id, bankAccount));
+    }
+
+    public void editSupplierPaymentOption() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter new supplier payment option");
+        String paymentOption = System.console().readLine();
+        System.out.println(ss.setSupplierPaymentOption(id, paymentOption));
+    }
+
+    public void editSupplierContacts() {
+        boolean flag = true;
+        while (flag) {
+            System.out.println("1. Add contact");
+            System.out.println("2. Remove contact");
+            System.out.println("3. Back");
+            int choice = Integer.parseInt(System.console().readLine());
+            switch (choice) {
+                case 1:
+                    addContact();
+                    break;
+                case 2:
+                    removeContact();
+                    break;
+                case 3:
+                    flag = false;
+                default:
+                    System.out.println("Invalid choice");
+            }
+        }
+    }
+
+    public void editSupplierProducts() {
+        boolean flag = true;
+        while (flag) {
+            System.out.println("1. Add Product");
+            System.out.println("2. Edit Product");
+            System.out.println("3. Remove Product");
+            System.out.println("4. Back");
+            int choice = Integer.parseInt(System.console().readLine());
+            switch (choice) {
+                case 1:
+                    addProduct();
+                    break;
+                case 2:
+                    editProduct();
+                    break;
+                case 3:
+                    removeProduct();
+                    break;
+                case 4:
+                    flag = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice");
+            }
+        }
+    }
+
+    public void addProduct() {
+
+    }
+
+    public void addContact() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter contact name");
+        String contactName = System.console().readLine();
+        System.out.println("Enter contact details");
+        String contactNumber = System.console().readLine();
+        System.out.println(ss.addSupplierContact(id, contactName, contactNumber));
+    }
+
+    public void removeContact() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter contact name");
+        String contactName = System.console().readLine();
+        System.out.println(ss.removeSupplierContact(id, contactName));
+    }
+
+    public void removeSupplier() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println("Are you sure you want to remove supplier " + id + "? - 1 (Yes), 2 (No)");
+        boolean isDelivering = Integer.parseInt(System.console().readLine()) == 1;
+        if (isDelivering) {
+            System.out.println(ss.removeSupplier(id));
+        } else {
+            System.out.println("Operation Canceled");
+        }
+    }
+
+}
+
+public static void main(String[] args) {
+
 }

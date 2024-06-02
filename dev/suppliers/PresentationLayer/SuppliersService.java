@@ -21,4 +21,58 @@ public class SuppliersService {
         }
     }
 
+    public String setSupplierName(int id, String name) {
+        try {
+            SuppliersFacade.getInstance().setSupplierName(id, name);
+            return "Supplier name updated successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String setSupplierBankAccount(int id, String bankAccount) {
+        try {
+            SuppliersFacade.getInstance().setSupplierBankAccount(id, bankAccount);
+            return "Supplier bank account updated successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String setSupplierPaymentOption(int id, String paymentOption) {
+        try {
+            SuppliersFacade.getInstance().setSupplierPaymentOption(id, paymentOption);
+            return "Supplier payment option updated successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String addSupplierContact(int id, String contactName, String contactValue) {
+        try {
+            SuppliersFacade.getInstance().addSupplierContact(id, contactName, contactValue);
+            return "Supplier contact added successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String removeSupplierContact(int id, String contactName) {
+        try {
+            SuppliersFacade.getInstance().removeSupplierContact(id, contactName);
+            return "Supplier contact removed successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String removeSupplier(int id) {
+        try {
+            SuppliersFacade.getInstance().removeSupplier(id);
+            return "Supplier removed successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
 }
