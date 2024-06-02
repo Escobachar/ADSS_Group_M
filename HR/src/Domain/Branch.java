@@ -47,10 +47,38 @@ public class Branch {
         return null;
     }
 
+    public GeneralEmployee getGeneralEmployee(int id) {
+        for (Employee e : employeesList)
+            if ((e.getID() == id)&&(e instanceof GeneralEmployee)) return (GeneralEmployee)e;
+        return null;
+    }
+
     public boolean isExist(int id) {
         for (Employee e : employeesList)
             if (e.getID() == id) return true;
         return false;
     }
 
+    public boolean isExist(String name) {
+        for (Employee e : employeesList)
+            if (e.getName().equals(name)) return true;
+        return false;
+    }
+
+    public String getEmployeeName(int id) {
+        for (Employee e : employeesList)
+            if (e.getID() == id) return e.getName();
+        return null;
+    }
+    public String getEmployeeBankAccountDetails(int id) {
+        for (Employee e : employeesList)
+            if (e.getID() == id) return e.getBankAccountDetails();
+        return null;
+    }
+    public Integer getEmployeeSalary(int id) {
+        for (Employee e : employeesList)
+            if (e.getID() == id) return e.getSalary();
+        return null;
+    }
+    public Set<Integer>[][] getEmployeesShifts(){return employeesShifts;}
 }
