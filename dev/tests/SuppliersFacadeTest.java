@@ -1,14 +1,12 @@
-import org.junit.Test;
-
 import suppliers.DomainLayer.Product;
 import suppliers.DomainLayer.Supplier;
 import suppliers.DomainLayer.SuppliersFacade;
 import suppliers.DomainLayer.Category;
 import suppliers.DomainLayer.DiscountQuantity;
-
+import org.junit.Before;
+import org.junit.Test;
 import static org.junit.Assert.*;
 
-import org.junit.Before;
 
 public class SuppliersFacadeTest {
     private SuppliersFacade suppliersFacade;
@@ -19,7 +17,7 @@ public class SuppliersFacadeTest {
 
     @Before
     public void setUp() {
-        suppliersFacade = new SuppliersFacade();
+        suppliersFacade = SuppliersFacade.getInstance();
         supplier = new Supplier("Shimon", 1, "123", "check", false);
         suppliersFacade.addSupplier(supplier);
         categoryDairy = new Category("Dairy", 0);
