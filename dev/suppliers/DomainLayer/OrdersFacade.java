@@ -23,7 +23,7 @@ public class OrdersFacade {
     }
 
 
-    public void addOrder(Supplier supplier, Date creationDate, Date deliveryDate,
+    public int addOrder(Supplier supplier, Date creationDate, Date deliveryDate,
             HashMap<Product, Integer> items,
             List<Day> deliveryDays) {
         if (deliveryDate.before(creationDate)) {
@@ -33,6 +33,7 @@ public class OrdersFacade {
                 deliveryDays);
         orders.put(orderIdCounter, order);
         orderIdCounter++;
+        return orderIdCounter--;
     }
 
     public void addOrderConstDeliveryDay(int orderId, Day day) {
