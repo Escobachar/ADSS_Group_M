@@ -1,8 +1,12 @@
 package Domain;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 abstract public class Employee {
+    private Set<String> access;
     private int ID;
     private String name;
     private String bankAccountDetails;
@@ -11,8 +15,9 @@ abstract public class Employee {
     private Date endOfEmployment;
     private String partOfJob;
     private int vacationsDays;
+    private String password;
 
-    public Employee(int ID,String name, String bankAccountDetails, int salary,Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays  ){
+    public Employee(int ID,String name, String bankAccountDetails, int salary,Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays,String password  ){
         this.ID=ID;
         this.name=name;
         this.bankAccountDetails=bankAccountDetails;
@@ -21,8 +26,16 @@ abstract public class Employee {
         this.endOfEmployment=endOfEmployment;
         this.partOfJob=partOfJob;
         this.vacationsDays=vacationsDays;
+        access=new HashSet<>();
+        this.password=password;
     }
     public Employee(){}
+    public Set<String> getAccess(){
+        return access;
+    }
+    public String getPassword(){
+        return password;
+    }
     public Integer getID(){return  ID;}
     public String getName(){return name;}
     public String getBankAccountDetails(){return bankAccountDetails;}

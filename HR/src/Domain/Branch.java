@@ -13,7 +13,7 @@ public class Branch {
     private List<HashMap<Integer,boolean[][]>> historyEmployeesShifts;
     private HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability;
 
-    public Branch(String name,String location,Network network){
+    public Branch(String name,String location,Network network,BranchManager brm){
         this.branchName=name;
         this.location=location;
         this.network=network;
@@ -23,7 +23,21 @@ public class Branch {
         rolesOfShifts = new HashMap<Role,Integer[][]>();
         historyEmployeesShifts = new LinkedList<HashMap<Integer,boolean[][]>>();
         shiftsAvailability = new HashMap<Role,Set<GeneralEmployee>[][]>();
-        network.addBranch(this);
+    }
+    public Branch(String name,String location,Network network){
+        this.branchName=name;
+        this.location=location;
+        this.network=network;
+        branchManager=null;
+        employeesList=new ArrayList<Employee>();
+        employeesShifts=new Set[Network.shifts][Network.days];
+        rolesOfShifts = new HashMap<Role,Integer[][]>();
+        historyEmployeesShifts = new LinkedList<HashMap<Integer,boolean[][]>>();
+        shiftsAvailability = new HashMap<Role,Set<GeneralEmployee>[][]>();
+    }
+
+    public void setBranchManager(BranchManager brm){
+        this.branchManager=brm;
     }
 
     public void setShiftsAvailability(HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability){this.shiftsAvailability=shiftsAvailability;}

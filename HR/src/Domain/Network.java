@@ -5,16 +5,30 @@ public class Network {
     public static int days =7;
     public static int shifts = 2;
     private List<Branch> branchList;
+    private HRManager HRmanager;
     public List<Branch> getBranchList(){return branchList;}
+
 
     public void addBranch(Branch branch){
         branchList.add(branch);
     }
 
-    public Network()
-    {
-     branchList=new LinkedList<Branch>();
+    public Employee SearchByID(int ID){
+        Employee emp=null;
+        for(Branch br:branchList) {
+            emp = br.getEmployee(ID);
+            if(emp!=null)
+                return emp;
+        }
+        return emp;
     }
+
+    public Network(HRManager HRmanager) {
+        this.HRmanager = HRmanager;
+        branchList=new LinkedList<Branch>();
+    }
+
+
 
     public static boolean CheckAddEmployee(int ID,String name, String bankAccountDetails, int salary,
                                            Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,
@@ -38,11 +52,9 @@ public class Network {
 
         if(bankAccountDetails.length()<8 || bankAccountDetails.length()>15)
             return false;
-        for(int i=0;i<bankAccountDetails.length();i++) {
+        for(int i=0;i<bankAccountDetails.length();i++)
             if (!(bankAccountDetails.charAt(i) > 47 && bankAccountDetails.charAt(i) < 58))
                 return false;
-
-        }
 
         if(salary<=0)
             return false;

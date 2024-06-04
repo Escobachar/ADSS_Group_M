@@ -2,14 +2,15 @@ package Domain;
 
 import java.util.*;
 public class GeneralEmployee extends Employee {
-
     private List<Role> roles;
     private boolean isManager;
     private boolean[][] ShiftsRequest;
     private Branch branch;
 
-    public GeneralEmployee(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment , Date endOfEmployment, String partOfJob, int vacationsDays, List<Role> roles, boolean isManager, Branch branch  ){
-        super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays);
+    public GeneralEmployee(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment , Date endOfEmployment, String partOfJob, int vacationsDays, List<Role> roles, boolean isManager, Branch branch,String password  ){
+        super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays,password);
+        this.getAccess().add("updateShifts");
+        this.getAccess().add("getShifts");
         this.isManager=isManager;
         this.ShiftsRequest=new boolean[Network.shifts][Network.days];
         this.roles=roles;
@@ -18,8 +19,8 @@ public class GeneralEmployee extends Employee {
                 ShiftsRequest[i][j]=false;
         this.branch=branch;
     }
-    public GeneralEmployee(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment, String partOfJob, int vacationsDays, List<Role> roles, boolean isManager, Branch branch  ){
-        this(ID, name, bankAccountDetails, salary, startOfEmployment, null, partOfJob, vacationsDays,roles,isManager,branch);
+    public GeneralEmployee(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment, String partOfJob, int vacationsDays, List<Role> roles, boolean isManager, Branch branch,String password  ){
+        this(ID, name, bankAccountDetails, salary, startOfEmployment, null, partOfJob, vacationsDays,roles,isManager,branch,password);
 
     }
 
@@ -40,6 +41,7 @@ public class GeneralEmployee extends Employee {
             for(int j=0;j<Network.days;j++)
                 this.ShiftsRequest[i][j]=other.ShiftsRequest[i][j];
         this.branch=other.branch;
+
     }
 
 

@@ -16,15 +16,15 @@ public class GeneralEmployeeTest {
 
     @Before
     public void initTest() {
-        network=new Network();
+        HRManager hrm = new HRManager(315213215, "tomer", "66666666", 500, new Date(2024, 5, 31), "half", 1,"1234");
+        network=new Network(hrm);
         branch = new Branch("Mazkeret", "Mazkeret Batya", network);
         cashier = new Role("cashier", null,branch);
         storekeeper = new Role("storekeeper", null,branch);
         roles = new LinkedList<>();
         roles.add(cashier);
         roles.add(storekeeper);
-        network = new Network();
-        ge = new GeneralEmployee(0, "shai", "66666666", 500, new Date(2024, 5, 31), "half", 1, roles, false, branch);
+        ge = new GeneralEmployee(0, "shai", "66666666", 500, new Date(2024, 5, 31), "half", 1, roles, false, branch,"1234");
         ShiftsRequest1 = new boolean[Network.shifts][Network.days];
         ShiftsRequest2 = new boolean[Network.shifts][Network.days];
 
