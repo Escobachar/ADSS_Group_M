@@ -9,12 +9,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.io.Serializable;
 import java.util.Date;
+import static suppliers.Day;
 
 public class OrdersService {
-    private OrdersFacade of;
+    private OrdersFacade ordersFacade;
 
     public OrdersService() {
-        of = OrdersFacade.getInstance();
+        ordersFacade = OrdersFacade.getInstance();
     }
 
     public void addOrder(int supplierID, String deliveryDate, String items,
@@ -22,7 +23,7 @@ public class OrdersService {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date date = dateFormat.parse(deliveryDate);
-            of.addOrder(SuppliersFacade.getInstance().getSupplier(supplierID), new Date(), date, null, null);
+            ordersFacade.addOrder(SuppliersFacade.getInstance().getSupplier(supplierID), new Date(), date, null, null);
         } catch (Exception e) {
             // TODO: handle exception
         }
@@ -32,7 +33,7 @@ public class OrdersService {
         ordersFacade.addOrderConstDeliveryDay(orderId, day);
     }
 
-    public void removeOrderConstDeliveryDay(int orderId, Day day) {
+    public void removeOrderConstDeliveryDay(int orderId, enums day) {
         ordersFacade.removeOrderConstDeliveryDay(orderId, day);
     }
 
@@ -51,4 +52,5 @@ public class OrdersService {
     public void setOrderDeliveryDate(int orderId, Date deliveryDate) {
         ordersFacade.setOrderDeliveryDate(orderId, deliveryDate);
     }
+    
 }

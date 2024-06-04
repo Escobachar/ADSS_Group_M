@@ -1,5 +1,6 @@
 package suppliers.DomainLayer;
 
+import suppliers.DaysOfTheWeek.Day;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,20 +30,46 @@ public class OrdersFacade {
         if (deliveryDate.before(creationDate)) {
             throw new IllegalArgumentException("Delivery date must be after creation date");
         }
+        if(items == null){
+            throw new IllegalArgumentException("Items list is empty");
+        }
+        if (deliveryDays == null) {
+            throw new IllegalArgumentException("Delivery days list is empty");
+        }
         Order order = new Order(orderIdCounter, supplier, creationDate, deliveryDate, items,
                 deliveryDays);
         orders.put(orderIdCounter, order);
         orderIdCounter++;
     }
-
+    public void addOrder(Order order) {
+        if(orders.get(order.getOrderId())!=null){
+            throw new IllegalArgumentException("Order already exists");
+        }
+        orders.put(order.getOrderId(), order);
+    }
     public void addOrderConstDeliveryDay(int orderId, Day day) {
+        
         getOrder(orderId).addConstDeliveryDay(day);
     }
-
+    public void addOrderConstDeliveryDays(int orderId, List<Day> days) {
+        if(days == null || days.isEmpty()){
+            throw new IllegalArgumentException("Days list is empty");
+        }   
+        for (Day day : days) {
+            addOrderConstDeliveryDay(orderId, day);
+        }
+    }
     public void removeOrderConstDeliveryDay(int orderId, Day day) {
         getOrder(orderId).removeConstDeliveryDay(day);
     }
-
+    public void removeOrderConstDeliveryDays(int orderId, List<Day> days) {
+        if(days == null || days.isEmpty()){
+            throw new IllegalArgumentException("Days list is empty");
+        }   
+        for (Day day : days) {
+            removeOrderConstDeliveryDay(orderId, day);
+        }
+    }
     public void removeOrder(int orderId) {
         orders.remove(orderId);
     }
@@ -86,7 +113,7 @@ public class OrdersFacade {
     public HashMap<Integer, Order> getThisWeekOrders() {
         HashMap<Integer, Order> thisWeekOrders = new HashMap<Integer, Order>();
         for (Order order : orders.values()) {
-            if (order.getConstDeliveryDays() != null) {
+            if (order.getConstDeliveryDays() != null && !order.getConstDeliveryDays().isEmpty()) {
                 thisWeekOrders.put(order.getOrderId(), order);
             } else if (order.getDeliveryDate().getTime() - new Date().getTime() < 7 * 24 * 60 * 60 * 1000) {
                 thisWeekOrders.put(order.getOrderId(), order);
