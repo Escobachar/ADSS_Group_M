@@ -17,6 +17,7 @@ public class OrdersService {
     public OrdersService() {
         of = OrdersFacade.getInstance();
         sf = SuppliersFacade.getInstance();
+
     }
 
     public String addOrder(int supplierID, String deliveryDate, HashMap<Integer, Integer> items,
@@ -24,6 +25,7 @@ public class OrdersService {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date date = dateFormat.parse(deliveryDate);
+
             HashMap<Product, Integer> products = new HashMap<>();
             for (HashMap.Entry<Integer, Integer> entry : items.entrySet()) {
                 int catalogNumber = entry.getKey();
@@ -32,13 +34,16 @@ public class OrdersService {
             //const day
             int orderId = of.addOrder(SuppliersFacade.getInstance().getSupplier(supplierID), new Date(), date, products, null);
             return "Order "+orderId+" added successfully";
+
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
+
     public void addOrderConstDeliveryDay(int orderId, int day) {
     //    of.addOrderConstDeliveryDay(orderId, day);
+
     }
 
     public void removeOrderConstDeliveryDay(int orderId, int day) {
@@ -92,5 +97,5 @@ public class OrdersService {
     public String editDeliveryDate(int orderId, String deliveryDate) {
         String res = "";
         return res;
-    }
+    }    
 }

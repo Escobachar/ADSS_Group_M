@@ -1,0 +1,7 @@
+package suppliers;
+
+public class DaysOfTheWeek {
+    public enum Day {
+        SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+    }
+}

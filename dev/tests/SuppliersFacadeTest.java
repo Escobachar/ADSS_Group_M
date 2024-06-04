@@ -1,3 +1,4 @@
+package tests;
 import suppliers.DomainLayer.Product;
 import suppliers.DomainLayer.Supplier;
 import suppliers.DomainLayer.SuppliersFacade;
