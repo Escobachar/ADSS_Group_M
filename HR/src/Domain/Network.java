@@ -30,7 +30,7 @@ public class Network {
 
 
 
-    public static boolean CheckAddEmployee(int ID,String name, String bankAccountDetails, int salary,
+    public static boolean CheckGeneralEmployee(int ID,String name, String bankAccountDetails, int salary,
                                            Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,
                                            boolean isManager,Branch branch)
     {
@@ -41,6 +41,7 @@ public class Network {
         //partOfJob - "Full" or "Half"
         //vacationsDays - >0
         //roles - not empty
+        //type - "GE" or "HRM" or "BH"
         int count=0;
         for(int i=ID;i>0;i=i/10, count++);
         if(count!=9)
@@ -68,8 +69,46 @@ public class Network {
         if(roles.isEmpty())
             return false;
 
+
         return true;
     }
+
+    public static boolean CheckID(int ID){
+        int count=0;
+        for(int i=ID;i>0;i=i/10, count++);
+        return count == 9;
+    }
+    public static boolean CheckName(String name){
+        for(int i=0;i<name.length();i++) {
+            if (name.charAt(i) != ' ' && !(name.charAt(i) > 64 && name.charAt(i) < 90) && !(name.charAt(i) > 96 && name.charAt(i) < 123))
+                return false;
+        }
+        return true;
+    }
+    public static boolean CheckBankAccountDetails(String bankAccountDetails) {
+        if (bankAccountDetails.length() < 8 || bankAccountDetails.length() > 15)
+            return false;
+        for (int i = 0; i < bankAccountDetails.length(); i++) {
+            if (!(bankAccountDetails.charAt(i) > 47 && bankAccountDetails.charAt(i) < 58))
+                return false;
+        }
+        return true;
+    }
+
+    public static boolean checkSalary(int salary){
+        return salary > 0;
+    }
+
+    public static boolean checkPartOfJob(String partOfJob){
+        return partOfJob.equals("Half") || partOfJob.equals("Full");
+    }
+
+    public static boolean checkVacationsDays(int vacationsDays){
+        return vacationsDays >= 0;
+    }
+     public static boolean checkRoles(List<Role> roles){
+         return !roles.isEmpty();
+     }
 
     
 }

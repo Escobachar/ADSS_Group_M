@@ -76,31 +76,31 @@ abstract public class Manager extends Employee{
         }
     }
 
-        public void updateShiftsOfBranch(Branch branch){
-            Set<Integer>[][] employeesShifts = new Set[Network.shifts][Network.days];
-            for (int i = 0; i < Network.shifts; i++)
-                for (int j = 0; j < Network.days; j++)
-                    employeesShifts[i][j]=new HashSet<Integer>();
+    public void updateShiftsOfBranch(Branch branch){
+        Set<Integer>[][] employeesShifts = new Set[Network.shifts][Network.days];
+        for (int i = 0; i < Network.shifts; i++)
+            for (int j = 0; j < Network.days; j++)
+                employeesShifts[i][j]=new HashSet<Integer>();
 
-            for(Employee e:branch.getEmployeesList()){
-                if(e instanceof GeneralEmployee) {
-                    GeneralEmployee ge=(GeneralEmployee)e;
-                    for (int i = 0; i < ge.getShiftsRequest().length; i++) {
-                        for (int j = 0; j < ge.getShiftsRequest()[i].length; j++) {
-                            if (ge.getShiftsRequest()[i][j])
-                                employeesShifts[i][j].add(ge.getID());
-                        }
+        for(Employee e:branch.getEmployeesList()){
+            if(e instanceof GeneralEmployee) {
+                GeneralEmployee ge=(GeneralEmployee)e;
+                for (int i = 0; i < ge.getShiftsRequest().length; i++) {
+                    for (int j = 0; j < ge.getShiftsRequest()[i].length; j++) {
+                        if (ge.getShiftsRequest()[i][j])
+                            employeesShifts[i][j].add(ge.getID());
                     }
                 }
             }
-            branch.setEmployeesShifts(employeesShifts);
         }
-
-        public void updateShiftsOfBranch(Branch branch, HashMap<Role,Integer[][]> rolesOfShifts) {
-            branch.setRolesOfShifts(rolesOfShifts);
-        }
-
-        public void updateEmployeeRole(GeneralEmployee employee, List<Role> roles){
-            employee.setRoles(roles);
-        }
+        branch.setEmployeesShifts(employeesShifts);
     }
+
+    public void updateShiftsOfBranch(Branch branch, HashMap<Role,Integer[][]> rolesOfShifts) {
+        branch.setRolesOfShifts(rolesOfShifts);
+    }
+
+    public void updateEmployeeRole(GeneralEmployee employee, List<Role> roles){
+        employee.setRoles(roles);
+    }
+}
