@@ -169,7 +169,6 @@ public class Main {
         }
     }
 
-
     private void addOrder() {
         List<Integer> constDeliveryDays = new ArrayList<>();
         HashMap<Integer, Integer> items = new HashMap<Integer, Integer>();
@@ -231,7 +230,7 @@ public class Main {
                     removeSupplier();
                     break;
                 case 4:
-                    // displaySupplier();
+                    displaySupplier();
                     break;
                 case 5:
                     flag = false;
@@ -293,28 +292,61 @@ public class Main {
             System.out.println("Enter number of products in category: " + categoryName);
             int lim2 = Integer.parseInt(System.console().readLine());
             for (int j = 0; j < lim2; j++) {
-                System.out.println("Enter product catalog number");
-                int catalogNumber = Integer.parseInt(System.console().readLine());
-                System.out.println("Enter product name");
-                String productName = System.console().readLine();
-                System.out.println("Enter product price");
-                double productPrice = Double.parseDouble(System.console().readLine());
-                System.out.println("Enter product discount precentage");
-                double discountPercentage = Double.parseDouble(System.console().readLine());
-                System.out.println("Enter product discount amount");
-                int discountAmount = Integer.parseInt(System.console().readLine());
-                DiscountQuantity dq = new DiscountQuantity(catalogNumber, discountAmount, productPrice,
-                        discountPercentage);
-                //   Product product = new Product(productName, catalogNumber, productPrice, id, category, dq);
-                //    products.put(catalogNumber, product);
+                Product product = createProduct(category);
+                products.put(product.getCatalogNumber(), product);
             }
             categories.put(category, products);
         }
         System.out.println(
-                ss.addSupplier(name, id, bankAccount, paymentOption, contacts, deliveryDays, categories, isDelivering,address));
+                ss.addSupplier(name, id, bankAccount, paymentOption, contacts, deliveryDays, categories, isDelivering,
+                        address));
     }
 
-    private Product createProductObj(int supplierID, Category category) {
+    public void displaySupplier() {
+        boolean flag = true;
+        while (flag) {
+            System.out.println("1. Display supplier card");
+            System.out.println("2. Display supplier products");
+            System.out.println("3. Display purchased supplier products");
+            System.out.println("4. Back");
+            int choice = Integer.parseInt(System.console().readLine());
+            switch (choice) {
+                case 1:
+                    displaySupplierCard();
+                    break;
+                case 2:
+                    displaySupplierProducts();
+                    break;
+                case 3:
+                    displayBoughtSupplierProducts();
+                    break;
+                case 4:
+                    flag = false;
+                default:
+                    System.out.println("Invalid choice");
+            }
+        }
+    }
+
+    public void displaySupplierProducts() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println(ss.displayProducts(id));
+    }
+
+    public void displayBoughtSupplierProducts() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println(ss.displayPurchasedProducts(id));
+    }
+
+    public void displaySupplierCard() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println(ss.displaySupplierCard(id));
+    }
+
+    private Product createProduct(Category category) {
         System.out.println("Enter product catalog number");
         int catalogNumber = Integer.parseInt(System.console().readLine());
         System.out.println("Enter product name");
@@ -327,8 +359,7 @@ public class Main {
         int discountAmount = Integer.parseInt(System.console().readLine());
         DiscountQuantity dq = new DiscountQuantity(catalogNumber, discountAmount, productPrice,
                 discountPercentage);
-        //  Product product = new Product(productName, catalogNumber, productPrice, supplierID, category, dq);
-        return null;
+        return new Product(productName, catalogNumber, productPrice, category, dq);
     }
 
     public void editSupplier() {
@@ -443,10 +474,10 @@ public class Main {
                     addProduct();
                     break;
                 case 2:
-                    //     editProduct();
+                    editProduct();
                     break;
                 case 3:
-                    //      removeProduct();
+                    removeProduct();
                     break;
                 case 4:
                     flag = false;
@@ -457,8 +488,114 @@ public class Main {
         }
     }
 
-    public void addProduct() {
+    public void removeProduct() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter Catalog Number");
+        int catalogNumber = Integer.parseInt(System.console().readLine());
+        System.out.println("Are you sure you want to remove product " + catalogNumber + "? - 1 (Yes), 2 (No)");
+        boolean toRemove = Integer.parseInt(System.console().readLine()) == 1;
+        if (toRemove)
+            System.out.println(ss.removeProduct(id, catalogNumber));
+        else
+            System.out.println("Canceled");
+    }
 
+    public void addProduct() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter category name");
+        String categoryName = System.console().readLine();
+        System.out.println("Enter category ID");
+        int categoryID = Integer.parseInt(System.console().readLine());
+        Category category = new Category(categoryName, categoryID);
+        Product product = createProduct(category);
+        System.out.println(ss.addProduct(id, product));
+    }
+
+    public void editProduct() {
+        boolean flag = true;
+        while (flag) {
+            System.out.println("1. Change Product Catalog Number");
+            System.out.println("2. Change Product Discount Amount");
+            System.out.println("3. Change Product Discount Percentage");
+            System.out.println("4. Change Product Name");
+            System.out.println("5. Change Product Price");
+            System.out.println("6. Back");
+            int choice = Integer.parseInt(System.console().readLine());
+            switch (choice) {
+                case 1:
+                    setCatalogNumber();
+                    break;
+                case 2:
+                    setDiscountAmount();
+                    break;
+                case 3:
+                    setDiscountPrecentage();
+                    break;
+                case 4:
+                    setProductName();
+                    break;
+                case 5:
+                    setProductPrice();
+                    break;
+                case 6:
+                    flag = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice");
+            }
+        }
+    }
+
+    public void setCatalogNumber() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter OLD Catalog Number");
+        int oldCatalogNumber = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter NEW Catalog Number");
+        int newCatalogNumber = Integer.parseInt(System.console().readLine());
+        System.out.println(ss.setCatalogNumber(newCatalogNumber, id, oldCatalogNumber));
+    }
+
+    public void setDiscountAmount() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter Catalog Number");
+        int catalogNumber = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter new discount amount");
+        int discountAmount = Integer.parseInt(System.console().readLine());
+        System.out.println(ss.setDiscountAmount(discountAmount, id, catalogNumber));
+    }
+
+    public void setDiscountPrecentage() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter Catalog Number");
+        int catalogNumber = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter new discount precentage");
+        double discountPrecentage = Double.parseDouble(System.console().readLine());
+        System.out.println(ss.setDiscountPrecentage(discountPrecentage, id, catalogNumber));
+    }
+
+    public void setProductName() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter Catalog Number");
+        int catalogNumber = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter new product name");
+        String name = System.console().readLine();
+        System.out.println(ss.setProductName(name, id, catalogNumber));
+    }
+
+    public void setProductPrice() {
+        System.out.println("Enter supplier ID");
+        int id = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter Catalog Number");
+        int catalogNumber = Integer.parseInt(System.console().readLine());
+        System.out.println("Enter new product price");
+        double price = Double.parseDouble(System.console().readLine());
+        System.out.println(ss.setProductPrice(price, id, catalogNumber));
     }
 
     public void addContact() {
@@ -490,7 +627,6 @@ public class Main {
             System.out.println("Operation Canceled");
         }
     }
-
 
     public void main(String[] args) {
         menuLoop();

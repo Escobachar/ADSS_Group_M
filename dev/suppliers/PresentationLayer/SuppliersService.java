@@ -75,4 +75,111 @@ public class SuppliersService {
         }
     }
 
+    public String addProduct(int id, Product product) {
+        try {
+            SuppliersFacade.getInstance().addProductToSupplier(id, product);
+            return "Product added successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String setCatalogNumber(int newCatalogNumber, int supplierId, int catalogNumber) {
+        try {
+            SuppliersFacade.getInstance().setCatalogNumber(newCatalogNumber, supplierId, catalogNumber);
+            return "Catalog number updated successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String setDiscountAmount(int newDiscountAmount, int supplierId, int catalogNumber) {
+        try {
+            SuppliersFacade.getInstance().setDiscountAmount(newDiscountAmount, supplierId, catalogNumber);
+            return "Discount amount updated successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String setDiscountPrecentage(double newDiscount, int supplierId, int catalogNumber) {
+        try {
+            SuppliersFacade.getInstance().setDiscountPrecentage(newDiscount, supplierId, catalogNumber);
+            return "Discount percentage updated successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String setProductName(String newName, int supplierId, int catalogNumber) {
+        try {
+            SuppliersFacade.getInstance().setProductName(newName, supplierId, catalogNumber);
+            return "Product name updated successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String setProductPrice(double newPrice, int supplierId, int catalogNumber) {
+        try {
+            SuppliersFacade.getInstance().setPrice(newPrice, supplierId, catalogNumber);
+            return "Price updated successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String removeProduct(int supplierId, int catalogNumber) {
+        try {
+            SuppliersFacade.getInstance().removeProductFromSupplier(supplierId, catalogNumber);
+            return "Product removed successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String displaySupplier(int id) {
+        try {
+            return SuppliersFacade.getInstance().getSupplier(id).toString();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String displaySupplierCard(int id) {
+        try {
+            return SuppliersFacade.getInstance().getSupplier(id).toString();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String displayProducts(int id) {
+        try {
+            HashMap<Integer, Product> products = SuppliersFacade.getInstance().getAllSupplierProducts(id);
+            String result = "";
+            for (Product product : products.values()) {
+                result += product.toString() + "\n";
+            }
+            return result;
+
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String displayPurchasedProducts(int id) {
+        try {
+            List<Product> products = SuppliersFacade.getInstance().getPurchasedProductsFromSupplier(id);
+            String result = "";
+            for (Product product : products) {
+                result += product.toString() + "\n";
+            }
+            return result;
+
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
 }
