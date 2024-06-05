@@ -1,9 +1,12 @@
 package suppliers.PresentationLayer;
+import suppliers.DaysOfTheWeek;
 import suppliers.DomainLayer.OrdersFacade;
 import suppliers.DomainLayer.Product;
 import suppliers.DomainLayer.SuppliersFacade;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +32,11 @@ public class OrdersService {
                 int catalogNumber = entry.getKey();
                 products.put(sf.getProductInSupplier(supplierID,catalogNumber), entry.getValue());
             }
-            //const day
-            int orderId = of.addOrder(SuppliersFacade.getInstance().getSupplier(supplierID), new Date(), date, products, null);
+            List<DaysOfTheWeek.Day> constDays = new ArrayList<>();
+            for (Integer day:deliveryDays) {
+                constDays.add(DaysOfTheWeek.intToDay(day));
+            }
+            int orderId = of.addOrder(SuppliersFacade.getInstance().getSupplier(supplierID),new Date(), date, products, constDays);
             return "Order "+orderId+" added successfully";
 
         } catch (Exception e) {
@@ -39,13 +45,25 @@ public class OrdersService {
     }
 
 
-    public void addOrderConstDeliveryDay(int orderId, int day) {
-    //    of.addOrderConstDeliveryDay(orderId, day);
-
+    public String addOrderConstDeliveryDay(int orderId, int day) {
+        try {
+            of.addOrderConstDeliveryDay(orderId, DaysOfTheWeek.intToDay(day));
+            return "Order fixed day removed successfully";
+        }
+        catch (Exception e){
+            return e.getMessage();
+        }
     }
 
-    public void removeOrderConstDeliveryDay(int orderId, int day) {
-    //    of.removeOrderConstDeliveryDay(orderId, day);
+    public String removeOrderConstDeliveryDay(int orderId, int day) {
+        try {
+            of.removeOrderConstDeliveryDay(orderId, DaysOfTheWeek.intToDay(day));
+            return "Order fixed day removed successfully";
+        }
+        catch (Exception e){
+            return e.getMessage();
+        }
+
     }
 
     public String removeOrder(int orderId) {
@@ -57,13 +75,6 @@ public class OrdersService {
         }
     }
 
-    public void ChangeOrderItemQuantity(int orderId, int catalogNumber, int quantity) {
-        of.ChangeOrderItemQuantity(orderId, catalogNumber, quantity);
-    }
-
-    public void setOrderDeliveryDate(int orderId, Date deliveryDate) {
-        of.setOrderDeliveryDate(orderId, deliveryDate);
-    }
 
     public String displayOrder(int orderId) {
         try {
@@ -79,14 +90,18 @@ public class OrdersService {
     }
 
     public String displayFixedOrderDays(int orderId) {
-        String display = "";
-        return display;
+        try{
+            return of.getToStringConstDeliveringDays(orderId);
+        }
+        catch (Exception e){
+           return e.getMessage();
+        }
     }
 
     public String editProductInOrder(int orderId, int catalogNumber, int amount) {
         String res = "";
         try{
-          //  of.ChangeOrderItemQuantity(orderId,);
+            of.ChangeOrderItemQuantity(orderId,catalogNumber,amount);
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -94,7 +109,14 @@ public class OrdersService {
     }
 
     public String editDeliveryDate(int orderId, String deliveryDate) {
-        String res = "";
-        return res;
-    }    
+        try{
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = dateFormat.parse(deliveryDate);
+            of.setOrderDeliveryDate(orderId, date);
+            return "Order delivery date updated successfully";
+
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }

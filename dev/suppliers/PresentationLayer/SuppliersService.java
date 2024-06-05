@@ -157,6 +157,8 @@ public class SuppliersService {
     public String displayProducts(int id) {
         try {
             HashMap<Integer, Product> products = SuppliersFacade.getInstance().getAllSupplierProducts(id);
+            if(products.isEmpty())
+                return "No products have been added yet";
             String result = "";
             for (Product product : products.values()) {
                 result += product.toString() + "\n";

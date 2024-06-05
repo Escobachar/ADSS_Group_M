@@ -45,6 +45,15 @@ public class Order {
         return constDeliveryDays;
     }
 
+    public String getStringConstDeliveryDays(){
+        if(constDeliveryDays.isEmpty())
+            return "no fixed delivery days.";
+        String toString="";
+        for (Day day:constDeliveryDays) {
+            toString+= day.name() +", ";
+        }
+        return toString.substring(0,toString.length()-2);
+    }
     public void setConstDeliveryDays(List<Day> deliveryDays) {
         this.constDeliveryDays = deliveryDays;
     }

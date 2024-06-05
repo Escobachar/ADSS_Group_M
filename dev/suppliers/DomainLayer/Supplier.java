@@ -212,7 +212,7 @@ public class Supplier {
                 str += entry.getKey() + ", " + entry.getValue() + "; ";
             }
         }
-        str += ", address='" + address + '\'' + ", isDelivering='" + isDelivering + '\'';
+        str += ", address='" + address + '\'' + ", isDelivering='" + isDelivering + "\'}";
         return str;
     }
 }

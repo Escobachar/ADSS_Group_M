@@ -60,6 +60,9 @@ public class OrdersFacade {
             addOrderConstDeliveryDay(orderId, day);
         }
     }
+    public String getToStringConstDeliveringDays(int orderId){
+        return getOrder(orderId).getStringConstDeliveryDays();
+    }
     public void removeOrderConstDeliveryDay(int orderId, Day day) {
         getOrder(orderId).removeConstDeliveryDay(day);
     }
