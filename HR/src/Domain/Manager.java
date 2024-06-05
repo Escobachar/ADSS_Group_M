@@ -56,7 +56,7 @@ abstract public class Manager extends Employee{
 
     public BranchManager addBranchManager(int ID,String name, String bankAccountDetails, int salary,Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays,Branch branch,String password){
         List<Employee> el=branch.getEmployeesList();
-        if(Network.CheckGeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,branch))
+        if(Network.CheckGeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,null,true,branch))
         {
             for (Employee e : el) {
                 if (e.getID() == ID)
