@@ -29,7 +29,8 @@ public class Supplier {
         this.address = address;
     }
 
-    public Supplier(String name, int id, String bankAccount, String paymentOption, boolean isDelivering,String address) {
+    public Supplier(String name, int id, String bankAccount, String paymentOption, boolean isDelivering,
+            String address) {
         this.name = name;
         this.id = id;
         this.bankAccount = bankAccount;
@@ -38,7 +39,7 @@ public class Supplier {
         this.deliveryDays = new LinkedList<Integer>();
         this.categories = new HashMap<Category, HashMap<Integer, Product>>();
         this.isDelivering = isDelivering;
-        this.address =address;
+        this.address = address;
     }
 
     public String getName() {
@@ -64,12 +65,14 @@ public class Supplier {
     public String getPaymentMethod() {
         return paymentMethod;
     }
+
     public String getOneContact() {
         for (HashMap.Entry<String, String> entry : this.contacts.entrySet()) {
-            return entry.getKey()+ ", "+entry.getValue();
+            return entry.getKey() + ", " + entry.getValue();
         }
         return "";
     }
+
     public void setPaymentMethod(String paymentOption) {
         this.paymentMethod = paymentOption;
     }
@@ -194,7 +197,22 @@ public class Supplier {
         }
         return products;
     }
+
     public String getContactDetails(String contactName) {
         return contacts.get(contactName);
+    }
+
+    @Override
+    public String toString() {
+        String str = "Supplier{" + "name='" + name + '\'' + ", id=" + id + ", bankAccount='" + bankAccount + '\''
+                + ", paymentMethod='" + paymentMethod + '\'';
+        if (contacts.size() > 0) {
+            str += ", contacts=";
+            for (HashMap.Entry<String, String> entry : contacts.entrySet()) {
+                str += entry.getKey() + ", " + entry.getValue() + "; ";
+            }
+        }
+        str += ", address='" + address + '\'' + ", isDelivering='" + isDelivering + '\'';
+        return str;
     }
 }
