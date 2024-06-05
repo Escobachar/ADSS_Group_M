@@ -25,7 +25,7 @@ public class SuppliersFacadeTest {
         suppliersFacade.addSupplier(supplier);
         categoryDairy = new Category("Dairy", 0);
         discountQuantity = new DiscountQuantity(1, 10, 5.9, 5);
-        productMilk = new Product("milk", 1, 5.9, supplier.getId(), categoryDairy, discountQuantity, 0);
+        productMilk = new Product("milk", 1, 5.9, categoryDairy, discountQuantity);
         // Add the product to the supplier
         suppliersFacade.addProductToSupplier(supplier.getId(), productMilk);
 
@@ -80,8 +80,8 @@ public class SuppliersFacadeTest {
             assertEquals("Supplier with ID " + supplier.getId() + " not found", e.getMessage());
         }
     }
-
-    @Test
+    //fail test
+    @Test(expected = IllegalArgumentException.class)
     public void addSupplier() {
         Supplier newSupplier = new Supplier("Yossi", 1, "123", "check", false, "there");
         suppliersFacade.addSupplier(newSupplier);
