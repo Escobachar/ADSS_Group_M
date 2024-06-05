@@ -11,10 +11,10 @@ public class SuppliersService {
 
     public String addSupplier(String name, int id, String bankAccount, String paymentOption,
             HashMap<String, String> contacts, List<Integer> deliveryDays,
-            HashMap<Category, HashMap<Integer, Product>> categories, boolean isDelivering) {
+            HashMap<Category, HashMap<Integer, Product>> categories, boolean isDelivering, String address) {
         try {
             SuppliersFacade.getInstance().addSupplier(name, id, bankAccount, paymentOption, contacts, deliveryDays,
-                    categories, isDelivering);
+                    categories, isDelivering, address);
             return "Supplier added successfully";
         } catch (Exception e) {
             return e.getMessage();

@@ -60,12 +60,16 @@ public class Order {
             this.constDeliveryDays.add(day);
         }
     }
-    public List<String[]> orderToString()
+    public String orderToString()
     {
-        List<String[]> order = new ArrayList<>();
+        String order = "";
+        order+= "Order INFO:\n";
+        order+= "supplier name: "+supplier.getName()+ " | address: "+supplier.getAddress()+" | order ID: "+orderId+"\n";
+        order+= "supplier ID: "+ supplier.getId()+ " | Delivery Date: "+ deliveryDate+ " | tel: "+supplier.getOneContact()+"\n";
+        order+="_________________________________________________________\n";
+        order+= "catalog number | product name | amount | price | discount(%) | final price\n";
         for (HashMap.Entry<Product, Integer> entry : this.items.entrySet()) {
-            Product product = entry.getKey();
-            order.add(product.productToString(entry.getValue()));
+            order+= entry.getKey().toString()+ "\n";
         }
         return order;
     }

@@ -253,6 +253,8 @@ public class Main {
         String bankAccount = System.console().readLine();
         System.out.println("Enter supplier payment option");
         String paymentOption = System.console().readLine();
+        System.out.println("Enter supplier address");
+        String address = System.console().readLine();
         System.out.println("Enter number of supplier contacts");
         int lim = Integer.parseInt(System.console().readLine());
         for (int i = 0; i < lim; i++) {
@@ -309,7 +311,7 @@ public class Main {
             categories.put(category, products);
         }
         System.out.println(
-                ss.addSupplier(name, id, bankAccount, paymentOption, contacts, deliveryDays, categories, isDelivering));
+                ss.addSupplier(name, id, bankAccount, paymentOption, contacts, deliveryDays, categories, isDelivering,address));
     }
 
     private Product createProductObj(int supplierID, Category category) {

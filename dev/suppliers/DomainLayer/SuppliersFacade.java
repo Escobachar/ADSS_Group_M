@@ -29,12 +29,12 @@ public class SuppliersFacade {
 
     public void addSupplier(String name, int id, String bankAccount, String paymentOption,
             HashMap<String, String> contacts, List<Integer> deliveryDays,
-            HashMap<Category, HashMap<Integer, Product>> categories, boolean isDelivering) {
+            HashMap<Category, HashMap<Integer, Product>> categories, boolean isDelivering, String address) {
         if (suppliers.containsKey(id)) {
             throw new IllegalArgumentException("Supplier with ID " + id + " already exists");
         }
         Supplier supplier = new Supplier(name, id, bankAccount, paymentOption, contacts, deliveryDays, categories,
-                isDelivering);
+                isDelivering, address);
         suppliers.put(id, supplier);
     }
 
@@ -117,6 +117,9 @@ public class SuppliersFacade {
         if (product == null)
             throw new IllegalArgumentException("Product " + catalogNumber + " not found in supplier " + supplierId);
         return product;
+    }
+    public void editAddress(int supplierId, String address){
+        getSupplier(supplierId).setAddress(address);
     }
 
     public void removeProductFromSupplier(int supplierId, int catalogNumber) {

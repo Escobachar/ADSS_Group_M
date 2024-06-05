@@ -13,13 +13,15 @@ public class SuppliersFacadeTest {
     private SuppliersFacade suppliersFacade;
     private Supplier supplier;
     private Product productMilk;
+    private int supplierId = 1;
     private Category categoryDairy;
     private DiscountQuantity discountQuantity;
 
     @Before
     public void setUp() {
         suppliersFacade = SuppliersFacade.getInstance();
-        supplier = new Supplier("Shimon", 1, "123", "check", false);
+
+        supplier = new Supplier("Shimon", supplierId, "123", "check", false, "here");
         suppliersFacade.addSupplier(supplier);
         categoryDairy = new Category("Dairy", 0);
         discountQuantity = new DiscountQuantity(1, 10, 5.9, 5);
@@ -31,7 +33,7 @@ public class SuppliersFacadeTest {
 
     @Test
     public void testGetProductInSupplier() {
-        Product product = suppliersFacade.getProductInSupplier(1, categoryDairy, productMilk.getCatalogNumber());
+        Product product = suppliersFacade.getProductInSupplier(supplierId, categoryDairy, productMilk.getCatalogNumber());
         assertNotNull("Product should not be null", product);
         assertEquals("milk", product.getName());
         assertEquals(5.9, product.getPrice(), 0.00);
@@ -81,7 +83,7 @@ public class SuppliersFacadeTest {
 
     @Test
     public void addSupplier() {
-        Supplier newSupplier = new Supplier("Yossi", 2, "123", "check", false);
+        Supplier newSupplier = new Supplier("Yossi", 1, "123", "check", false, "there");
         suppliersFacade.addSupplier(newSupplier);
         Supplier addedSupplier = suppliersFacade.getSupplier(newSupplier.getId());
         assertEquals(newSupplier, addedSupplier);

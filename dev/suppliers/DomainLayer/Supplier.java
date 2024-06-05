@@ -10,13 +10,14 @@ public class Supplier {
     private String bankAccount;
     private String paymentMethod;
     private HashMap<String, String> contacts;
+    private String address;
     private List<Integer> deliveryDays;
     private HashMap<Category, HashMap<Integer, Product>> categories;
     private boolean isDelivering;
 
     public Supplier(String name, int id, String bankAccount, String paymentOption,
             HashMap<String, String> contacts, List<Integer> deliveryDays,
-            HashMap<Category, HashMap<Integer, Product>> categories, boolean isDelivering) {
+            HashMap<Category, HashMap<Integer, Product>> categories, boolean isDelivering, String address) {
         this.name = name;
         this.id = id;
         this.bankAccount = bankAccount;
@@ -25,9 +26,10 @@ public class Supplier {
         this.deliveryDays = deliveryDays;
         this.categories = categories;
         this.isDelivering = isDelivering;
+        this.address = address;
     }
 
-    public Supplier(String name, int id, String bankAccount, String paymentOption, boolean isDelivering) {
+    public Supplier(String name, int id, String bankAccount, String paymentOption, boolean isDelivering,String address) {
         this.name = name;
         this.id = id;
         this.bankAccount = bankAccount;
@@ -36,6 +38,7 @@ public class Supplier {
         this.deliveryDays = new LinkedList<Integer>();
         this.categories = new HashMap<Category, HashMap<Integer, Product>>();
         this.isDelivering = isDelivering;
+        this.address =address;
     }
 
     public String getName() {
@@ -61,7 +64,12 @@ public class Supplier {
     public String getPaymentMethod() {
         return paymentMethod;
     }
-
+    public String getOneContact() {
+        for (HashMap.Entry<String, String> entry : this.contacts.entrySet()) {
+            return entry.getKey()+ ", "+entry.getValue();
+        }
+        return "";
+    }
     public void setPaymentMethod(String paymentOption) {
         this.paymentMethod = paymentOption;
     }
@@ -76,6 +84,14 @@ public class Supplier {
 
     public List<Integer> getDeliveryDays() {
         return deliveryDays;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setDeliveryDays(List<Integer> deliveryDays) {

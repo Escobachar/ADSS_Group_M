@@ -68,15 +68,16 @@ public class OrdersService {
     }
 
     public String displayOrder(int orderId) {
-        String display= "";
-        return display;
+        try {
+            return of.orderIdToString(orderId);
+        }
+        catch (Exception e){
+            return "order does not exist";
+        }
     }
 
     public String displayThisWeekOrders() {
-        String display= "";
-        HashMap<Integer, Order> thisWeekOrders = of.getThisWeekOrders();
-
-        return display;
+        return of.OrdersToString(of.getThisWeekOrders());
     }
 
     public String displayFixedOrderDays(int orderId) {

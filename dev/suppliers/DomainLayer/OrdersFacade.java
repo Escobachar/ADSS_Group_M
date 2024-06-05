@@ -75,7 +75,7 @@ public class OrdersFacade {
         orders.remove(orderId);
     }
 
-    public List<String[]> orderIdToString (int orderId){
+    public String orderIdToString (int orderId){
         return getOrder(orderId).orderToString();
     }
     public Order getOrder(int orderId) {
@@ -135,6 +135,13 @@ public class OrdersFacade {
             }
         }
         return thisWeekPickupOrders;
+    }
+    public String OrdersToString(HashMap<Integer,Order> Orders){
+        String toString = "";
+        for (Order order : orders.values()) {
+            toString+=order.orderToString()+"/n/n";
+        }
+        return toString;
     }
 
 }
