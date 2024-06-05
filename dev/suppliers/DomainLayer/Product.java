@@ -18,16 +18,6 @@ public class Product {
         this.ordersCount = 0;
     }
 
-    public Product(String name, int catalogNumber, double price, int supplierID, Category category,
-            DiscountQuantity discount, int ordersCount) {
-        this.name = name;
-        this.catalogNumber = catalogNumber;
-        this.price = price;
-        this.category = category;
-        this.discount = discount;
-        this.ordersCount = ordersCount;
-    }
-
     public String getName() {
         return name;
     }

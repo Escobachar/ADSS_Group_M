@@ -87,8 +87,10 @@ public class OrdersFacade {
     }
 
     // if quantity is 0, remove the item from the order
-    public void ChangeOrderItemQuantity(int orderId, Product product, int quantity) {
+    public void ChangeOrderItemQuantity(int orderId, int catalogNumber, int quantity) {
         Order order = getOrder(orderId);
+        int  supplierId = order.getSupplierId();
+        Product product = SuppliersFacade.getInstance().getProductInSupplier(supplierId, catalogNumber);
         if (!order.containsItem(product)) {
             throw new IllegalArgumentException("Product not found in order " + orderId);
         }

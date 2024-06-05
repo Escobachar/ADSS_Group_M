@@ -1,6 +1,4 @@
 package suppliers.PresentationLayer;
-
-import suppliers.DomainLayer.Order;
 import suppliers.DomainLayer.OrdersFacade;
 import suppliers.DomainLayer.Product;
 import suppliers.DomainLayer.SuppliersFacade;
@@ -59,8 +57,8 @@ public class OrdersService {
         }
     }
 
-    public void ChangeOrderItemQuantity(int orderId, Product product, int quantity) {
-        of.ChangeOrderItemQuantity(orderId, product, quantity);
+    public void ChangeOrderItemQuantity(int orderId, int catalogNumber, int quantity) {
+        of.ChangeOrderItemQuantity(orderId, catalogNumber, quantity);
     }
 
     public void setOrderDeliveryDate(int orderId, Date deliveryDate) {
