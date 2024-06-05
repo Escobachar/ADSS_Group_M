@@ -13,20 +13,9 @@ public class Role {
         }
         return false;
     }
-    public Role(String name,List<String> access,Branch branch){
+    public Role(String name,List<String> access){
         roleName=name;
         this.access=access;
-        for(Role r:branch.getShiftsAvailability().keySet()){
-            if(r.roleName.equals(name))
-                return ;
-        }
-        HashMap<Role,Integer[][]> rolesOfShifts =  branch.getRolesOfShifts();
-        rolesOfShifts.put(this,new Integer[Network.shifts][Network.days]);
-        HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability=branch.getShiftsAvailability();
-        shiftsAvailability.put(this,new Set[Network.shifts][Network.days]);
-        for(int i=0;i<Network.shifts;i++)
-            for(int j=0;j<Network.days;j++)
-                shiftsAvailability.get(this)[i][j] = new HashSet<GeneralEmployee>();
     }
     public String getRoleName(){return roleName;}
 

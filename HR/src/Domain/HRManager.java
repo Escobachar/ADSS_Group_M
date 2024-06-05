@@ -22,7 +22,7 @@ public class HRManager extends Manager{
 
     public BranchManager addBranchManager(int ID,String name, String bankAccountDetails, int salary,Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays,Branch branch,String password){
         List<Employee> el=branch.getEmployeesList();
-        if(Network.CheckGeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,null,true,branch))
+        if(Network.checkGeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,null,true,branch.getBranchName(),getNetwork()))
         {
             for (Employee e : el) {
                 if (e.getID() == ID)
@@ -34,6 +34,10 @@ public class HRManager extends Manager{
         }
         return null;
     }
+    public boolean addRoletoNetwork(Role r){
+        return getNetwork().addRole(r);
+    }
+
 
 
 }

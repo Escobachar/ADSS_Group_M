@@ -1,10 +1,7 @@
 package Presentetion;
 
 import Domain.*;
-
-import java.util.Date;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class Login {
     public static void main(String[] args){
@@ -69,9 +66,6 @@ public class Login {
             if (access.contains("UpdateBranchShifts")) {
                 System.out.println("Update shifts of the week");
             }
-            if (access.contains("UpdateGeneralEmployeeRoles")) {
-                System.out.println("Update roles of employee");
-            }
             if (access.contains("UpdateGeneralEmployeeDetails")) {
                 System.out.println("Update details of the employee");
             }
@@ -107,7 +101,11 @@ public class Login {
                     break;
                 //Branch Manager
                 case "Add general employee":
-
+                    AddGeneralEmployee(emp);
+                    break;
+                case "Update details of the employee":
+                    UpdateGeneralEmployeeDetails(emp);
+                    break;
                 case "Logoff":
                     login=false;
                     break;
@@ -235,48 +233,245 @@ public class Login {
     //Branch Manager
     private static void AddGeneralEmployee(Employee emp) {
         System.out.println("Adding new General employee:");
-        System.out.println("ID: ");
         Scanner scanner = new Scanner(System.in);
-        String id = scanner.nextLine();
-        System.out.println("Name: ");
-        String name = scanner.nextLine();
-        System.out.println("Bank account details: ");
-        String bankAccount = scanner.nextLine();
-        System.out.println("Salary: ");
-        String salary = scanner.nextLine();
-        System.out.println("Start of employment: ");
-        String startOfEmp = scanner.nextLine();
-        System.out.println("End of employment: ");
-        String endOfEmp = scanner.nextLine();
+        Integer id=null;
+        String Id=null;
+        do {
+            if(Id!=null)
+                System.out.println("ID not valid");
+            System.out.println("ID: ");
+            Id = scanner.nextLine();
+            if(onlyNumbers(Id))
+                id=Integer.parseInt(Id);
+        }while(!Network.CheckID(id));
+
+        String name=null;
+        do {
+            if(name!=null)
+                System.out.println("name not valid");
+            System.out.println("Name: ");
+            name = scanner.nextLine();
+        }while(!Network.CheckName(name));
+
+        String bankAccount=null;
+        do {
+            if(bankAccount!=null)
+                System.out.println("Bank account details not valid");
+            System.out.println("Bank account details: ");
+            bankAccount = scanner.nextLine();
+        }while(!Network.CheckBankAccountDetails(bankAccount));
+
+        Integer salary=null;
+        do {
+            if(salary!=null)
+                System.out.println("Salary not valid");
+            salary=-1;
+            System.out.println("Salary: ");
+            String salaryScan = scanner.nextLine();
+            if(onlyNumbers(salaryScan))
+                salary=Integer.parseInt(salaryScan);
+        }while(!Network.checkSalary(salary));
+
+        String startOfEmp=null;
+        do{
+            if(startOfEmp!=null)
+                System.out.println("Start of employment not valid");
+            System.out.println("Start of employment(xx mm yyyy): ");
+            startOfEmp = scanner.nextLine();
+        }while(!Network.checkCreateDate(startOfEmp));
+
+        String endOfEmp=null;
+        do{
+            if(endOfEmp!=null)
+                System.out.println("end of employment not valid");
+            System.out.println("end of employment(xx mm yyyy) or TBD: ");
+            endOfEmp = scanner.nextLine();
+        }while(!Network.checkCreateDate(endOfEmp) & !endOfEmp.equals("TBD"));
         if (endOfEmp.equals("TBD"))
             endOfEmp = null;
-        System.out.println("Part of job: ");
-        String partOfJob = scanner.nextLine();
-        System.out.println("Vacations days: ");
-        String vacationDays = scanner.nextLine();
+
+        String partOfJob=null;
+        do {
+            if(partOfJob!=null)
+                System.out.println("part of job not valid");
+            System.out.println("part of job(Half or Full): ");
+            partOfJob = scanner.nextLine();
+        }while(!Network.checkPartOfJob(partOfJob));
+
+        Integer vacationDays=null;
+        do {
+            if(vacationDays!=null)
+                System.out.println("Vacation days not valid");
+            vacationDays=-1;
+            System.out.println("Vacation days: ");
+            String vacationDaysScan = scanner.nextLine();
+            if(onlyNumbers(vacationDaysScan))
+                vacationDays=Integer.parseInt(vacationDaysScan);
+        }while(!Network.checkSalary(vacationDays));
+
+
         System.out.println("Password: ");
         String password = scanner.nextLine();
         System.out.println("Is he a shift manager?: ");
         String shiftManager = scanner.nextLine();
-        if(shiftManager.equals("no"))
-
-            if (ge.isManager())
-                System.out.println("Shift Manager");
-            else {
-                if (ge.getRoles().isEmpty())
-                    System.out.println("roles: none");
-                else if (ge.getRoles() == null)
-                    System.out.println("system error, roles=null");
-                else {
-                    System.out.println("roles:");
-                    for (Role r : ge.getRoles())
-                        System.out.println("role - " + r.getRoleName());
-                }
+        boolean SM=true;
+        List<Role> newRL=new ArrayList<>();
+        if(shiftManager.equals("no")) {
+            SM=false;
+            System.out.println("Choose roles of the employee,\npress all the numbers of the roles you desire then enter: ");
+            List<Role> RL = null;
+            RL = ((Manager) emp).getNetwork().getRoles();
+            int i = 1;
+            for (Role r : RL) {
+                System.out.println(i + ". " + r.getRoleName());
+                i++;
             }
-            System.out.println("Shifts requests for next week:");
-            getShiftsReq(emp);
-            System.out.println("Branch: " + ge.getBranch());
+            String rolesLine = scanner.nextLine();
+            int j=0;
+            i = 1;
+            for (Role r : RL) {
+                if(i==rolesLine.charAt(j)) {
+                    newRL.add(r);
+                    j++;
+                }
+                i++;
+                if(j>rolesLine.length())
+                    break;
+            }
+        }
+        if(emp instanceof HRManager) {
+            String branchName = null;
+            do {
+                if (branchName != null)
+                    System.out.println("Branch name not valid");
+                System.out.println("Branch name: ");
+                branchName = scanner.nextLine();
+            } while (!((Manager) emp).getNetwork().checkBranch(branchName));
+            Branch branch = ((Manager) emp).getNetwork().getBranch(branchName);
+            ((HRManager)emp).addGeneralEmployee(id,name,bankAccount,salary,new Date(startOfEmp),new Date(endOfEmp),partOfJob,vacationDays,newRL,SM,branch,password);
+        }
+        else
+            ((BranchManager)emp).addGeneralEmployee(id,name,bankAccount,salary,new Date(startOfEmp),new Date(endOfEmp),partOfJob,vacationDays,newRL,SM,password);
+
+    }
+    private static void UpdateGeneralEmployeeDetails(Employee emp) {
+        System.out.println("Update General employee:");
+        Integer id = emp.getID();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("DO you want to change employee name? y/n ");
+        String ans = scanner.nextLine();
+        if (ans.equals("y")){
+            String name = "";
+            do{
+                System.out.println("New name: ");
+                name = scanner.nextLine();}
+            while (!Network.CheckName(name));
+        }
+        else {String name = emp.getName();}
+
+        System.out.println("DO you want to change employee bank account details? y/n ");
+        ans = scanner.nextLine();
+        if (ans.equals("y")){
+            String bankAccount = "";
+            do{
+                System.out.println("New bank account details: ");
+                bankAccount = scanner.nextLine();}
+            while (!Network.CheckBankAccountDetails(bankAccount));
+        }
+        else {String bankAccount = emp.getBankAccountDetails();}
+
+        System.out.println("DO you want to change employee salary? y/n ");
+        ans = scanner.nextLine();
+        if (ans.equals("y")){
+            String salary ="";
+            do{
+                System.out.println("New salary: ");
+                salary = scanner.nextLine();
+            }
+            while (!Network.checkSalary(salary));
+        }
+        else {Integer salary = emp.getSalary();}
+
+
+        Date startOfEmp = emp.getStartOfEmployment();
+
+        System.out.println("DO you want to change employee end of employment? y/n ");
+        ans = scanner.nextLine();
+        if (ans.equals("y")){
+            String endOfEmp = "";
+            do{
+                System.out.println("New end of employment: ");
+                endOfEmp = scanner.nextLine();///////Date
+            }
+            while (!Network.checkCreateDate(endOfEmp));
+        }
+        else {Date endOfEmp = emp.getStartOfEmployment();}
+
+        System.out.println("DO you want to change employee part of job? y/n ");
+        ans = scanner.nextLine();
+        if (ans.equals("y")){
+            String partOfJob = "";
+            do{
+                System.out.println("New part of job: ");
+                partOfJob = scanner.nextLine();///////Date
+            }
+            while (!Network.checkPartOfJob(partOfJob));
+        }
+        else {String partOfJob = emp.getPartOfJob();}
+
+        System.out.println("DO you want to change employee vacations days? y/n ");
+        ans = scanner.nextLine();
+        if (ans.equals("y")){
+            String vacationDays = "";
+            do{
+                System.out.println("New vacations days: ");
+                vacationDays = scanner.nextLine();///////integer
+            }
+            while (!Network.checkVacationsDays(vacationDays));
 
         }
+        else {Integer vacationDays = emp.getVacationsDays();}
+
+        System.out.println("DO you want to change employee password? y/n ");
+        ans = scanner.nextLine();
+        if (ans.equals("y")){
+            System.out.println("New password: ");
+            String password = scanner.nextLine();
+        }
+        else {String password = emp.getPassword();}
+
+        boolean shiftManager = ((GeneralEmployee)emp).isManager();
+        if(shiftManager){
+            System.out.println("This employee is a shift manager. Do you like to change it? y/n ");
+            ans = scanner.nextLine();
+            if (ans.equals("y")){
+                shiftManager = false;
+                /////////////////////////////////////////////
+            }
+        }
+        else {
+            System.out.println("This employee is not a shift manager. Do you like to change it? y/n ");
+            ans = scanner.nextLine();
+            if (ans.equals("y")){
+                shiftManager = true;
+            }
+        }
+
+        System.out.println("DO you want to change employee branch? y/n ");
+        ans = scanner.nextLine();
+        if (ans.equals("y")){
+            String branch = "";
+            do{
+                System.out.println("New branch: ");
+                branch = scanner.nextLine();///////Date
+            }
+            while (!((Manager) emp).getNetwork().checkBranch(branch));
+        }
+        else {Branch branch = ((GeneralEmployee)emp).getBranch();}
+
+
     }
 }
+
+
