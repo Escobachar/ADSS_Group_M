@@ -10,7 +10,9 @@ public class GeneralEmployee extends Employee {
     public GeneralEmployee(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment , Date endOfEmployment, String partOfJob, int vacationsDays, List<Role> roles, boolean isManager, Branch branch,String password  ){
         super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays,password);
         this.getAccess().add("updateShifts");
+        this.getAccess().add("ShowShiftReq");
         this.getAccess().add("getShifts");
+        this.getAccess().add("ShowYourDetails");
         this.isManager=isManager;
         this.ShiftsRequest=new boolean[Network.shifts][Network.days];
         this.roles=roles;
@@ -43,8 +45,11 @@ public class GeneralEmployee extends Employee {
         this.branch=other.branch;
 
     }
+    public boolean isManager(){return this.isManager;}
 
+    public List<Role> getRoles(){return this.roles;}
 
+    public Branch getBranch() {return branch;}
 
     public boolean[][] getShiftsRequest(){return ShiftsRequest;}
 
@@ -52,11 +57,14 @@ public class GeneralEmployee extends Employee {
         this.roles = roles;
     }
 
-
-
     public void updateShifts(boolean[][] shifts) {
         ShiftsRequest = shifts;
         HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability = branch.getShiftsAvailability();
+        List<Role> rolesUpdate;
+        if(!isManager)
+            rolesUpdate = roles;
+        else
+            rolesUpdate=branch.getRoles().stream().toList();
         for (Role r : roles) {
             Set<GeneralEmployee>[][] shiftsOfTheWeek = shiftsAvailability.get(r);
             for (int i = 0; i < shiftsOfTheWeek.length; i++) {

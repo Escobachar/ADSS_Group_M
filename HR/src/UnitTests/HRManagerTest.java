@@ -18,15 +18,13 @@ public class HRManagerTest {
 
     @Before
     public void initTest() {
-        this.network = new Network();
+        this.network = new Network(hrm);
         this.branch = new Branch("Mazkeret", "Mazkeret Batya", this.network);
         this.cashier = new Role("cashier", (List)null, this.branch);
         this.storekeeper = new Role("storekeeper", (List)null, this.branch);
         this.roles = new LinkedList();
         this.roles.add(this.cashier);
         this.roles.add(this.storekeeper);
-        this.network = new Network();
-        //this.e = new GeneralEmployee(0, "shai", 66666666, 500, new Date(2024, 5, 31), "half", 1, this.roles, false, this.branch);
         this.hrm = new HRManager(123456788, "Tomer", "123456789", 30, new Date(2024, 4, 31),null,"half", 30,"1234");
         ShiftsRequest1 = new boolean[Network.shifts][Network.days];
         ShiftsRequest2 = new boolean[Network.shifts][Network.days];

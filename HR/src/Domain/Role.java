@@ -28,6 +28,7 @@ public class Role {
             for(int j=0;j<Network.days;j++)
                 shiftsAvailability.get(this)[i][j] = new HashSet<GeneralEmployee>();
     }
+    public String getRoleName(){return roleName;}
 
 
 }

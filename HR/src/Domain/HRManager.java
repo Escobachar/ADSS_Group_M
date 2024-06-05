@@ -16,5 +16,24 @@ public class HRManager extends Manager{
     public void setBranchName(BranchManager brm,Branch branch){
         branch.setBranchManager(brm);
     }
+    public BranchManager addBranchManager(int ID,String name, String bankAccountDetails, int salary,Date startOfEmployment,String partOfJob,int vacationsDays,Branch branch,String password){
+        return addBranchManager(ID,name,bankAccountDetails,salary,startOfEmployment,null,partOfJob,vacationsDays,branch,password);
+    }
+
+    public BranchManager addBranchManager(int ID,String name, String bankAccountDetails, int salary,Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays,Branch branch,String password){
+        List<Employee> el=branch.getEmployeesList();
+        if(Network.CheckGeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,null,true,branch))
+        {
+            for (Employee e : el) {
+                if (e.getID() == ID)
+                    return null;
+            }
+            BranchManager bm= new BranchManager(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,branch,password);
+            el.add(bm);
+            return bm;
+        }
+        return null;
+    }
+
 
 }

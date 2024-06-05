@@ -13,6 +13,7 @@ public class Branch {
     private List<HashMap<Integer,boolean[][]>> historyEmployeesShifts;
     private HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability;
 
+    //creating new branch with a manager
     public Branch(String name,String location,Network network,BranchManager brm){
         this.branchName=name;
         this.location=location;
@@ -23,7 +24,10 @@ public class Branch {
         rolesOfShifts = new HashMap<Role,Integer[][]>();
         historyEmployeesShifts = new LinkedList<HashMap<Integer,boolean[][]>>();
         shiftsAvailability = new HashMap<Role,Set<GeneralEmployee>[][]>();
+        new Role("Shift Manager",new ArrayList<>(),this);
     }
+
+    //creating new branch without manager(inserting him manually after creating it)
     public Branch(String name,String location,Network network){
         this.branchName=name;
         this.location=location;
@@ -34,10 +38,15 @@ public class Branch {
         rolesOfShifts = new HashMap<Role,Integer[][]>();
         historyEmployeesShifts = new LinkedList<HashMap<Integer,boolean[][]>>();
         shiftsAvailability = new HashMap<Role,Set<GeneralEmployee>[][]>();
+        new Role("Shift Manager",new ArrayList<>(),this);
     }
 
     public void setBranchManager(BranchManager brm){
         this.branchManager=brm;
+    }
+
+    public Set<Role> getRoles(){
+        return rolesOfShifts.keySet();
     }
 
     public void setShiftsAvailability(HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability){this.shiftsAvailability=shiftsAvailability;}

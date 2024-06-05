@@ -10,7 +10,16 @@ public class BranchManager extends Manager{
         super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays,password);
         this.branch=branch;
         branch.setBranchManager(this);
+        this.getAccess().add("AddGeneralEmployee");
+        this.getAccess().add("UpdateGeneralEmployeeDetails");
+        this.getAccess().add("UpdateGeneralEmployeeRoles");
+        this.getAccess().add("ShowEmployeeDetails");
+        this.getAccess().add("UpdateBranchShifts");
+        this.getAccess().add("UpdateRolesOfShifts");
+        this.getAccess().add("ShowShiftsAvailability");
     }
+    public Branch getBranch() {return branch;}
+
     public void addGeneralEmployee(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment, String partOfJob, int vacationsDays, List<Role> roles, boolean isManager, String password){
        super.addGeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,null,partOfJob,vacationsDays,roles,isManager,branch, password);
     }
@@ -23,7 +32,7 @@ public class BranchManager extends Manager{
     public void updateShiftsOfBranch(){
         super.updateShiftsOfBranch(branch);
     }
-    public void updateShiftsOfBranch(HashMap<Role,Integer[][]> rolesOfShifts) {
-        super.updateShiftsOfBranch(branch,rolesOfShifts);
+    public void updateRolesOfShiftsOfBranch(HashMap<Role,Integer[][]> rolesOfShifts) {
+        super.updateRolesOfShiftsOfBranch(branch,rolesOfShifts);
     }
 }

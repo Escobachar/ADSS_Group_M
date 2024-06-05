@@ -28,8 +28,6 @@ public class Network {
         branchList=new LinkedList<Branch>();
     }
 
-
-
     public static boolean CheckGeneralEmployee(int ID,String name, String bankAccountDetails, int salary,
                                            Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,
                                            boolean isManager,Branch branch)
