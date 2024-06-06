@@ -93,7 +93,7 @@ public class OrdersFacade {
     public void ChangeOrderItemQuantity(int orderId, int catalogNumber, int quantity) {
         Order order = getOrder(orderId);
         int  supplierId = order.getSupplierId();
-        Product product = SuppliersFacade.getInstance().getProductInSupplier(supplierId, catalogNumber);
+        Product product = sf.getProductInSupplier(supplierId, catalogNumber);
         if (!order.containsItem(product)) {
             throw new IllegalArgumentException("Product not found in order " + orderId);
         }

@@ -14,11 +14,20 @@ import java.util.List;
 public class OrdersService {
     private OrdersFacade of;
     private SuppliersFacade sf;
+    private static OrdersService instance;
 
-    public OrdersService() {
+
+    private OrdersService() {
         of = OrdersFacade.getInstance();
         sf = SuppliersFacade.getInstance();
 
+    }
+
+    public static OrdersService getInstance() {
+        if (instance == null) {
+            instance = new OrdersService();
+        }
+        return instance;
     }
 
     public String addOrder(int supplierID, String deliveryDate, HashMap<Integer, Integer> items,
@@ -36,7 +45,7 @@ public class OrdersService {
             for (Integer day:deliveryDays) {
                 constDays.add(DaysOfTheWeek.intToDay(day));
             }
-            int orderId = of.addOrder(SuppliersFacade.getInstance().getSupplier(supplierID),new Date(), date, products, constDays);
+            int orderId = of.addOrder(sf.getSupplier(supplierID),new Date(), date, products, constDays);
             return "Order "+orderId+" added successfully";
 
         } catch (Exception e) {

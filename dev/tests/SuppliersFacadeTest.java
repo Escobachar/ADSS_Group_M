@@ -19,7 +19,7 @@ public class SuppliersFacadeTest {
 
     @Before
     public void setUp() {
-        suppliersFacade = SuppliersFacade.getInstance();
+        suppliersFacade = sf;
 
         supplier = new Supplier("Shimon", supplierId, "123", "check", false, "here");
         suppliersFacade.addSupplier(supplier);

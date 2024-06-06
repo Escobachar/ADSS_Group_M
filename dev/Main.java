@@ -1,13 +1,14 @@
 import java.util.*;
 
 import suppliers.DomainLayer.*;
+import suppliers.PresentationLayer.Initialize;
 import suppliers.PresentationLayer.OrdersService;
 import suppliers.PresentationLayer.SuppliersService;
 
 public class Main {
     static Scanner sc= new Scanner(System.in);
-    private static final SuppliersService ss = new SuppliersService();
-    private static final OrdersService os = new OrdersService();
+    private static final SuppliersService ss = SuppliersService.getInstance();
+    private static final OrdersService os = OrdersService.getInstance();
 
     private static Integer inputToint(){
         String line = sc.next();
@@ -22,7 +23,8 @@ public class Main {
         while (flag) {
             System.out.println("1. Suppliers");
             System.out.println("2. Orders");
-            System.out.println("3. Exit");
+            System.out.println("3. Initialize data");
+            System.out.println("4. Exit");
             Integer choice = inputToint();
             if(choice == null)
                 System.out.println("Invalid choice");
@@ -30,11 +32,16 @@ public class Main {
                 switch (choice) {
                     case 1 -> suppliers();
                     case 2 -> orders();
-                    case 3 -> flag = false;
+                    case 3 -> initializeData();
+                    case 4 -> flag = false;
                     default -> System.out.println("Invalid choice");
                 }
             }
         }
+    }
+
+    private static void initializeData() {
+        Initialize();
     }
 
     private static void orders() {
