@@ -21,25 +21,28 @@ public class Login {
         }
         System.out.print("Enter ID: ");
         String ID = scanner.nextLine();
-        Employee emp=null;
-        boolean IDFound= false;
         while(true) {
-            while(!IDFound) {
-                while (!(onlyNumbers(ID))) {
+            Employee emp=null;
+            boolean IDFound= true;
+            do{
+                while (!(onlyNumbers(ID)) || !IDFound) {
                     System.out.print("ID not valid or not found.\nEnter  ID: ");
                     ID = scanner.nextLine();
+                    if(onlyNumbers(ID))
+                        IDFound=true;
                 }
                 emp = network.SearchByID(Integer.parseInt(ID));
                 IDFound=emp!=null;
-            }
+            }while((!IDFound) );
             System.out.print("Enter password: ");
             String password = scanner.nextLine();
-            if(emp.getPassword().equals(password))
+            if(emp.getPassword().equals(password)) {
+                System.out.println();
                 Menu(emp);
+            }
             else
                 System.out.println("password does not match");
             System.out.print("Enter  ID: ");
-            IDFound= false;
             ID = scanner.nextLine();
         }
 
@@ -57,7 +60,7 @@ public class Login {
         System.out.println("Hello " + emp.getName());
         Scanner scanner = new Scanner(System.in);
         while (login) {
-            System.out.println("\n\nactions menu:\n");
+            System.out.println("\nactions menu:\n");
             Set<String> access = emp.getAccess();
             System.out.println("Show your details");
             //GeneralEmployee
@@ -83,10 +86,10 @@ public class Login {
             if (access.contains("ShowEmployeeDetails")) {
                 System.out.println("Show details on an employee");
             }
-            if (access.contains("UpdateRolesOfShifts")) {//this
+            if (access.contains("UpdateRolesOfShifts")) {
                 System.out.println("Update roles for next shifts");
             }
-            if (access.contains("ShowShiftsAvailability")) {//this
+            if (access.contains("ShowShiftsAvailability")) {
                 System.out.println("Show shifts availability per role");
             }
 
@@ -101,7 +104,7 @@ public class Login {
                     break;
                 //General Employee
                 case "Update your shifts":
-                    updateShifts(emp);
+                    updateShifts((GeneralEmployee)emp);
                     break;
                 case "Show this week shifts":
                     getGeneralEmployeeShifts(emp);
@@ -119,6 +122,15 @@ public class Login {
                 case "Show details on an employee":
                     ShowDetailsOnGeneralEmployee((BranchManager) emp);
                     break;
+                case "Show shifts availability per role":
+                    ShowShiftAvailability((BranchManager)emp);
+                    break;
+                case "Update roles for next shifts":
+                    UpdateRolesOfShifts((BranchManager)emp);
+                    break;
+                case "Update shifts of the week":
+                    UpdateShiftsOfWeek((BranchManager)emp);
+                    break;
                 case "Logoff":
                     login = false;
                     break;
@@ -128,8 +140,6 @@ public class Login {
             }
         }
     }
-
-
 
     private static void showYourDetails(Employee emp) {
         System.out.println("ID: " + emp.getID());
@@ -224,12 +234,18 @@ public class Login {
                         int theShift = Integer.parseInt(shift);
                         if (theShift < 1 || theShift > 3)
                             System.out.println("Please send a number between 1-3.");
-                        else {
-                            ((GeneralEmployee) emp).getShiftsRequest()[theShift - 1][theDay - 1] = !((GeneralEmployee) emp).getShiftsRequest()[theShift - 1][theDay - 1];
+                        else if(theShift != 3){
+                            emp.getShiftsRequest()[theShift - 1][theDay - 1] = !emp.getShiftsRequest()[theShift - 1][theDay - 1];
+                            for (Role r : emp.getRoles())
+                                        if (emp.getShiftsRequest()[theShift - 1][theDay - 1])
+                                            emp.getBranch().getShiftsAvailability().get(r)[theShift - 1][theDay - 1].add(emp);
+                                        else
+                                            emp.getBranch().getShiftsAvailability().get(r)[theShift - 1][theDay - 1].remove(emp);
+                        }
+
                             System.out.println("your new shifts request:");
                             getShiftsReq(emp);
                             System.out.println();
-                        }
 
                     }
                 }

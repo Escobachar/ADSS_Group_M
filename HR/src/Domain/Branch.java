@@ -8,7 +8,7 @@ public class Branch {
     private String location;
     private BranchManager branchManager;
     private List<Employee> employeesList;
-    private Set<Integer>[][] employeesShifts;
+    private Set<String>[][] employeesShifts;
     private HashMap<Role,Integer[][]> rolesOfShifts;
     private List<Set<Integer>[][]> historyEmployeesShifts;
     private HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability;
@@ -29,10 +29,16 @@ public class Branch {
         for(Role r: network.getRoles()){
             rolesOfShifts.put(r,new Integer[Network.days][Network.days]);
             shiftsAvailability.put(r,new HashSet[Network.days][Network.days]);
-            Set<GeneralEmployee>[][] set=shiftsAvailability.get(r);
-            for(int i=0;i<Network.shifts;i++)
-                for(int j=0;j<Network.days;j++)
-                    set=new HashSet[Network.days][Network.days];
+            Set<GeneralEmployee>[][] setList=shiftsAvailability.get(r);
+            for(int i=0;i<Network.shifts;i++) {
+                rolesOfShifts.get(r)[i]=new Integer[Network.days];
+                for (int j = 0; j < Network.days; j++) {
+                    setList[i][j] = new HashSet<>();
+                    rolesOfShifts.get(r)[i][j]=0;
+                }
+            }
+
+
         }
         historyEmployeesShifts = new LinkedList<Set<Integer>[][]>();
     }
