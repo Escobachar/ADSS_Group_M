@@ -6,8 +6,19 @@ import java.util.*;
 public class Login {
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
-        System.out.print("with items or no? \n1.with\n2.without\n");
-        Network network= Server.init.init(scanner.nextLine().equals("1"));//what if not 1 or 2?
+        boolean flag=true;
+        Network network=null;
+        while(flag) {
+            System.out.println("with items or no? \n1.with\n2.without");
+            String answer = scanner.nextLine();
+            flag = false;
+            if (answer.equals("1"))
+                network = Server.init.init(true);
+            else if (answer.equals("2"))
+                network = Server.init.init(false);
+            else
+                flag=true;
+        }
         System.out.print("Enter ID: ");
         String ID = scanner.nextLine();
         Employee emp=null;
@@ -27,7 +38,7 @@ public class Login {
                 Menu(emp);
             else
                 System.out.println("password does not match");
-            System.out.println("Enter  ID: ");
+            System.out.print("Enter  ID: ");
             IDFound= false;
             ID = scanner.nextLine();
         }
@@ -48,7 +59,7 @@ public class Login {
         while (login) {
             System.out.println("\n\nactions menu:\n");
             Set<String> access = emp.getAccess();
-            System.out.println("Show your Details");
+            System.out.println("Show your details");
             //GeneralEmployee
             if (access.contains("updateShifts")) {
                 System.out.println("Update your shifts");
@@ -57,13 +68,13 @@ public class Login {
                 System.out.println("Show this week shifts");
             }
             if (access.contains("ShowShiftReq")) {
-                System.out.println("Show your shifts Requests");
+                System.out.println("Show your shifts requests");
             }
             //BranchManager
             if (access.contains("AddGeneralEmployee")) {
                 System.out.println("Add general employee");
             }
-            if (access.contains("UpdateBranchShifts")) {
+            if (access.contains("UpdateBranchShifts")) {//this
                 System.out.println("Update shifts of the week");
             }
             if (access.contains("UpdateGeneralEmployeeDetails")) {
@@ -72,21 +83,20 @@ public class Login {
             if (access.contains("ShowEmployeeDetails")) {
                 System.out.println("Show details on an employee");
             }
-            if (access.contains("UpdateRolesOfShifts")) {
+            if (access.contains("UpdateRolesOfShifts")) {//this
                 System.out.println("Update roles for next shifts");
             }
-            if (access.contains("ShowShiftsAvailability")) {
+            if (access.contains("ShowShiftsAvailability")) {//this
                 System.out.println("Show shifts availability per role");
             }
 
-        }
 
             System.out.println("Logoff");
 
             String action = scanner.nextLine();
             switch (action) {
 
-                case "Show your Details":
+                case "Show your details":
                     showYourDetails(emp);
                     break;
                 //General Employee
@@ -96,24 +106,30 @@ public class Login {
                 case "Show this week shifts":
                     getGeneralEmployeeShifts(emp);
                     break;
-                case "Show your shifts Requests":
+                case "Show your shifts requests":
                     getShiftsReq(emp);
                     break;
                 //Branch Manager
                 case "Add general employee":
-                    AddGeneralEmployee(emp);
+                    AddGeneralEmployee((Manager) emp);
                     break;
                 case "Update details of the employee":
                     UpdateGeneralEmployeeDetails(emp);
                     break;
+                case "Show details on an employee":
+                    ShowDetailsOnGeneralEmployee((BranchManager) emp);
+                    break;
                 case "Logoff":
-                    login=false;
+                    login = false;
                     break;
 
                 default:
                     System.out.println("not a valid action\n");
             }
         }
+    }
+
+
 
     private static void showYourDetails(Employee emp) {
         System.out.println("ID: " + emp.getID());
@@ -146,7 +162,7 @@ public class Login {
             }
             System.out.println("Shifts requests for next week:");
             getShiftsReq(emp);
-            System.out.println("Branch: " + ge.getBranch());
+            System.out.println("Branch: " + ge.getBranch().getBranchName());
         }
         else if(emp instanceof BranchManager){
             BranchManager bm = (BranchManager) emp;
@@ -174,15 +190,16 @@ public class Login {
             System.out.print("|" + i + "  ");
         }
         for (int j = 0; j < Network.shifts; j++) {
-            System.out.print("\n"+j+"  ");
+            System.out.print("\n"+(j+1)+"  ");
             for (int i = 0; i < Network.days; i++) {
-                System.out.print("|" + shifts[i][j]);
+                System.out.print("|" + shifts[j][i]);
             }
         }
-        System.out.print("----");
-        for (int i = 1; i <= Network.days; i++) {
+        System.out.print("\n----");
+        for (int i = 0; i <= Network.days; i++) {
             System.out.print("---");
         }
+        System.out.println();
     }
     private static void updateShifts(Employee emp) {
         String day = "";
@@ -231,7 +248,27 @@ public class Login {
         shiftPrinter(shifts);
     }
     //Branch Manager
-    private static void AddGeneralEmployee(Employee emp) {
+    private static void ShowDetailsOnGeneralEmployee(BranchManager emp) {
+        Scanner scanner = new Scanner(System.in);
+        Integer id = null;
+        while(true) {
+            do {
+                if (id != null)
+                    System.out.println("ID not valid");
+                id = -1;
+                System.out.println("ID of employee to show?");
+                String salaryScan = scanner.nextLine();
+                if (onlyNumbers(salaryScan))
+                    id = Integer.parseInt(salaryScan);
+            } while (!Network.CheckID(id));
+            GeneralEmployee ge=emp.getBranch().SearchGeneralEmployee(id);
+            if(ge!=null) {
+                showYourDetails(ge);
+                return ;
+            }
+        }
+    }
+    private static void AddGeneralEmployee(Manager emp) {
         System.out.println("Adding new General employee:");
         Scanner scanner = new Scanner(System.in);
         Integer id=null;

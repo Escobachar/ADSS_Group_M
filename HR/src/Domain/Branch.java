@@ -10,7 +10,7 @@ public class Branch {
     private List<Employee> employeesList;
     private Set<Integer>[][] employeesShifts;
     private HashMap<Role,Integer[][]> rolesOfShifts;
-    private List<HashMap<Integer,boolean[][]>> historyEmployeesShifts;
+    private List<Set<Integer>[][]> historyEmployeesShifts;
     private HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability;
 
     //creating new branch with a manager
@@ -21,23 +21,26 @@ public class Branch {
         branchManager=brm;
         employeesList=new ArrayList<Employee>();
         employeesShifts=new Set[Network.shifts][Network.days];
+        for(int i=0;i<Network.shifts;i++)
+            for(int j=0;j<Network.days;j++)
+                employeesShifts[i][j]=new HashSet<>();
         rolesOfShifts = new HashMap<Role,Integer[][]>();
-        historyEmployeesShifts = new LinkedList<HashMap<Integer,boolean[][]>>();
         shiftsAvailability = new HashMap<Role,Set<GeneralEmployee>[][]>();
+        for(Role r: network.getRoles()){
+            rolesOfShifts.put(r,new Integer[Network.days][Network.days]);
+            shiftsAvailability.put(r,new HashSet[Network.days][Network.days]);
+            Set<GeneralEmployee>[][] set=shiftsAvailability.get(r);
+            for(int i=0;i<Network.shifts;i++)
+                for(int j=0;j<Network.days;j++)
+                    set=new HashSet[Network.days][Network.days];
+        }
+        historyEmployeesShifts = new LinkedList<Set<Integer>[][]>();
     }
 
 
     //creating new branch without manager(inserting him manually after creating it)
     public Branch(String name,String location,Network network){
-        this.branchName=name;
-        this.location=location;
-        this.network=network;
-        branchManager=null;
-        employeesList=new ArrayList<Employee>();
-        employeesShifts=new Set[Network.shifts][Network.days];
-        rolesOfShifts = new HashMap<Role,Integer[][]>();
-        historyEmployeesShifts = new LinkedList<HashMap<Integer,boolean[][]>>();
-        shiftsAvailability = new HashMap<Role,Set<GeneralEmployee>[][]>();
+        this(name,location,network,null);
     }
 
     public void setBranchManager(BranchManager brm){
@@ -70,7 +73,7 @@ public class Branch {
         return null;
     }
 
-    public GeneralEmployee getGeneralEmployee(int id) {
+    public GeneralEmployee SearchGeneralEmployee(int id) {
         for (Employee e : employeesList)
             if ((e.getID() == id)&&(e instanceof GeneralEmployee)) return (GeneralEmployee)e;
         return null;

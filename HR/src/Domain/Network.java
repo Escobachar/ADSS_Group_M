@@ -11,6 +11,7 @@ public class Network {
 
     public Network(HRManager HRmanager) {
         this.HRmanager = HRmanager;
+        HRmanager.setNetwork(this);
         branchList=new LinkedList<Branch>();
         roles = new LinkedList<>();
         addRole(new Role("Shift Manager",new ArrayList<>()));
@@ -28,6 +29,7 @@ public class Network {
                 for (int j = 0; j < Network.days; j++)
                     shiftsAvailability.get(r)[i][j] = new HashSet<GeneralEmployee>();
         }
+        roles.add(r);
         return true;
     }
 

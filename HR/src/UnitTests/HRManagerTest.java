@@ -128,7 +128,7 @@ public class HRManagerTest {
     @Test
     public void updateShiftsOfBranch() {
         this.hrm.addGeneralEmployee(123456789, "Shai Hubashi", "12345678", 500, new Date(2024, Calendar.JANUARY, 31), "Half", 0, this.roles, false, this.branch,"1234");
-        GeneralEmployee shai = this.branch.getGeneralEmployee(123456789);
+        GeneralEmployee shai = this.branch.SearchGeneralEmployee(123456789);
         shai.updateShifts(ShiftsRequest1);
 
         this.hrm.updateShiftsOfBranch(branch);
