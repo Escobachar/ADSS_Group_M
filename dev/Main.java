@@ -6,18 +6,19 @@ import suppliers.PresentationLayer.OrdersService;
 import suppliers.PresentationLayer.SuppliersService;
 
 public class Main {
-    static Scanner sc= new Scanner(System.in);
+    static Scanner sc = new Scanner(System.in);
     private static final SuppliersService ss = SuppliersService.getInstance();
     private static final OrdersService os = OrdersService.getInstance();
 
-    private static Integer inputToint(){
+    private static Integer inputToint() {
         String line = sc.next();
-        try{
+        try {
             return Integer.parseInt(line);
+        } catch (Exception e) {
+            return null;
         }
-        catch (Exception e){
-        return null;}
     }
+
     public static void menuLoop() {
         boolean flag = true;
         while (flag) {
@@ -26,9 +27,9 @@ public class Main {
             System.out.println("3. Initialize data");
             System.out.println("4. Exit");
             Integer choice = inputToint();
-            if(choice == null)
+            if (choice == null)
                 System.out.println("Invalid choice");
-            else{
+            else {
                 switch (choice) {
                     case 1 -> suppliers();
                     case 2 -> orders();
@@ -54,9 +55,9 @@ public class Main {
             System.out.println("5. Display This Week's Orders");
             System.out.println("6. Back");
             Integer choice = inputToint();
-            if(choice == null)
+            if (choice == null)
                 System.out.println("Invalid choice");
-            else{
+            else {
                 switch (choice) {
                     case 1 -> addOrder();
                     case 2 -> editOrder();
@@ -74,17 +75,19 @@ public class Main {
         boolean flag = true;
         System.out.println("Enter Order ID");
         Integer OrderId = inputToint();
-        if(OrderId == null){
-            System.out.println("Invalid choice");return;}
+        if (OrderId == null) {
+            System.out.println("Invalid choice");
+            return;
+        }
         while (flag) {
             System.out.println("1. Edit fixed order days");
             System.out.println("2. Edit products in order");
             System.out.println("3. Edit order delivery date");
             System.out.println("4. Back");
             Integer choice = inputToint();
-            if(choice == null)
+            if (choice == null)
                 System.out.println("Invalid choice");
-            else{
+            else {
                 switch (choice) {
                     case 1 -> editFixedOrderDays(OrderId);
                     case 2 -> editOrderProducts(OrderId);
@@ -93,15 +96,15 @@ public class Main {
                     default -> System.out.println("Invalid choice");
                 }
 
-        }
+            }
         }
 
     }
 
     private static void editOrderDelivery(int orderId) {
         System.out.println("Enter delivery date");
-            String deliveryDate = sc.next();
-            System.out.println(os.editDeliveryDate(orderId, deliveryDate));
+        String deliveryDate = sc.next();
+        System.out.println(os.editDeliveryDate(orderId, deliveryDate));
     }
 
     private static void editOrderProducts(int orderId) {
@@ -109,14 +112,16 @@ public class Main {
         while (true) {
             System.out.println("Enter product catalog number to edit: (in order to stop enter -1)");
             Integer catalogNumber = inputToint();
-            if(catalogNumber == null){
-                System.out.println("Invalid choice");return;}
-                if (catalogNumber == -1)
-                    break;
-                System.out.println("Enter product amount: (in order to remove product enter 0)");
-                 String sChoice = sc.next();
-                int amount = Integer.parseInt(sChoice);
-                System.out.println(os.editProductInOrder(orderId, catalogNumber, amount));
+            if (catalogNumber == null) {
+                System.out.println("Invalid choice");
+                return;
+            }
+            if (catalogNumber == -1)
+                break;
+            System.out.println("Enter product amount: (in order to remove product enter 0)");
+            String sChoice = sc.next();
+            int amount = Integer.parseInt(sChoice);
+            System.out.println(os.editProductInOrder(orderId, catalogNumber, amount));
 
         }
     }
@@ -126,11 +131,10 @@ public class Main {
         System.out.println("Do you want to add or remove fixed day? - 1 (Add), 2 (Remove)");
         try {
             Integer choice = inputToint();
-            boolean toRemove = choice != null && choice ==2;
+            boolean toRemove = choice != null && choice == 2;
             System.out.println("Enter fixed day (1 - Sunday to 7 - Saturday)");
             Integer day = inputToint();
-            if(day == null)
-            {
+            if (day == null) {
                 System.out.println("Invalid day");
                 return;
             }
@@ -142,8 +146,7 @@ public class Main {
             } else {
                 System.out.println("Invalid day");
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -156,7 +159,7 @@ public class Main {
     private static void displayOrder() {
         System.out.println("Enter Order ID");
         Integer OrderId = inputToint();
-        if(OrderId == null)
+        if (OrderId == null)
             System.out.println("Invalid choice");
         else {
             System.out.println(os.displayOrder(OrderId));
@@ -167,17 +170,18 @@ public class Main {
         boolean toRemove;
         System.out.println("Enter Order ID");
         Integer OrderId = inputToint();
-        if(OrderId == null)
+        if (OrderId == null)
             System.out.println("Invalid choice");
-        else{
-        System.out.println("Are you sure you want to remove this order? - 1 (Yes), 2 (No)");
-        Integer choice = inputToint();
-        toRemove = choice != null && choice == 1;
-        if (toRemove) {
-            System.out.println(os.removeOrder(OrderId));
-        } else {
-            System.out.println("Operation Canceled");
-        }}
+        else {
+            System.out.println("Are you sure you want to remove this order? - 1 (Yes), 2 (No)");
+            Integer choice = inputToint();
+            toRemove = choice != null && choice == 1;
+            if (toRemove) {
+                System.out.println(os.removeOrder(OrderId));
+            } else {
+                System.out.println("Operation Canceled");
+            }
+        }
     }
 
     private static void addOrder() {
@@ -186,27 +190,24 @@ public class Main {
         System.out.println("Enter supplier id");
         Integer supplierId = inputToint();
         System.out.println("Enter delivery date");
-        String deliveryDate  = sc.next();
+        String deliveryDate = sc.next();
         System.out.println("Is this a recurring order?- 1 (Yes), 2 (No)");
         Integer isConstOrder = inputToint();
-        if(isConstOrder == null)
-        {
+        if (isConstOrder == null) {
             System.out.println("Invalid number");
             return;
         }
         if (isConstOrder == 1) {
             System.out.println("Enter number of days in a week");
             Integer numConstDays = inputToint();
-            if(numConstDays == null)
-            {
+            if (numConstDays == null) {
                 System.out.println("Invalid number of days");
                 return;
             }
             for (int i = 0; i < numConstDays; i++) {
                 System.out.println("Enter delivery day (1 - Sunday to 7 - Saturday)");
                 Integer day = inputToint();
-                if(day == null)
-                {
+                if (day == null) {
                     System.out.println("Invalid day");
                     return;
                 }
@@ -220,23 +221,20 @@ public class Main {
         }
         System.out.println("Enter number of products in Order: ");
         Integer numberPro = inputToint();
-        if(numberPro == null)
-        {
+        if (numberPro == null) {
             System.out.println("Invalid day");
             return;
         }
         for (int j = 0; j < numberPro; j++) {
             System.out.println("Enter product catalog number");
             Integer catalogNumber = inputToint();
-            if(catalogNumber == null)
-            {
+            if (catalogNumber == null) {
                 System.out.println("Invalid catalog number");
                 return;
             }
             System.out.println("Enter product amount");
             Integer amount = inputToint();
-            if(amount == null)
-            {
+            if (amount == null) {
                 System.out.println("Invalid amount");
                 return;
             }
@@ -254,8 +252,7 @@ public class Main {
             System.out.println("4. Display Supplier");
             System.out.println("5. Back");
             Integer choice = inputToint();
-            if(choice == null)
-            {
+            if (choice == null) {
                 System.out.println("Invalid number");
                 return;
             }
@@ -278,8 +275,7 @@ public class Main {
         String name = sc.next();
         System.out.println("Enter supplier ID:");
         Integer id = inputToint();
-        if(id == null)
-        {
+        if (id == null) {
             System.out.println("Invalid number");
             return;
         }
@@ -291,8 +287,7 @@ public class Main {
         String address = sc.next();
         System.out.println("Enter number of supplier contacts:");
         Integer lim = inputToint();
-        if(lim == null)
-        {
+        if (lim == null) {
             System.out.println("Invalid number");
             return;
         }
@@ -305,20 +300,18 @@ public class Main {
         }
         System.out.println("Is the supplier delivering? - 1 (Yes), 2 (No)");
         Integer choice = inputToint();
-        boolean isDelivering = choice != null && choice ==1;
+        boolean isDelivering = choice != null && choice == 1;
         if (isDelivering) {
             System.out.println("Enter number of supplier delivery days");
             Integer limD = inputToint();
-            if(limD == null)
-            {
+            if (limD == null) {
                 System.out.println("Invalid number");
                 return;
             }
             for (int i = 0; i < limD; i++) {
                 System.out.println("Enter delivery day (1 - Sunday to 7 - Saturday)");
                 Integer day = inputToint();
-                if(day == null)
-                {
+                if (day == null) {
                     System.out.println("Invalid number");
                     return;
                 }
@@ -333,8 +326,7 @@ public class Main {
         }
         System.out.println("Enter number of supplier categories");
         lim = inputToint();
-        if(lim == null)
-        {
+        if (lim == null) {
             System.out.println("Invalid number");
             return;
         }
@@ -343,8 +335,7 @@ public class Main {
             String categoryName = sc.next();
             System.out.println("Enter category ID");
             Integer categoryID = inputToint();
-            if(categoryID == null)
-            {
+            if (categoryID == null) {
                 System.out.println("Invalid number");
                 return;
             }
@@ -352,8 +343,7 @@ public class Main {
             HashMap<Integer, Product> products = new HashMap<>();
             System.out.println("Enter number of products in category: " + categoryName);
             Integer limP = inputToint();
-            if(limP == null)
-            {
+            if (limP == null) {
                 System.out.println("Invalid number");
                 return;
             }
@@ -377,8 +367,7 @@ public class Main {
             System.out.println("3. Display purchased supplier products");
             System.out.println("4. Back");
             Integer choice = inputToint();
-            if(choice == null)
-            {
+            if (choice == null) {
                 System.out.println("Invalid number");
                 return;
             }
@@ -395,8 +384,7 @@ public class Main {
     public static void displaySupplierProducts() {
         System.out.println("Enter supplier ID");
         Integer id = inputToint();
-        if(id == null)
-        {
+        if (id == null) {
             System.out.println("Invalid number");
             return;
         }
@@ -406,50 +394,47 @@ public class Main {
     public static void displayBoughtSupplierProducts() {
         System.out.println("Enter supplier ID");
         Integer id = inputToint();
-        if(id == null)
-        {
+        if (id == null) {
             System.out.println("Invalid number");
             return;
-        }        System.out.println(ss.displayPurchasedProducts(id));
+        }
+        System.out.println(ss.displayPurchasedProducts(id));
     }
 
     public static void displaySupplierCard() {
         System.out.println("Enter supplier ID");
         Integer id = inputToint();
-        if(id == null)
-        {
+        if (id == null) {
             System.out.println("Invalid number");
             return;
-        }        System.out.println(ss.displaySupplierCard(id));
+        }
+        System.out.println(ss.displaySupplierCard(id));
     }
 
     private static Product createProduct(Category category) {
         System.out.println("Enter product catalog number");
         Integer catalogNumber = inputToint();
-        if(catalogNumber == null)
-        {
+        if (catalogNumber == null) {
             System.out.println("Invalid number");
             return null;
         }
         System.out.println("Enter product name");
         String productName = sc.next();
         System.out.println("Enter product price");
-        try{
-        double productPrice = Double.parseDouble(sc.next());
-        System.out.println("Enter product discount percentage");
-        double discountPercentage = Double.parseDouble(sc.next());
-        System.out.println("Enter product discount amount");
-        Integer discountAmount = inputToint();
-        if(discountAmount == null)
-        {
-            System.out.println("Invalid number");
-            return null;
-        }
-        DiscountQuantity dq = new DiscountQuantity(catalogNumber, discountAmount, productPrice,
-                discountPercentage);
-        return new Product(productName, catalogNumber, productPrice, category, dq);
-        }
-        catch (Exception e){
+        try {
+            double productPrice = Double.parseDouble(sc.next());
+            System.out.println("Enter product discount percentage");
+            double discountPercentage = Double.parseDouble(sc.next());
+            System.out.println("Enter product discount amount");
+            Integer discountAmount = inputToint();
+            if (discountAmount == null) {
+                System.out.println("Invalid number");
+                return null;
+            }
+            DiscountQuantity dq = new DiscountQuantity(catalogNumber, discountAmount,
+                    discountPercentage);
+            return new Product(productName, catalogNumber, productPrice, category, dq);
+        } catch (Exception e) {
             System.out.println("Invalid number");
             return null;
         }
@@ -458,8 +443,7 @@ public class Main {
     public static void editSupplier() {
         System.out.println("Enter supplier ID");
         Integer id = inputToint();
-        if(id == null)
-        {
+        if (id == null) {
             System.out.println("Invalid number");
             return;
         }
@@ -469,8 +453,7 @@ public class Main {
             System.out.println("2. Edit supplier products");
             System.out.println("3. Back");
             Integer choice = inputToint();
-            if(choice == null)
-            {
+            if (choice == null) {
                 System.out.println("Invalid number");
                 return;
             }
@@ -492,8 +475,7 @@ public class Main {
             System.out.println("4. Edit supplier contacts");
             System.out.println("5. Back");
             Integer choice = inputToint();
-            if(choice == null)
-            {
+            if (choice == null) {
                 System.out.println("Invalid number");
                 return;
             }
@@ -534,8 +516,7 @@ public class Main {
             System.out.println("2. Remove contact");
             System.out.println("3. Back");
             Integer choice = inputToint();
-            if(choice == null)
-            {
+            if (choice == null) {
                 System.out.println("Invalid number");
                 return;
             }
@@ -556,8 +537,7 @@ public class Main {
             System.out.println("3. Remove Product");
             System.out.println("4. Back");
             Integer choice = inputToint();
-            if(choice == null)
-            {
+            if (choice == null) {
                 System.out.println("Invalid number");
                 return;
             }
@@ -574,11 +554,11 @@ public class Main {
     public static void removeProduct(int id) {
         System.out.println("Enter Catalog Number");
         Integer catalogNumber = inputToint();
-        if(catalogNumber == null)
-        {
+        if (catalogNumber == null) {
             System.out.println("Invalid number");
             return;
-        }        System.out.println("Are you sure you want to remove product " + catalogNumber + "? - 1 (Yes), 2 (No)");
+        }
+        System.out.println("Are you sure you want to remove product " + catalogNumber + "? - 1 (Yes), 2 (No)");
         Integer choice = inputToint();
         boolean toRemove = choice != null && choice == 1;
         if (toRemove)
@@ -592,8 +572,7 @@ public class Main {
         String categoryName = sc.next();
         System.out.println("Enter category ID");
         Integer categoryID = inputToint();
-        if(categoryID == null)
-        {
+        if (categoryID == null) {
             System.out.println("Invalid number");
             return;
         }
@@ -612,8 +591,7 @@ public class Main {
             System.out.println("5. Change Product Price");
             System.out.println("6. Back");
             Integer choice = inputToint();
-            if(choice == null)
-            {
+            if (choice == null) {
                 System.out.println("Invalid number");
                 return;
             }
@@ -632,15 +610,13 @@ public class Main {
     public static void setCatalogNumber(int id) {
         System.out.println("Enter OLD Catalog Number");
         Integer oldCatalogNumber = inputToint();
-        if(oldCatalogNumber == null)
-        {
+        if (oldCatalogNumber == null) {
             System.out.println("Invalid number");
             return;
         }
         System.out.println("Enter NEW Catalog Number");
         Integer newCatalogNumber = inputToint();
-        if(newCatalogNumber == null)
-        {
+        if (newCatalogNumber == null) {
             System.out.println("Invalid number");
             return;
         }
@@ -650,14 +626,13 @@ public class Main {
     public static void setDiscountAmount(int id) {
         System.out.println("Enter Catalog Number");
         Integer catalogNumber = inputToint();
-        if(catalogNumber == null)
-        {
+        if (catalogNumber == null) {
             System.out.println("Invalid number");
             return;
-        }        System.out.println("Enter new discount amount");
+        }
+        System.out.println("Enter new discount amount");
         Integer discountAmount = inputToint();
-        if(discountAmount == null)
-        {
+        if (discountAmount == null) {
             System.out.println("Invalid number");
             return;
         }
@@ -667,11 +642,11 @@ public class Main {
     public static void setDiscountPercentage(int id) {
         System.out.println("Enter Catalog Number");
         Integer catalogNumber = inputToint();
-        if(catalogNumber == null)
-        {
+        if (catalogNumber == null) {
             System.out.println("Invalid number");
             return;
-        }        System.out.println("Enter new discount percentage");
+        }
+        System.out.println("Enter new discount percentage");
         double discountPercentage = Double.parseDouble(sc.next());
         System.out.println(ss.setDiscountPrecentage(discountPercentage, id, catalogNumber));
     }
@@ -679,11 +654,11 @@ public class Main {
     public static void setProductName(int id) {
         System.out.println("Enter Catalog Number");
         Integer catalogNumber = inputToint();
-        if(catalogNumber == null)
-        {
+        if (catalogNumber == null) {
             System.out.println("Invalid number");
             return;
-        }        System.out.println("Enter new product name");
+        }
+        System.out.println("Enter new product name");
         String name = sc.next();
         System.out.println(ss.setProductName(name, id, catalogNumber));
     }
@@ -691,8 +666,7 @@ public class Main {
     public static void setProductPrice(int id) {
         System.out.println("Enter Catalog Number");
         Integer catalogNumber = inputToint();
-        if(catalogNumber == null)
-        {
+        if (catalogNumber == null) {
             System.out.println("Invalid number");
             return;
         }
@@ -718,8 +692,7 @@ public class Main {
     public static void removeSupplier() {
         System.out.println("Enter supplier ID");
         Integer id = inputToint();
-        if(id == null)
-        {
+        if (id == null) {
             System.out.println("Invalid number");
             return;
         }
@@ -733,7 +706,7 @@ public class Main {
         }
     }
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
         menuLoop();
     }
 }

@@ -5,7 +5,7 @@ public class DiscountQuantity {
     private int amount;
     private double discountPrecentage;
 
-    public DiscountQuantity(int catalogNumber, int amount, double singlePrice, double discountPrecentage) {
+    public DiscountQuantity(int catalogNumber, int amount, double discountPrecentage) {
         this.catalogNumber = catalogNumber;
         this.amount = amount;
         this.discountPrecentage = discountPrecentage;
@@ -26,9 +26,11 @@ public class DiscountQuantity {
     public void setAmount(int amount) {
         this.amount = amount;
     }
+
     public void setDiscount(double discount) {
         this.discountPrecentage = discount;
     }
+
     public void incrementAmount(int increment) {
         amount += increment;
     }

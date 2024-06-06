@@ -15,7 +15,6 @@ public class OrdersFacade {
         orders = new HashMap<Integer, Order>();
     }
 
-
     public static OrdersFacade getInstance() {
         if (instance == null) {
             instance = new OrdersFacade();
@@ -23,14 +22,13 @@ public class OrdersFacade {
         return instance;
     }
 
-
     public int addOrder(Supplier supplier, Date creationDate, Date deliveryDate,
             HashMap<Product, Integer> items,
             List<Day> deliveryDays) {
         if (deliveryDate.before(creationDate)) {
             throw new IllegalArgumentException("Delivery date must be after creation date");
         }
-        if(items == null){
+        if (items == null) {
             throw new IllegalArgumentException("Items list is empty");
         }
         if (deliveryDays == null) {
@@ -42,45 +40,53 @@ public class OrdersFacade {
         orderIdCounter++;
         return orderIdCounter--;
     }
+
     public void addOrder(Order order) {
-        if(orders.get(order.getOrderId())!=null){
+        if (orders.get(order.getOrderId()) != null) {
             throw new IllegalArgumentException("Order already exists");
         }
         orders.put(order.getOrderId(), order);
     }
+
     public void addOrderConstDeliveryDay(int orderId, Day day) {
-        
+
         getOrder(orderId).addConstDeliveryDay(day);
     }
+
     public void addOrderConstDeliveryDays(int orderId, List<Day> days) {
-        if(days == null || days.isEmpty()){
+        if (days == null || days.isEmpty()) {
             throw new IllegalArgumentException("Days list is empty");
-        }   
+        }
         for (Day day : days) {
             addOrderConstDeliveryDay(orderId, day);
         }
     }
-    public String getToStringConstDeliveringDays(int orderId){
+
+    public String getToStringConstDeliveringDays(int orderId) {
         return getOrder(orderId).getStringConstDeliveryDays();
     }
+
     public void removeOrderConstDeliveryDay(int orderId, Day day) {
         getOrder(orderId).removeConstDeliveryDay(day);
     }
+
     public void removeOrderConstDeliveryDays(int orderId, List<Day> days) {
-        if(days == null || days.isEmpty()){
+        if (days == null || days.isEmpty()) {
             throw new IllegalArgumentException("Days list is empty");
-        }   
+        }
         for (Day day : days) {
             removeOrderConstDeliveryDay(orderId, day);
         }
     }
+
     public void removeOrder(int orderId) {
         orders.remove(orderId);
     }
 
-    public String orderIdToString (int orderId){
+    public String orderIdToString(int orderId) {
         return getOrder(orderId).orderToString();
     }
+
     public Order getOrder(int orderId) {
         Order order = orders.get(orderId);
         if (order == null) {
@@ -92,8 +98,9 @@ public class OrdersFacade {
     // if quantity is 0, remove the item from the order
     public void ChangeOrderItemQuantity(int orderId, int catalogNumber, int quantity) {
         Order order = getOrder(orderId);
-        int  supplierId = order.getSupplierId();
-        Product product = sf.getProductInSupplier(supplierId, catalogNumber);
+        int supplierId = order.getSupplierId();
+
+        Product product = SuppliersFacade.getInstance().getProductInSupplier(supplierId, catalogNumber);
         if (!order.containsItem(product)) {
             throw new IllegalArgumentException("Product not found in order " + orderId);
         }
@@ -141,10 +148,11 @@ public class OrdersFacade {
         }
         return thisWeekPickupOrders;
     }
-    public String OrdersToString(HashMap<Integer,Order> Orders){
+
+    public String OrdersToString(HashMap<Integer, Order> Orders) {
         String toString = "";
         for (Order order : orders.values()) {
-            toString+=order.orderToString()+"/n/n";
+            toString += order.orderToString() + "/n/n";
         }
         return toString;
     }
