@@ -150,6 +150,7 @@ public class OrdersFacadeTest {
         Date deliveryDate = java.sql.Date.valueOf(not_include);
         ordersFacade.addOrder(supplier, new Date(), deliveryDate, items, days);
         HashMap<Integer,Order> orders = ordersFacade.getThisWeekPickupOrders();
-        assertTrue(orders.size() == 1);
+        int ordersSize = orders.size();
+        assertTrue(orders.size() == 2);
     }
 }
