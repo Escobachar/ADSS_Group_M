@@ -4,6 +4,15 @@ import java.util.*;
 public class HRManager extends Manager{
     public HRManager(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment, Date endOfEmployment, String partOfJob, int vacationsDays,String password) {
         super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays,password);
+        this.getAccess().add("HRAddGeneralEmployee");
+        this.getAccess().add("HRAddBranchManager");
+        this.getAccess().add("HRUpdateGeneralEmployeeDetails");
+        this.getAccess().add("HRUpdateBranchManagerDetails");
+        this.getAccess().add("HRShowGeneralEmployeeDetails");
+        this.getAccess().add("HRShowBranchManagerDetails");
+        this.getAccess().add("HRUpdateBranchShifts");
+        this.getAccess().add("HRUpdateRolesOfShifts");
+        this.getAccess().add("HRShowShiftsAvailability");
     }
     public HRManager(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment, String partOfJob, int vacationsDays,String password) {
         this(ID, name, bankAccountDetails, salary, startOfEmployment,null, partOfJob, vacationsDays,password);

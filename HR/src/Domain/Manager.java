@@ -66,4 +66,5 @@ abstract public class Manager extends Employee{
     public void updateEmployeeRole(GeneralEmployee employee, List<Role> roles){
         employee.setRoles(roles);
     }
+    public void setNetwork(Network network){this.network=network;}
 }
