@@ -33,7 +33,7 @@ public class SuppliersFacadeTest {
         supplier = new Supplier("Shimon", supplierId, "123", "check", false, "here");
         suppliersFacade.addSupplier(supplier);
         categoryDairy = new Category("Dairy", 0);
-        discountQuantity = new DiscountQuantity(1, 10, 5.9, 5);
+        discountQuantity = new DiscountQuantity(1, 10, 5.9);
         productMilk = new Product("milk", 1, 5.9, categoryDairy, discountQuantity);
         // Add the product to the supplier
         suppliersFacade.addProductToSupplier(supplier.getId(), productMilk);

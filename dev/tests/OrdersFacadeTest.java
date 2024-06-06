@@ -31,7 +31,7 @@ public class OrdersFacadeTest {
         ordersFacade = OrdersFacade.getInstance();
         supplier = new Supplier("Shimon", 1, "123", "check", false, "here");
         categoryDairy = new Category("Dairy", 0);
-        discountQuantity = new DiscountQuantity(1, 10, 5.9, 5);
+        discountQuantity = new DiscountQuantity(1, 10, 5.9);
         productMilk = new Product("milk", 1, 5.9, categoryDairy, discountQuantity);
         HashMap<Product,Integer> items = new HashMap<Product,Integer>();
         items.put(productMilk, 5);
