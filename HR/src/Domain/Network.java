@@ -32,8 +32,7 @@ public class Network {
         roles.add(r);
         return true;
     }
-
-    public List<Role> getRoles(){return this.roles; }
+    public List<Role> getRoles(){return this.roles;}
     public void addBranch(Branch branch){
         branchList.add(branch);
     }
@@ -46,7 +45,6 @@ public class Network {
         }
         return emp;
     }
-
     public Branch getBranch(String name){
         for(Branch b:branchList) {
             if(b.getBranchName().equals(name))
@@ -54,7 +52,6 @@ public class Network {
         }
         return null;
     }
-
     public static boolean checkGeneralEmployee(int ID,String name, String bankAccountDetails, int salary,
                                                Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,
                                                boolean isManager,String branch, Network network){
@@ -128,7 +125,6 @@ public class Network {
                 return false;
         return true;
     }
-
     public static boolean checkSalary(String salary){
         //salary - >0 & all numbers
         if (onlyNumbers(salary)){
@@ -136,7 +132,6 @@ public class Network {
         }
         return false;
     }
-
     public static boolean checkVacationsDays(String vacationDays){
         //vacationsDays - >0 & all numbers
         if(onlyNumbers(vacationDays)){
@@ -144,5 +139,4 @@ public class Network {
         }
         return false;
     }
-    
 }

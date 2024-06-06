@@ -48,28 +48,21 @@ public class Branch {
     public Branch(String name,String location,Network network){
         this(name,location,network,null);
     }
-
     public void setBranchManager(BranchManager brm){
         this.branchManager=brm;
     }
     public String getBranchName(){return branchName;}
-
     public Set<Role> getRoles(){
         return rolesOfShifts.keySet();
     }
-
     public void setShiftsAvailability(HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability){this.shiftsAvailability=shiftsAvailability;}
     public HashMap<Role,Integer[][]> getRolesOfShifts(){return this.rolesOfShifts;}
-
     public HashMap<Role,Set<GeneralEmployee>[][]> getShiftsAvailability(){return this.shiftsAvailability;}
-
-    public void setEmployeesShifts(Set<Integer>[][] employeesShifts){
+    public void setEmployeesShifts(Set<String>[][] employeesShifts){
         this.employeesShifts=employeesShifts;
     }
-
     public void setEmployeesList(List<Employee> EmployeesList){this.employeesList=EmployeesList;}
     public List<Employee> getEmployeesList(){return employeesList;}
-
     public void setRolesOfShifts(HashMap<Role, Integer[][]> rolesOfShifts) {
         this.rolesOfShifts = rolesOfShifts;
     }
@@ -78,25 +71,21 @@ public class Branch {
             if (e.getID() == id) return e;
         return null;
     }
-
     public GeneralEmployee SearchGeneralEmployee(int id) {
         for (Employee e : employeesList)
             if ((e.getID() == id)&&(e instanceof GeneralEmployee)) return (GeneralEmployee)e;
         return null;
     }
-
     public boolean isExist(int id) {
         for (Employee e : employeesList)
             if (e.getID() == id) return true;
         return false;
     }
-
     public boolean isExist(String name) {
         for (Employee e : employeesList)
             if (e.getName().equals(name)) return true;
         return false;
     }
-
     public String getEmployeeName(int id) {
         for (Employee e : employeesList)
             if (e.getID() == id) return e.getName();
@@ -112,5 +101,6 @@ public class Branch {
             if (e.getID() == id) return e.getSalary();
         return null;
     }
-    public Set<Integer>[][] getEmployeesShifts(){return employeesShifts;}
+    public Set<String>[][] getEmployeesShifts(){return employeesShifts;}
+    public HashMap<Role,Integer[][]> rolesOfShifts(){return rolesOfShifts;}
 }

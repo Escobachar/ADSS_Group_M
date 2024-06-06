@@ -55,6 +55,15 @@ public class Login {
         return true;
     }
 
+    private static boolean onlyNumbersBetween(String toCheck, Integer min, Integer max) {
+        for (int i = 0; i < toCheck.length(); i++)
+            if (!(toCheck.charAt(i) > 47 && toCheck.charAt(i) < 58))
+                return false;
+        if ((Integer.parseInt(toCheck)>max)|(Integer.parseInt(toCheck)<min))
+            return false;
+        return true;
+    }
+
     private static void Menu(Employee emp) {
         boolean login = true;
         System.out.println("Hello " + emp.getName());
@@ -211,7 +220,24 @@ public class Login {
         }
         System.out.println();
     }
-    private static void updateShifts(Employee emp) {
+    private static void shiftPrinter(Integer[][] shifts){
+        System.out.print("----");
+        for (int i = 1; i <= Network.days; i++) {
+            System.out.print("|" + i + "  ");
+        }
+        for (int j = 0; j < Network.shifts; j++) {
+            System.out.print("\n"+(j+1)+"  ");
+            for (int i = 0; i < Network.days; i++) {
+                System.out.print("|" + shifts[j][i]);
+            }
+        }
+        System.out.print("\n----");
+        for (int i = 0; i <= Network.days; i++) {
+            System.out.print("---");
+        }
+        System.out.println();
+    }
+    private static void updateShifts(GeneralEmployee emp) {
         String day = "";
         while (true) {
             System.out.println("Which day to change?\n1.Sunday\n2.Monday\n3.Tuesday\n4.Wednesday\n5.Thursday\n6.Friday\n7.Saturday\n8.Back to main menu");
@@ -544,6 +570,226 @@ public class Login {
 
 
     }
+    private static void UpdateRolesOfShifts(BranchManager emp) {
+        HashMap<Role, Integer[][]> rolesOfShifts = emp.getBranch().getRolesOfShifts();
+        printRoleOfShifts(rolesOfShifts);
+        int i = emp.getNetwork().getRoles().size();
+        List<Role> ls = emp.getNetwork().getRoles();
+        Scanner scanner = new Scanner(System.in);
+        String numRoleToChange = "";
+        System.out.println("What role would you like to change? Enter the matching number. If finish enter 0.");
+        numRoleToChange = scanner.nextLine();
+        while (!numRoleToChange.equals("0")){
+            while(!onlyNumbersBetween(numRoleToChange, 1, i)) {
+                System.out.println("Invalid number, try again: ");
+                numRoleToChange = scanner.nextLine();
+            }
+                ////if (onlyNumbersBetween(numRoleToChange, 1, i)) {
+            String day = "";
+            String numOfEmployees = "";
+            System.out.println("Which day to change?\n1.Sunday\n2.Monday\n3.Tuesday\n4.Wednesday\n5.Thursday\n6.Friday\n7.Saturday\n8.Back to select role");
+            day = scanner.nextLine();
+            if (!(onlyNumbers(day)))
+                System.out.println("Please send a number between 1-8.");
+            else {
+                int theDay = Integer.parseInt(day);
+                if (theDay < 1 || theDay > 8)
+                    System.out.println("Please send a number between 1-8.");
+                else if (theDay == 8)
+                    break;////////////////////////
+                else {
+                    System.out.println("Which shift?\n1.Morning\n2.Evening\n3.Back to day selection");
+                    String shift = scanner.nextLine();
+                    if (!(onlyNumbers(day)))
+                        System.out.println("Not a valid option, select only numbers.");
+                    else {
+                        int theShift = Integer.parseInt(shift);
+                        if (theShift < 1 || theShift > 3)
+                            System.out.println("Please send a number between 1-3.");
+                        else {
+                            System.out.println("Please enter a number for the desired number of employees in the shift.");
+                            numOfEmployees = scanner.nextLine();
+                            Role roleToChange = emp.getNetwork().getRoles().get(Integer.parseInt(numRoleToChange) - 1);
+                            rolesOfShifts.get(roleToChange)[theShift - 1][theDay - 1] = Integer.parseInt(numOfEmployees);
+                            System.out.println("New roles of shifts: ");
+                            printRoleOfShifts(rolesOfShifts);
+                        }
+                    }
+                   // }
+
+                }
+            }
+            System.out.println("What role would you like to change? Enter the matching number. If finish enter 0.");
+            numRoleToChange = scanner.nextLine();
+        }
+
+    }
+    private static void printRoleOfShifts(HashMap<Role, Integer[][]> rolesOfShifts){
+        int i = 1;
+        for (Role r : rolesOfShifts.keySet()) {
+            System.out.println(i + ". " + r.getRoleName() + ":");
+            shiftPrinter(rolesOfShifts.get(r));
+            i++;
+        }
+
+    }
+    private static void ShowShiftAvailability(BranchManager emp){
+        for(Role r : emp.getNetwork().getRoles()){
+            Set<GeneralEmployee>[][] shiftAvi = emp.getBranch().getShiftsAvailability().get(r);
+            System.out.println(r.getRoleName()+":");
+            ShiftAviPrinter(shiftAvi);
+        }
+    }
+    private static int maxNameLength(Set<GeneralEmployee> gel) {
+        int maxNameLength=0;
+        for(GeneralEmployee ge : gel)
+            maxNameLength=Math.max(maxNameLength,ge.getName().length());
+        return maxNameLength;
+    }
+    private static void ShiftAviPrinter(Set<GeneralEmployee>[][] gel){
+        int maxSet=0,maxNameLength=0;
+        for(int i=0;i<Network.shifts;i++)
+            for(int j=0;j<Network.days;j++) {
+                maxSet = Math.max(gel[i][j].size(), maxSet);
+                maxNameLength=Math.max(maxNameLength,maxNameLength(gel[i][j]));
+            }
+        System.out.print("----");
+        for (int i = 1; i <= Network.days; i++) {
+            System.out.print("|" + i);
+            for(int space=0;space<maxNameLength;space++)
+                System.out.print(" ");
+
+        }
+        Iterator<GeneralEmployee>[][] empList = new Iterator[Network.shifts][Network.days];
+        for (int i = 0; i < Network.shifts; i++)
+            for (int j = 0; j < Network.days; j++) {
+                empList[i][j]= gel[i][j].iterator();
+            }
+
+        for (int i = 0; i < Network.shifts; i++) {
+            System.out.print("\n"+(i+1)+"  ");
+            for(int m=0;m<maxSet;m++) {
+                for (int j = 0; j < Network.days; j++) {
+                    String thisName="";
+                    if(empList[i][j].hasNext()) {
+                        thisName = empList[i][j].next().getName();
+                        System.out.print(thisName);
+                    }
+                    for(int space=0;space<maxNameLength-thisName.length();space++)
+                        System.out.print(" ");
+                    System.out.print("  ");
+                    }
+                System.out.println("  ");
+                }
+            }
+        System.out.print("\n----");
+        for (int i = 0; i <= Network.days; i++) {
+            System.out.print("---");
+            for(int space=0;space<maxNameLength;space++)
+                System.out.print("-");
+        }
+        System.out.println();
+    }
+    private static void UpdateShiftsOfWeek(BranchManager emp) {
+        emp.getBranch().setEmployeesShifts(new Set[Network.shifts][Network.days]);
+        Set<String>[][] ShiftsOfWeek=emp.getBranch().getEmployeesShifts();
+        for(int i=0;i<Network.shifts;i++)
+            for(int j=0;j<Network.days;j++)
+                ShiftsOfWeek[i][j]=new HashSet<>();
+        for (Role r : emp.getNetwork().getRoles()) {
+            Set<GeneralEmployee>[][] shiftAvi = emp.getBranch().getShiftsAvailability().get(r);
+            System.out.println(r.getRoleName() + ":");
+            System.out.println("Shift Availability:");
+            ShiftAviPrinter(shiftAvi);
+            System.out.println("Number of needed employees:");
+            shiftPrinter(emp.getBranch().getRolesOfShifts().get(r));
+
+            String day = "";
+            System.out.println("Which day to change?\n1.Sunday\n2.Monday\n3.Tuesday\n4.Wednesday\n5.Thursday\n6.Friday\n7.Saturday\n8.Back to main menu");
+            Scanner scanner = new Scanner(System.in);
+            day = scanner.nextLine();
+            if (!(onlyNumbers(day)))
+                System.out.println("Please send a number between 1-8.");
+            else {
+                int theDay = Integer.parseInt(day);
+                if (theDay < 1 || theDay > 8)
+                    System.out.println("Please send a number between 1-8.");
+                else if (theDay == 8)
+                    return;
+                else {
+                    System.out.println("Which shift?\n1.Morning\n2.Evening\n3.Back to day selection");
+                    String shift = scanner.nextLine();
+                    if (!(onlyNumbers(day)))
+                        System.out.println("Not a valid option, select only numbers.");
+                    else {
+                        int theShift = Integer.parseInt(shift);
+                        if (theShift < 1 || theShift > 3)
+                            System.out.println("Please send a number between 1-3.");
+                        else if (theShift != 3) {
+                            if (shiftAvi[theShift - 1][theDay - 1].isEmpty())
+                                System.out.println("No one here");
+                            else {
+                                boolean done=false;
+                                while(!done) {
+                                    System.out.println("Please enter the number of the employee to add/remove from the list of the selected shift:");
+                                    int i = 1;
+                                    for (GeneralEmployee ge : shiftAvi[theShift - 1][theDay - 1]) {
+                                        System.out.println(i + ". " + ge.getName());
+                                        i++;
+                                    }
+                                    Integer select = -1;
+                                    do {
+                                        select = 1;
+                                        String scanned = "-1";
+                                        while (!(onlyNumbers(scanned))) {
+                                            System.out.print("selected employee not valid or not found.\nselect another: ");
+                                            scanned = scanner.nextLine();
+                                            if (onlyNumbers(scanned))
+                                                select = Integer.parseInt(scanned);
+                                        }
+                                    } while ((select > i || select < 1));
+                                    i = 1;
+                                    GeneralEmployee selectedEmployee = null;
+                                    for (GeneralEmployee ge : shiftAvi[theShift - 1][theDay - 1]) {
+                                        if (i == select)
+                                            selectedEmployee = ge;
+                                        i++;
+                                    }
+
+
+                                    Set<String> aDay = ShiftsOfWeek[theShift - 1][theDay - 1];
+                                    if (aDay.contains(selectedEmployee.getName()))
+                                        aDay.remove(selectedEmployee.getName());
+                                    else
+                                        aDay.add(selectedEmployee.getName());
+
+
+
+
+                                    String answer="";
+                                    do {
+                                        System.out.print("are you done with this day?(y/n): ");
+                                        answer = scanner.nextLine();
+                                    }while(!answer.equals("y") || !answer.equals("n"));
+                                    if(answer.equals("y"))
+                                        done=true;
+                                    else{
+                                        System.out.println(r.getRoleName() + ":");
+                                        System.out.println("Shift Availability:");
+                                        ShiftAviPrinter(shiftAvi);
+                                        System.out.println("Number of needed employees:");
+                                        shiftPrinter(emp.getBranch().getRolesOfShifts().get(r));
+                                        //emp.getBranch().getEmployeesShifts() need to print employee shift of the role r
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 
