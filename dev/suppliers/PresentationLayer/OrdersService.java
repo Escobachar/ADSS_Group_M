@@ -1,4 +1,5 @@
 package suppliers.PresentationLayer;
+
 import suppliers.DaysOfTheWeek;
 import suppliers.DomainLayer.OrdersFacade;
 import suppliers.DomainLayer.Product;
@@ -16,7 +17,6 @@ public class OrdersService {
     private SuppliersFacade sf;
     private static OrdersService instance;
 
-
     private OrdersService() {
         of = OrdersFacade.getInstance();
         sf = SuppliersFacade.getInstance();
@@ -31,7 +31,7 @@ public class OrdersService {
     }
 
     public String addOrder(int supplierID, String deliveryDate, HashMap<Integer, Integer> items,
-                         List<Integer> deliveryDays) {
+            List<Integer> deliveryDays) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date date = dateFormat.parse(deliveryDate);
@@ -39,27 +39,25 @@ public class OrdersService {
             HashMap<Product, Integer> products = new HashMap<>();
             for (HashMap.Entry<Integer, Integer> entry : items.entrySet()) {
                 int catalogNumber = entry.getKey();
-                products.put(sf.getProductInSupplier(supplierID,catalogNumber), entry.getValue());
+                products.put(sf.getProductInSupplier(supplierID, catalogNumber), entry.getValue());
             }
             List<DaysOfTheWeek.Day> constDays = new ArrayList<>();
-            for (Integer day:deliveryDays) {
+            for (Integer day : deliveryDays) {
                 constDays.add(DaysOfTheWeek.intToDay(day));
             }
-            int orderId = of.addOrder(sf.getSupplier(supplierID),new Date(), date, products, constDays);
-            return "Order "+orderId+" added successfully";
+            int orderId = of.addOrder(sf.getSupplier(supplierID), new Date(), date, products, constDays);
+            return "Order " + orderId + " added successfully";
 
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
-
     public String addOrderConstDeliveryDay(int orderId, int day) {
         try {
             of.addOrderConstDeliveryDay(orderId, DaysOfTheWeek.intToDay(day));
             return "Order fixed day removed successfully";
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return e.getMessage();
         }
     }
@@ -68,8 +66,7 @@ public class OrdersService {
         try {
             of.removeOrderConstDeliveryDay(orderId, DaysOfTheWeek.intToDay(day));
             return "Order fixed day removed successfully";
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return e.getMessage();
         }
 
@@ -84,12 +81,10 @@ public class OrdersService {
         }
     }
 
-
     public String displayOrder(int orderId) {
         try {
             return of.orderIdToString(orderId);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return "order does not exist";
         }
     }
@@ -99,18 +94,17 @@ public class OrdersService {
     }
 
     public String displayFixedOrderDays(int orderId) {
-        try{
+        try {
             return of.getToStringConstDeliveringDays(orderId);
-        }
-        catch (Exception e){
-           return e.getMessage();
+        } catch (Exception e) {
+            return e.getMessage();
         }
     }
 
     public String editProductInOrder(int orderId, int catalogNumber, int amount) {
         String res = "";
-        try{
-            of.ChangeOrderItemQuantity(orderId,catalogNumber,amount);
+        try {
+            of.ChangeOrderItemQuantity(orderId, catalogNumber, amount);
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -118,7 +112,7 @@ public class OrdersService {
     }
 
     public String editDeliveryDate(int orderId, String deliveryDate) {
-        try{
+        try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date date = dateFormat.parse(deliveryDate);
             of.setOrderDeliveryDate(orderId, date);

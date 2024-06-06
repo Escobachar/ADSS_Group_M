@@ -4,6 +4,7 @@ import suppliers.DaysOfTheWeek.Day;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class OrdersFacade {
     private static OrdersFacade instance;
@@ -38,7 +39,7 @@ public class OrdersFacade {
                 deliveryDays);
         orders.put(orderIdCounter, order);
         orderIdCounter++;
-        return orderIdCounter--;
+        return orderIdCounter - 1;
     }
 
     public void addOrder(Order order) {
@@ -80,7 +81,10 @@ public class OrdersFacade {
     }
 
     public void removeOrder(int orderId) {
-        orders.remove(orderId);
+        Order o = orders.remove(orderId);
+        if (o == null) {
+            throw new IllegalArgumentException("Order not found");
+        }
     }
 
     public String orderIdToString(int orderId) {
@@ -128,8 +132,11 @@ public class OrdersFacade {
         for (Order order : orders.values()) {
             if (order.getConstDeliveryDays() != null && !order.getConstDeliveryDays().isEmpty()) {
                 thisWeekOrders.put(order.getOrderId(), order);
-            } else if (order.getDeliveryDate().getTime() - new Date().getTime() < 7 * 24 * 60 * 60 * 1000) {
-                thisWeekOrders.put(order.getOrderId(), order);
+            } else {
+                long diffInMillies = order.getDeliveryDate().getTime() - new Date().getTime();
+                if (TimeUnit.MILLISECONDS.toDays(diffInMillies) < 7) {
+                    thisWeekOrders.put(order.getOrderId(), order);
+                }
             }
         }
         return thisWeekOrders;
@@ -149,10 +156,10 @@ public class OrdersFacade {
         return thisWeekPickupOrders;
     }
 
-    public String OrdersToString(HashMap<Integer, Order> Orders) {
+    public String OrdersToString(HashMap<Integer, Order> ordersList) {
         String toString = "";
-        for (Order order : orders.values()) {
-            toString += order.orderToString() + "/n/n";
+        for (Order order : ordersList.values()) {
+            toString += order.orderToString() + "\n\n";
         }
         return toString;
     }

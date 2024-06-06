@@ -12,6 +12,7 @@ public class SuppliersService {
     private SuppliersFacade sf;
 
     private static SuppliersService instance;
+
     private SuppliersService() {
         sf = SuppliersFacade.getInstance();
 
@@ -23,6 +24,7 @@ public class SuppliersService {
         }
         return instance;
     }
+
     public String addSupplier(String name, int id, String bankAccount, String paymentOption,
             HashMap<String, String> contacts, List<Integer> deliveryDays,
             HashMap<Category, HashMap<Integer, Product>> categories, boolean isDelivering, String address) {
@@ -171,7 +173,7 @@ public class SuppliersService {
     public String displayProducts(int id) {
         try {
             HashMap<Integer, Product> products = sf.getAllSupplierProducts(id);
-            if(products.isEmpty())
+            if (products.isEmpty())
                 return "No products have been added yet";
             String result = "";
             for (Product product : products.values()) {
@@ -191,8 +193,19 @@ public class SuppliersService {
             for (Product product : products) {
                 result += product.toString() + "\n";
             }
+            if (result.equals(""))
+                return "No products have been purchased yet";
             return result;
 
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String supplierExists(int id) {
+        try {
+            sf.getSupplier(id);
+            return "";
         } catch (Exception e) {
             return e.getMessage();
         }
