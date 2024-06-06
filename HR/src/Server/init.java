@@ -9,18 +9,16 @@ import java.util.List;
 
 public class init {
     public static Network init(boolean init){
-        HRManager hrm = new HRManager(209165737, "Shai Hubashi", "123456789876", 50, new Date(2024, 6, 4), null, "Half", 18, "1111");
+        HRManager hrm = new HRManager(111111111, "HR Manager", "11111111111", 50, new Date(2024, 6, 4), null, "Full", 18, "1111");
         Network network = new Network(hrm);
         if(init) {
-            Branch Beer_Sheva = hrm.addBranch("Beer Sheva", "Beer Sheva",null);
-            BranchManager bm = new BranchManager(209165737, "Tomer Cohen", "123456789877", 50, new Date(2024, 6, 4), null, "Half", 18,Beer_Sheva,"2222");
-            List<String> none = new LinkedList<>();
-            List<Role> geRoles = new LinkedList<>();
-            Role cashier = new Role("cashier", none, Beer_Sheva);
-            Role storekeeper = new Role("storekeeper", none, Beer_Sheva);
-            geRoles.add(cashier);
-            geRoles.add(storekeeper);
-            GeneralEmployee ge1 = (GeneralEmployee) hrm.addGeneralEmployee(209165777, "Idan Amedy", "123456788888", 40, new Date(2024, 6, 4), null, "Half", 10, geRoles , true, Beer_Sheva, "3333");
+            Branch branch = hrm.addBranch("Beer Sheva", "Beer Sheva",null);
+            BranchManager bm = new BranchManager(222222222, "Branch Manager", "2222222222", 50, new Date(2024, 6, 4), null, "Half", 18,branch,"2222");
+            List<Role> roleList = hrm.getNetwork().getRoles();
+            List<Role> oneJob = new ArrayList<>();
+            oneJob.add(roleList.get(0));
+            GeneralEmployee ge1 = hrm.addGeneralEmployee(333333333, "General Employee first", "3333333333", 40, new Date(2024, 6, 4), null, "Full", 10, roleList , true, branch, "3333");
+            GeneralEmployee ge2 = hrm.addGeneralEmployee(444444444, "General Employee second", "444444444", 40, new Date(2024, 6, 4), null, "Half", 10, roleList , true, branch, "4444");
         }
         return network;
     }

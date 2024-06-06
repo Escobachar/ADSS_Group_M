@@ -19,8 +19,8 @@ public class GeneralEmployeeTest {
         HRManager hrm = new HRManager(315213215, "tomer", "66666666", 500, new Date(2024, 5, 31), "half", 1,"1234");
         network=new Network(hrm);
         branch = new Branch("Mazkeret", "Mazkeret Batya", network);
-        cashier = new Role("cashier", null,branch);
-        storekeeper = new Role("storekeeper", null,branch);
+        cashier = new Role("cashier", null);
+        storekeeper = new Role("storekeeper", null);
         roles = new LinkedList<>();
         roles.add(cashier);
         roles.add(storekeeper);

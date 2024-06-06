@@ -6,8 +6,8 @@ import java.util.*;
 public class Login {
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
-        System.out.print("with items or no? \n 1.with\n2.without\n");
-        Network network= Server.init.init(scanner.nextLine().equals("1"));
+        System.out.print("with items or no? \n1.with\n2.without\n");
+        Network network= Server.init.init(scanner.nextLine().equals("1"));//what if not 1 or 2?
         System.out.print("Enter ID: ");
         String ID = scanner.nextLine();
         Employee emp=null;
@@ -402,7 +402,7 @@ public class Login {
             String endOfEmp = "";
             do{
                 System.out.println("New end of employment: ");
-                endOfEmp = scanner.nextLine();///////Date
+                endOfEmp = scanner.nextLine();
             }
             while (!Network.checkCreateDate(endOfEmp));
         }
@@ -414,7 +414,7 @@ public class Login {
             String partOfJob = "";
             do{
                 System.out.println("New part of job: ");
-                partOfJob = scanner.nextLine();///////Date
+                partOfJob = scanner.nextLine();
             }
             while (!Network.checkPartOfJob(partOfJob));
         }
@@ -426,7 +426,7 @@ public class Login {
             String vacationDays = "";
             do{
                 System.out.println("New vacations days: ");
-                vacationDays = scanner.nextLine();///////integer
+                vacationDays = scanner.nextLine();
             }
             while (!Network.checkVacationsDays(vacationDays));
 
@@ -447,7 +447,26 @@ public class Login {
             ans = scanner.nextLine();
             if (ans.equals("y")){
                 shiftManager = false;
-                /////////////////////////////////////////////
+                System.out.println("Choose roles of the employee,\npress all the numbers of the roles you desire then enter: ");
+                List<Role> RL = ((Manager) emp).getNetwork().getRoles();
+                List<Role> newRL = null;
+                int i = 1;
+                for (Role r : RL) {
+                    System.out.println(i + ". " + r.getRoleName());
+                    i++;
+                }
+                String rolesLine = scanner.nextLine();
+                int j=0;
+                i = 1;
+                for (Role r : RL) {
+                    if(i==rolesLine.charAt(j)) {
+                        newRL.add(r);
+                        j++;
+                    }
+                    i++;
+                    if(j>rolesLine.length())
+                        break;
+                }
             }
         }
         else {
@@ -464,7 +483,7 @@ public class Login {
             String branch = "";
             do{
                 System.out.println("New branch: ");
-                branch = scanner.nextLine();///////Date
+                branch = scanner.nextLine();
             }
             while (!((Manager) emp).getNetwork().checkBranch(branch));
         }
