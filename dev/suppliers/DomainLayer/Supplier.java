@@ -10,10 +10,10 @@ public class Supplier {
     private String bankAccount;
     private String paymentMethod;
     private HashMap<String, String> contacts;
-    private String address;
     private List<Integer> deliveryDays;
     private HashMap<Category, HashMap<Integer, Product>> categories;
     private boolean isDelivering;
+    private String address;
 
     public Supplier(String name, int id, String bankAccount, String paymentOption,
             HashMap<String, String> contacts, List<Integer> deliveryDays,
