@@ -46,7 +46,9 @@ public class SuppliersFacade {
     }
 
     public void removeSupplier(int supplierId) {
-        suppliers.remove(supplierId);
+        Supplier s = suppliers.remove(supplierId);
+        if (s == null)
+            throw new IllegalArgumentException("Supplier with ID " + supplierId + " not found");
     }
 
     public void setSupplierName(int supplierId, String name) {
@@ -118,7 +120,8 @@ public class SuppliersFacade {
             throw new IllegalArgumentException("Product " + catalogNumber + " not found in supplier " + supplierId);
         return product;
     }
-    public void editAddress(int supplierId, String address){
+
+    public void editAddress(int supplierId, String address) {
         getSupplier(supplierId).setAddress(address);
     }
 

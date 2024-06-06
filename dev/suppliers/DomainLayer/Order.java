@@ -1,4 +1,6 @@
 package suppliers.DomainLayer;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,15 +47,16 @@ public class Order {
         return constDeliveryDays;
     }
 
-    public String getStringConstDeliveryDays(){
-        if(constDeliveryDays.isEmpty())
+    public String getStringConstDeliveryDays() {
+        if (constDeliveryDays.isEmpty())
             return "no fixed delivery days.";
-        String toString="";
-        for (Day day:constDeliveryDays) {
-            toString+= day.name() +", ";
+        String toString = "";
+        for (Day day : constDeliveryDays) {
+            toString += day.name() + ", ";
         }
-        return toString.substring(0,toString.length()-2);
+        return toString.substring(0, toString.length() - 2);
     }
+
     public void setConstDeliveryDays(List<Day> deliveryDays) {
         this.constDeliveryDays = deliveryDays;
     }
@@ -67,19 +70,24 @@ public class Order {
             this.constDeliveryDays.add(day);
         }
     }
-    public String orderToString()
-    {
+
+    public String orderToString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String order = "";
-        order+= "Order INFO:\n";
-        order+= "supplier name: "+supplier.getName()+ " | address: "+supplier.getAddress()+" | order ID: "+orderId+"\n";
-        order+= "supplier ID: "+ supplier.getId()+ " | Delivery Date: "+ deliveryDate+ " | tel: "+supplier.getOneContact()+"\n";
-        order+="_________________________________________________________\n";
-        order+= "catalog number | product name | amount | price | discount(%) | final price\n";
+        order += "Order INFO:\n";
+        order += "supplier name: " + supplier.getName() + " | address: " + supplier.getAddress() + " | order ID: "
+                + orderId + "\n";
+        order += "supplier ID: " + supplier.getId() + " | Delivery Date: " + dateFormat.format(deliveryDate)
+                + " | tel: "
+                + supplier.getOneContact() + "\n";
+        order += "_________________________________________________________\n";
+        order += "catalog number | product name | amount | price | discount(%) | final price\n";
         for (HashMap.Entry<Product, Integer> entry : this.items.entrySet()) {
-            order+= entry.getKey().toString()+ "\n";
+            order += entry.getKey().productToString(entry.getValue()) + "\n";
         }
         return order;
     }
+
     public int getOrderId() {
         return orderId;
     }

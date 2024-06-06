@@ -5,7 +5,15 @@ public class DiscountQuantity {
     private int amount;
     private double discountPrecentage;
 
-    public DiscountQuantity(int catalogNumber, int amount, double discountPrecentage) {
+    public static DiscountQuantity createDiscountQuantity(int catalogNumber, int amount, double discountPrecentage) {
+        if (amount < 0 || discountPrecentage < 0 || discountPrecentage > 100) {
+            throw new IllegalArgumentException("Invalid amount or discount precentage");
+        }
+        return new DiscountQuantity(catalogNumber, amount, discountPrecentage);
+
+    }
+
+    private DiscountQuantity(int catalogNumber, int amount, double discountPrecentage) {
         this.catalogNumber = catalogNumber;
         this.amount = amount;
         this.discountPrecentage = discountPrecentage;
@@ -67,6 +75,15 @@ public class DiscountQuantity {
         } else {
             discountPrecentage -= decrement;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "DiscountQuantity{" +
+                "catalogNumber=" + catalogNumber +
+                ", amount=" + amount +
+                ", discountPrecentage=" + discountPrecentage +
+                '}';
     }
 
 }
