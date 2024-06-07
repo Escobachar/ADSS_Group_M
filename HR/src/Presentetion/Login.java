@@ -102,6 +102,34 @@ public class Login {
                 System.out.println("Show shifts availability per role");
             }
 
+            //HR Manager
+            if (access.contains("HRAddGeneralEmployee")) {
+                System.out.println("HR add general employee");
+            }
+            if (access.contains("HRAddBranchManager")) {
+                System.out.println("HR add branch manager");
+            }
+            if (access.contains("HRUpdateGeneralEmployeeDetails")) {
+                System.out.println("HR update general employee details");
+            }
+            if (access.contains("HRUpdateBranchManagerDetails")) {
+                System.out.println("HR update branch manager details");
+            }
+            if (access.contains("HRShowGeneralEmployeeDetails")) {
+                System.out.println("HR show general employee details");
+            }
+            if (access.contains("HRShowBranchManagerDetails")) {
+                System.out.println("HR show branch manager details");
+            }
+            if (access.contains("HRUpdateBranchShifts")) {
+                System.out.println("HR update branch shifts");
+            }
+            if (access.contains("HRUpdateBranchRolesOfShifts")) {
+                System.out.println("HR update branch roles of shifts");
+            }
+            if (access.contains("HRShowBranchShiftsAvailability")) {
+                System.out.println("HR show branch shifts availability per role");
+            }
 
             System.out.println("Logoff");
 
@@ -135,10 +163,38 @@ public class Login {
                     ShowShiftAvailability((BranchManager)emp);
                     break;
                 case "Update roles for next shifts":
-                    UpdateRolesOfShifts((BranchManager)emp);
+                    BMUpdateRolesOfShifts((BranchManager)emp);
                     break;
                 case "Update shifts of the week":
                     UpdateShiftsOfWeek((BranchManager)emp);
+                    break;
+                //HR Manager
+                case "HR add general employee":
+                    AddGeneralEmployee((HRManager)emp);
+                    break;
+                case "HR add branch manager":
+                    //HRAddBranchManager((HRManager)emp);
+                    break;
+                case "HR update general employee details":
+                    UpdateGeneralEmployeeDetails((HRManager)emp);
+                    break;
+                case "HR update branch manager details":
+                    //HRUpdateBranchManagerDetails((HRManager)emp);
+                    break;
+                case "HR show general employee details":
+                    //HRShowGeneralEmployeeDetails((HRManager)emp);
+                    break;
+                case "HR show branch manager details":
+                    //HRShowBranchManagerDetails((HRManager)emp);
+                    break;
+                case "HR update branch shifts":
+                    //HRUpdateBranchShifts((HRManager)emp);
+                    break;
+                case "HR update branch roles of shifts":
+                    HRUpdateBranchRolesOfShifts((HRManager)emp);
+                    break;
+                case "HR show branch shifts availability per role":
+                    //HRShowBranchShiftsAvailability((HRManager)emp);
                     break;
                 case "Logoff":
                     login = false;
@@ -570,6 +626,11 @@ public class Login {
 
 
     }
+    private static void BMUpdateRolesOfShifts(BranchManager emp){
+        String branch = emp.getBranch().getBranchName();
+        UpdateRolesOfShifts(emp, branch);
+    }
+    /*
     private static void UpdateRolesOfShifts(BranchManager emp) {
         HashMap<Role, Integer[][]> rolesOfShifts = emp.getBranch().getRolesOfShifts();
         printRoleOfShifts(rolesOfShifts);
@@ -613,15 +674,60 @@ public class Login {
                         }
                     }
                 }
-
-
             }
             System.out.println("What role would you like to change? Enter the matching number. If finish enter 0.");
             stringRoleToChange = scanner.nextLine();
         }
+    }*/
+    private static void UpdateRolesOfShifts(Manager emp, String branch) {
+        HashMap<Role, Integer[][]> rolesOfShifts = emp.getNetwork().getBranch(branch).getRolesOfShifts();
+        printRoleOfShifts(rolesOfShifts);
+        int i = emp.getNetwork().getRoles().size();
+        List<Role> ls = emp.getNetwork().getRoles();
+        Scanner scanner = new Scanner(System.in);
+        String stringRoleToChange = "";
+        System.out.println("What role would you like to change? If finish enter 0.");
+        stringRoleToChange = scanner.nextLine();
+        while (!stringRoleToChange.equals("0")) {
+            while (!isRole(stringRoleToChange, emp.getNetwork().getRoles())) {
+                System.out.println("Invalid answer, try again: ");
+                stringRoleToChange = scanner.nextLine();
+            }
+            String day = "";
+            String numOfEmployees = "";
+            System.out.println("Which day to change?\n1.Sunday\n2.Monday\n3.Tuesday\n4.Wednesday\n5.Thursday\n6.Friday\n7.Saturday\n");
+            day = scanner.nextLine();
+            if (!(onlyNumbers(day)))
+                System.out.println("Please send a number between 1-7.");
+            else {
+                int theDay = Integer.parseInt(day);
+                if (theDay < 1 || theDay > 7)
+                    System.out.println("Please send a number between 1-7.");
+                else {
+                    System.out.println("Which shift?\n1.Morning\n2.Evening\n3.Back to day selection");
+                    String shift = scanner.nextLine();
+                    if (!(onlyNumbers(day)))
+                        System.out.println("Not a valid option, select only numbers.");
+                    else {
+                        int theShift = Integer.parseInt(shift);
+                        if (theShift < 1 || theShift > 3)
+                            System.out.println("Please send a number between 1-3.");
+                        else {
+                            System.out.println("Please enter a number for the desired number of employees in the shift.");
+                            numOfEmployees = scanner.nextLine();
+                            Role roleToChange = emp.getNetwork().getRole(stringRoleToChange);
+                            rolesOfShifts.get(roleToChange)[theShift - 1][theDay - 1] = Integer.parseInt(numOfEmployees);
+                            System.out.println("New roles of shifts: ");
+                            printRoleOfShifts(rolesOfShifts);
+                        }
+                    }
+                }
+            }
+            System.out.println("What role would you like to change? Enter the matching number. If finish enter 0.");
+            stringRoleToChange = scanner.nextLine();
+        }
+        return;
     }
-
-
     private static boolean isRole(String role, List<Role> roleList) {
         for (Role r : roleList) {
             if (role.equals(r.getRoleName())) {
@@ -630,7 +736,6 @@ public class Login {
         }
         return false;
     }
-
     private static void printRoleOfShifts(HashMap<Role, Integer[][]> rolesOfShifts){
         for (Role r : rolesOfShifts.keySet()) {
             System.out.println(r.getRoleName());
@@ -793,7 +898,36 @@ public class Login {
             }
         }
     }
+    //HR Manager
+    private static void HRUpdateBranchRolesOfShifts(HRManager emp){
+        Scanner scanner = new Scanner(System.in);
+        String branch = "";
+        System.out.println("Which branch would you like to update? To return to the main menu enter 0.");
+        for (Branch b: emp.getNetwork().getBranchList()){
+            System.out.println(b.getBranchName());
+        }
+        branch = scanner.nextLine();
+        while (!branch.equals("0")){
+            while (!isBranch(branch, emp)){
+                System.out.println("Invalid answer, try again: ");
+                branch = scanner.nextLine();
+            }
+            UpdateRolesOfShifts(emp, branch);
+            System.out.println("Which branch would you like to update? To return to the main menu enter 0.");
+            for (Branch b: emp.getNetwork().getBranchList()){
+                System.out.println(b.getBranchName());
+            }
+            branch = scanner.nextLine();
+        }
+    }
 
+    public static boolean isBranch(String branch, HRManager emp){
+        for (Branch b: emp.getNetwork().getBranchList()) {
+            if (b.getBranchName().equals(branch))
+                return true;
+        }
+        return false;
+    }
 }
 
 

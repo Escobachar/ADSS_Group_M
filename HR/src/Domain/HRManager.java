@@ -11,8 +11,8 @@ public class HRManager extends Manager{
         this.getAccess().add("HRShowGeneralEmployeeDetails");
         this.getAccess().add("HRShowBranchManagerDetails");
         this.getAccess().add("HRUpdateBranchShifts");
-        this.getAccess().add("HRUpdateRolesOfShifts");
-        this.getAccess().add("HRShowShiftsAvailability");
+        this.getAccess().add("HRUpdateBranchRolesOfShifts");
+        this.getAccess().add("HRShowBranchShiftsAvailability");
     }
     public HRManager(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment, String partOfJob, int vacationsDays,String password) {
         this(ID, name, bankAccountDetails, salary, startOfEmployment,null, partOfJob, vacationsDays,password);
