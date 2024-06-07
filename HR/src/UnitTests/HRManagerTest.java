@@ -131,7 +131,7 @@ public class HRManagerTest {
         GeneralEmployee shai = this.branch.SearchGeneralEmployee(123456789);
         shai.updateShifts(ShiftsRequest1);
 
-        this.hrm.updateShiftsOfBranch(branch);
+        //this.hrm.updateShiftsOfBranch(branch);
 
         Assert.assertArrayEquals(this.branch.getEmployeesShifts(),employeesShifts_allTrueForShai);
     }

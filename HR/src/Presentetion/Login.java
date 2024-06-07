@@ -223,12 +223,12 @@ public class Login {
     private static void shiftPrinter(Integer[][] shifts){
         System.out.print("----");
         for (int i = 1; i <= Network.days; i++) {
-            System.out.print("|" + i + "  ");
+            System.out.print("|" + i + "   ");
         }
         for (int j = 0; j < Network.shifts; j++) {
-            System.out.print("\n"+(j+1)+"  ");
+            System.out.print("\n"+(j+1)+"   ");
             for (int i = 0; i < Network.days; i++) {
-                System.out.print("|" + shifts[j][i]);
+                System.out.print("|" + shifts[j][i]+"   ");
             }
         }
         System.out.print("\n----");
@@ -576,27 +576,24 @@ public class Login {
         int i = emp.getNetwork().getRoles().size();
         List<Role> ls = emp.getNetwork().getRoles();
         Scanner scanner = new Scanner(System.in);
-        String numRoleToChange = "";
-        System.out.println("What role would you like to change? Enter the matching number. If finish enter 0.");
-        numRoleToChange = scanner.nextLine();
-        while (!numRoleToChange.equals("0")){
-            while(!onlyNumbersBetween(numRoleToChange, 1, i)) {
-                System.out.println("Invalid number, try again: ");
-                numRoleToChange = scanner.nextLine();
+        String stringRoleToChange = "";
+        System.out.println("What role would you like to change? If finish enter 0.");
+        stringRoleToChange = scanner.nextLine();
+        while (!stringRoleToChange.equals("0")) {
+            while (!isRole(stringRoleToChange, emp.getNetwork().getRoles())) {
+                System.out.println("Invalid answer, try again: ");
+                stringRoleToChange = scanner.nextLine();
             }
-                ////if (onlyNumbersBetween(numRoleToChange, 1, i)) {
             String day = "";
             String numOfEmployees = "";
-            System.out.println("Which day to change?\n1.Sunday\n2.Monday\n3.Tuesday\n4.Wednesday\n5.Thursday\n6.Friday\n7.Saturday\n8.Back to select role");
+            System.out.println("Which day to change?\n1.Sunday\n2.Monday\n3.Tuesday\n4.Wednesday\n5.Thursday\n6.Friday\n7.Saturday\n");
             day = scanner.nextLine();
             if (!(onlyNumbers(day)))
-                System.out.println("Please send a number between 1-8.");
+                System.out.println("Please send a number between 1-7.");
             else {
                 int theDay = Integer.parseInt(day);
-                if (theDay < 1 || theDay > 8)
-                    System.out.println("Please send a number between 1-8.");
-                else if (theDay == 8)
-                    break;////////////////////////
+                if (theDay < 1 || theDay > 7)
+                    System.out.println("Please send a number between 1-7.");
                 else {
                     System.out.println("Which shift?\n1.Morning\n2.Evening\n3.Back to day selection");
                     String shift = scanner.nextLine();
@@ -609,29 +606,36 @@ public class Login {
                         else {
                             System.out.println("Please enter a number for the desired number of employees in the shift.");
                             numOfEmployees = scanner.nextLine();
-                            Role roleToChange = emp.getNetwork().getRoles().get(Integer.parseInt(numRoleToChange) - 1);
+                            Role roleToChange = emp.getNetwork().getRole(stringRoleToChange);
                             rolesOfShifts.get(roleToChange)[theShift - 1][theDay - 1] = Integer.parseInt(numOfEmployees);
                             System.out.println("New roles of shifts: ");
                             printRoleOfShifts(rolesOfShifts);
                         }
                     }
-                   // }
-
                 }
+
+
             }
             System.out.println("What role would you like to change? Enter the matching number. If finish enter 0.");
-            numRoleToChange = scanner.nextLine();
+            stringRoleToChange = scanner.nextLine();
         }
-
     }
-    private static void printRoleOfShifts(HashMap<Role, Integer[][]> rolesOfShifts){
-        int i = 1;
-        for (Role r : rolesOfShifts.keySet()) {
-            System.out.println(i + ". " + r.getRoleName() + ":");
-            shiftPrinter(rolesOfShifts.get(r));
-            i++;
-        }
 
+
+    private static boolean isRole(String role, List<Role> roleList) {
+        for (Role r : roleList) {
+            if (role.equals(r.getRoleName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static void printRoleOfShifts(HashMap<Role, Integer[][]> rolesOfShifts){
+        for (Role r : rolesOfShifts.keySet()) {
+            System.out.println(r.getRoleName());
+            shiftPrinter(rolesOfShifts.get(r));
+        }
     }
     private static void ShowShiftAvailability(BranchManager emp){
         for(Role r : emp.getNetwork().getRoles()){

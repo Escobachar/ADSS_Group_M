@@ -33,6 +33,15 @@ public class Network {
         return true;
     }
     public List<Role> getRoles(){return this.roles;}
+    public Role getRole(String role){
+        for (Role r : roles) {
+            if (role.equals(r.getRoleName())) {
+                return r;
+            }
+        }
+        return null;
+    }
+
     public void addBranch(Branch branch){
         branchList.add(branch);
     }
