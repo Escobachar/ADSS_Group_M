@@ -8,9 +8,9 @@ public class Branch {
     private String location;
     private BranchManager branchManager;
     private List<Employee> employeesList;
-    private Set<String>[][] employeesShifts;
+    private HashMap<String,Role>[][] employeesShifts;
     private HashMap<Role,Integer[][]> rolesOfShifts;
-    private List<Set<Integer>[][]> historyEmployeesShifts;
+    private List<HashMap<String,Role>[][]> historyEmployeesShifts;
     private HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability;
 
     //creating new branch with a manager
@@ -20,10 +20,10 @@ public class Branch {
         this.network=network;
         branchManager=brm;
         employeesList=new ArrayList<Employee>();
-        employeesShifts=new Set[Network.shifts][Network.days];
+        employeesShifts=new HashMap[Network.shifts][Network.days];
         for(int i=0;i<Network.shifts;i++)
             for(int j=0;j<Network.days;j++)
-                employeesShifts[i][j]=new HashSet<>();
+                employeesShifts[i][j]=new HashMap<>();
         rolesOfShifts = new HashMap<Role,Integer[][]>();
         shiftsAvailability = new HashMap<Role,Set<GeneralEmployee>[][]>();
         for(Role r: network.getRoles()){
@@ -40,7 +40,7 @@ public class Branch {
 
 
         }
-        historyEmployeesShifts = new LinkedList<Set<Integer>[][]>();
+        historyEmployeesShifts = new LinkedList<>();
     }
 
 
@@ -58,7 +58,7 @@ public class Branch {
     public void setShiftsAvailability(HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability){this.shiftsAvailability=shiftsAvailability;}
     public HashMap<Role,Integer[][]> getRolesOfShifts(){return this.rolesOfShifts;}
     public HashMap<Role,Set<GeneralEmployee>[][]> getShiftsAvailability(){return this.shiftsAvailability;}
-    public void setEmployeesShifts(Set<String>[][] employeesShifts){
+    public void setEmployeesShifts(HashMap<String,Role>[][] employeesShifts){
         this.employeesShifts=employeesShifts;
     }
     public void setEmployeesList(List<Employee> EmployeesList){this.employeesList=EmployeesList;}
@@ -101,6 +101,10 @@ public class Branch {
             if (e.getID() == id) return e.getSalary();
         return null;
     }
-    public Set<String>[][] getEmployeesShifts(){return employeesShifts;}
+    public HashMap<String,Role>[][] getEmployeesShifts(){return employeesShifts;}
     public HashMap<Role,Integer[][]> rolesOfShifts(){return rolesOfShifts;}
+
+    public void addToHistory(HashMap<String,Role>[][] employeesShifts) {
+        historyEmployeesShifts.add(employeesShifts);
+    }
 }
