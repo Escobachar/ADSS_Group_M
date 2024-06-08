@@ -27,6 +27,8 @@ abstract public class Employee {
         this.partOfJob=partOfJob;
         this.vacationsDays=vacationsDays;
         access=new HashSet<>();
+        access.add("ShowYourDetails");
+        access.add("Logoff");
         this.password=password;
     }
     public Employee(){}

@@ -67,134 +67,169 @@ public class Login {
     private static void Menu(Employee emp) {
         boolean login = true;
         System.out.println("Hello " + emp.getName());
+        String[] options = new String[emp.getAccess().size()+1];
+        int i=1;
         Scanner scanner = new Scanner(System.in);
         while (login) {
             System.out.println("\nactions menu:\n");
             Set<String> access = emp.getAccess();
-            System.out.println("Show your details");
+            System.out.println(i + ". Show your details");
+            options[i] = "ShowYourDetails";
+            i++;
             //GeneralEmployee
             if (access.contains("updateShifts")) {
-                System.out.println("Update your shifts");
+                System.out.println(i + ". Update your shifts");
+                options[i] = "updateShifts";
+                i++;
             }
             if (access.contains("getShifts")) {
                 System.out.println("Show this week shifts");
+                options[i] = "getShifts";
+                i++;
             }
             if (access.contains("ShowShiftReq")) {
-                System.out.println("Show your shifts requests");
+                System.out.println(i + ". Show your shifts requests");
+                options[i] = "ShowShiftReq";
+                i++;
             }
             //BranchManager
             if (access.contains("AddGeneralEmployee")) {
-                System.out.println("Add general employee");
+                System.out.println(i + ". Add employee");
+                options[i] = "AddGeneralEmployee";
+                i++;
             }
             if (access.contains("UpdateBranchShifts")) {//this
-                System.out.println("Update shifts of the week");
+                System.out.println(i + ". Update shifts of the week");
+                options[i] = "UpdateBranchShifts";
+                i++;
             }
             if (access.contains("UpdateGeneralEmployeeDetails")) {
-                System.out.println("Update details of the employee");
+                System.out.println(i + ". Update details of the employee");
+                options[i] = "UpdateGeneralEmployeeDetails";
+                i++;
             }
             if (access.contains("ShowEmployeeDetails")) {
-                System.out.println("Show details on an employee");
+                System.out.println(i + ". Show details on an employee");
+                options[i] = "ShowEmployeeDetails";
+                i++;
             }
             if (access.contains("UpdateRolesOfShifts")) {
-                System.out.println("Update roles for next shifts");
+                System.out.println(i + ". Update roles for next shifts");
+                options[i] = "UpdateRolesOfShifts";
+                i++;
             }
             if (access.contains("ShowShiftsAvailability")) {
-                System.out.println("Show shifts availability per role");
+                System.out.println(i + ". Show shifts availability per role");
+                options[i] = "ShowShiftsAvailability";
+                i++;
             }
 
             //HR Manager
             if (access.contains("HRAddGeneralEmployee")) {
-                System.out.println("HR add general employee");
+                System.out.println(i + ". add general employee");
+                options[i] = "HRAddGeneralEmployee";
+                i++;
             }
-            if (access.contains("HRAddBranchManager")) {
-                System.out.println("HR add branch manager");
+            if (access.contains("HRAssignBranchManager")) {
+                System.out.println(i+ ". assign branch manager");
+                options[i] ="HRAssignBranchManager";
+                i++;
             }
-            if (access.contains("HRUpdateGeneralEmployeeDetails")) {
-                System.out.println("HR update general employee details");
+            if (access.contains("HRUpdateEmployeeDetails")) {
+                System.out.println(i+ ". update employee details");
+                options[i] ="HRUpdateEmployeeDetails";
+                i++;
             }
-            if (access.contains("HRUpdateBranchManagerDetails")) {
-                System.out.println("HR update branch manager details");
+            if (access.contains("HRShowEmployeeDetails")) {
+                System.out.println(i+ ". show employee details");
+                options[i] ="HRShowEmployeeDetails";
+                i++;
             }
-            if (access.contains("HRShowGeneralEmployeeDetails")) {
-                System.out.println("HR show general employee details");
-            }
-            if (access.contains("HRShowBranchManagerDetails")) {
-                System.out.println("HR show branch manager details");
-            }
-            if (access.contains("HRUpdateBranchShifts")) {
-                System.out.println("HR update branch shifts");
+            if (access.contains("HRUpdateBranchShiftsOfWeek")) {
+                System.out.println(i+ ". update branch shifts");
+                options[i] ="HRUpdateBranchShiftsOfWeek";
+                i++;
             }
             if (access.contains("HRUpdateBranchRolesOfShifts")) {
-                System.out.println("HR update branch roles of shifts");
+                System.out.println(i+ ". update branch needed roles for shifts");
+                options[i] ="HRUpdateBranchRolesOfShifts";
+                i++;
             }
             if (access.contains("HRShowBranchShiftsAvailability")) {
-                System.out.println("HR show branch shifts availability per role");
+                System.out.println(i+ ". show branch shifts availability per role");
+                options[i] ="HRShowBranchShiftsAvailability";
+                i++;
             }
 
-            System.out.println("Logoff");
+            System.out.println(i + ". Logoff");
+            options[i] = i + ". Logoff";
 
-            String action = scanner.nextLine();
-            switch (action) {
+            String action = "s";
+            int actionIndex;
+            do{
+                while(!onlyNumbers(action)) {
+                    action = scanner.nextLine();
+                    if (!onlyNumbers(action))
+                        System.out.println("Not valid number");
+                }
+                actionIndex=Integer.parseInt(action);
+            }while(actionIndex>options.length || actionIndex<1);
 
-                case "Show your details":
+            switch (options[actionIndex]) {
+
+                case "ShowYourDetails":
                     showYourDetails(emp);
                     break;
                 //General Employee
-                case "Update your shifts":
+                case "updateShifts":
                     updateShifts((GeneralEmployee)emp);
                     break;
-                case "Show this week shifts":
+                case "getShifts":
                     getGeneralEmployeeShifts(emp);
                     break;
-                case "Show your shifts requests":
+                case "ShowShiftReq":
                     getShiftsReq(emp);
                     break;
                 //Branch Manager
-                case "Add general employee":
-                    AddGeneralEmployee((Manager) emp);
+                case "AddGeneralEmployee":
+                    AddEmployee((BranchManager) emp,'g');
                     break;
-                case "Update details of the employee":
-                    UpdateGeneralEmployeeDetails(emp);
+                case "UpdateGeneralEmployeeDetails":
+                    UpdateEmployeeDetails(emp);
                     break;
-                case "Show details on an employee":
+                case "ShowEmployeeDetails":
                     ShowDetailsOnGeneralEmployee((BranchManager) emp);
                     break;
-                case "Show shifts availability per role":
+                case "ShowShiftsAvailability":
                     ShowShiftAvailability((BranchManager)emp);
                     break;
-                case "Update roles for next shifts":
-                    BMUpdateRolesOfShifts((BranchManager)emp);
+                case "UpdateRolesOfShifts":
+                    UpdateRolesOfShifts((BranchManager)emp);
                     break;
-                case "Update shifts of the week":
+                case "UpdateBranchShifts":
                     UpdateShiftsOfWeek((BranchManager)emp);
                     break;
                 //HR Manager
-                case "HR add general employee":
-                    AddGeneralEmployee((HRManager)emp);
+                case "HRAddGeneralEmployee":
+                    HRAddGeneralEmployee((HRManager)emp);
                     break;
-                case "HR add branch manager":
-                    //HRAddBranchManager((HRManager)emp);
+                case "HRAssignBranchManager":
+                    HRAssignBranchManager((HRManager)emp);
                     break;
-                case "HR update general employee details":
-                    UpdateGeneralEmployeeDetails((HRManager)emp);
+                case "HRUpdateEmployeeDetails":
+                    HRUpdateEmployeeDetails((HRManager)emp);
                     break;
-                case "HR update branch manager details":
-                    //HRUpdateBranchManagerDetails((HRManager)emp);
+                case "HRShowEmployeeDetails":
+                    HRShowEmployeeDetails((HRManager)emp);
                     break;
-                case "HR show general employee details":
-                    //HRShowGeneralEmployeeDetails((HRManager)emp);
+                case "HRUpdateBranchShiftsOfWeek":
+                    HRUpdateBranchShiftsOfWeek((HRManager)emp);
                     break;
-                case "HR show branch manager details":
-                    //HRShowBranchManagerDetails((HRManager)emp);
-                    break;
-                case "HR update branch shifts":
-                    //HRUpdateBranchShifts((HRManager)emp);
-                    break;
-                case "HR update branch roles of shifts":
+                case "HRUpdateBranchRolesOfShifts":
                     HRUpdateBranchRolesOfShifts((HRManager)emp);
                     break;
-                case "HR show branch shifts availability per role":
-                    //HRShowBranchShiftsAvailability((HRManager)emp);
+                case "HRShowBranchShiftsAvailability":
+                    HRShowBranchShiftsAvailability((HRManager)emp);
                     break;
                 case "Logoff":
                     login = false;
@@ -205,6 +240,9 @@ public class Login {
             }
         }
     }
+
+
+
 
     private static void showYourDetails(Employee emp) {
         System.out.println("ID: " + emp.getID());
@@ -242,9 +280,10 @@ public class Login {
         else if(emp instanceof BranchManager){
             BranchManager bm = (BranchManager) emp;
             System.out.println("Branch: " + bm.getBranch());
+            System.out.println("Role: Branch Manager");
         }
         else if(emp instanceof HRManager){
-            //empty for now
+            System.out.println("Role: HR Manager");
         }
     }
     //General Employee
@@ -366,8 +405,8 @@ public class Login {
             }
         }
     }
-    private static void AddGeneralEmployee(Manager emp) {
-        System.out.println("Adding new General employee:");
+    private static void AddEmployee(Manager emp,char type) {
+        System.out.println("Adding new employee:");
         Scanner scanner = new Scanner(System.in);
         Integer id=null;
         String Id=null;
@@ -444,53 +483,48 @@ public class Login {
                 vacationDays=Integer.parseInt(vacationDaysScan);
         }while(!Network.checkSalary(vacationDays));
 
-
         System.out.println("Password: ");
         String password = scanner.nextLine();
-        System.out.println("Is he a shift manager?: ");
-        String shiftManager = scanner.nextLine();
-        boolean SM=true;
-        List<Role> newRL=new ArrayList<>();
-        if(shiftManager.equals("no")) {
-            SM=false;
-            System.out.println("Choose roles of the employee,\npress all the numbers of the roles you desire then enter: ");
-            List<Role> RL = null;
-            RL = ((Manager) emp).getNetwork().getRoles();
-            int i = 1;
-            for (Role r : RL) {
-                System.out.println(i + ". " + r.getRoleName());
-                i++;
-            }
-            String rolesLine = scanner.nextLine();
-            int j=0;
-            i = 1;
-            for (Role r : RL) {
-                if(i==rolesLine.charAt(j)) {
-                    newRL.add(r);
-                    j++;
+        if(type=='g') {
+            System.out.println("Is he a shift manager?: ");
+            String shiftManager = scanner.nextLine();
+            boolean SM = true;
+            List<Role> newRL = new ArrayList<>();
+            if (shiftManager.equals("no")) {
+                SM = false;
+                System.out.println("Choose roles of the employee,\npress all the numbers of the roles you desire then enter: ");
+                List<Role> RL = null;
+                RL = ((Manager) emp).getNetwork().getRoles();
+                int i = 1;
+                for (Role r : RL) {
+                    System.out.println(i + ". " + r.getRoleName());
+                    i++;
                 }
-                i++;
-                if(j>rolesLine.length())
-                    break;
+                String rolesLine = scanner.nextLine();
+                int j = 0;
+                i = 1;
+                for (Role r : RL) {
+                    if (i == rolesLine.charAt(j)) {
+                        newRL.add(r);
+                        j++;
+                    }
+                    i++;
+                    if (j > rolesLine.length())
+                        break;
+                }
             }
+            Branch branch = ((BranchManager)emp).getBranch();
+            emp.addGeneralEmployee(id, name, bankAccount, salary, new Date(startOfEmp), new Date(endOfEmp), partOfJob, vacationDays, newRL, SM, branch, password);
         }
-        if(emp instanceof HRManager) {
-            String branchName = null;
-            do {
-                if (branchName != null)
-                    System.out.println("Branch name not valid");
-                System.out.println("Branch name: ");
-                branchName = scanner.nextLine();
-            } while (!((Manager) emp).getNetwork().checkBranch(branchName));
-            Branch branch = ((Manager) emp).getNetwork().getBranch(branchName);
-            ((HRManager)emp).addGeneralEmployee(id,name,bankAccount,salary,new Date(startOfEmp),new Date(endOfEmp),partOfJob,vacationDays,newRL,SM,branch,password);
-        }
-        else
-            ((BranchManager)emp).addGeneralEmployee(id,name,bankAccount,salary,new Date(startOfEmp),new Date(endOfEmp),partOfJob,vacationDays,newRL,SM,password);
+        else if(type=='m') {
+            Branch branch = branchSelect(emp.getNetwork());
+            if(branch!=null)
+                ((HRManager)emp).addBranchManager(id, name, bankAccount, salary, new Date(startOfEmp), new Date(endOfEmp), partOfJob, vacationDays,branch,password);
 
+        }
     }
-    private static void UpdateGeneralEmployeeDetails(Employee emp) {
-        System.out.println("Update General employee:");
+    private static void UpdateEmployeeDetails(Employee emp) {
+        System.out.println("Update employee:");
         Integer id = emp.getID();
         Scanner scanner = new Scanner(System.in);
 
@@ -626,61 +660,10 @@ public class Login {
 
 
     }
-    private static void BMUpdateRolesOfShifts(BranchManager emp){
-        String branch = emp.getBranch().getBranchName();
-        UpdateRolesOfShifts(emp, branch);
-    }
-    /*
+    private static void changeEmployeeDetails()
+    {}
     private static void UpdateRolesOfShifts(BranchManager emp) {
         HashMap<Role, Integer[][]> rolesOfShifts = emp.getBranch().getRolesOfShifts();
-        printRoleOfShifts(rolesOfShifts);
-        int i = emp.getNetwork().getRoles().size();
-        List<Role> ls = emp.getNetwork().getRoles();
-        Scanner scanner = new Scanner(System.in);
-        String stringRoleToChange = "";
-        System.out.println("What role would you like to change? If finish enter 0.");
-        stringRoleToChange = scanner.nextLine();
-        while (!stringRoleToChange.equals("0")) {
-            while (!isRole(stringRoleToChange, emp.getNetwork().getRoles())) {
-                System.out.println("Invalid answer, try again: ");
-                stringRoleToChange = scanner.nextLine();
-            }
-            String day = "";
-            String numOfEmployees = "";
-            System.out.println("Which day to change?\n1.Sunday\n2.Monday\n3.Tuesday\n4.Wednesday\n5.Thursday\n6.Friday\n7.Saturday\n");
-            day = scanner.nextLine();
-            if (!(onlyNumbers(day)))
-                System.out.println("Please send a number between 1-7.");
-            else {
-                int theDay = Integer.parseInt(day);
-                if (theDay < 1 || theDay > 7)
-                    System.out.println("Please send a number between 1-7.");
-                else {
-                    System.out.println("Which shift?\n1.Morning\n2.Evening\n3.Back to day selection");
-                    String shift = scanner.nextLine();
-                    if (!(onlyNumbers(day)))
-                        System.out.println("Not a valid option, select only numbers.");
-                    else {
-                        int theShift = Integer.parseInt(shift);
-                        if (theShift < 1 || theShift > 3)
-                            System.out.println("Please send a number between 1-3.");
-                        else {
-                            System.out.println("Please enter a number for the desired number of employees in the shift.");
-                            numOfEmployees = scanner.nextLine();
-                            Role roleToChange = emp.getNetwork().getRole(stringRoleToChange);
-                            rolesOfShifts.get(roleToChange)[theShift - 1][theDay - 1] = Integer.parseInt(numOfEmployees);
-                            System.out.println("New roles of shifts: ");
-                            printRoleOfShifts(rolesOfShifts);
-                        }
-                    }
-                }
-            }
-            System.out.println("What role would you like to change? Enter the matching number. If finish enter 0.");
-            stringRoleToChange = scanner.nextLine();
-        }
-    }*/
-    private static void UpdateRolesOfShifts(Manager emp, String branch) {
-        HashMap<Role, Integer[][]> rolesOfShifts = emp.getNetwork().getBranch(branch).getRolesOfShifts();
         printRoleOfShifts(rolesOfShifts);
         int i = emp.getNetwork().getRoles().size();
         List<Role> ls = emp.getNetwork().getRoles();
@@ -952,36 +935,85 @@ public class Login {
         }
         System.out.println();
     }
-
     //HR Manager
-    private static void HRUpdateBranchRolesOfShifts(HRManager emp){
+    private static Branch branchSelect(Network network){
         Scanner scanner = new Scanner(System.in);
-        String branch = "";
-        System.out.println("Which branch would you like to update? To return to the main menu enter 0.");
-        for (Branch b: emp.getNetwork().getBranchList()){
-            System.out.println(b.getBranchName());
+        String SelectedBranch = "s";
+        System.out.println("Select branch:");
+        Branch[] branches = new Branch[network.getBranchList().size()+1];
+        int i=1;
+        for (Branch b: network.getBranchList()){
+            System.out.println(i+". "+b.getBranchName());
+            branches[i]=b;
+            i++;
         }
-        branch = scanner.nextLine();
-        while (!branch.equals("0")){
-            while (!isBranch(branch, emp)){
-                System.out.println("Invalid answer, try again: ");
-                branch = scanner.nextLine();
+        System.out.println(i+". return back");
+
+        int SelectedBranchIndex;
+        do{
+            while(!onlyNumbers(SelectedBranch)) {
+                SelectedBranch = scanner.nextLine();
+                if (!onlyNumbers(SelectedBranch))
+                    System.out.println("Not valid number");
             }
-            UpdateRolesOfShifts(emp, branch);
-            System.out.println("Which branch would you like to update? To return to the main menu enter 0.");
-            for (Branch b: emp.getNetwork().getBranchList()){
-                System.out.println(b.getBranchName());
+            SelectedBranchIndex=Integer.parseInt(SelectedBranch);
+        }while(SelectedBranchIndex>branches.length+1 || SelectedBranchIndex<1);
+
+        if (SelectedBranchIndex!=i)
+            return branches[SelectedBranchIndex-1];
+        else
+            return null;
+
+    }
+    private static void HRUpdateBranchRolesOfShifts(HRManager emp){
+        Branch b=branchSelect(emp.getNetwork());
+        if(b!=null)
+            UpdateRolesOfShifts(b.getBranchManager());
+    }
+    private static void HRAddGeneralEmployee(HRManager emp) {
+        Branch b=branchSelect(emp.getNetwork());
+        if(b!=null)
+            AddEmployee(b.getBranchManager(),'g');
+    }
+    private static void HRShowBranchShiftsAvailability(HRManager emp) {
+        Branch b=branchSelect(emp.getNetwork());
+        if(b!=null)
+            ShowShiftAvailability(b.getBranchManager());
+    }
+    private static void HRUpdateBranchShiftsOfWeek(HRManager emp) {
+        Branch b=branchSelect(emp.getNetwork());
+        if(b!=null)
+            UpdateShiftsOfWeek(b.getBranchManager());
+    }
+    private static void HRShowEmployeeDetails(HRManager emp) {
+        Scanner scanner = new Scanner(System.in);
+        Integer id = null;
+        while(true) {
+            do {
+                if (id != null)
+                    System.out.println("ID not valid");
+                id = -1;
+                System.out.println("ID of employee to show?");
+                String salaryScan = scanner.nextLine();
+                if (onlyNumbers(salaryScan))
+                    id = Integer.parseInt(salaryScan);
+            } while (!Network.CheckID(id));
+            Employee e=emp.getNetwork().SearchByID(id);
+            if(e!=null) {
+                showYourDetails(e);
+                return ;
             }
-            branch = scanner.nextLine();
         }
     }
+    private static void HRUpdateEmployeeDetails(HRManager emp) {
+        //?? shay
+    }
 
-    public static boolean isBranch(String branch, HRManager emp){
-        for (Branch b: emp.getNetwork().getBranchList()) {
-            if (b.getBranchName().equals(branch))
-                return true;
-        }
-        return false;
+    private static void HRAssignBranchManager(HRManager emp) {
+        Branch b=branchSelect(emp.getNetwork());
+        if(b!=null)
+            AddEmployee(emp,'m');
+
     }
 }
 

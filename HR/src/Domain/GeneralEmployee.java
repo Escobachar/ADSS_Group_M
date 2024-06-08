@@ -13,7 +13,6 @@ public class GeneralEmployee extends Employee {
         this.getAccess().add("updateShifts");
         this.getAccess().add("ShowShiftReq");
         this.getAccess().add("getShifts");
-        this.getAccess().add("ShowYourDetails");
         this.isManager=isManager;
         this.ShiftsRequest=new boolean[Network.shifts][Network.days];
         this.roles=roles;

@@ -42,12 +42,11 @@ public class Branch {
         }
         historyEmployeesShifts = new LinkedList<>();
     }
-
-
     //creating new branch without manager(inserting him manually after creating it)
     public Branch(String name,String location,Network network){
         this(name,location,network,null);
     }
+    public BranchManager getBranchManager(){return branchManager;}
     public void setBranchManager(BranchManager brm){
         this.branchManager=brm;
     }

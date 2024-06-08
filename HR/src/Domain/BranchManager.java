@@ -13,7 +13,6 @@ public class BranchManager extends Manager{
         branch.setBranchManager(this);
         this.getAccess().add("AddGeneralEmployee");
         this.getAccess().add("UpdateGeneralEmployeeDetails");
-        this.getAccess().add("UpdateGeneralEmployeeRoles");
         this.getAccess().add("ShowEmployeeDetails");
         this.getAccess().add("UpdateBranchShifts");
         this.getAccess().add("UpdateRolesOfShifts");
