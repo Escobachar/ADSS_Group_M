@@ -38,8 +38,12 @@ public class Branch {
                 }
             }
 
-
         }
+        for(int i=0;i<Network.shifts;i++)
+            for (int j = 0; j < Network.days; j++)
+                rolesOfShifts.get(network.getRole("Shift Manager"))[i][j]=1;
+
+
         historyEmployeesShifts = new LinkedList<>();
     }
     //creating new branch without manager(inserting him manually after creating it)
@@ -68,6 +72,8 @@ public class Branch {
     public Employee getEmployee(int id) {
         for (Employee e : employeesList)
             if (e.getID() == id) return e;
+        if(branchManager.getID()==id)
+            return branchManager;
         return null;
     }
     public GeneralEmployee SearchGeneralEmployee(int id) {

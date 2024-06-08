@@ -46,4 +46,5 @@ abstract public class Manager extends Employee{
         employee.setRoles(roles);
     }
     public void setNetwork(Network network){this.network=network;}
+
 }

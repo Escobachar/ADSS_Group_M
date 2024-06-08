@@ -46,11 +46,12 @@ public class GeneralEmployee extends Employee {
 
     }
     public boolean isManager(){return this.isManager;}
+    public void setManager(boolean isManager ){this.isManager=isManager;}
 
     public List<Role> getRoles(){return this.roles;}
 
     public Branch getBranch() {return branch;}
-
+    public void setBranch(Branch branch) {this.branch=branch;}
     public boolean[][] getShiftsRequest(){return ShiftsRequest;}
 
     public void setRoles(List<Role> roles) {

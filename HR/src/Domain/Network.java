@@ -2,7 +2,7 @@ package Domain;
 
 import java.util.*;
 public class Network {
-    public static int days =7;
+    public static int days =6;
     public static int shifts = 2;
     private List<Branch> branchList;
     private HRManager HRmanager;

@@ -20,7 +20,7 @@ public class BranchManager extends Manager{
         branch.getEmployeesList().add(this);
     }
     public Branch getBranch() {return branch;}
-
+    public void setBranch(Branch branch) {this.branch=branch;}
     public void addGeneralEmployee(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment, String partOfJob, int vacationsDays, List<Role> roles, boolean isManager, String password){
        super.addGeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,null,partOfJob,vacationsDays,roles,isManager,branch, password);
     }
@@ -30,9 +30,6 @@ public class BranchManager extends Manager{
     public void UpdateEmployee(int ID,String name, String bankAccountDetails, int salary,Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,boolean isManager, String password){
         super.UpdateEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,roles,isManager,branch, password);
     }
-//    public void updateShiftsOfBranch(){
-//        super.updateShiftsOfBranch(branch);
-//    }
     public void updateRolesOfShiftsOfBranch(HashMap<Role,Integer[][]> rolesOfShifts) {
         super.updateRolesOfShiftsOfBranch(branch,rolesOfShifts);
     }

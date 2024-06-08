@@ -83,7 +83,7 @@ public class Login {
                 i++;
             }
             if (access.contains("getShifts")) {
-                System.out.println("Show this week shifts");
+                System.out.println(i + ". Show this week shifts");
                 options[i] = "getShifts";
                 i++;
             }
@@ -162,7 +162,7 @@ public class Login {
             }
 
             System.out.println(i + ". Logoff");
-            options[i] = i + ". Logoff";
+            options[i] = "Logoff";
 
             String action = "s";
             int actionIndex;
@@ -176,7 +176,6 @@ public class Login {
             }while(actionIndex>options.length || actionIndex<1);
 
             switch (options[actionIndex]) {
-
                 case "ShowYourDetails":
                     showYourDetails(emp);
                     break;
@@ -185,17 +184,17 @@ public class Login {
                     updateShifts((GeneralEmployee)emp);
                     break;
                 case "getShifts":
-                    getGeneralEmployeeShifts(emp);
+                    getGeneralEmployeeShifts((GeneralEmployee)emp);
                     break;
                 case "ShowShiftReq":
-                    getShiftsReq(emp);
+                    getShiftsReq((GeneralEmployee)emp);
                     break;
                 //Branch Manager
                 case "AddGeneralEmployee":
                     AddEmployee((BranchManager) emp,'g');
                     break;
                 case "UpdateGeneralEmployeeDetails":
-                    UpdateEmployeeDetails(emp);
+                    UpdateEmployeeDetails((BranchManager)emp);
                     break;
                 case "ShowEmployeeDetails":
                     ShowDetailsOnGeneralEmployee((BranchManager) emp);
@@ -238,11 +237,9 @@ public class Login {
                 default:
                     System.out.println("not a valid action\n");
             }
+            i=1;
         }
     }
-
-
-
 
     private static void showYourDetails(Employee emp) {
         System.out.println("ID: " + emp.getID());
@@ -270,16 +267,16 @@ public class Login {
                 else {
                     System.out.println("roles:");
                     for (Role r : ge.getRoles())
-                        System.out.println("role - " + r.getRoleName());
+                        System.out.println(r.getRoleName());
                 }
             }
             System.out.println("Shifts requests for next week:");
-            getShiftsReq(emp);
+            getShiftsReq(ge);
             System.out.println("Branch: " + ge.getBranch().getBranchName());
         }
         else if(emp instanceof BranchManager){
             BranchManager bm = (BranchManager) emp;
-            System.out.println("Branch: " + bm.getBranch());
+            System.out.println("Branch: " + bm.getBranch().getBranchName());
             System.out.println("Role: Branch Manager");
         }
         else if(emp instanceof HRManager){
@@ -287,16 +284,8 @@ public class Login {
         }
     }
     //General Employee
-    private static void getGeneralEmployeeShifts(Employee emp) {
-        GeneralEmployee ge = (GeneralEmployee) emp;
-        String[][] shifts = new String[Network.shifts][Network.days];
-        for (int i = 0; i < Network.shifts; i++)
-            for (int j = 0; j < Network.days; j++)
-                if (ge.getBranch().getEmployeesShifts()[i][j].get(ge.getName())!=null)
-                    shifts[i][j] = "yes";
-                else
-                    shifts[i][j] = "no ";
-        shiftPrinter(shifts);
+    private static void getGeneralEmployeeShifts(GeneralEmployee emp) {
+        ShiftsOfWeekPrinter(emp.getBranch());
     }
     private static void shiftPrinter(String[][] shifts){
         System.out.print("----");
@@ -335,16 +324,16 @@ public class Login {
     private static void updateShifts(GeneralEmployee emp) {
         String day = "";
         while (true) {
-            System.out.println("Which day to change?\n1.Sunday\n2.Monday\n3.Tuesday\n4.Wednesday\n5.Thursday\n6.Friday\n7.Saturday\n8.Back to main menu");
+            System.out.println("Which day to change?\n1.Sunday\n2.Monday\n3.Tuesday\n4.Wednesday\n5.Thursday\n6.Friday\n7.Back to main menu");
             Scanner scanner = new Scanner(System.in);
             day = scanner.nextLine();
             if (!(onlyNumbers(day)))
-                System.out.println("Please send a number between 1-8.");
+                System.out.println("Please send a number between 1-"+(Network.days+1)+".");
             else {
                 int theDay = Integer.parseInt(day);
-                if (theDay < 1 || theDay > 8)
-                    System.out.println("Please send a number between 1-8.");
-                else if (theDay == 8)
+                if (theDay < 1 || theDay > 7)
+                    System.out.println("Please send a number between 1-"+(Network.days+1)+".");
+                else if (theDay == Network.days+1)
                     return;
                 else {
                     System.out.println("Which shift?\n1.Morning\n2.Evening\n3.Back to day selection");
@@ -354,7 +343,7 @@ public class Login {
                     else {
                         int theShift = Integer.parseInt(shift);
                         if (theShift < 1 || theShift > 3)
-                            System.out.println("Please send a number between 1-3.");
+                            System.out.println("Please send a number between 1-"+(Network.shifts+1)+".");
                         else if(theShift != 3){
                             emp.getShiftsRequest()[theShift - 1][theDay - 1] = !emp.getShiftsRequest()[theShift - 1][theDay - 1];
                             for (Role r : emp.getRoles())
@@ -373,7 +362,7 @@ public class Login {
             }
         }
     }
-    private static void getShiftsReq(Employee emp){
+    private static void getShiftsReq(GeneralEmployee emp){
         GeneralEmployee ge = (GeneralEmployee) emp;
         String[][] shifts = new String[Network.shifts][Network.days];
         for (int i = 0; i < Network.shifts; i++)
@@ -385,6 +374,37 @@ public class Login {
         shiftPrinter(shifts);
     }
     //Branch Manager
+    private static Role RolesSelect(Network network){
+        Scanner scanner = new Scanner(System.in);
+        String SelectedRole = "s";
+        System.out.println("Select role:");
+        Role[] roles = new Role[network.getRoles().size()+1];
+        int i=1;
+        for (Role r: network.getRoles()){
+            if(!r.getRoleName().equals("Shift Manager")) {
+                System.out.println(i + ". " + r.getRoleName());
+                roles[i] = r;
+                i++;
+            }
+        }
+        System.out.println(i+". return back");
+
+        int SelectedRoleIndex;
+        do{
+            while(!onlyNumbers(SelectedRole)) {
+                SelectedRole = scanner.nextLine();
+                if (!onlyNumbers(SelectedRole))
+                    System.out.println("Not valid number");
+            }
+            SelectedRoleIndex=Integer.parseInt(SelectedRole);
+        }while(SelectedRoleIndex>roles.length+1 || SelectedRoleIndex<1);
+
+        if (SelectedRoleIndex!=i)
+            return roles[SelectedRoleIndex];
+        else
+            return null;
+
+    }
     private static void ShowDetailsOnGeneralEmployee(BranchManager emp) {
         Scanner scanner = new Scanner(System.in);
         Integer id = null;
@@ -523,201 +543,255 @@ public class Login {
 
         }
     }
-    private static void UpdateEmployeeDetails(Employee emp) {
+    private static void UpdateEmployeeDetails(Manager emp) {
         System.out.println("Update employee:");
-        Integer id = emp.getID();
         Scanner scanner = new Scanner(System.in);
+        Integer id=null;
+        String Id=null;
+        boolean goodid=false;
+        do {
+            if(Id!=null)
+                System.out.println("ID not valid");
+            System.out.println("ID of employee: ");
+            Id = scanner.nextLine();
+            if(onlyNumbers(Id))
+                id=Integer.parseInt(Id);
 
-        System.out.println("DO you want to change employee name? y/n ");
+        }while(!Network.CheckID(id));
+        if(emp instanceof BranchManager) {
+            Employee e = ((BranchManager) emp).getBranch().getEmployee(id);
+            if((e instanceof BranchManager && e.getID().equals(emp.getID()) )|| (e instanceof HRManager )|| (e instanceof GeneralEmployee && ((GeneralEmployee)e).getBranch()!=((BranchManager) emp).getBranch()))
+                System.out.println("access denied");
+            else
+                changeEmployeeDetails(emp,emp.getNetwork().SearchByID(id));
+        }
+        else
+            changeEmployeeDetails(emp,emp.getNetwork().SearchByID(id));
+    }
+    private static void changeEmployeeDetails(Manager emp,Employee e){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("employee's name: "+e.getName());
+        System.out.print("DO you want to change? y/n ");
         String ans = scanner.nextLine();
         if (ans.equals("y")){
-            String name = "";
+            String name = null;
             do{
-                System.out.println("New name: ");
-                name = scanner.nextLine();}
-            while (!Network.CheckName(name));
+                if(name!=null)
+                    System.out.println("name not valid");
+                System.out.print("New name: ");
+                name = scanner.nextLine();
+            } while (!Network.CheckName(name));
+            e.setName(name);
         }
-        else {String name = emp.getName();}
 
-        System.out.println("DO you want to change employee bank account details? y/n ");
+        System.out.println("employee's bank account details: "+e.getBankAccountDetails());
+        System.out.print("DO you want to change? y/n ");
         ans = scanner.nextLine();
         if (ans.equals("y")){
-            String bankAccount = "";
+            String bank = null;
             do{
-                System.out.println("New bank account details: ");
-                bankAccount = scanner.nextLine();}
-            while (!Network.CheckBankAccountDetails(bankAccount));
+                if(bank!=null)
+                    System.out.println("bank account not valid");
+                System.out.print("New bank details: ");
+                bank = scanner.nextLine();
+            } while (!Network.CheckBankAccountDetails(bank));
+            e.setBankAccountDetails(bank);
         }
-        else {String bankAccount = emp.getBankAccountDetails();}
 
-        System.out.println("DO you want to change employee salary? y/n ");
+        System.out.println("employee's salary: "+e.getSalary());
+        System.out.print("DO you want to change? y/n ");
         ans = scanner.nextLine();
         if (ans.equals("y")){
-            String salary ="";
+            String salary = null;
             do{
-                System.out.println("New salary: ");
+                if(salary!=null)
+                    System.out.println("salary not valid");
+                System.out.print("New salary: ");
                 salary = scanner.nextLine();
-            }
-            while (!Network.checkSalary(salary));
+            } while (!Network.checkSalary(salary));
+            e.setSalary(Integer.parseInt(salary));
         }
-        else {Integer salary = emp.getSalary();}
 
-
-        Date startOfEmp = emp.getStartOfEmployment();
-
-        System.out.println("DO you want to change employee end of employment? y/n ");
+        System.out.println("employee's start of employment: "+e.getStartOfEmployment());
+        System.out.print("DO you want to change? y/n ");
         ans = scanner.nextLine();
         if (ans.equals("y")){
-            String endOfEmp = "";
+            String start = null;
             do{
-                System.out.println("New end of employment: ");
-                endOfEmp = scanner.nextLine();
-            }
-            while (!Network.checkCreateDate(endOfEmp));
+                if(start!=null)
+                    System.out.println("start of employment not valid");
+                System.out.print("New start of employment: ");
+                start = scanner.nextLine();
+            } while (!Network.checkCreateDate(start));
+            e.setStartOfEmployment(new Date(start));
         }
-        else {Date endOfEmp = emp.getStartOfEmployment();}
 
-        System.out.println("DO you want to change employee part of job? y/n ");
+        System.out.println("employee's end of employment: "+e.getEndOfEmployment());
+        System.out.print("DO you want to change? y/n ");
         ans = scanner.nextLine();
+        boolean good=false;
         if (ans.equals("y")){
-            String partOfJob = "";
+            String end = null;
             do{
-                System.out.println("New part of job: ");
-                partOfJob = scanner.nextLine();
-            }
-            while (!Network.checkPartOfJob(partOfJob));
+                if(end!=null)
+                    System.out.println("end of employment not valid");
+                System.out.print("New end of employment: ");
+                end = scanner.nextLine();
+                if(end.equals("TBD")) {
+                    good=true;
+                }
+                else
+                    good=Network.checkCreateDate(end);
+            } while (!good);
+            if(end.equals("TBD"))
+                e.setEndOfEmployment(null);
+            else
+                e.setEndOfEmployment(new Date(end));
         }
-        else {String partOfJob = emp.getPartOfJob();}
 
-        System.out.println("DO you want to change employee vacations days? y/n ");
+        System.out.println("employee's part of job: "+e.getPartOfJob());
+        System.out.print("DO you want to change? y/n ");
         ans = scanner.nextLine();
         if (ans.equals("y")){
-            String vacationDays = "";
+            String part = null;
             do{
-                System.out.println("New vacations days: ");
-                vacationDays = scanner.nextLine();
-            }
-            while (!Network.checkVacationsDays(vacationDays));
-
+                if(part!=null)
+                    System.out.println("part of job not valid");
+                System.out.print("New part of job: ");
+                part = scanner.nextLine();
+            } while (!Network.checkPartOfJob(part));
+            e.setPartOfJob(part);
         }
-        else {Integer vacationDays = emp.getVacationsDays();}
 
-        System.out.println("DO you want to change employee password? y/n ");
+        System.out.println("employee's number vacations days: "+e.getVacationsDays());
+        System.out.print("DO you want to change? y/n ");
         ans = scanner.nextLine();
         if (ans.equals("y")){
-            System.out.println("New password: ");
+            String vacations = null;
+            do{
+                if(vacations!=null)
+                    System.out.println("number of vacations days not valid");
+                System.out.print("New number of vacations days: ");
+                vacations = scanner.nextLine();
+            } while (!Network.checkVacationsDays(vacations));
+            e.setVacationsDays(Integer.parseInt(vacations));
+        }
+
+        System.out.println("employee's password: "+e.getPassword());
+        System.out.print("DO you want to change? y/n ");
+        ans = scanner.nextLine();
+        if (ans.equals("y")){
+            System.out.print("New password: ");
             String password = scanner.nextLine();
+            e.setPassword(password);
         }
-        else {String password = emp.getPassword();}
 
-        boolean shiftManager = ((GeneralEmployee)emp).isManager();
-        if(shiftManager){
-            System.out.println("This employee is a shift manager. Do you like to change it? y/n ");
-            ans = scanner.nextLine();
-            if (ans.equals("y")){
-                shiftManager = false;
-                System.out.println("Choose roles of the employee,\npress all the numbers of the roles you desire then enter: ");
-                List<Role> RL = ((Manager) emp).getNetwork().getRoles();
-                List<Role> newRL = null;
-                int i = 1;
-                for (Role r : RL) {
-                    System.out.println(i + ". " + r.getRoleName());
-                    i++;
-                }
-                String rolesLine = scanner.nextLine();
-                int j=0;
-                i = 1;
-                for (Role r : RL) {
-                    if(i==rolesLine.charAt(j)) {
-                        newRL.add(r);
-                        j++;
+        if(e instanceof GeneralEmployee) {
+            GeneralEmployee ge = (GeneralEmployee) e;
+            if (ge.isManager()) {
+                System.out.print("This employee is a shift manager.\n would you like to change it? y/n ");
+                ans = scanner.nextLine();
+                if (ans.equals("y")) {
+                    ge.setManager(false);
+                    System.out.print("Choose roles of the employee,\npress all the numbers of the roles you desire then enter: ");
+                    List<Role> RL = ((Manager) emp).getNetwork().getRoles();
+                    List<Role> newRL = null;
+                    int i = 1;
+                    for (Role r : RL) {
+                        System.out.println(i + ". " + r.getRoleName());
+                        i++;
                     }
-                    i++;
-                    if(j>rolesLine.length())
-                        break;
+                    String rolesLine = scanner.nextLine();
+                    int j = 0;
+                    i = 1;
+                    for (Role r : RL) {
+                        if (i == rolesLine.charAt(j)) {
+                            newRL.add(r);
+                            j++;
+                        }
+                        i++;
+                        if (j > rolesLine.length())
+                            break;
+                    }
+                }
+            } else {
+                System.out.print("This employee is not a shift manager.\n would you like to change it? y/n ");
+                ans = scanner.nextLine();
+                if (ans.equals("y")) {
+                    ge.setManager(true);
                 }
             }
         }
-        else {
-            System.out.println("This employee is not a shift manager. Do you like to change it? y/n ");
-            ans = scanner.nextLine();
-            if (ans.equals("y")){
-                shiftManager = true;
+            if(emp instanceof HRManager && !(e instanceof HRManager)) {
+                System.out.println("employee's branch: "+e.getBranch().getBranchName());
+                System.out.print("DO you want to change? y/n ");
+                ans = scanner.nextLine();
+                if (ans.equals("y")) {
+                    Branch b = branchSelect(emp.getNetwork());
+                    e.setBranch(b);
+                }
             }
-        }
 
-        System.out.println("DO you want to change employee branch? y/n ");
-        ans = scanner.nextLine();
-        if (ans.equals("y")){
-            String branch = "";
-            do{
-                System.out.println("New branch: ");
-                branch = scanner.nextLine();
-            }
-            while (!((Manager) emp).getNetwork().checkBranch(branch));
-        }
-        else {Branch branch = ((GeneralEmployee)emp).getBranch();}
-
-
+        System.out.println("successfully updated");
     }
-    private static void changeEmployeeDetails()
-    {}
     private static void UpdateRolesOfShifts(BranchManager emp) {
         HashMap<Role, Integer[][]> rolesOfShifts = emp.getBranch().getRolesOfShifts();
         printRoleOfShifts(rolesOfShifts);
         int i = emp.getNetwork().getRoles().size();
         List<Role> ls = emp.getNetwork().getRoles();
         Scanner scanner = new Scanner(System.in);
-        String stringRoleToChange = "";
-        System.out.println("What role would you like to change? If finish enter 0.");
-        stringRoleToChange = scanner.nextLine();
-        while (!stringRoleToChange.equals("0")) {
-            while (!isRole(stringRoleToChange, emp.getNetwork().getRoles())) {
-                System.out.println("Invalid answer, try again: ");
-                stringRoleToChange = scanner.nextLine();
-            }
-            String day = "";
-            String numOfEmployees = "";
-            System.out.println("Which day to change?\n1.Sunday\n2.Monday\n3.Tuesday\n4.Wednesday\n5.Thursday\n6.Friday\n7.Saturday\n");
-            day = scanner.nextLine();
-            if (!(onlyNumbers(day)))
-                System.out.println("Please send a number between 1-7.");
+        boolean done=false;
+        while(!done) {
+            System.out.println("What role would you like to change?");
+            Role r = RolesSelect(emp.getNetwork());
+            if(r==null)
+                done=true;
             else {
-                int theDay = Integer.parseInt(day);
-                if (theDay < 1 || theDay > 7)
-                    System.out.println("Please send a number between 1-7.");
-                else {
-                    System.out.println("Which shift?\n1.Morning\n2.Evening\n3.Back to day selection");
-                    String shift = scanner.nextLine();
+                boolean doneRole = false;
+                while (!doneRole) {
+                    String day = "";
+                    String numOfEmployees = null;
+                    System.out.println("Which day to change?\n1.Sunday\n2.Monday\n3.Tuesday\n4.Wednesday\n5.Thursday\n6.Friday\n7. go back");
+                    day = scanner.nextLine();
                     if (!(onlyNumbers(day)))
-                        System.out.println("Not a valid option, select only numbers.");
+                        System.out.println("Please send a number between 1-7.");
                     else {
-                        int theShift = Integer.parseInt(shift);
-                        if (theShift < 1 || theShift > 3)
-                            System.out.println("Please send a number between 1-3.");
-                        else {
-                            System.out.println("Please enter a number for the desired number of employees in the shift.");
-                            numOfEmployees = scanner.nextLine();
-                            Role roleToChange = emp.getNetwork().getRole(stringRoleToChange);
-                            rolesOfShifts.get(roleToChange)[theShift - 1][theDay - 1] = Integer.parseInt(numOfEmployees);
-                            System.out.println("New roles of shifts: ");
-                            printRoleOfShifts(rolesOfShifts);
+                        int theDay = Integer.parseInt(day);
+                        if (theDay < 1 || theDay > 7)
+                            System.out.println("Please send a number between 1-7.");
+                        else if (theDay == 7)
+                            doneRole = true;
+                        else{
+                            System.out.println("Which shift?\n1.Morning\n2.Evening\n3.Back to day selection");
+                            String shift = scanner.nextLine();
+                            if (!(onlyNumbers(day)))
+                                System.out.println("Not a valid option, select only numbers.");
+                            else {
+                                int theShift = Integer.parseInt(shift);
+                                if (theShift < 1 || theShift > 3)
+                                    System.out.println("Please send a number between 1-3.");
+                                else {
+                                    int numberOfEmployees = -1;
+                                    do {
+                                        if (numOfEmployees != null)
+                                            System.out.println("number of employees not valid");
+                                        System.out.print("Please enter a number for the desired number of employees in the shift: ");
+                                        numOfEmployees = scanner.nextLine();
+                                        if (onlyNumbers(numOfEmployees))
+                                            numberOfEmployees = Integer.parseInt(numOfEmployees);
+
+                                    } while (numberOfEmployees < 0);
+
+                                    rolesOfShifts.get(r)[theShift - 1][theDay - 1] = Integer.parseInt(numOfEmployees);
+                                    System.out.println("New roles of shifts: ");
+                                    shiftPrinter(emp.getBranch().getRolesOfShifts().get(r));
+                                }
+                            }
                         }
                     }
                 }
             }
-            System.out.println("What role would you like to change? Enter the matching number. If finish enter 0.");
-            stringRoleToChange = scanner.nextLine();
         }
-        return;
-    }
-    private static boolean isRole(String role, List<Role> roleList) {
-        for (Role r : roleList) {
-            if (role.equals(r.getRoleName())) {
-                return true;
-            }
-        }
-        return false;
     }
     private static void printRoleOfShifts(HashMap<Role, Integer[][]> rolesOfShifts){
         for (Role r : rolesOfShifts.keySet()) {
@@ -800,7 +874,7 @@ public class Login {
                 shiftPrinter(emp.getBranch().getRolesOfShifts().get(r));
 
                 String day = "";
-                System.out.println("Which day to change?\n1.Sunday\n2.Monday\n3.Tuesday\n4.Wednesday\n5.Thursday\n6.Friday\n7.Saturday\n8.next Role/exit if last Role");
+                System.out.println("Which day to change?\n1.Sunday\n2.Monday\n3.Tuesday\n4.Wednesday\n5.Thursday\n6.Friday\n7.Saturday\n8.next Role\n9.exit");
                 Scanner scanner = new Scanner(System.in);
                 day = scanner.nextLine();
                 if (!(onlyNumbers(day)))
@@ -810,8 +884,13 @@ public class Login {
                     if (theDay < 1 || theDay > 8)
                         System.out.println("Please send a number between 1-8.");
                     else if (theDay == 8) {
-                        nextRole = true;
-                    } else {
+                        if(ShiftManagerCheck(emp.getBranch()))
+                            nextRole = true;
+                        else
+                            System.out.println("Please put assign in everyday a shift manager");
+                    } else if (theDay == 9)
+                        return;
+                    else{
                         System.out.println("Which shift?\n1.Morning\n2.Evening\n3.Back to day selection");
                         String shift = scanner.nextLine();
                         if (!(onlyNumbers(day)))
@@ -850,15 +929,17 @@ public class Login {
                                                 selectedEmployee = ge;
                                             i++;
                                         }
-
-
                                         HashMap<String, Role> aDay = ShiftsOfWeek[theShift - 1][theDay - 1];
                                         if (aDay.containsKey(selectedEmployee.getName()))
                                             aDay.remove(selectedEmployee.getName());
-                                        else
-                                            aDay.put(selectedEmployee.getName(), r);
-
-
+                                        else {
+                                            int maxEmployees=emp.getBranch().rolesOfShifts().get(r)[theShift - 1][theDay - 1];
+                                            aDay.keySet().size();
+                                            if(aDay.keySet().size()==maxEmployees)
+                                                System.out.print("max employees in this day for this role reached.");
+                                            else
+                                                aDay.put(selectedEmployee.getName(), r);
+                                        }
                                         String answer = "";
                                         do {
                                             System.out.print("are you done with this day?(y/n): ");
@@ -876,7 +957,6 @@ public class Login {
                                         }
                                         System.out.println("current shifts:");
                                         ShiftsOfWeekPrinter(emp.getBranch());
-
                                     }
                                 }
                             }
@@ -885,6 +965,15 @@ public class Login {
                 }
             }
         }
+    }
+    private static boolean ShiftManagerCheck(Branch branch) {
+        for(int i=0;i<Network.shifts;i++)
+            for(int j=0;j<Network.days;j++) {
+                Role shiftManager=branch.getBranchManager().getNetwork().getRole("Shift Manager");
+                if(!branch.getEmployeesShifts()[i][j].containsValue(shiftManager))
+                    return false;
+            }
+        return true;
     }
     private static int maxStringLength(HashMap<String,Role> hm) {
         int maxStringLength = 0;
@@ -960,7 +1049,7 @@ public class Login {
         }while(SelectedBranchIndex>branches.length+1 || SelectedBranchIndex<1);
 
         if (SelectedBranchIndex!=i)
-            return branches[SelectedBranchIndex-1];
+            return branches[SelectedBranchIndex];
         else
             return null;
 
@@ -1006,9 +1095,8 @@ public class Login {
         }
     }
     private static void HRUpdateEmployeeDetails(HRManager emp) {
-        //?? shay
+        UpdateEmployeeDetails(emp);
     }
-
     private static void HRAssignBranchManager(HRManager emp) {
         Branch b=branchSelect(emp.getNetwork());
         if(b!=null)

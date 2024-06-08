@@ -38,6 +38,8 @@ abstract public class Employee {
     public String getPassword(){
         return password;
     }
+    public abstract void setBranch(Branch branch);
+    public abstract Branch getBranch();
     public Integer getID(){return  ID;}
     public String getName(){return name;}
     public String getBankAccountDetails(){return bankAccountDetails;}
@@ -75,21 +77,22 @@ abstract public class Employee {
         return startOfEmployment;
     }
 
-    protected void setStartOfEmployment(Date startOfEmployment) {
+    public void setStartOfEmployment(Date startOfEmployment) {
         this.startOfEmployment=new Date(startOfEmployment.getTime());
     }
-    protected void setEndOfEmployment(Date endOfEmployment) {
+    public void setEndOfEmployment(Date endOfEmployment) {
         if(endOfEmployment==null)
             this.endOfEmployment=null;
         else
             this.endOfEmployment=new Date(endOfEmployment.getTime());
     }
 
-    protected void setPartOfJob(String partOfJob) {
+    public void setPartOfJob(String partOfJob) {
         this.partOfJob= partOfJob;
     }
 
-    protected void setVacationsDays(Integer vacationsDays) {
+    public void setVacationsDays(Integer vacationsDays) {
         this.vacationsDays=vacationsDays;
     }
+    public void setPassword(String password) {this.password=password;}
 }

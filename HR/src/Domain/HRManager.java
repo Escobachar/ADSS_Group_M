@@ -45,7 +45,7 @@ public class HRManager extends Manager{
     public boolean addRoletoNetwork(Role r){
         return getNetwork().addRole(r);
     }
-
-
+    public void setBranch(Branch branch) {}
+    public Branch getBranch() {return null;}
 
 }
