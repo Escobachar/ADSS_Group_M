@@ -1,6 +1,7 @@
 package tests;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import suppliers.DomainLayer.OrdersFacade;
 import suppliers.DomainLayer.Order;
@@ -14,30 +15,36 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import org.junit.runners.MethodSorters;
 import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class OrdersFacadeTest {
-    private OrdersFacade ordersFacade;
-    private Order order;
-    private Product productMilk;
-    private Category categoryDairy;
-    private DiscountQuantity discountQuantity;
-    private Supplier supplier;
-
+    private static OrdersFacade ordersFacade;
+    private static Order order;
+    private static Product productMilk;
+    private static Category categoryDairy;
+    private static DiscountQuantity discountQuantity;
+    private static Supplier supplier;
+    private static boolean isSetUpComplete = false;
     @Before
     public void setUp() {
+
+        if (isSetUpComplete) {
+            return;
+        }
         ordersFacade = OrdersFacade.getInstance();
         supplier = new Supplier("Shimon", 1, "123", "check", false, "here");
         categoryDairy = new Category("Dairy", 0);
-        discountQuantity = new DiscountQuantity(1, 10, 5.9);
+        discountQuantity = DiscountQuantity.createDiscountQuantity(1, 10, 5.9);
         productMilk = new Product("milk", 1, 5.9, categoryDairy, discountQuantity);
         HashMap<Product,Integer> items = new HashMap<Product,Integer>();
         items.put(productMilk, 5);
         List<Day> days = new ArrayList<Day>();
         days.add(Day.SUNDAY);
         ordersFacade.addOrder(supplier, new Date(), new Date(), items, days);
+        isSetUpComplete = true;
     }
     //fail test
     @Test(expected = IllegalArgumentException.class)
@@ -71,8 +78,7 @@ public class OrdersFacadeTest {
         items.put(productMilk, 5);
         List<Day> days = new ArrayList<Day>();
         days.add(Day.SUNDAY);
-        order = new Order(2, supplier, new Date(), new Date(), items, days);
-        ordersFacade.addOrder(order);
+        ordersFacade.addOrder(supplier, new Date(), new Date(), items, days);
         assertTrue(ordersFacade.getOrder(2) != null);
     }
 
@@ -111,8 +117,8 @@ public class OrdersFacadeTest {
     public void J_TestsetOrderDeliveryDate(){
         LocalDate tomorrow = LocalDate.now().plusDays(1);
         Date deliveryDate = java.sql.Date.valueOf(tomorrow);
-        ordersFacade.setOrderDeliveryDate(1, deliveryDate);
-        assertTrue(ordersFacade.getOrder(1).getDeliveryDate().equals(deliveryDate));
+        ordersFacade.setOrderDeliveryDate(2, deliveryDate);
+        assertTrue(ordersFacade.getOrder(2).getDeliveryDate().equals(deliveryDate));
     }
     //fail test
     @Test(expected = IllegalArgumentException.class)
@@ -130,7 +136,7 @@ public class OrdersFacadeTest {
         Date deliveryDate = java.sql.Date.valueOf(not_include);
         ordersFacade.addOrder(supplier, new Date(), deliveryDate, items, days);
         HashMap<Integer,Order> orders = ordersFacade.getThisWeekOrders();
-        assertTrue(orders.size() == 1);
+        assertTrue(orders.size() == 2);
     }
     @Test
     public void M_testgetThisWeekPickupOrders(){
@@ -140,12 +146,13 @@ public class OrdersFacadeTest {
         items.put(productMilk, 5);
         LocalDate not_include = LocalDate.now().plusDays(10000000);
         Date deliveryDate = java.sql.Date.valueOf(not_include);
-        ordersFacade.addOrder(supplier, new Date(), deliveryDate, items, days);
+        Supplier newSupplier = new Supplier("new Shimon", 1, "123", "check", true, "here");
+        ordersFacade.addOrder(newSupplier, new Date(), deliveryDate, items, days);
         HashMap<Integer,Order> orders = ordersFacade.getThisWeekPickupOrders();
         assertTrue(orders.size() == 2);
     }
     @Test
     public void N_testOrderPrice(){
-        assertTrue(ordersFacade.getOrderPrice(1) == 5.9*5);
+        assertTrue(ordersFacade.getOrderPrice(2) == 5.9*5);
     }
 }

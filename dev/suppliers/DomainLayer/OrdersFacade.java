@@ -26,7 +26,7 @@ public class OrdersFacade {
     public int addOrder(Supplier supplier, Date creationDate, Date deliveryDate,
             HashMap<Product, Integer> items,
             List<Day> deliveryDays) {
-        if (deliveryDate.before(creationDate)) {
+        if (deliveryDate == null || deliveryDate.before(creationDate)) {
             throw new IllegalArgumentException("Delivery date must be after creation date");
         }
         if (items == null) {
@@ -40,13 +40,6 @@ public class OrdersFacade {
         orders.put(orderIdCounter, order);
         orderIdCounter++;
         return orderIdCounter - 1;
-    }
-
-    public void addOrder(Order order) {
-        if (orders.get(order.getOrderId()) != null) {
-            throw new IllegalArgumentException("Order already exists");
-        }
-        orders.put(order.getOrderId(), order);
     }
 
     public void addOrderConstDeliveryDay(int orderId, Day day) {
@@ -146,7 +139,7 @@ public class OrdersFacade {
         HashMap<Integer, Order> thisWeekOrders = this.getThisWeekOrders();
         HashMap<Integer, Order> thisWeekPickupOrders = new HashMap<Integer, Order>();
         for (Order order : thisWeekOrders.values()) {
-            if (order.isDelivering()) {
+            if (order.isDelivering() == false) {
                 thisWeekPickupOrders.put(order.getOrderId(), order);
             }
         }
@@ -160,9 +153,10 @@ public class OrdersFacade {
         }
         return toString;
     }
+
     public double calcOrderPrice(int orderId) {
         Order order = getOrder(orderId);
-        if(order == null){
+        if (order == null) {
             throw new IllegalArgumentException("Order not found");
         }
         return order.getPrice();
