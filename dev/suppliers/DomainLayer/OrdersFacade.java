@@ -136,14 +136,11 @@ public class OrdersFacade {
     }
 
     public HashMap<Integer, Order> getThisWeekPickupOrders() {
+        HashMap<Integer, Order> thisWeekOrders = this.getThisWeekOrders();
         HashMap<Integer, Order> thisWeekPickupOrders = new HashMap<Integer, Order>();
-        for (Order order : orders.values()) {
-            if (!order.isDelivering()) {
-                if (!order.getConstDeliveryDays().isEmpty()) {
-                    thisWeekPickupOrders.put(order.getOrderId(), order);
-                } else if (order.getDeliveryDate().getTime() - new Date().getTime() < 7 * 24 * 60 * 60 * 1000) {
-                    thisWeekPickupOrders.put(order.getOrderId(), order);
-                }
+        for (Order order : thisWeekOrders.values()) {
+            if (order.isDelivering()) {
+                thisWeekPickupOrders.put(order.getOrderId(), order);
             }
         }
         return thisWeekPickupOrders;
@@ -155,6 +152,13 @@ public class OrdersFacade {
             toString += order.orderToString() + "/n/n";
         }
         return toString;
+    }
+    public double calcOrderPrice(int orderId) {
+        Order order = getOrder(orderId);
+        if(order == null){
+            throw new IllegalArgumentException("Order not found");
+        }
+        return order.getPrice();
     }
 
 }

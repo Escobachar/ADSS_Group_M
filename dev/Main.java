@@ -53,7 +53,9 @@ public class Main {
             System.out.println("3. Remove Order");
             System.out.println("4. Display Order");
             System.out.println("5. Display This Week's Orders");
-            System.out.println("6. Back");
+            System.out.println("6. Disply this week deliveries");
+            System.out.println("7. Disply order price");
+            System.out.println("8. Back");
             Integer choice = inputToint();
             if (choice == null)
                 System.out.println("Invalid choice");
@@ -64,11 +66,24 @@ public class Main {
                     case 3 -> removeOrder();
                     case 4 -> displayOrder();
                     case 5 -> displayThisWeekOrders();
-                    case 6 -> flag = false;
+                    case 6 -> displyThisWeekDeliveries();
+                    case 7 -> DisplyOrderPrice();
+                    case 8 -> flag = false;
                     default -> System.out.println("Invalid choice");
                 }
             }
         }
+    }
+
+    private static Object DisplyOrderPrice() {
+        System.out.println("Enter Order ID");
+        Integer OrderId = inputToint();
+        if (OrderId == null)
+            System.out.println("Invalid choice");
+        else {
+            System.out.println(os.DisplyOrderPrice(OrderId));
+        }
+        return null;
     }
 
     private static void editOrder() {
@@ -704,6 +719,13 @@ public class Main {
         } else {
             System.out.println("Operation Canceled");
         }
+    }
+
+    public static void displyThisWeekDeliveries() {
+        if (os.displayThisWeekOrders().isEmpty())
+            System.out.println("No orders this week");
+        else
+            System.out.println(os.displayThisWeekOrders());
     }
 
     public static void main(String[] args) {

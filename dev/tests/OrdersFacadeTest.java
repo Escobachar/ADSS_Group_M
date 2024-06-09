@@ -41,7 +41,7 @@ public class OrdersFacadeTest {
     }
     //fail test
     @Test(expected = IllegalArgumentException.class)
-    public void testAddOrderByParamsEmptyItems() {
+    public void A_testAddOrderByParamsEmptyItems() {
         List<Day> days = new ArrayList<Day>();
         days.add(Day.SUNDAY);
         ordersFacade.addOrder(supplier, new Date(), new Date(), null, days);
@@ -49,14 +49,14 @@ public class OrdersFacadeTest {
     }
     //fail test
     @Test(expected = IllegalArgumentException.class)
-    public void testAddOrderByParamsEmptyDays() {
+    public void B_testAddOrderByParamsEmptyDays() {
         HashMap<Product,Integer> items = new HashMap<Product,Integer>();
         items.put(productMilk, 5);
         ordersFacade.addOrder(supplier, new Date(), new Date(), items, null);
         assertTrue(ordersFacade.getOrder(1) != null);
     }
     @Test
-    public void testAddOrderByParams() {
+    public void C_testAddOrderByParams() {
         HashMap<Product,Integer> items = new HashMap<Product,Integer>();
         items.put(productMilk, 5);
         List<Day> days = new ArrayList<Day>();
@@ -66,7 +66,7 @@ public class OrdersFacadeTest {
     }
     @Test
     // check if really needed
-    public void testAddOrderByOrder() {
+    public void D_testAddOrderByOrder() {
         HashMap<Product,Integer> items = new HashMap<Product,Integer>();
         items.put(productMilk, 5);
         List<Day> days = new ArrayList<Day>();
@@ -77,16 +77,16 @@ public class OrdersFacadeTest {
     }
 
     @Test
-    public void testAddOrderConstDeliveryDay() {   
+    public void E_testAddOrderConstDeliveryDay() {   
         ordersFacade.addOrderConstDeliveryDay(1, Day.SUNDAY);
         assertTrue(ordersFacade.getOrder(1).getConstDeliveryDays().contains(Day.SUNDAY));
     }
     @Test
-    public void testRemoveConstDeliveryDay() {
+    public void F_testRemoveConstDeliveryDay() {
         ordersFacade.removeOrderConstDeliveryDay(1, Day.SUNDAY); // need to add day
         assertTrue(ordersFacade.getOrder(1).getConstDeliveryDays().isEmpty());
     }
-    public void testAddOrderConstDeliveryDays() {
+    public void G_testAddOrderConstDeliveryDays() {
         List<Day> days = new ArrayList<Day>();
         days.add(Day.SUNDAY);
         days.add(Day.MONDAY);
@@ -94,7 +94,7 @@ public class OrdersFacadeTest {
         assertTrue(ordersFacade.getOrder(1).getConstDeliveryDays().contains(Day.SUNDAY));
         assertTrue(ordersFacade.getOrder(1).getConstDeliveryDays().contains(Day.MONDAY));
     }
-    public void testRemoveOrderConstDeliveryDays() {
+    public void H_testRemoveOrderConstDeliveryDays() {
         List<Day> days = new ArrayList<Day>();
         days.add(Day.SUNDAY);
         days.add(Day.MONDAY);
@@ -102,21 +102,13 @@ public class OrdersFacadeTest {
         ordersFacade.removeOrderConstDeliveryDays(1, days);
         assertTrue(ordersFacade.getOrder(1).getConstDeliveryDays().isEmpty());
     }
-    // @Test
-    // public void testChangeOrderItemQuantity() {
-    //     ordersFacade.ChangeOrderItemQuantity(1, productMilk.getCatalogNumber(), 5);
-    //     assertTrue(ordersFacade.getOrder(1).getItems().get(productMilk) == 5);
-    //     ordersFacade.ChangeOrderItemQuantity(1, productMilk.getCatalogNumber(), 0);
-    //     assertTrue(ordersFacade.getOrder(1).getItems().get(productMilk) == null);
-    // }
-    //fail test
     @Test(expected = IllegalArgumentException.class)
-    public void TestRemoveOrder() {
+    public void I_TestRemoveOrder() {
         ordersFacade.removeOrder(1);
         assertTrue(ordersFacade.getOrder(1) == null);
     }
     @Test 
-    public void TestsetOrderDeliveryDate(){
+    public void J_TestsetOrderDeliveryDate(){
         LocalDate tomorrow = LocalDate.now().plusDays(1);
         Date deliveryDate = java.sql.Date.valueOf(tomorrow);
         ordersFacade.setOrderDeliveryDate(1, deliveryDate);
@@ -124,13 +116,13 @@ public class OrdersFacadeTest {
     }
     //fail test
     @Test(expected = IllegalArgumentException.class)
-    public void TestsetOrderDeliveryDateBeforeCreationDate(){
+    public void K_TestsetOrderDeliveryDateBeforeCreationDate(){
         LocalDate yesterdayDate = LocalDate.now().minusDays(1);
         Date deliveryDate = java.sql.Date.valueOf(yesterdayDate);
         ordersFacade.setOrderDeliveryDate(1,deliveryDate);
     }
     @Test
-    public void testGetThisWeekOrders(){
+    public void L_testGetThisWeekOrders(){
         List<Day> days = new ArrayList<Day>();
         HashMap<Product,Integer> items = new HashMap<Product,Integer>();
         items.put(productMilk, 5);
@@ -141,7 +133,7 @@ public class OrdersFacadeTest {
         assertTrue(orders.size() == 1);
     }
     @Test
-    public void testgetThisWeekPickupOrders(){
+    public void M_testgetThisWeekPickupOrders(){
         List<Day> days = new ArrayList<Day>();
         days.add(Day.SUNDAY);
         HashMap<Product,Integer> items = new HashMap<Product,Integer>();
@@ -150,7 +142,10 @@ public class OrdersFacadeTest {
         Date deliveryDate = java.sql.Date.valueOf(not_include);
         ordersFacade.addOrder(supplier, new Date(), deliveryDate, items, days);
         HashMap<Integer,Order> orders = ordersFacade.getThisWeekPickupOrders();
-        int ordersSize = orders.size();
         assertTrue(orders.size() == 2);
+    }
+    @Test
+    public void N_testOrderPrice(){
+        assertTrue(ordersFacade.getOrderPrice(1) == 5.9*5);
     }
 }
