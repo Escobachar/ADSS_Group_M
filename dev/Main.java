@@ -42,7 +42,7 @@ public class Main {
     }
 
     private static void initializeData() {
-        Initialize();
+        Initialize init = new Initialize();
     }
 
     private static void orders() {
@@ -446,8 +446,9 @@ public class Main {
                 System.out.println("Invalid number");
                 return null;
             }
-            DiscountQuantity dq = new DiscountQuantity(catalogNumber, discountAmount,
+            DiscountQuantity dq = DiscountQuantity.createDiscountQuantity(catalogNumber, discountAmount,
                     discountPercentage);
+
             return new Product(productName, catalogNumber, productPrice, category, dq);
         } catch (Exception e) {
             System.out.println("Invalid number");
@@ -462,22 +463,27 @@ public class Main {
             System.out.println("Invalid number");
             return;
         }
-        boolean flag = true;
-        while (flag) {
-            System.out.println("1. Edit supplier card");
-            System.out.println("2. Edit supplier products");
-            System.out.println("3. Back");
-            Integer choice = inputToint();
-            if (choice == null) {
-                System.out.println("Invalid number");
-                return;
+        String isExists = ss.supplierExists(id);
+        if (isExists.equals("")) {
+            boolean flag = true;
+            while (flag) {
+                System.out.println("1. Edit supplier card");
+                System.out.println("2. Edit supplier products");
+                System.out.println("3. Back");
+                Integer choice = inputToint();
+                if (choice == null) {
+                    System.out.println("Invalid number");
+                    return;
+                }
+                switch (choice) {
+                    case 1 -> editSupplierCard(id);
+                    case 2 -> editSupplierProducts(id);
+                    case 3 -> flag = false;
+                    default -> System.out.println("Invalid choice");
+                }
             }
-            switch (choice) {
-                case 1 -> editSupplierCard(id);
-                case 2 -> editSupplierProducts(id);
-                case 3 -> flag = false;
-                default -> System.out.println("Invalid choice");
-            }
+        } else {
+            System.out.println(isExists);
         }
     }
 
