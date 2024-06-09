@@ -123,7 +123,7 @@ public class OrdersService {
         }
     }
 
-    public String DisplyOrderPrice(int orderId) {
+    public String displyOrderPrice(int orderId) {
         try {
             return "Order price: " + of.getOrderPrice(orderId);
         } catch (Exception e) {

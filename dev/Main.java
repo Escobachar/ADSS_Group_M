@@ -81,7 +81,7 @@ public class Main {
         if (OrderId == null)
             System.out.println("Invalid choice");
         else {
-            System.out.println(os.DisplyOrderPrice(OrderId));
+            System.out.println(os.displyOrderPrice(OrderId));
         }
         return null;
     }
@@ -172,6 +172,37 @@ public class Main {
     }
 
     private static void displayOrder() {
+        boolean flag = true;
+        while (flag) {
+            System.out.println("1. Display order");
+            System.out.println("2. Display order price");
+            System.out.println("3. Back");
+            Integer choice = inputToint();
+            if (choice == null) {
+                System.out.println("Invalid number");
+                return;
+            }
+            switch (choice) {
+                case 1 -> printOrder();
+                case 2 -> printOrderPrice();
+                case 3 -> displayBoughtSupplierProducts();
+                case 4 -> flag = false;
+                default -> System.out.println("Invalid choice");
+            }
+        }
+    }
+
+    private static void printOrderPrice() {
+        System.out.println("Enter Order ID");
+        Integer OrderId = inputToint();
+        if (OrderId == null)
+            System.out.println("Invalid choice");
+        else {
+            System.out.println(os.displyOrderPrice(OrderId));
+        }
+    }
+
+    private static void printOrder() {
         System.out.println("Enter Order ID");
         Integer OrderId = inputToint();
         if (OrderId == null)
