@@ -27,8 +27,8 @@ public class Branch {
         rolesOfShifts = new HashMap<Role,Integer[][]>();
         shiftsAvailability = new HashMap<Role,Set<GeneralEmployee>[][]>();
         for(Role r: network.getRoles()){
-            rolesOfShifts.put(r,new Integer[Network.days][Network.days]);
-            shiftsAvailability.put(r,new HashSet[Network.days][Network.days]);
+            rolesOfShifts.put(r,new Integer[Network.shifts][Network.days]);
+            shiftsAvailability.put(r,new HashSet[Network.shifts][Network.days]);
             Set<GeneralEmployee>[][] setList=shiftsAvailability.get(r);
             for(int i=0;i<Network.shifts;i++) {
                 rolesOfShifts.get(r)[i]=new Integer[Network.days];
@@ -55,9 +55,10 @@ public class Branch {
         this.branchManager=brm;
     }
     public String getBranchName(){return branchName;}
-    public Set<Role> getRoles(){
-        return rolesOfShifts.keySet();
+    public List<Role> getRoles(){
+        return network.getRoles();
     }
+
     public void setShiftsAvailability(HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability){this.shiftsAvailability=shiftsAvailability;}
     public HashMap<Role,Integer[][]> getRolesOfShifts(){return this.rolesOfShifts;}
     public HashMap<Role,Set<GeneralEmployee>[][]> getShiftsAvailability(){return this.shiftsAvailability;}
@@ -76,21 +77,6 @@ public class Branch {
             return branchManager;
         return null;
     }
-    public GeneralEmployee SearchGeneralEmployee(int id) {
-        for (Employee e : employeesList)
-            if ((e.getID() == id)&&(e instanceof GeneralEmployee)) return (GeneralEmployee)e;
-        return null;
-    }
-    public boolean isExist(int id) {
-        for (Employee e : employeesList)
-            if (e.getID() == id) return true;
-        return false;
-    }
-    public boolean isExist(String name) {
-        for (Employee e : employeesList)
-            if (e.getName().equals(name)) return true;
-        return false;
-    }
     public String getEmployeeName(int id) {
         for (Employee e : employeesList)
             if (e.getID() == id) return e.getName();
@@ -107,8 +93,22 @@ public class Branch {
         return null;
     }
     public HashMap<String,Role>[][] getEmployeesShifts(){return employeesShifts;}
-    public HashMap<Role,Integer[][]> rolesOfShifts(){return rolesOfShifts;}
 
+    public GeneralEmployee SearchGeneralEmployee(int id) {
+        for (Employee e : employeesList)
+            if ((e.getID() == id)&&(e instanceof GeneralEmployee)) return (GeneralEmployee)e;
+        return null;
+    }
+    public boolean isEmployeeExist(int id) {
+        for (Employee e : employeesList)
+            if (e.getID() == id) return true;
+        return false;
+    }
+    public boolean isEmployeeExist(String name) {
+        for (Employee e : employeesList)
+            if (e.getName().equals(name)) return true;
+        return false;
+    }
     public void addToHistory(HashMap<String,Role>[][] employeesShifts) {
         historyEmployeesShifts.add(employeesShifts);
     }

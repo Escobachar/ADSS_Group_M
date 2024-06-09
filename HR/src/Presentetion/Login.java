@@ -160,6 +160,11 @@ public class Login {
                 options[i] ="HRShowBranchShiftsAvailability";
                 i++;
             }
+            if(access.contains("HRAddBranch")){
+                System.out.println(i+ ". add a new branch");
+            options[i] ="HRAddBranch";
+            i++;
+        }
 
             System.out.println(i + ". Logoff");
             options[i] = "Logoff";
@@ -213,7 +218,7 @@ public class Login {
                     HRAddGeneralEmployee((HRManager)emp);
                     break;
                 case "HRAssignBranchManager":
-                    HRAssignBranchManager((HRManager)emp);
+                    HRAssignBranchManager((HRManager)emp,null);
                     break;
                 case "HRUpdateEmployeeDetails":
                     HRUpdateEmployeeDetails((HRManager)emp);
@@ -229,6 +234,9 @@ public class Login {
                     break;
                 case "HRShowBranchShiftsAvailability":
                     HRShowBranchShiftsAvailability((HRManager)emp);
+                    break;
+                case "HRAddBranch":
+                    addBranch((HRManager)emp);
                     break;
                 case "Logoff":
                     login = false;
@@ -323,6 +331,7 @@ public class Login {
     }
     private static void updateShifts(GeneralEmployee emp) {
         String day = "";
+        getShiftsReq(emp);
         while (true) {
             System.out.println("Which day to change?\n1.Sunday\n2.Monday\n3.Tuesday\n4.Wednesday\n5.Thursday\n6.Friday\n7.Back to main menu");
             Scanner scanner = new Scanner(System.in);
@@ -363,6 +372,7 @@ public class Login {
         }
     }
     private static void getShiftsReq(GeneralEmployee emp){
+        System.out.println("your current shifts request:");
         GeneralEmployee ge = (GeneralEmployee) emp;
         String[][] shifts = new String[Network.shifts][Network.days];
         for (int i = 0; i < Network.shifts; i++)
@@ -878,16 +888,16 @@ public class Login {
                 Scanner scanner = new Scanner(System.in);
                 day = scanner.nextLine();
                 if (!(onlyNumbers(day)))
-                    System.out.println("Please send a number between 1-8.");
+                    System.out.println("Please send a number between 1-9.");
                 else {
                     int theDay = Integer.parseInt(day);
-                    if (theDay < 1 || theDay > 8)
-                        System.out.println("Please send a number between 1-8.");
+                    if (theDay < 1 || theDay > 9)
+                        System.out.println("Please send a number between 1-9.");
                     else if (theDay == 8) {
                         if(ShiftManagerCheck(emp.getBranch()))
                             nextRole = true;
                         else
-                            System.out.println("Please put assign in everyday a shift manager");
+                            System.out.println("Please assign a shift manager in everyday ");
                     } else if (theDay == 9)
                         return;
                     else{
@@ -933,7 +943,7 @@ public class Login {
                                         if (aDay.containsKey(selectedEmployee.getName()))
                                             aDay.remove(selectedEmployee.getName());
                                         else {
-                                            int maxEmployees=emp.getBranch().rolesOfShifts().get(r)[theShift - 1][theDay - 1];
+                                            int maxEmployees=emp.getBranch().getRolesOfShifts().get(r)[theShift - 1][theDay - 1];
                                             aDay.keySet().size();
                                             if(aDay.keySet().size()==maxEmployees)
                                                 System.out.print("max employees in this day for this role reached.");
@@ -1097,10 +1107,36 @@ public class Login {
     private static void HRUpdateEmployeeDetails(HRManager emp) {
         UpdateEmployeeDetails(emp);
     }
-    private static void HRAssignBranchManager(HRManager emp) {
-        Branch b=branchSelect(emp.getNetwork());
+    private static void HRAssignBranchManager(HRManager emp,Branch b) {
+        if(b==null)
+             b=branchSelect(emp.getNetwork());
         if(b!=null)
             AddEmployee(emp,'m');
+
+    }
+    private static void addBranch(HRManager emp){
+        System.out.println("Adding new branch:");
+        Scanner scanner = new Scanner(System.in);
+
+        String name=null;
+        do {
+            if(name!=null)
+                System.out.println("name not valid");
+            System.out.println("Name: ");
+            name = scanner.nextLine();
+        }while(!Network.CheckName(name));
+
+        String location=null;
+        do {
+            if(location!=null)
+                System.out.println("location not valid");
+            System.out.println("location: ");
+            location = scanner.nextLine();
+        }while(!Network.CheckName(location));
+
+        System.out.println("add a new Manager to the branch:");
+        HRAssignBranchManager(emp,emp.addBranch(name,location,null));
+        System.out.println("branch added successfully");
 
     }
 }

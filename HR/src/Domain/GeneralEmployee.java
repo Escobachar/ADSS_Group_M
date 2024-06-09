@@ -65,8 +65,8 @@ public class GeneralEmployee extends Employee {
         if(!isManager)
             rolesUpdate = roles;
         else
-            rolesUpdate=branch.getRoles().stream().toList();
-        for (Role r : roles) {
+            rolesUpdate=branch.getRoles();
+        for (Role r : rolesUpdate) {
             Set<GeneralEmployee>[][] shiftsOfTheWeek = shiftsAvailability.get(r);
             for (int i = 0; i < shiftsOfTheWeek.length; i++) {
                 for (int j = 0; j < shiftsOfTheWeek[i].length; j++) {
