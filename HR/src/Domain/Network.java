@@ -41,6 +41,13 @@ public class Network {
         }
         return null;
     }
+    public Branch getBranch(String name){
+        for(Branch b:branchList) {
+            if(b.getBranchName().equals(name))
+                return b;
+        }
+        return null;
+    }
 
     public void addBranch(Branch branch){
         branchList.add(branch);
@@ -54,19 +61,20 @@ public class Network {
         }
         return emp;
     }
-    public Branch getBranch(String name){
-        for(Branch b:branchList) {
-            if(b.getBranchName().equals(name))
-                return b;
+    public boolean isBranchExist(String branch){
+        for(Branch br:branchList) {
+            if(br.getBranchName().equals(branch))
+                return true;
         }
-        return null;
+        return false;
     }
+
     public static boolean checkGeneralEmployee(int ID,String name, String bankAccountDetails, int salary,
                                                Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,
                                                boolean isManager,String branch, Network network){
 
         return (CheckID(ID) & CheckName(name) & CheckBankAccountDetails(bankAccountDetails) & checkSalary(salary) & checkPartOfJob(partOfJob)
-                & checkVacationsDays(vacationsDays) & checkRoles(roles) & network.checkBranch(branch));
+                & checkVacationsDays(vacationsDays) & checkRoles(roles) & network.isBranchExist(branch));
     }
     public static boolean CheckID(Integer ID){
         //ID - 9 numbers
@@ -95,8 +103,7 @@ public class Network {
         return true;
     }
     public static boolean checkSalary(int salary){
-        //salary - >0
-        return salary > 0;
+        return salary > 30;
     }
     public static boolean checkPartOfJob(String partOfJob){
         //partOfJob - "Full" or "Half"
@@ -120,13 +127,6 @@ public class Network {
                 return false;
         }
         return true;
-    }
-    public boolean checkBranch(String branch){
-        for(Branch br:branchList) {
-            if(br.getBranchName().equals(branch))
-                return true;
-        }
-        return false;
     }
     private static boolean onlyNumbers(String toCheck) {
         for (int i = 0; i < toCheck.length(); i++)
