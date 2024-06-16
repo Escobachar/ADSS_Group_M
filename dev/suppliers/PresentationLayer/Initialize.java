@@ -30,7 +30,7 @@ public class Initialize {
                 ss.addSupplierContact(2, "contact3", "123456789");
                 Category c1 = new Category("category1", 1);
                 Category c2 = new Category("category2", 2);
-                Product p1 = new Product("product1", 1, 1, c1, DiscountQuantity.createDiscountQuantity(1, 3, 10));
+                Product p1 = new Product("product1", 1, 5, c1, DiscountQuantity.createDiscountQuantity(1, 3, 10));
                 Product p2 = new Product("product2", 2, 2, c2, DiscountQuantity.createDiscountQuantity(2, 5, 20));
                 ss.addProduct(1, p1);
                 ss.addProduct(2, p2);

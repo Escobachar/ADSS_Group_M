@@ -89,21 +89,21 @@ public class Product {
 
     public double calculatePrice(int amount) {
         if (discount.getAmount() <= amount)
-            return (discount.getDiscountPrecentage() / 100) * amount;
+            return this.price * (1 - discount.getDiscountPrecentage() / 100) * amount;
         else
             return this.price * amount;
     }
 
     public String productToString(int amount) {
 
-        String prodact= "";
+        String prodact = "";
         prodact += String.valueOf(this.catalogNumber) + " ";
-        prodact+= this.name + " ";
-        prodact+= String.valueOf(amount) + " ";
-        prodact+= String.valueOf(this.price) + " ";
+        prodact += this.name + " ";
+        prodact += String.valueOf(amount) + " ";
+        prodact += String.valueOf(this.price) + " ";
         double discountForAmount = (this.discount.getAmount() <= amount) ? getDiscount().getDiscountPrecentage() : 1;
-        prodact+= String.valueOf(discountForAmount) + " ";
-        prodact+= String.valueOf(discountForAmount * this.price * amount);
+        prodact += String.valueOf(discountForAmount) + " ";
+        prodact += String.valueOf(calculatePrice(amount));
         return prodact;
     }
 
