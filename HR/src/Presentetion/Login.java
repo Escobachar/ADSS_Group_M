@@ -480,7 +480,7 @@ public class Login {
         do{
             if(startOfEmp!=null)
                 System.out.println("Start of employment not valid");
-            System.out.println("Start of employment(xx mm yyyy): ");
+            System.out.println("Start of employment(mm/dd/yyyy): ");
             startOfEmp = scanner.nextLine();
         }while(!Network.checkCreateDate(startOfEmp));
 
@@ -488,11 +488,14 @@ public class Login {
         do{
             if(endOfEmp!=null)
                 System.out.println("end of employment not valid");
-            System.out.println("end of employment(xx mm yyyy) or TBD: ");
+            System.out.println("end of employment(mm/dd/yyyy) or TBD: ");
             endOfEmp = scanner.nextLine();
         }while(!Network.checkCreateDate(endOfEmp) & !endOfEmp.equals("TBD"));
+        Date endDate;
         if (endOfEmp.equals("TBD"))
-            endOfEmp = null;
+            endDate = null;
+        else
+            endDate=new Date(endOfEmp);
 
         String partOfJob=null;
         do {
@@ -511,7 +514,7 @@ public class Login {
             String vacationDaysScan = scanner.nextLine();
             if(onlyNumbers(vacationDaysScan))
                 vacationDays=Integer.parseInt(vacationDaysScan);
-        }while(!Network.checkSalary(vacationDays));
+        }while(!Network.checkVacationsDays(vacationDays));
 
         System.out.println("Password: ");
         String password = scanner.nextLine();
@@ -544,13 +547,18 @@ public class Login {
                 }
             }
             Branch branch = ((BranchManager)emp).getBranch();
-            emp.addGeneralEmployee(id, name, bankAccount, salary, new Date(startOfEmp), new Date(endOfEmp), partOfJob, vacationDays, newRL, SM, branch, password);
+            emp.addGeneralEmployee(id, name, bankAccount, salary, new Date(startOfEmp), endDate, partOfJob, vacationDays, newRL, SM, branch, password);
         }
         else if(type=='m') {
             Branch branch = branchSelect(emp.getNetwork());
             if(branch!=null)
-                ((HRManager)emp).addBranchManager(id, name, bankAccount, salary, new Date(startOfEmp), new Date(endOfEmp), partOfJob, vacationDays,branch,password);
+                ((HRManager)emp).addBranchManager(id, name, bankAccount, salary, new Date(startOfEmp), endDate, partOfJob, vacationDays,branch,password);
 
+        }
+        else if(type=='b') {
+            Branch branch = Network.lookForNewBranch(emp.getNetwork());
+            if (branch != null)
+                ((HRManager) emp).addBranchManager(id, name, bankAccount, salary, new Date(startOfEmp), endDate, partOfJob, vacationDays, branch, password);
         }
     }
     private static void UpdateEmployeeDetails(Manager emp) {
@@ -630,7 +638,7 @@ public class Login {
             do{
                 if(start!=null)
                     System.out.println("start of employment not valid");
-                System.out.print("New start of employment: ");
+                System.out.print("New start of employment(mm/dd/yyyy): ");
                 start = scanner.nextLine();
             } while (!Network.checkCreateDate(start));
             e.setStartOfEmployment(new Date(start));
@@ -645,7 +653,7 @@ public class Login {
             do{
                 if(end!=null)
                     System.out.println("end of employment not valid");
-                System.out.print("New end of employment: ");
+                System.out.print("New end of employment(mm/dd/yyyy): ");
                 end = scanner.nextLine();
                 if(end.equals("TBD")) {
                     good=true;
@@ -1134,8 +1142,9 @@ public class Login {
             location = scanner.nextLine();
         }while(!Network.CheckName(location));
 
+        emp.addBranch(name,location,null);
         System.out.println("add a new Manager to the branch:");
-        HRAssignBranchManager(emp,emp.addBranch(name,location,null));
+        AddEmployee(emp,'b');
         System.out.println("branch added successfully");
 
     }

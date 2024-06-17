@@ -1,5 +1,7 @@
 package Domain;
 
+import com.sun.source.tree.NewArrayTree;
+
 import java.util.*;
 public class Network {
     public static int days =6;
@@ -74,7 +76,7 @@ public class Network {
                                                boolean isManager,String branch, Network network){
 
         return (CheckID(ID) & CheckName(name) & CheckBankAccountDetails(bankAccountDetails) & checkSalary(salary) & checkPartOfJob(partOfJob)
-                & checkVacationsDays(vacationsDays) & checkRoles(roles) & network.isBranchExist(branch));
+                & checkVacationsDays(vacationsDays) & network.isBranchExist(branch));
     }
     public static boolean CheckID(Integer ID){
         //ID - 9 numbers
@@ -113,20 +115,14 @@ public class Network {
         //vacationsDays - >0
         return vacationsDays >= 0;
     }
-    public static boolean checkRoles(List<Role> roles){
-        //roles - not empty
-        return !roles.isEmpty();
-     }
     public static boolean checkCreateDate(String createDate){
-        if(createDate.length()!=10)
-            return false;
-        for (int i = 0; i < createDate.length(); i++) {
-            if ((!(createDate.charAt(i) > 47 && createDate.charAt(i) < 58)) || createDate.charAt(i) != 32)
-                return false;
-            if ((i == 2 || i==5) && createDate.charAt(i) != 32)
-                return false;
+        boolean good=true;
+        try{
+            Date testing = new Date(createDate);
+        }catch(Exception e){
+            good=false;
         }
-        return true;
+        return good;
     }
     private static boolean onlyNumbers(String toCheck) {
         for (int i = 0; i < toCheck.length(); i++)
@@ -147,5 +143,11 @@ public class Network {
             return checkVacationsDays(Integer.parseInt(vacationDays));
         }
         return false;
+    }
+    public static Branch lookForNewBranch(Network network){
+        for(Branch b: network.branchList)
+            if(b.getBranchManager()==null)
+                return b;
+        return null;
     }
 }
