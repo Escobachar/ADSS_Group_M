@@ -97,13 +97,13 @@ public class Product {
     public String productToString(int amount) {
 
         String prodact = "";
-        prodact += String.valueOf(this.catalogNumber) + " ";
-        prodact += this.name + " ";
-        prodact += String.valueOf(amount) + " ";
-        prodact += String.valueOf(this.price) + " ";
+        prodact += "Catalog Number: "+String.valueOf(this.catalogNumber) + "| ";
+        prodact += "Name: "+this.name + "| ";
+        prodact += "Amount: "+String.valueOf(amount) + "| ";
+        prodact += "Single Price: "+String.valueOf(this.price) + "| ";
         double discountForAmount = (this.discount.getAmount() <= amount) ? getDiscount().getDiscountPrecentage() : 1;
-        prodact += String.valueOf(discountForAmount) + " ";
-        prodact += String.valueOf(calculatePrice(amount));
+        prodact += "Discount: "+String.valueOf(discountForAmount) + "| ";
+        prodact += "Total Price: "+String.valueOf(calculatePrice(amount));
         return prodact;
     }
 

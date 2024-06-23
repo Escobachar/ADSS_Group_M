@@ -5,7 +5,6 @@ import suppliers.DomainLayer.OrdersFacade;
 import suppliers.DomainLayer.Product;
 import suppliers.DomainLayer.SuppliersFacade;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -123,11 +122,19 @@ public class OrdersService {
         }
     }
 
-    public String displyOrderPrice(int orderId) {
+    public String displayOrderPrice(int orderId) {
         try {
             return "Order price: " + of.getOrderPrice(orderId);
         } catch (Exception e) {
             return e.getMessage();
         }
+    }
+
+    public boolean isOrderExists(int orderId) {
+        return of.isOrderExists(orderId);
+    }
+
+    public boolean isOrderCanBeEdit(int orderId) {
+        return of.isOrderCanBeEdit(orderId);
     }
 }

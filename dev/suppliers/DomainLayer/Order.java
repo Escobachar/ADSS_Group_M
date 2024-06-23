@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import suppliers.DaysOfTheWeek.Day;
 
 public class Order {
@@ -183,4 +185,10 @@ public class Order {
         return items.containsKey(product);
     }
 
+    public boolean canEdit() {
+        long diffInMillies = getDeliveryDate().getTime() - new Date().getTime();
+        if (TimeUnit.MILLISECONDS.toDays(diffInMillies) < 1) {
+return false;        }
+        return true;
+    }
 }
