@@ -5,6 +5,7 @@ import java.util.*;
 import org.junit.*;
 
 public class GeneralEmployeeTest {
+    public HRManager hrm;
     public GeneralEmployee ge;
     public Branch branch;
     public Network network;
@@ -14,16 +15,18 @@ public class GeneralEmployeeTest {
 
     @Before
     public void initTest() {
-        HRManager hrm = new HRManager(315213215, "tomer", "66666666", 500, new Date(2024, 5, 31), "half", 1,"1234");
-        network=new Network(hrm);
+        hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, new Date(2024, 6, 4), null, "Full", 18, "1111");
+        network = new Network(hrm);
         List<String> GeneralEmployeeAccess = new ArrayList<>();
         network.addRole(new Role("cashier",GeneralEmployeeAccess));
         network.addRole(new Role("storekeeper",GeneralEmployeeAccess));
-        branch = hrm.addBranch("Mazkeret", "Mazkeret Batya", null);
-        roles = hrm.getNetwork().getRoles();
-        ge = new GeneralEmployee(0, "shai", "66666666", 500, new Date(2024, 5, 31), "half", 1, roles, false, branch,"1234");
-        ShiftsRequest1 = new boolean[Network.shifts][Network.days];
-        ShiftsRequest2 = new boolean[Network.shifts][Network.days];
+        Branch branch = hrm.addBranch("Beer Sheva", "Beer Sheva", null);
+        BranchManager bm = new BranchManager(222222222, "Tomer Cohen", "2222222222", 50, new Date(2024, 6, 4), null, "Half", 18, branch, "2222", network);
+        List<Role> roleList = hrm.getNetwork().getRoles();
+        List<Role> oneRole = new ArrayList<>();
+        oneRole.add(roleList.get(1));
+        GeneralEmployee ge1 = hrm.addGeneralEmployee(333333333, "Shahar Bar", "3333333333", 40, new Date(2024, 6, 4), null, "Full", 10, roleList, true, branch, "3333");
+        GeneralEmployee ge2 = hrm.addGeneralEmployee(444444444, "Shelly", "444444444", 40, new Date(2024, 6, 4), null, "Half", 10, oneRole, false, branch, "4444");
 
         for (int i = 0; i < Network.shifts; i++) {
             for (int j = 0; j < Network.days; j++) {
@@ -35,7 +38,6 @@ public class GeneralEmployeeTest {
 
     @Test
     public void updateShifts0() {
-
         Assert.assertFalse("expected false",Arrays.deepEquals(ShiftsRequest1,ge.getShiftsRequest()));
     }
 

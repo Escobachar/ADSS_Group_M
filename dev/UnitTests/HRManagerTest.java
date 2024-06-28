@@ -6,24 +6,49 @@ import org.junit.*;
 
 public class HRManagerTest {
     public HRManager hrm;
-    public Employee e;
+    public BranchManager bm;
+    public GeneralEmployee ge1;
+    public GeneralEmployee ge2;
+    public Role cashier;
+    public Role storekeeper;
     public List<Role> roles;
     public Branch branch;
     public Network network;
     public boolean[][] ShiftsRequest1;
     public boolean[][] ShiftsRequest2;
     public Set<Integer>[][] employeesShifts_allTrueForShai;
-
+    public HashMap<Role, Integer[][]> rolesOfShifts;
     @Before
     public void initTest() {
-        hrm = new HRManager(111111111, "shelly", "11111111111", 50, new Date(2024, 6, 4), null, "Full", 18, "1111");
-        this.network = new Network(hrm);
-        List<String> GeneralEmployeeAccess = new ArrayList<>();
-        network.addRole(new Role("cashier",GeneralEmployeeAccess));
-        network.addRole(new Role("storekeeper",GeneralEmployeeAccess));
-        this.branch = hrm.addBranch("Beer Sheva", "Beer Sheva",null);
-        BranchManager bm = new BranchManager(123456788,"tomer cohen", "12345678", 500, new Date(2024, Calendar.JANUARY, 31), null,"half", 18,branch ,"1234",network);
-        roles=network.getRoles();
+        hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, new Date(2024, 6, 4), null, "Full", 18, "1111");
+        Network network = new Network(hrm);
+        List<String> GeneralEmployeeAccess = new ArrayList<String>();
+        cashier= new Role("cashier",GeneralEmployeeAccess);
+        storekeeper= new Role("storekeeper",GeneralEmployeeAccess);
+        network.addRole(cashier);
+        network.addRole(storekeeper);
+        branch = hrm.addBranch("Beer Sheva", "Beer Sheva", null);
+        bm = new BranchManager(222222222, "Tomer Cohen", "2222222222", 50, new Date(2024, 6, 4), null, "Half", 18, branch, "2222", network);
+        List<Role> roleList = hrm.getNetwork().getRoles();
+        List<Role> oneRole = new ArrayList<>();
+        oneRole.add(roleList.get(1));
+        ge1 = hrm.addGeneralEmployee(333333333, "Shahar Bar", "3333333333", 40, new Date(2024, 6, 4), null, "Full", 10, roleList, true, branch, "3333");
+        ge2 = hrm.addGeneralEmployee(444444444, "Shelly", "444444444", 40, new Date(2024, 6, 4), null, "Half", 10, oneRole, false, branch, "4444");
+
+        rolesOfShifts= new HashMap<>();
+        //need 1 role in every shift:
+        for(Role r: network.getRoles()) {
+            rolesOfShifts.put(r, new Integer[Network.shifts][Network.days]);
+            for (int i = 0; i < Network.shifts; i++) {
+                rolesOfShifts.get(r)[i] = new Integer[Network.days];
+                for (int j = 0; j < Network.days; j++) {
+                    rolesOfShifts.get(r)[i][j] = 3;
+                }
+            }
+        }
+        hrm.SetRolesOfShiftsOfBranch(branch,rolesOfShifts);
+
+
         ShiftsRequest1 = new boolean[Network.shifts][Network.days];
         ShiftsRequest2 = new boolean[Network.shifts][Network.days];
         employeesShifts_allTrueForShai = new Set[Network.shifts][Network.days];
@@ -33,7 +58,6 @@ public class HRManagerTest {
                 ShiftsRequest2[i][j] = false;
                 employeesShifts_allTrueForShai[i][j]= new HashSet<Integer>();
                 employeesShifts_allTrueForShai[i][j].add(123456789);
-
             }
         }
 
@@ -115,5 +139,23 @@ public class HRManagerTest {
         Assert.assertTrue(branch.isEmployeeExist("Shai Hubashi change"));
         Assert.assertFalse(branch.isEmployeeExist("Shai Hubashi"));
 
+    }
+
+    @Test
+    public void UpdateShifts1() {//success
+        ge1.updateShifts(ShiftsRequest1);
+        hrm.updateShift(ge1, cashier, branch, 1,1);
+        HashMap<String, Role> theShiftToTest= branch.getEmployeesShifts()[1][1];
+        HashMap<String, Role> theWantedShift = new HashMap<>();
+        theWantedShift.put("Shahar Bar",cashier);
+        Assert.assertEquals(theShiftToTest,theWantedShift);
+    }
+    @Test
+    public void UpdateShifts2() {//Fail
+        ge1.updateShifts(ShiftsRequest2);//all false
+        hrm.updateShift(ge1, cashier, branch, 1,1);//should fail
+        HashMap<String, Role> theShiftToTest= branch.getEmployeesShifts()[1][1];
+        HashMap<String, Role> theWantedShift = new HashMap<>();
+        Assert.assertEquals(theShiftToTest,theWantedShift);
     }
 }
