@@ -25,6 +25,14 @@ public class GeneralEmployee extends Employee {
         this(ID, name, bankAccountDetails, salary, startOfEmployment, null, partOfJob, vacationsDays,roles,isManager,branch,password);
 
     }
+    public GeneralEmployee(){}
+
+    public void createConstuctor(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment , Date endOfEmployment, String partOfJob,
+                            int vacationsDays, List<Role> roles, boolean isManager, Branch branch,String password){
+        GeneralEmployee ge=new GeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment ,endOfEmployment,partOfJob,
+        vacationsDays,roles,isManager,branch,password);
+        copyGeneralEmployee(ge);
+    }
 
     public void copyGeneralEmployee(GeneralEmployee other){
         this.setID(other.getID());

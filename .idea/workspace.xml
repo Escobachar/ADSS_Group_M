@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="HRnew:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4077e5f5-6c62-424f-b469-a875ffef33d9" name="Changes" comment="fix add Manager" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="PUSH_AUTO_UPDATE" value="true" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;tomeraf&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Escobachar/ADSS_Group_M.git&quot;,
+    &quot;accountId&quot;: &quot;3f77332e-23e0-409d-b0f4-682f24e53b71&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;Escobachar&quot;,
+    &quot;repository&quot;: &quot;ADSS_Group_M&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2hSH2HPHaCPgGHGPPN2SwFxOPq9" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Login.executor": "Debug",
+    "Application.Unnamed.executor": "Run",
+    "JUnit.GeneralEmployeeTest.updateShifts0.executor": "Run",
+    "JUnit.GeneralEmployeeTest.updateShifts1.executor": "Run",
+    "JUnit.GeneralEmployeeTest.updateShifts2.executor": "Run",
+    "JUnit.HRManagerTest.UpdateEmployee0.executor": "Run",
+    "JUnit.HRManagerTest.UpdateEmployee1.executor": "Run",
+    "JUnit.HRManagerTest.addEmployee1.executor": "Run",
+    "JUnit.HRManagerTest.addEmployee10.executor": "Run",
+    "JUnit.HRManagerTest.addEmployee11.executor": "Run",
+    "JUnit.HRManagerTest.addEmployee2.executor": "Run",
+    "JUnit.HRManagerTest.addEmployee3.executor": "Run",
+    "JUnit.HRManagerTest.addEmployee4.executor": "Run",
+    "JUnit.HRManagerTest.addEmployee5.executor": "Run",
+    "JUnit.HRManagerTest.addEmployee6.executor": "Run",
+    "JUnit.HRManagerTest.addEmployee7.executor": "Run",
+    "JUnit.HRManagerTest.addEmployee8.executor": "Run",
+    "JUnit.HRManagerTest.addEmployee9.executor": "Run",
+    "JUnit.HRManagerTest.updateShiftsOfBranch.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "315213215__209165737",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/uni/D/nitoz/HR/dev",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "editor.preferences.folding",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="Application.Unnamed">
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Presentetion.Login" />
+      <module name="HRnew" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HRManagerTest.UpdateEmployee0" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HRnew" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="UnitTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="UnitTests" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests.HRManagerTest" />
+      <option name="METHOD_NAME" value="UpdateEmployee0" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HRManagerTest.UpdateEmployee1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HRnew" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="UnitTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="UnitTests" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests.HRManagerTest" />
+      <option name="METHOD_NAME" value="UpdateEmployee1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HRManagerTest.addEmployee10" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HRnew" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="UnitTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="UnitTests" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests.HRManagerTest" />
+      <option name="METHOD_NAME" value="addEmployee10" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HRManagerTest.addEmployee11" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HRnew" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="UnitTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="UnitTests" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests.HRManagerTest" />
+      <option name="METHOD_NAME" value="addEmployee11" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HRManagerTest.updateShiftsOfBranch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HRnew" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="UnitTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="UnitTests" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests.HRManagerTest" />
+      <option name="METHOD_NAME" value="updateShiftsOfBranch" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.HRManagerTest.updateShiftsOfBranch" />
+        <item itemvalue="JUnit.HRManagerTest.UpdateEmployee1" />
+        <item itemvalue="JUnit.HRManagerTest.UpdateEmployee0" />
+        <item itemvalue="JUnit.HRManagerTest.addEmployee11" />
+        <item itemvalue="JUnit.HRManagerTest.addEmployee10" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17011.79" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17011.79" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4077e5f5-6c62-424f-b469-a875ffef33d9" name="Changes" comment="" />
+      <created>1717580349895</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1717580349895</updated>
+      <workItem from="1717580351000" duration="79000" />
+      <workItem from="1717580431931" duration="8376000" />
+      <workItem from="1717594492634" duration="6342000" />
+      <workItem from="1717600892703" duration="1263000" />
+      <workItem from="1717663322986" duration="4876000" />
+      <workItem from="1717673936683" duration="15621000" />
+      <workItem from="1717755762793" duration="9081000" />
+      <workItem from="1717836222522" duration="20663000" />
+      <workItem from="1717932088677" duration="7462000" />
+      <workItem from="1717964810433" duration="1063000" />
+      <workItem from="1718627994793" duration="4859000" />
+      <workItem from="1718792547775" duration="214000" />
+    </task>
+    <task id="LOCAL-00001" summary="Tomer working on login">
+      <option name="closed" value="true" />
+      <created>1717590296932</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1717590296932</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Tomer still working on login">
+      <option name="closed" value="true" />
+      <created>1717602132243</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1717602132243</updated>
+    </task>
+    <task id="LOCAL-00003" summary="General Employee working login">
+      <option name="closed" value="true" />
+      <created>1717668211071</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1717668211071</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Changes by shaih">
+      <option name="closed" value="true" />
+      <created>1717668232927</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1717668232927</updated>
+    </task>
+    <task id="LOCAL-00005" summary="General Employee working login">
+      <option name="closed" value="true" />
+      <created>1717694878927</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1717694878927</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Branch manager almost done">
+      <option name="closed" value="true" />
+      <created>1717694896817</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1717694896817</updated>
+    </task>
+    <task id="LOCAL-00007" summary=" Branch manager done">
+      <option name="closed" value="true" />
+      <created>1717796298846</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1717796298846</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Login update">
+      <option name="closed" value="true" />
+      <created>1717853771512</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1717853771512</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Login update">
+      <option name="closed" value="true" />
+      <created>1717874693925</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1717874693925</updated>
+    </task>
+    <task id="LOCAL-00010" summary="all done">
+      <option name="closed" value="true" />
+      <created>1717945478768</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1717945478768</updated>
+    </task>
+    <task id="LOCAL-00011" summary="all done">
+      <option name="closed" value="true" />
+      <created>1717945514530</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1717945514530</updated>
+    </task>
+    <task id="LOCAL-00012" summary="fix add Manager">
+      <option name="closed" value="true" />
+      <created>1718633012076</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1718633012076</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Tomer working on login" />
+    <MESSAGE value="Tomer still working on login" />
+    <MESSAGE value="Changes by shaih" />
+    <MESSAGE value="General Employee working login" />
+    <MESSAGE value="Branch manager almost done" />
+    <MESSAGE value=" Branch manager done" />
+    <MESSAGE value="Login update" />
+    <MESSAGE value="all done" />
+    <MESSAGE value="fix add Manager" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix add Manager" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

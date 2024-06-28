@@ -16,7 +16,7 @@ public class Network {
         HRmanager.setNetwork(this);
         branchList=new LinkedList<Branch>();
         roles = new LinkedList<>();
-        addRole(new Role("Shift Manager",new ArrayList<>()));
+        addRole(new Role("shift manager",new ArrayList<>()));
     }
 
     public boolean addRole(Role r){
