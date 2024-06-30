@@ -1,9 +1,12 @@
 package DataLayer;
 
+import Domain.HRManager;
 import Domain.Network;
 
 public class NetworkRepositoryImp implements  NetworkRepository{
-    BranchRepositoryImp branchRepositoryImp;
+    private HRManagerDao HRManagerDao;
+    private BranchRepositoryImp branchRepositoryImp;
+    private RoleDaoImp RoleDaoImp;
 
     public NetworkRepositoryImp(){
         //todo

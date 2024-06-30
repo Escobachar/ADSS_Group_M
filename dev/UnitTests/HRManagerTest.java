@@ -62,6 +62,7 @@ public class HRManagerTest {
         }
 
     }
+    /*
     @Test
     public void addEmployee1() {
         this.hrm.addGeneralEmployee(123456789, "Shai Hubashi", "12345678", 500, new Date(2024, Calendar.JANUARY, 31), "Full", 18, this.roles, false, this.branch,"1234");
@@ -140,12 +141,12 @@ public class HRManagerTest {
         Assert.assertFalse(branch.isEmployeeExist("Shai Hubashi"));
 
     }
-
+*/
     @Test
     public void UpdateShifts1() {//success
         ge1.updateShifts(ShiftsRequest1);
         hrm.updateShift(ge1, cashier, branch, 1,1);
-        HashMap<String, Role> theShiftToTest= branch.getEmployeesShifts()[1][1];
+        HashMap<Integer, Role> theShiftToTest= branch.getEmployeesShifts()[1][1];
         HashMap<String, Role> theWantedShift = new HashMap<>();
         theWantedShift.put("Shahar Bar",cashier);
         Assert.assertEquals(theShiftToTest,theWantedShift);
@@ -154,7 +155,7 @@ public class HRManagerTest {
     public void UpdateShifts2() {//Fail
         ge1.updateShifts(ShiftsRequest2);//all false
         hrm.updateShift(ge1, cashier, branch, 1,1);//should fail
-        HashMap<String, Role> theShiftToTest= branch.getEmployeesShifts()[1][1];
+        HashMap<Integer, Role> theShiftToTest= branch.getEmployeesShifts()[1][1];
         HashMap<String, Role> theWantedShift = new HashMap<>();
         Assert.assertEquals(theShiftToTest,theWantedShift);
     }

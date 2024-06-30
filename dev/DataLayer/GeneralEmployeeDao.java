@@ -1,5 +1,6 @@
 package DataLayer;
 
+
 import java.sql.*;
 import java.sql.ResultSet;
 import Domain.GeneralEmployee;
@@ -57,11 +58,38 @@ public class GeneralEmployeeDao implements EmployeeDao {
             throw new RuntimeException(e);
         }
     }
-
     @Override
     public Employee read(int ID) {
         return null;//todo
     }
+/*
+    @Override
+    public Employee read(int ID) {
+        return null;//todo
+        String query = "SELECT * FROM Employees WHERE ID = ?";
+
+        try (PreparedStatement prepare = connection.prepareStatement(query));
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, ID);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("ID");
+                    String name = resultSet.getString("name");
+                    String department = resultSet.getString("department");
+                    double salary = resultSet.getDouble("salary");
+                    // Populate other fields as necessary
+
+                    employee = new Employee(id, name, department, salary);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception as needed, e.g., throw a custom exception or log the error
+        }
+        return employee;
+    }
+    }*/
 
     @Override
     public void update(Employee emp) {
