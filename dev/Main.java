@@ -563,7 +563,6 @@ public class Main {
             double productPrice = Double.parseDouble(sc.next());
             System.out.println("Enter product discount percentage");
             double discountPercentage = Double.parseDouble(sc.next());
-            System.out.println("Enter product discount amount");
             Integer discountAmount = inputToInt();
             if (discountAmount == null) {
                 System.out.println("Invalid number");
@@ -925,7 +924,7 @@ public class Main {
     
   
     public static void main(String[] args) {
-        //menuLoop();
-        connectToDatabase();
+        menuLoop();
+        //connectToDatabase();
     }
 }

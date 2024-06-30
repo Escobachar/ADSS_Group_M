@@ -7,24 +7,26 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import suppliers.DomainLayer.*;
+import suppliers.DomainLayer.Category;
+import suppliers.DomainLayer.DiscountQuantity;
+import suppliers.DomainLayer.Product;
 
 public class Initialize {
         public OrdersService os = OrdersService.getInstance();
         public SuppliersService ss = SuppliersService.getInstance();
 
         public Initialize() {
-                List<Integer> l2 = new LinkedList<Integer>();
+                List<Integer> l2 = new LinkedList<>();
                 l2.add(1);
                 l2.add(4);
-                ss.addSupplier("Supplier1", 1, "bank1", "payment1", new HashMap<String, String>(),
-                                new LinkedList<Integer>(),
+                ss.addSupplier("Supplier1", 1, "bank1", "payment1", new HashMap<>(),
+                                new LinkedList<>(),
                                 new HashMap<Category, HashMap<Integer, Product>>(), false, "address1");
                 ss.addSupplier("Supplier2", 2, "bank2", "payment2", new HashMap<String, String>(), l2,
                                 new HashMap<Category, HashMap<Integer, Product>>(), true, "address2");
                 ss.addSupplier("Supplier3", 3, "bank3", "payment3", new HashMap<String, String>(),
                                 new LinkedList<Integer>(),
-                                new HashMap<Category, HashMap<Integer, Product>>(), true, "address3");
+                                new HashMap<>(), true, "address3");
                 ss.addSupplierContact(1, "contact1", "123456789");
                 ss.addSupplierContact(1, "contact2", "987654321");
                 ss.addSupplierContact(2, "contact3", "123456789");
