@@ -5,8 +5,8 @@ import suppliers.DomainLayer.*;
 
 public class ProductsDAOImpl implements ProductsDAO {
     private Connection conn;
-    private categoriesDAOImpl categoriesDAO;
-    private ProductsDiscountDAOImpl productsDiscountDAO;
+    private CategoriesDAO categoriesDAO;
+    private ProductsDiscountDAO productsDiscountDAO;
 
     public ProductsDAOImpl() throws SQLException {
         conn = Database.connect();
