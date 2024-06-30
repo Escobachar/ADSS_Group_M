@@ -6,12 +6,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-
 import suppliers.DataAccessLayer.DAO.SupplierContactDAOImpl.DataTypeSupplierContact;
 import suppliers.DataAccessLayer.DataBase;
 import suppliers.DaysOfTheWeek;
 import suppliers.DaysOfTheWeek.Day;
+import suppliers.DomainLayer.Category;
 import suppliers.DomainLayer.Product;
 import suppliers.DomainLayer.Supplier;
 
@@ -55,16 +54,16 @@ public class SuppliersDAOImpl {
             deliveryDaysInt.add(DaysOfTheWeek.DayToInt(day));
         }
         
-        SupplierCategoriesDAOImpl supplierCategoriesDAO = new SupplierCategoriesDAOImpl();
-        List<Integer> categories = supplierCategoriesDAO.getCategoryBySupplierId(supplierId);
+        SupplierCategoriesDAOImpl supplierCategoriesDAO;
+        supplierCategoriesDAO = new SupplierCategoriesDAOImpl();
+        List<Integer> categoriesInt = supplierCategoriesDAO.getCategoryBySupplierId(supplierId);
         ProductDAOImpl productDAO = new ProductDAOImpl();
-        HashMap<Integer, HashMap<Integer, Product>> categories = new HashMap<>();
+        HashMap<Category, HashMap<Integer, Product>> categories = new HashMap<>();
         categoriesDAOImpl categoriesDAO = new categoriesDAOImpl();
-        for (Integer categoryId : categories) {
-            
-            categories.put(categoryId, productDAO.getCategoryProducts(supplierId, categoryId));
-        }
         
+        for(int categoryId : categoriesInt) {
+            categories.put(categoriesDAO.getCategoryById(categoryId), productDAO.getProductsByCategory(categoryId));
+        }
         String query = "SELECT * FROM " + tableName + " WHERE " + colSupplierId + " = " + supplierId;
         ResultSet result = conn.createStatement().executeQuery(query);
         if (result.next()) {
@@ -81,5 +80,6 @@ public class SuppliersDAOImpl {
         }
         throw new SQLException("No such supplier");
     }
+    public void delete()
     
 }
