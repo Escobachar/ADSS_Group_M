@@ -1,3 +1,14 @@
 {
-  "java.debug.settings.onBuildFailureProceed": true
+  "java.debug.settings.onBuildFailureProceed": true,
+  "java.project.referencedLibraries": {
+    "include": [
+      "lib/**/*.jar",
+      "c:\\Users\\GoomeGum\\Downloads\\sqlite-jdbc-3.46.0.0.jar",
+      "c:\\Users\\GoomeGum\\Downloads\\slf4j-api-2.0.13.jar",
+      "c:\\Users\\GoomeGum\\Downloads\\slf4j-simple-2.0.13.jar"
+    ],
+    "exclude": [
+      "c:\\Users\\GoomeGum\\Downloads\\sqlite-jdbc-3.46.0.0.jar"
+    ]
+  }
 }

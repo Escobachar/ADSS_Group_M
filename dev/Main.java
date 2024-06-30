@@ -1,6 +1,17 @@
-import java.util.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
-import suppliers.DomainLayer.*;
+import suppliers.DomainLayer.Category;
+import suppliers.DomainLayer.DiscountQuantity;
+import suppliers.DomainLayer.Product;
 import suppliers.PresentationLayer.Initialize;
 import suppliers.PresentationLayer.OrdersService;
 import suppliers.PresentationLayer.SuppliersService;
@@ -764,8 +775,75 @@ public class Main {
         else
             System.out.println(os.displayThisWeekOrders());
     }
+     public static void connectToDatabase() {
+        Connection conn = null;  
+        try {  
+            // db parameters  
+            String url = "jdbc:sqlite:C:\\\\Users\\GoomeGum\\Desktop\\omer\\semester D\\n" + //
+                                "itutz\\ADSS_Group_M\\test.db";  
+            // create a connection to the database  
+            conn = DriverManager.getConnection(url);  
+              
+            System.out.println("Connection to SQLite has been established.");  
+            System.out.println(conn.getMetaData().getURL());              
+        } catch (SQLException e) {  
+            System.out.println(e.getMessage());  
+        } finally {  
+            try {  
+                if (conn != null) {  
+                    System.out.println("Closing connection...");
+                    conn.close();  
+                }  
+            } catch (SQLException ex) {  
+                System.out.println(ex.getMessage());  
+            }  
+        }  
+    }  
+    /** 
+     * @param args the command line arguments 
+     */  
 
+     public static void createNewTable() {  
+        // SQLite connection string  
+        String url = "jdbc:sqlite:C:\\Users\\GoomeGum\\Desktop\\omer\\semester D\\n" + //
+                                "itutz\\ADSS_Group_M\\test.db";  
+          
+        // SQL statement for creating a new table  
+        String sql = """
+                     CREATE TABLE IF NOT EXISTS employees (
+                      id integer PRIMARY KEY,
+                      name text NOT NULL,
+                      capacity real
+                     );""";  
+          
+        try{  
+            Connection conn = DriverManager.getConnection(url);  
+            Statement stmt = conn.createStatement();  
+            stmt.execute(sql);  
+        } catch (SQLException e) {  
+            System.out.println(e.getMessage());  
+        }  
+    }  
+
+    public static void createNewDatabase() {  
+   
+        String url = "jdbc:sqlite:C:\\\\Users\\GoomeGum\\Desktop\\omer\\semester D\\nitutz\\ADSS_Group_M\\test1.db";     
+        try {  
+            Connection conn = DriverManager.getConnection(url);  
+            if (conn != null) {  
+                DatabaseMetaData meta = conn.getMetaData();  
+                System.out.println("The driver name is " + meta.getDriverName());  
+                System.out.println("A new database has been created.");  
+            }  
+   
+        } catch (SQLException e) {  
+            System.out.println(e.getMessage());  
+        }  
+    }  
+    
+  
     public static void main(String[] args) {
-        menuLoop();
+        //menuLoop();
+        connectToDatabase();
     }
 }

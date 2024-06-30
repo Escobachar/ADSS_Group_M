@@ -13,3 +13,6 @@ dev/suppliers/DomainLayer/SuppliersFacade.class
 dev/suppliers/PresentationLayer/Initialize.class
 dev/suppliers/PresentationLayer/OrdersService.class
 dev/suppliers/PresentationLayer/SuppliersService.class
+target/classes/suppliers/DomainLayer/Order.class
+*.class
+*.jar
