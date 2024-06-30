@@ -26,11 +26,15 @@ public class SuppliersDAOImpl {
     private Connection conn = null;
 
     public SuppliersDAOImpl() {
-        this.conn = DataBase.getConn().conn;
+        this.conn = DataBase.getConnection();
     }
 
-    public void addSupplier(Supplier supplier) throws SQLException{
-        String query = "INSERT INTO " + tableName + " (" + colSupplierId + ", " + colSupplierName + ", " + colSupplierBankAccount + ", " + colSupplierPaymantOption + ", " + colIsDelivering + ", " + colSupplierAddress + ") VALUES (" + supplier.getId() + ", '" + supplier.getName() + "', '" + supplier.getBankAccount() + "', '" + supplier.getPaymentMethod() + "', " + supplier.isDelivering() + ", '" + supplier.getAddress() + "')";
+    public void addSupplier(Supplier supplier) throws SQLException {
+        String query = "INSERT INTO " + tableName + " (" + colSupplierId + ", " + colSupplierName + ", "
+                + colSupplierBankAccount + ", " + colSupplierPaymantOption + ", " + colIsDelivering + ", "
+                + colSupplierAddress + ") VALUES (" + supplier.getId() + ", '" + supplier.getName() + "', '"
+                + supplier.getBankAccount() + "', '" + supplier.getPaymentMethod() + "', " + supplier.isDelivering()
+                + ", '" + supplier.getAddress() + "')";
         conn.createStatement().executeUpdate(query);
     }
 
@@ -40,10 +44,10 @@ public class SuppliersDAOImpl {
     }
 
     public Supplier getSupplierById(int supplierId) throws SQLException {
-        
+
         SupplierContactDAOImpl supplierContactDAO = new SupplierContactDAOImpl();
-        List<DataTypeSupplierContact> contacts= supplierContactDAO.select(supplierId);
-        HashMap<String,String> contactsMap = new HashMap<>();
+        List<DataTypeSupplierContact> contacts = supplierContactDAO.select(supplierId);
+        HashMap<String, String> contactsMap = new HashMap<>();
         for (DataTypeSupplierContact contact : contacts) {
             contactsMap.put(contact.contactName, contact.contactNum);
         }
@@ -53,33 +57,36 @@ public class SuppliersDAOImpl {
         for (Day day : deliveryDays) {
             deliveryDaysInt.add(DaysOfTheWeek.DayToInt(day));
         }
-        
+
         SupplierCategoriesDAOImpl supplierCategoriesDAO;
         supplierCategoriesDAO = new SupplierCategoriesDAOImpl();
         List<Integer> categoriesInt = supplierCategoriesDAO.getCategoryBySupplierId(supplierId);
         ProductDAOImpl productDAO = new ProductDAOImpl();
         HashMap<Category, HashMap<Integer, Product>> categories = new HashMap<>();
         categoriesDAOImpl categoriesDAO = new categoriesDAOImpl();
-        
-        for(int categoryId : categoriesInt) {
+
+        for (int categoryId : categoriesInt) {
             categories.put(categoriesDAO.getCategoryById(categoryId), productDAO.getProductsByCategory(categoryId));
         }
         String query = "SELECT * FROM " + tableName + " WHERE " + colSupplierId + " = " + supplierId;
         ResultSet result = conn.createStatement().executeQuery(query);
         if (result.next()) {
             return new Supplier(
-                result.getString(colSupplierName),
-                result.getInt(colSupplierId), 
-                result.getString(colSupplierBankAccount), 
-                result.getString(colSupplierPaymantOption),
-                contactsMap, 
-                deliveryDaysInt,
-                categories,
-                result.getBoolean(colIsDelivering),  
-                result.getString(colSupplierAddress));
+                    result.getString(colSupplierName),
+                    result.getInt(colSupplierId),
+                    result.getString(colSupplierBankAccount),
+                    result.getString(colSupplierPaymantOption),
+                    contactsMap,
+                    deliveryDaysInt,
+                    categories,
+                    result.getBoolean(colIsDelivering),
+                    result.getString(colSupplierAddress));
         }
         throw new SQLException("No such supplier");
     }
-    public void delete()
-    
+
+    public void delete(int supplierId) {
+        // TODO: implement this method
+    }
+
 }
