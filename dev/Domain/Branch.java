@@ -1,5 +1,7 @@
 
 package Domain;
+import DataLayer.*;
+
 import java.util.*;
 
 public class Branch {
@@ -12,6 +14,9 @@ public class Branch {
     private HashMap<Role,Integer[][]> rolesOfShifts;
     private List<HashMap<Integer,Role>[][]> historyEmployeesShifts;
     private HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability;
+
+    public BranchRepository branchRepository= new BranchRepositoryImp();
+    public EmployeeDao generalEmployeeDao = new GeneralEmployeeDao();
 
     //creating new branch with a manager
     public Branch(String name,String location,Network network,BranchManager brm){
@@ -111,5 +116,11 @@ public class Branch {
     }
     public void addToHistory(HashMap<Integer,Role>[][] employeesShifts) {
         historyEmployeesShifts.add(employeesShifts);
+    }
+
+    //db
+
+    public void DBaddGeneralEmployee(GeneralEmployee ge) {
+        generalEmployeeDao.create(ge);
     }
 }

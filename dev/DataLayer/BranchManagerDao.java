@@ -2,7 +2,7 @@ package DataLayer;
 
 import Domain.Employee;
 
-public class ManagerDao implements EmployeeDao {
+public class BranchManagerDao implements EmployeeDao {
     @Override
     public void create(Employee emp) {
         //todo

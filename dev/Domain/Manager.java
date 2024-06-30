@@ -24,6 +24,7 @@ abstract public class Manager extends Employee{
             }
             GeneralEmployee ge= new GeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,roles,isManager,branch,password);
             el.add(ge);
+            branch.DBaddGeneralEmployee(ge);
             return ge;
         }
         return null;

@@ -1,33 +1,26 @@
 package DataLayer;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
+import java.sql.*;
+import java.sql.ResultSet;
 import Domain.GeneralEmployee;
 import Domain.Employee;
 
 
 public class GeneralEmployeeDao implements EmployeeDao {
-    private final GeneralEmployee generalEmployee;
+    String url  = "jdbc:sqlite:C:\\uni\\D\\nitoz\\testing\\dev\\DataLayer\\DataBase.db";
 
-    public GeneralEmployeeDao(GeneralEmployee generalEmployee) {
-        this.generalEmployee = generalEmployee;
-        Connection connection = null;
+    public GeneralEmployeeDao() {
+        Connection connection=null;
         try {
             Class.forName("org.sqlite.JDBC");
-            String url = "jdbc:sqlite:C:\\uni\\D\\nitoz\\HR\\dev\\DataLayer\\DataBase.db";
             connection = DriverManager.getConnection(url);
-
-            System.out.println("Connection to SQLite has been established.");
-
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println(e.getMessage());
         } finally {
             try {
-                if (connection != null) {
+                if (connection != null)
                     connection.close();
-                }
+
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
@@ -37,7 +30,32 @@ public class GeneralEmployeeDao implements EmployeeDao {
 
     @Override
     public void create(Employee emp) {
-        //todo
+        GeneralEmployee ge = (GeneralEmployee) emp;
+        Connection connection=null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection(url);
+            String query = "INSERT INTO GeneralEmployee(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, password, isManager, branchName) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? , ? ,?)";
+            PreparedStatement prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ge.getID());
+            prepare.setString(2, ge.getName());
+            prepare.setString(3, ge.getBankAccountDetails());
+            prepare.setInt(4, ge.getSalary());
+            prepare.setString(5, ge.getStartOfEmployment().toString());
+            prepare.setString(6, ge.getEndOfEmployment().toString());
+            prepare.setString(7, ge.getPartOfJob());
+            prepare.setInt(8, ge.getVacationsDays());
+            prepare.setString(9, ge.getPassword());
+            prepare.setBoolean(10,ge.isManager());
+            prepare.setString(11, ge.getBranch().getBranchName());
+            prepare.executeUpdate();
+            System.out.println("Employee has been added.");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

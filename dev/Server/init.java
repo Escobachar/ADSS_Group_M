@@ -1,5 +1,6 @@
 package Server;
 
+import DataLayer.GeneralEmployeeDao;
 import Domain.*;
 
 import java.util.ArrayList;
@@ -7,7 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 public class init {
-    public static Network init(boolean init){
+    public static Network init(boolean init) {
+
         HRManager hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, new Date(2024, 6, 4), null, "Full", 18, "1111");
         Network network = new Network(hrm);
         List<String> GeneralEmployeeAccess = new ArrayList<>();
