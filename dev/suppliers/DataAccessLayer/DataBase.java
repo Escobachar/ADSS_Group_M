@@ -11,11 +11,12 @@ public final class DataBase {
         connectToDatabase();
     }
 
-    public static DataBase getConn() {
+    public static Connection getConnection() {
         if (dataBase == null) {
             dataBase = new DataBase();
+            return dataBase.conn;
         }
-        return dataBase;
+        return dataBase.conn;
     }
     
     public  void connectToDatabase() {  
