@@ -59,7 +59,9 @@ public class SuppliersDAOImpl {
         List<Integer> categories = supplierCategoriesDAO.getCategoryBySupplierId(supplierId);
         ProductDAOImpl productDAO = new ProductDAOImpl();
         HashMap<Integer, HashMap<Integer, Product>> categories = new HashMap<>();
+        categoriesDAOImpl categoriesDAO = new categoriesDAOImpl();
         for (Integer categoryId : categories) {
+            
             categories.put(categoryId, productDAO.getCategoryProducts(supplierId, categoryId));
         }
         
