@@ -16,7 +16,7 @@ public class categoriesDAOImpl {
     private final String tableName = "categories";
     private Connection conn = null;
     public categoriesDAOImpl() {
-        this.conn = DataBase.getConn().conn;
+        this.conn = DataBase.getConnection();
     }
     public List<Category> getAllCategories() throws SQLException {
         List<Category> categories = new ArrayList<>();
