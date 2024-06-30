@@ -1,11 +1,14 @@
 package suppliers.DomainLayer;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import suppliers.DataAccessLayer.DAO.OrderDeliveryDayDAO;
+import suppliers.DataAccessLayer.DAO.OrderItemDAO;
 import suppliers.DaysOfTheWeek.Day;
 
 public class Order {
@@ -17,6 +20,9 @@ public class Order {
     private List<Day> constDeliveryDays;
     private double price;
     private boolean isChanged;
+
+    private OrderDeliveryDayDAO deliveryDayDAO;
+    private OrderItemDAO itemDAO;
 
     public Order(int orderId, Supplier supplier, Date creationDate, Date deliveryDate, HashMap<Product, Integer> items,
             List<Day> deliveryDays) {
@@ -46,6 +52,7 @@ public class Order {
     }
 
     public List<Day> getConstDeliveryDays() {
+
         return constDeliveryDays;
     }
 
@@ -59,16 +66,20 @@ public class Order {
         return toString.substring(0, toString.length() - 2);
     }
 
-    public void setConstDeliveryDays(List<Day> deliveryDays) {
+    public void setConstDeliveryDays(List<Day> deliveryDays) throws SQLException {
+        deliveryDayDAO.deleteOrderDeliveryDays(orderId);
+        deliveryDayDAO.addOrderDeliveryDays(orderId,deliveryDays);
         this.constDeliveryDays = deliveryDays;
     }
 
-    public void removeConstDeliveryDay(Day day) {
+    public void removeConstDeliveryDay(Day day) throws SQLException {
+        deliveryDayDAO.deleteOrderDeliveryDay(orderId, day);
         this.constDeliveryDays.remove(day);
     }
 
-    public void addConstDeliveryDay(Day day) {
+    public void addConstDeliveryDay(Day day) throws SQLException {
         if (!this.constDeliveryDays.contains(day)) {
+            deliveryDayDAO.addOrderDeliveryDay(orderId, day);
             this.constDeliveryDays.add(day);
         }
     }
@@ -118,32 +129,37 @@ public class Order {
         return items;
     }
 
-    public void setItems(HashMap<Product, Integer> items) {
+    public void setItems(HashMap<Product, Integer> items) throws SQLException {
         decreaseProductOrdersCount();
         this.items = items;
         increaseProductOrdersCount();
         isChanged = true;
+        itemDAO.deleteOrderItems(orderId);
+        itemDAO.addOrderItems(orderId,getSupplierId(),items);
     }
 
-    public void removeItem(Product product) {
+    public void removeItem(Product product) throws SQLException {
         if (this.items.containsKey(product)) {
             product.decrementOrdersCount();
             this.items.remove(product);
             isChanged = true;
+            itemDAO.deleteOrderItems(orderId,product);
 
         }
     }
 
-    public void addItem(Product product, Integer amount) {
+    public void addItem(Product product, Integer amount) throws SQLException {
         if (this.items.containsKey(product)) {
             if (this.items.get(product) == amount)
                 return;
             this.items.put(product, amount);
             isChanged = true;
+            itemDAO.updateProductAmount(orderId, product.getCatalogNumber(),amount);
         } else {
             product.incrementOrdersCount();
             this.items.put(product, amount);
             isChanged = true;
+            itemDAO.addOrderItem(orderId,getSupplierId(),product,amount);
         }
 
     }

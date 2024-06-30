@@ -550,7 +550,7 @@ public class Main {
             System.out.println("Invalid number");
             return null;
         }
-        if(ss.isProductExistsInSupplier(sID,category,catalogNumber))
+        if(ss.isSupplierExists(sID) && ss.isProductExistsInSupplier(sID,category,catalogNumber))
         {
             System.out.println("Product Already Exists");
             return null;
