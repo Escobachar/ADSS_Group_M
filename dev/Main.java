@@ -728,43 +728,25 @@ public class Main {
     public static void editProduct(int id) {
         boolean flag = true;
         while (flag) {
-            System.out.println("1. Change Product Catalog Number");
-            System.out.println("2. Change Product Discount Amount");
-            System.out.println("3. Change Product Discount Percentage");
-            System.out.println("4. Change Product Name");
-            System.out.println("5. Change Product Price");
-            System.out.println("6. Back");
+            System.out.println("1. Change Product Discount Amount");
+            System.out.println("2. Change Product Discount Percentage");
+            System.out.println("3. Change Product Name");
+            System.out.println("4. Change Product Price");
+            System.out.println("5. Back");
             Integer choice = inputToInt();
             if (choice == null) {
                 System.out.println("Invalid number");
                 return;
             }
             switch (choice) {
-                case 1 -> setCatalogNumber(id);
-                case 2 -> setDiscountAmount(id);
-                case 3 -> setDiscountPercentage(id);
-                case 4 -> setProductName(id);
-                case 5 -> setProductPrice(id);
-                case 6 -> flag = false;
+                case 1 -> setDiscountAmount(id);
+                case 2 -> setDiscountPercentage(id);
+                case 3 -> setProductName(id);
+                case 4 -> setProductPrice(id);
+                case 5 -> flag = false;
                 default -> System.out.println("Invalid choice");
             }
         }
-    }
-
-    public static void setCatalogNumber(int id) {
-        System.out.println("Enter OLD Catalog Number");
-        Integer oldCatalogNumber = inputToInt();
-        if (oldCatalogNumber == null) {
-            System.out.println("Invalid number");
-            return;
-        }
-        System.out.println("Enter NEW Catalog Number");
-        Integer newCatalogNumber = inputToInt();
-        if (newCatalogNumber == null) {
-            System.out.println("Invalid number");
-            return;
-        }
-        System.out.println(ss.setCatalogNumber(newCatalogNumber, id, oldCatalogNumber));
     }
 
     public static void setDiscountAmount(int id) {

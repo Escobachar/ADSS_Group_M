@@ -30,10 +30,6 @@ public class Product {
         return catalogNumber;
     }
 
-    public void setCatalogNumber(int catalogNumber) {
-        this.catalogNumber = catalogNumber;
-    }
-
     public double getPrice() {
         return price;
     }

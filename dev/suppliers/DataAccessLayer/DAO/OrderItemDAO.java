@@ -1,5 +1,6 @@
 package suppliers.DataAccessLayer.DAO;
 
+import suppliers.DataAccessLayer.DataBase;
 import suppliers.DaysOfTheWeek;
 import suppliers.DomainLayer.Product;
 
@@ -21,7 +22,7 @@ public class OrderItemDAO {
     private String amountColumnName = "amount";
 
     public OrderItemDAO() throws SQLException {
-        conn = DataBase.connect();
+        conn = DataBase.getConnection();
     }
 
     public HashMap<Product, Integer> getAllOrderItems(int orderId) throws SQLException {

@@ -99,14 +99,6 @@ public class SuppliersService {
         }
     }
 
-    public String setCatalogNumber(int newCatalogNumber, int supplierId, int catalogNumber) {
-        try {
-            sf.setCatalogNumber(newCatalogNumber, supplierId, catalogNumber);
-            return "Catalog number updated successfully";
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-    }
 
     public String setDiscountAmount(int newDiscountAmount, int supplierId, int catalogNumber) {
         try {
