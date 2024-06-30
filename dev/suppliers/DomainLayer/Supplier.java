@@ -117,6 +117,13 @@ public class Supplier {
         isDelivering = delivering;
     }
 
+    public double getPriceForProduct(String productName, int amount)
+    {
+        Product product = getProduct(productName);
+        if(product == null)
+            return Integer.MAX_VALUE;
+        return product.calculatePrice(amount);
+    }
     public void addContact(String contactName, String contactDetails) {
         contacts.put(contactName, contactDetails);
     }
@@ -214,5 +221,32 @@ public class Supplier {
         }
         str += ", address='" + address + '\'' + ", isDelivering='" + isDelivering + "\'}";
         return str;
+    }
+
+    public boolean isProductExist(Category category, Integer catalogNumber) {
+        if(category==null)
+        {
+            return isProductExist(catalogNumber);
+        }
+        return categories.get(category).containsKey(catalogNumber);
+    }
+
+    public boolean isProductExist(Integer catalogNumber){
+        for (HashMap<Integer, Product> productsMap : categories.values()) {
+            for (Integer catalog : productsMap.keySet()) {
+                if(catalog == catalogNumber)
+                    return true;
+            }
+        }
+        return false;
+    }
+    public Product getProduct(String productName){
+        for (HashMap<Integer, Product> productsMap : categories.values()) {
+            for (Product product : productsMap.values()) {
+                if(product.getName().equals(productName))
+                    return product;
+            }
+        }
+        return null;
     }
 }

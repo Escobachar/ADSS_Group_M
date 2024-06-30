@@ -39,11 +39,15 @@ public class SuppliersFacade {
     }
 
     public Supplier getSupplier(int supplierId) {
-        if (!suppliers.containsKey(supplierId)) {
+        if (!isSupplierExists(supplierId)) {
             throw new IllegalArgumentException("Supplier with ID " + supplierId + " not found");
         }
         return suppliers.get(supplierId);
     }
+    public boolean isSupplierExists(int supplierId){
+        return suppliers.containsKey(supplierId);
+
+        }
 
     public void removeSupplier(int supplierId) {
         Supplier s = suppliers.remove(supplierId);
@@ -198,5 +202,51 @@ public class SuppliersFacade {
 
     public void changeSupplierPaymentMethod(int supplierId, String paymentMethod) {
         getSupplier(supplierId).setPaymentMethod(paymentMethod);
+    }
+
+    public boolean isProductExistsInSupplier(int id, Category category, Integer catalogNumber) {
+        return getSupplier(id).isProductExist(category,catalogNumber);
+    }
+
+    public HashMap<Integer, HashMap<Product, Integer>> getCheapestProducts(HashMap<String, Integer> productToOrder) {
+        HashMap<Integer, HashMap<Product, Integer>> supplierToOrder = new HashMap<>();
+        for (HashMap.Entry<String, Integer> entry : productToOrder.entrySet()) {
+            Supplier supplier = getCheapestSupplier(entry.getKey(), entry.getValue());
+            if (supplier != null) {
+                int supplierId = supplier.getId();
+                if (supplierToOrder.containsKey(supplierId))
+                    supplierToOrder.get(supplierId).put(supplier.getProduct(entry.getKey()), entry.getValue());
+                else {
+                    HashMap<Product, Integer> products = new HashMap<>();
+                    products.put(supplier.getProduct(entry.getKey()), entry.getValue());
+                    supplierToOrder.put(supplierId, products);
+                }
+            }
+        }
+        return supplierToOrder;
+    }
+    private Supplier getCheapestSupplier(String productName, int amount){
+        Supplier sup = null;
+        double priceAfterDiscount = Integer.MAX_VALUE;
+        for (Supplier supplier: suppliers.values()) {
+            double supplierPrice = supplier.getPriceForProduct(productName,amount);
+            if(supplierPrice < priceAfterDiscount)
+            {
+                sup = supplier;
+                priceAfterDiscount = supplierPrice;
+            }
+        }
+        return sup;
+    }
+
+    public boolean isProductExists(String productName) {
+        for (Supplier supplier: suppliers.values()) {
+            Product product = supplier.getProduct(productName);
+            if(product != null)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
