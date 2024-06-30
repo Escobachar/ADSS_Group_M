@@ -39,43 +39,11 @@ public class DiscountQuantity {
         this.discountPrecentage = discount;
     }
 
-    public void incrementAmount(int increment) {
-        amount += increment;
-    }
-
-    public void decrementAmount(int decrement) {
-        decrement = Math.abs(decrement);
-        if (decrement >= amount) {
-            amount = 0;
-        } else {
-            amount -= decrement;
-        }
-    }
 
     public double getDiscountPrecentage() {
         return discountPrecentage;
     }
 
-    public void setDiscountPrecentage(int discountPrecentage) {
-        this.discountPrecentage = discountPrecentage;
-    }
-
-    public void incrementDiscountPrecentage(double increment) {
-        if (discountPrecentage + increment > 100) {
-            discountPrecentage = 100;
-        } else {
-            discountPrecentage += increment;
-        }
-    }
-
-    public void decrementDiscountPrice(double decrement) {
-        decrement = Math.abs(decrement);
-        if (decrement >= discountPrecentage) {
-            discountPrecentage = 0;
-        } else {
-            discountPrecentage -= decrement;
-        }
-    }
 
     @Override
     public String toString() {

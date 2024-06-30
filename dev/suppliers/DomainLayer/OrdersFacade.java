@@ -13,7 +13,7 @@ public class OrdersFacade {
 
     private OrdersFacade() {
         orderIdCounter = 1;
-        orders = new HashMap<Integer, Order>();
+        orders = new HashMap<>();
     }
 
     public static OrdersFacade getInstance() {
@@ -91,6 +91,9 @@ public class OrdersFacade {
         }
         return order;
     }
+    public boolean isOrderExists(int orderId){
+        return orders.containsKey(orderId);
+    }
 
     // if quantity is 0, remove the item from the order
     public void ChangeOrderItemQuantity(int orderId, int catalogNumber, int quantity) {
@@ -139,7 +142,7 @@ public class OrdersFacade {
         HashMap<Integer, Order> thisWeekOrders = this.getThisWeekOrders();
         HashMap<Integer, Order> thisWeekPickupOrders = new HashMap<Integer, Order>();
         for (Order order : thisWeekOrders.values()) {
-            if (order.isDelivering() == false) {
+            if (!order.isDelivering()) {
                 thisWeekPickupOrders.put(order.getOrderId(), order);
             }
         }
@@ -162,4 +165,7 @@ public class OrdersFacade {
         return order.getPrice();
     }
 
+    public boolean isOrderCanBeEdit(int orderId) {
+        return getOrder(orderId).canEdit();
+    }
 }

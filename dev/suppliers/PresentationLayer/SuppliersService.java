@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import suppliers.DomainLayer.Category;
-import suppliers.DomainLayer.OrdersFacade;
 import suppliers.DomainLayer.Product;
 import suppliers.DomainLayer.SuppliersFacade;
 
@@ -188,9 +187,9 @@ public class SuppliersService {
 
     public String displayPurchasedProducts(int id) {
         try {
-            List<Product> products = sf.getPurchasedProductsFromSupplier(id);
+            List<Product> isProductExistsInSuppliers = sf.getPurchasedProductsFromSupplier(id);
             String result = "";
-            for (Product product : products) {
+            for (Product product : isProductExistsInSuppliers) {
                 result += product.toString() + "\n";
             }
             if (result.equals(""))
@@ -211,4 +210,20 @@ public class SuppliersService {
         }
     }
 
+    public boolean isProductExistsInSupplier(int id, Category category, Integer catalogNumber) {
+           return sf.isProductExistsInSupplier(id,category,catalogNumber);
+        
+    }
+
+    public boolean isSupplierExists(Integer supplierId) {
+        return sf.isSupplierExists(supplierId);
+    }
+
+    public HashMap<Integer, HashMap<Product, Integer>> getCheapestProducts(HashMap<String, Integer> productToOrder) {
+        return sf.getCheapestProducts(productToOrder);
+    }
+
+    public boolean isProductExists(String name) {
+        return sf.isProductExists(name);
+    }
 }
