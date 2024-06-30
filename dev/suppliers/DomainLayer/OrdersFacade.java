@@ -1,6 +1,8 @@
 package suppliers.DomainLayer;
 
 import suppliers.DaysOfTheWeek.Day;
+
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -42,12 +44,12 @@ public class OrdersFacade {
         return orderIdCounter - 1;
     }
 
-    public void addOrderConstDeliveryDay(int orderId, Day day) {
+    public void addOrderConstDeliveryDay(int orderId, Day day) throws SQLException {
 
         getOrder(orderId).addConstDeliveryDay(day);
     }
 
-    public void addOrderConstDeliveryDays(int orderId, List<Day> days) {
+    public void addOrderConstDeliveryDays(int orderId, List<Day> days) throws SQLException {
         if (days == null || days.isEmpty()) {
             throw new IllegalArgumentException("Days list is empty");
         }
@@ -60,11 +62,11 @@ public class OrdersFacade {
         return getOrder(orderId).getStringConstDeliveryDays();
     }
 
-    public void removeOrderConstDeliveryDay(int orderId, Day day) {
+    public void removeOrderConstDeliveryDay(int orderId, Day day) throws SQLException {
         getOrder(orderId).removeConstDeliveryDay(day);
     }
 
-    public void removeOrderConstDeliveryDays(int orderId, List<Day> days) {
+    public void removeOrderConstDeliveryDays(int orderId, List<Day> days) throws SQLException {
         if (days == null || days.isEmpty()) {
             throw new IllegalArgumentException("Days list is empty");
         }
@@ -96,7 +98,7 @@ public class OrdersFacade {
     }
 
     // if quantity is 0, remove the item from the order
-    public void ChangeOrderItemQuantity(int orderId, int catalogNumber, int quantity) {
+    public void ChangeOrderItemQuantity(int orderId, int catalogNumber, int quantity) throws SQLException {
         Order order = getOrder(orderId);
         int supplierId = order.getSupplierId();
 
