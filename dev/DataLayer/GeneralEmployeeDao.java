@@ -5,6 +5,9 @@ import java.sql.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import Domain.GeneralEmployee;
 import Domain.Employee;
@@ -14,8 +17,9 @@ import Domain.Role;
 
 public class GeneralEmployeeDao implements EmployeeDao {
     String url  = "jdbc:sqlite:C:\\uni\\D\\nitoz\\testing\\dev\\DataLayer\\DataBase.db";
-/*
-    public static Date stringToDate(String dateString, String format) {
+
+    public static String format = "yyyy-MM-dd";//if working, maby change to dd-MM-yyyy
+    public static Date convertstringToDate(String dateString, String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         try {
             return sdf.parse(dateString);
@@ -23,7 +27,12 @@ public class GeneralEmployeeDao implements EmployeeDao {
             e.printStackTrace();
             return null;
         }
-    }*/
+    }
+    public static String convertDateToString(Date date, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(date);
+    }
+
     public GeneralEmployeeDao() {
         Connection connection=null;
         try {
@@ -66,8 +75,8 @@ public class GeneralEmployeeDao implements EmployeeDao {
             prepare.setString(2, ge.getName());
             prepare.setString(3, ge.getBankAccountDetails());
             prepare.setInt(4, ge.getSalary());
-            prepare.setString(5, ge.getStartOfEmployment().toString());
-            prepare.setString(6, ge.getEndOfEmployment().toString());
+            prepare.setString(5, convertDateToString(ge.getStartOfEmployment(), format));
+            prepare.setString(6, convertDateToString(ge.getEndOfEmployment(),format));
             prepare.setString(7, ge.getPartOfJob());
             prepare.setInt(8, ge.getVacationsDays());
             prepare.setString(9, ge.getPassword());
@@ -102,8 +111,8 @@ public class GeneralEmployeeDao implements EmployeeDao {
                         String name = resultSet.getString("name");
                         String bankAccountDetails = resultSet.getString("bankAccountDetails");
                         int salary = resultSet.getInt("salary");
-                        Date startOfEmployment =Date.valueOf(resultSet.getString("startOfEmployment"));
-                        Date endOfEmployment =Date.valueOf(resultSet.getString("endOfEmployment"));
+                        String startOfEmploymentString =resultSet.getString("startOfEmployment");
+                        String endOfEmploymentString = resultSet.getString("endOfEmployment");
                         String partOfJob =resultSet.getString("partOfJob");
                         int vacationsDays = resultSet.getInt("vacationsDays");
                         String password =resultSet.getString("password");
@@ -135,7 +144,7 @@ public class GeneralEmployeeDao implements EmployeeDao {
                             System.out.println(e.getMessage());
                         }
 
-                       ge = new GeneralEmployee(id, name, bankAccountDetails, salary,startOfEmployment,endOfEmployment,partOfJob, vacationsDays,roles, isManager==1,Network.getNetwork().getBranch(branch),password);
+                       ge = new GeneralEmployee(id, name, bankAccountDetails, salary,convertstringToDate(startOfEmploymentString,format), convertstringToDate(endOfEmploymentString, format), partOfJob, vacationsDays,roles, isManager==1,Network.getNetwork().getBranch(branch),password);
                     }
                 }
             } catch (SQLException e) {
