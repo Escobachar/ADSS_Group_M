@@ -3,13 +3,27 @@ package DataLayer;
 
 import java.sql.*;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
 import Domain.GeneralEmployee;
 import Domain.Employee;
-
+import Domain.Network;
+import Domain.Role;
+//import java.text.SimpleDateFormat;
 
 public class GeneralEmployeeDao implements EmployeeDao {
     String url  = "jdbc:sqlite:C:\\uni\\D\\nitoz\\testing\\dev\\DataLayer\\DataBase.db";
-
+/*
+    public static Date stringToDate(String dateString, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        try {
+            return sdf.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }*/
     public GeneralEmployeeDao() {
         Connection connection=null;
         try {
@@ -57,7 +71,7 @@ public class GeneralEmployeeDao implements EmployeeDao {
             prepare.setString(7, ge.getPartOfJob());
             prepare.setInt(8, ge.getVacationsDays());
             prepare.setString(9, ge.getPassword());
-            prepare.setBoolean(10,ge.isManager());
+            prepare.setBoolean(10, ge.isManager());
             prepare.setString(11, ge.getBranch().getBranchName());
             prepare.executeUpdate();
             System.out.println("Employee has been added.");
