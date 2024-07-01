@@ -16,7 +16,7 @@ public class GeneralEmployeeTest {
     @Before
     public void initTest() {
         hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, new Date(2024, 6, 4), null, "Full", 18, "1111");
-        network = new Network(hrm);
+        network =  Network.createNewNetwork(hrm);
         List<String> GeneralEmployeeAccess = new ArrayList<>();
         network.addRole(new Role("cashier",GeneralEmployeeAccess));
         network.addRole(new Role("storekeeper",GeneralEmployeeAccess));

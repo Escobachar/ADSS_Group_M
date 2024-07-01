@@ -4,6 +4,8 @@ import com.sun.source.tree.NewArrayTree;
 
 import java.util.*;
 public class Network {
+    private static Network network;
+
     public static int days =6;
     public static int shifts = 2;
     private List<Branch> branchList;
@@ -11,12 +13,24 @@ public class Network {
     private List<Role> roles;//list of all roles in the network, programmers my add more if customer need
     public List<Branch> getBranchList(){return branchList;}
 
-    public Network(HRManager HRmanager) {
+
+    private Network(HRManager HRmanager)
+    {
         this.HRmanager = HRmanager;
         HRmanager.setNetwork(this);
         branchList=new LinkedList<Branch>();
         roles = new LinkedList<>();
         addRole(new Role("shift manager",new ArrayList<>()));
+    }
+    public static Network createNewNetwork(HRManager HRmanager){
+        network = new Network(HRmanager);
+        return network;
+    }
+
+
+    public static Network getNetwork()
+    {
+        return network;
     }
 
     public boolean addRole(Role r){

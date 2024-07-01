@@ -21,7 +21,7 @@ public class HRManagerTest {
     @Before
     public void initTest() {
         hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, new Date(2024, 6, 4), null, "Full", 18, "1111");
-        Network network = new Network(hrm);
+        Network network = Network.createNewNetwork(hrm);
         List<String> GeneralEmployeeAccess = new ArrayList<String>();
         cashier= new Role("cashier",GeneralEmployeeAccess);
         storekeeper= new Role("storekeeper",GeneralEmployeeAccess);

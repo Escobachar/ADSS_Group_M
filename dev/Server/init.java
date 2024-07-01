@@ -1,6 +1,6 @@
 package Server;
 
-import DataLayer.GeneralEmployeeDao;
+import DataLayer.*;
 import Domain.*;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ public class init {
     public static Network init(boolean init) {
 
         HRManager hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, new Date(2024, 6, 4), null, "Full", 18, "1111");
-        Network network = new Network(hrm);
+        Network network = Network.createNewNetwork(hrm);
         List<String> GeneralEmployeeAccess = new ArrayList<>();
         network.addRole(new Role("cashier", GeneralEmployeeAccess));
         network.addRole(new Role("storekeeper", GeneralEmployeeAccess));
@@ -24,9 +24,9 @@ public class init {
             List<Role> roleList = hrm.getNetwork().getRoles();
             List<Role> oneRole = new ArrayList<>();
             oneRole.add(roleList.get(1));
-            GeneralEmployee ge1 = hrm.addGeneralEmployee(333333333, "Shahar Bar", "3333333333", 40, new Date(2024, 6, 4), null, "Full", 10, roleList, true, branch, "3333");
-            GeneralEmployee ge2 = hrm.addGeneralEmployee(444444444, "Shelly", "444444444", 40, new Date(2024, 6, 4), null, "Half", 10, oneRole, false, branch, "4444");
-        }
+            EmployeeDao test = new GeneralEmployeeDao();
+            GeneralEmployee ge1 = (GeneralEmployee)test.read(333333333);
+            GeneralEmployee ge2 = (GeneralEmployee)test.read(444444444);        }
         return network;
     }
 }
