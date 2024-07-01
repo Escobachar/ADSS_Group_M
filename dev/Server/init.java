@@ -25,8 +25,16 @@ public class init {
             List<Role> oneRole = new ArrayList<>();
             oneRole.add(roleList.get(1));
             EmployeeDao test = new GeneralEmployeeDao();
-            GeneralEmployee ge1 = (GeneralEmployee)test.read(333333333);
-            GeneralEmployee ge2 = (GeneralEmployee)test.read(444444444);        }
+
+
+            test.delete(444444444);
+            //test.update(333333333, "Shahar Bar", "9999999999", 50,"04-06-2024",null,"Half",18 , roleList, true, branch,"3333" );
+            //hrm.addGeneralEmployee(444444444, "Shelly atanelov", "9999995555", 35,"05-06-2024",null,"Full",18 , roleList, false, branch,"4444" );
+
+
+            //GeneralEmployee ge2 = (GeneralEmployee)test.read(444444444);
+
+        }
         return network;
     }
 }

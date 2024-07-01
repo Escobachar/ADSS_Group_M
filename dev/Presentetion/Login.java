@@ -1,6 +1,8 @@
 package Presentetion;
 
 import Domain.*;
+import Server.Utility;
+
 import java.util.*;
 
 public class Login {
@@ -428,7 +430,7 @@ public class Login {
         do{
             if(startOfEmp!=null)
                 System.out.println("Start of employment not valid");
-            System.out.println("Start of employment(mm/dd/yyyy): ");
+            System.out.println("Start of employment(dd-mm-yyyy): ");
             startOfEmp = scanner.nextLine();
         }while(!Network.checkCreateDate(startOfEmp));
 
@@ -436,14 +438,12 @@ public class Login {
         do{
             if(endOfEmp!=null)
                 System.out.println("end of employment not valid");
-            System.out.println("end of employment(mm/dd/yyyy) or TBD: ");
+            System.out.println("end of employment(dd-mm-yyyy) or TBD: ");
             endOfEmp = scanner.nextLine();
         }while(!Network.checkCreateDate(endOfEmp) & !endOfEmp.equals("TBD"));
-        Date endDate;
+
         if (endOfEmp.equals("TBD"))
-            endDate = null;
-        else
-            endDate=new Date(endOfEmp);
+            endOfEmp = null;
 
         String partOfJob=null;
         do {
@@ -475,7 +475,7 @@ public class Login {
                 SM = false;
                 System.out.println("Choose roles of the employee,\npress all the numbers of the roles you desire then enter: ");
                 List<Role> RL = null;
-                RL = ((Manager) emp).getNetwork().getRoles();
+                RL = Network.getNetwork().getRoles();
                 int i = 1;
                 for (Role r : RL) {
                     System.out.println(i + ". " + r.getRoleName());
@@ -498,13 +498,13 @@ public class Login {
             emp.addGeneralEmployee(id, name, bankAccount, salary, new Date(startOfEmp), endDate, partOfJob, vacationDays, newRL, SM, branch, password);
         }
         else if(type=='m') {
-            Branch branch = branchSelect(emp.getNetwork());
+            Branch branch = branchSelect();
             if(branch!=null)
                 ((HRManager)emp).addBranchManager(id, name, bankAccount, salary, new Date(startOfEmp), endDate, partOfJob, vacationDays,branch,password);
 
         }
         else if(type=='b') {
-            Branch branch = Network.lookForNewBranch(emp.getNetwork());
+            Branch branch = Network.lookForNewBranch(Network.getNetwork());
             if (branch != null)
                 ((HRManager) emp).addBranchManager(id, name, bankAccount, salary, new Date(startOfEmp), endDate, partOfJob, vacationDays, branch, password);
         }
@@ -529,10 +529,10 @@ public class Login {
             if((e instanceof BranchManager && e.getID().equals(emp.getID()) )|| (e instanceof HRManager )|| (e instanceof GeneralEmployee && ((GeneralEmployee)e).getBranch()!=((BranchManager) emp).getBranch()))
                 System.out.println("access denied");
             else
-                changeEmployeeDetails(emp,emp.getNetwork().SearchByID(id));
+                changeEmployeeDetails(emp,Network.getNetwork().SearchByID(id));
         }
         else
-            changeEmployeeDetails(emp,emp.getNetwork().SearchByID(id));
+            changeEmployeeDetails(emp,Network.getNetwork().SearchByID(id));
     }
     private static void changeEmployeeDetails(Manager emp,Employee e){
         Scanner scanner = new Scanner(System.in);
@@ -586,7 +586,7 @@ public class Login {
             do{
                 if(start!=null)
                     System.out.println("start of employment not valid");
-                System.out.print("New start of employment(mm/dd/yyyy): ");
+                System.out.print("New start of employment(mm-dd-yyyy): ");
                 start = scanner.nextLine();
             } while (!Network.checkCreateDate(start));
             e.setStartOfEmployment(new Date(start));
@@ -601,7 +601,7 @@ public class Login {
             do{
                 if(end!=null)
                     System.out.println("end of employment not valid");
-                System.out.print("New end of employment(mm/dd/yyyy): ");
+                System.out.print("New end of employment(mm-dd-yyyy): ");
                 end = scanner.nextLine();
                 if(end.equals("TBD")) {
                     good=true;
@@ -660,7 +660,7 @@ public class Login {
                 if (ans.equals("y")) {
                     ge.setManager(false);
                     System.out.print("Choose roles of the employee,\npress all the numbers of the roles you desire then enter: ");
-                    List<Role> RL = ((Manager) emp).getNetwork().getRoles();
+                    List<Role> RL = Network.getNetwork().getRoles();
                     List<Role> newRL = null;
                     int i = 1;
                     for (Role r : RL) {
@@ -693,7 +693,7 @@ public class Login {
                 System.out.print("DO you want to change? y/n ");
                 ans = scanner.nextLine();
                 if (ans.equals("y")) {
-                    Branch b = branchSelect(emp.getNetwork());
+                    Branch b = branchSelect();
                     e.setBranch(b);
                 }
             }
@@ -703,13 +703,13 @@ public class Login {
     private static void UpdateRolesOfShifts(BranchManager emp) {
         HashMap<Role, Integer[][]> rolesOfShifts = emp.getBranch().getRolesOfShifts();
         Utility.printRoleOfShifts(rolesOfShifts);
-        int i = emp.getNetwork().getRoles().size();
-        List<Role> ls = emp.getNetwork().getRoles();
+        int i = Network.getNetwork().getRoles().size();
+        List<Role> ls = Network.getNetwork().getRoles();
         Scanner scanner = new Scanner(System.in);
         boolean done=false;
         while(!done) {
             System.out.println("What role would you like to change?");
-            Role r = Utility.RolesSelect(emp.getNetwork());
+            Role r = Utility.RolesSelect(Network.getNetwork());
             if(r==null)
                 done=true;
             else {
@@ -761,7 +761,7 @@ public class Login {
         }
     }
     private static void ShowShiftAvailability(BranchManager emp){
-        for(Role r : emp.getNetwork().getRoles()){
+        for(Role r : Network.getNetwork().getRoles()){
             Set<GeneralEmployee>[][] shiftAvi = emp.getBranch().getShiftsAvailability().get(r);
             System.out.println(r.getRoleName()+":");
             Utility.ShiftAviPrinter(shiftAvi);
@@ -776,14 +776,14 @@ public class Login {
                 ShiftsOfWeek[i][j]=new HashMap<>();
 
         boolean storekeeperWas=false;
-        for (Role r : emp.getNetwork().getRoles()) {
+        for (Role r : Network.getNetwork().getRoles()) {
             boolean nextRole=false;
             if(r.getRoleName().equals("storekeeper"))
                 if(storekeeperWas)
-                    r=emp.getNetwork().getRole("driver");
+                    r=Network.getNetwork().getRole("driver");
             if(r.getRoleName().equals("driver"))
                 if(!storekeeperWas) {
-                    r=emp.getNetwork().getRole("storekeeper");
+                    r=Network.getNetwork().getRole("storekeeper");
                     storekeeperWas=true;
                 }
             while(!nextRole) {
@@ -891,13 +891,13 @@ public class Login {
         }
     }
     //HR Manager
-    private static Branch branchSelect(Network network){
+    private static Branch branchSelect(){
         Scanner scanner = new Scanner(System.in);
         String SelectedBranch = "s";
         System.out.println("Select branch:");
-        Branch[] branches = new Branch[network.getBranchList().size()+1];
+        Branch[] branches = new Branch[Network.getNetwork().getBranchList().size()+1];
         int i=1;
-        for (Branch b: network.getBranchList()){
+        for (Branch b: Network.getNetwork().getBranchList()){
             System.out.println(i+". "+b.getBranchName());
             branches[i]=b;
             i++;
@@ -921,22 +921,22 @@ public class Login {
 
     }
     private static void HRUpdateBranchRolesOfShifts(HRManager emp){
-        Branch b=branchSelect(emp.getNetwork());
+        Branch b=branchSelect();
         if(b!=null)
             UpdateRolesOfShifts(b.getBranchManager());
     }
     private static void HRAddGeneralEmployee(HRManager emp) {
-        Branch b=branchSelect(emp.getNetwork());
+        Branch b=branchSelect();
         if(b!=null)
             AddEmployee(b.getBranchManager(),'g');
     }
     private static void HRShowBranchShiftsAvailability(HRManager emp) {
-        Branch b=branchSelect(emp.getNetwork());
+        Branch b=branchSelect();
         if(b!=null)
             ShowShiftAvailability(b.getBranchManager());
     }
     private static void HRUpdateBranchShiftsOfWeek(HRManager emp) {
-        Branch b=branchSelect(emp.getNetwork());
+        Branch b=branchSelect();
         if(b!=null)
             UpdateShiftsOfWeek(b.getBranchManager());
     }
@@ -953,7 +953,7 @@ public class Login {
                 if (Utility.onlyNumbers(salaryScan))
                     id = Integer.parseInt(salaryScan);
             } while (!Network.CheckID(id));
-            Employee e=emp.getNetwork().SearchByID(id);
+            Employee e=Network.getNetwork().SearchByID(id);
             if(e!=null) {
                 showYourDetails(e);
                 return ;
@@ -964,7 +964,7 @@ public class Login {
         UpdateEmployeeDetails(emp);
     }
     private static void HRAssignBranchManager(HRManager emp) {
-        Branch b=branchSelect(emp.getNetwork());
+        Branch b=branchSelect();
         if(b!=null)
             AddEmployee(emp,'m');
     }

@@ -3,20 +3,18 @@ package Domain;
 import java.util.*;
 
 abstract public class Manager extends Employee{
-    private Network network;
 
-    public Manager(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment , Date endOfEmployment, String partOfJob, int vacationsDays,String password,Network network  ) {
+    public Manager(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment , String endOfEmployment, String partOfJob, int vacationsDays,String password  ) {
         super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays,password);
-        this.network=network;
     }
-    public void addGeneralEmployee(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment, String partOfJob, int vacationsDays,
+    public void addGeneralEmployee(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment, String partOfJob, int vacationsDays,
                                    List<Role> roles, boolean isManager, Branch branch, String password){
         addGeneralEmployee(ID, name, bankAccountDetails, salary, startOfEmployment, null, partOfJob, vacationsDays, roles, isManager, branch, password);
     }
-    public GeneralEmployee addGeneralEmployee(int ID,String name, String bankAccountDetails, int salary,Date startOfEmployment ,Date endOfEmployment,String partOfJob,
+    public GeneralEmployee addGeneralEmployee(int ID,String name, String bankAccountDetails, int salary,String startOfEmployment ,String endOfEmployment,String partOfJob,
                                               int vacationsDays,List<Role> roles,boolean isManager,Branch branch,String password){
         List<Employee> el=branch.getEmployeesList();
-        if(Network.checkGeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,roles,isManager,branch.getBranchName(),network))
+        if(Network.checkGeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,roles,isManager,branch.getBranchName()))
         {
             for (Employee e : el) {
                 if (e.getID() == ID)
@@ -29,8 +27,8 @@ abstract public class Manager extends Employee{
         }
         return null;
     }
-    public void UpdateEmployee(int ID,String name, String bankAccountDetails, int salary,Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,boolean isManager,Branch branch,String password  ) {
-        if ((Network.checkGeneralEmployee(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, roles, isManager, branch.getBranchName(),network))&& network.SearchByID(ID)!=null) {
+    public void UpdateEmployee(int ID,String name, String bankAccountDetails, int salary,String startOfEmployment ,String endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,boolean isManager,Branch branch,String password  ) {
+        if ((Network.checkGeneralEmployee(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, roles, isManager, branch.getBranchName()))&& Network.getNetwork().SearchByID(ID)!=null) {
             List<Employee> gel = branch.getEmployeesList();
             branch.SearchGeneralEmployee(ID).copyGeneralEmployee(new GeneralEmployee(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, roles, isManager, branch, password));
         }
@@ -38,9 +36,6 @@ abstract public class Manager extends Employee{
     public void SetRolesOfShiftsOfBranch(Branch branch, HashMap<Role,Integer[][]> rolesOfShifts) {
         branch.setRolesOfShifts(rolesOfShifts);
     }
-
-    public Network getNetwork(){return network;}
-    public void setNetwork(Network network){this.network=network;}
 
     public void updateShift(GeneralEmployee selectedEmployee, Role r,Branch b,int shift,int day) {
         HashMap<Integer, Role> theShift = b.getEmployeesShifts()[shift][day];
@@ -61,7 +56,6 @@ abstract public class Manager extends Employee{
         }
 
     }
-
     public void UpdateRolesOfShiftsOfBranch(Branch branch, Role r, int theShift, int theDay, int numOfEmployees) {
         if(!r.getRoleName().equals("Shift Manager"))
             branch.getRolesOfShifts().get(r)[theShift][theDay]=numOfEmployees;
@@ -69,7 +63,7 @@ abstract public class Manager extends Employee{
             System.out.print("error: cant change shift manager number of needed employees.");
     }
     public boolean ShiftManagerCheck(Branch branch) {
-        Role shiftManager=branch.getBranchManager().getNetwork().getRole("Shift Manager");
+        Role shiftManager=Network.getNetwork().getRole("Shift Manager");
         for(int i=0;i<Network.shifts;i++)
             for(int j=0;j<Network.days;j++)
                 if(!branch.getEmployeesShifts()[i][j].containsValue(shiftManager))
@@ -78,8 +72,8 @@ abstract public class Manager extends Employee{
     }
 
     public boolean DriverCheck(Branch branch) {
-        Role driver=branch.getBranchManager().getNetwork().getRole("driver");
-        Role storekeeper=branch.getBranchManager().getNetwork().getRole("storekeeper");
+        Role driver=Network.getNetwork().getRole("driver");
+        Role storekeeper=Network.getNetwork().getRole("storekeeper");
         for(int i=0;i<Network.shifts;i++)
             for(int j=0;j<Network.days;j++)
                 if(branch.getEmployeesShifts()[i][j].containsValue(driver))

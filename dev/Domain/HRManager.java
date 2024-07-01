@@ -17,8 +17,8 @@ public class HRManager extends Manager{
         this(ID, name, bankAccountDetails, salary, startOfEmployment,null, partOfJob, vacationsDays,password);
     }
     public Branch addBranch(String name,String location, BranchManager bm){
-        Branch branch = new Branch(name,location,this.getNetwork(),bm);
-        this.getNetwork().addBranch(branch);
+        Branch branch = new Branch(name,location,bm);
+        Network.getNetwork().addBranch(branch);
         branch.getEmployeesList().add(this);
         return branch;
     }
@@ -27,13 +27,13 @@ public class HRManager extends Manager{
     }
     public void addBranchManager(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment , Date endOfEmployment, String partOfJob, int vacationsDays, Branch branch, String password){
         List<Employee> el=branch.getEmployeesList();
-        if(Network.checkGeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,null,true,branch.getBranchName(),getNetwork()))
+        if(Network.checkGeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,null,true,branch.getBranchName()))
         {
             for (Employee e : el) {
                 if (e.getID() == ID)
                     return;
             }
-            BranchManager bm= new BranchManager(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,branch,password,getNetwork());
+            BranchManager bm= new BranchManager(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,branch,password);
             el.add(bm);
         }
     }

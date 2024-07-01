@@ -16,58 +16,11 @@ import Domain.Role;
 //import java.text.SimpleDateFormat;
 
 public class GeneralEmployeeDao implements EmployeeDao {
-    String url  = "jdbc:sqlite:C:\\uni\\D\\nitoz\\testing\\dev\\DataLayer\\DataBase.db";
-
-    public static String format = "yyyy-MM-dd";//if working, maby change to dd-MM-yyyy
-    public static Date convertstringToDate(String dateString, String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        try {
-            return sdf.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    public static String convertDateToString(Date date, String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(date);
-    }
-
-    public GeneralEmployeeDao() {
-        Connection connection=null;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection(url);
-        } catch (SQLException | ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
-
-                } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-                }
-            }
-    }
-
-    private Connection toConnect(){
-        Connection connection=null;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection(url);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        return connection;
-    }
-
+    private static String employeeType = "GeneralEmployee";
     @Override
     public void create(Employee emp) {
         GeneralEmployee ge = (GeneralEmployee) emp;
-        Connection connection = toConnect();
+        Connection connection = Utility.toConnect();
         String query = "INSERT INTO GeneralEmployee(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, password, isManager, branchName) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? , ? ,?)";
         try {
             PreparedStatement prepare = connection.prepareStatement(query);
@@ -100,7 +53,7 @@ public class GeneralEmployeeDao implements EmployeeDao {
     @Override
     public Employee read(int ID) {
         GeneralEmployee ge = null;
-        Connection connection = toConnect();
+        Connection connection = Utility.toConnect();
         String query = "SELECT * FROM GeneralEmployee WHERE ID = ?";
         try {
                 PreparedStatement statement = connection.prepareStatement(query);
@@ -158,15 +111,15 @@ public class GeneralEmployeeDao implements EmployeeDao {
     @Override
     public void update(Employee emp) {
         GeneralEmployee ge = (GeneralEmployee) emp;
-        Connection connection = toConnect();
+        Connection connection = Utility.toConnect();
         String query = "UPDATE GeneralEmployee SET name = ?, bankAccountDetails = ?, salary = ?, startOfEmployment = ?, endOfEmployment = ?, partOfJob = ?, vacationsDays = ?, password = ?, isManager=? , branchName=? WHERE ID = ?";
         try {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setString(1, ge.getName());
             prepare.setString(2, ge.getBankAccountDetails());
             prepare.setInt(3, ge.getSalary());
-            prepare.setString(4, ge.getStartOfEmployment().toString());
-            prepare.setString(5, ge.getEndOfEmployment().toString());
+            prepare.setString(4, ge.getStartOfEmployment());
+            prepare.setString(5, ge.getEndOfEmployment());
             prepare.setString(6, ge.getPartOfJob());
             prepare.setInt(7, ge.getVacationsDays());
             prepare.setString(8, ge.getPassword());

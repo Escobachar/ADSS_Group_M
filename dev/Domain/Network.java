@@ -17,7 +17,6 @@ public class Network {
     private Network(HRManager HRmanager)
     {
         this.HRmanager = HRmanager;
-        HRmanager.setNetwork(this);
         branchList=new LinkedList<Branch>();
         roles = new LinkedList<>();
         addRole(new Role("shift manager",new ArrayList<>()));
@@ -87,8 +86,8 @@ public class Network {
 
 
     public static boolean checkGeneralEmployee(int ID,String name, String bankAccountDetails, int salary,
-                                               Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,
-                                               boolean isManager,String branch, Network network){
+                                               String startOfEmployment ,String endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,
+                                               boolean isManager,String branch){
 
         return (CheckID(ID) & CheckName(name) & CheckBankAccountDetails(bankAccountDetails) & checkSalary(salary) & checkPartOfJob(partOfJob)
                 & checkVacationsDays(vacationsDays) & network.isBranchExist(branch));
@@ -131,13 +130,13 @@ public class Network {
         return vacationsDays >= 0;
     }
     public static boolean checkCreateDate(String createDate){
-        boolean good=true;
-        try{
-            Date testing = new Date(createDate);
-        }catch(Exception e){
-            good=false;
-        }
-        return good;
+       if(createDate.length()!=10)
+           return false;
+        return onlyNumbers(createDate.charAt(0)) && onlyNumbers(createDate.charAt(1)) && onlyNumbers(createDate.charAt(3)) && onlyNumbers(createDate.charAt(4)) &&
+                onlyNumbers(createDate.charAt(6)) && onlyNumbers(createDate.charAt(7)) && onlyNumbers(createDate.charAt(8)) && onlyNumbers(createDate.charAt(9)) && createDate.charAt(2) == '-' && createDate.charAt(5) == '-';
+    }
+    private static boolean onlyNumbers(char toCheck){
+        return onlyNumbers(""+toCheck);
     }
     private static boolean onlyNumbers(String toCheck) {
         for (int i = 0; i < toCheck.length(); i++)

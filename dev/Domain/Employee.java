@@ -11,8 +11,8 @@ abstract public class Employee {
     private String name;
     private String bankAccountDetails;
     private int salary;
-    private Date startOfEmployment;
-    private Date endOfEmployment;
+    private String startOfEmployment;
+    private String endOfEmployment;
     private String partOfJob;
     private int vacationsDays;
     private String password;
@@ -44,7 +44,7 @@ abstract public class Employee {
     public String getName(){return name;}
     public String getBankAccountDetails(){return bankAccountDetails;}
     public Integer getSalary(){return salary;}
-    public Date getEndOfEmployment(){return endOfEmployment;}
+    public String getEndOfEmployment(){return endOfEmployment;}
     public String getPartOfJob(){return partOfJob;}
     public Integer getVacationsDays(){return vacationsDays;}
     public Employee getEmployee(){return this;}
@@ -73,18 +73,15 @@ abstract public class Employee {
         this.salary=salary;
     }
 
-    public Date getStartOfEmployment() {
+    public String getStartOfEmployment() {
         return startOfEmployment;
     }
 
-    public void setStartOfEmployment(Date startOfEmployment) {
-        this.startOfEmployment=new Date(startOfEmployment.getTime());
+    public void setStartOfEmployment(String startOfEmployment) {
+        this.startOfEmployment=startOfEmployment;
     }
-    public void setEndOfEmployment(Date endOfEmployment) {
-        if(endOfEmployment==null)
-            this.endOfEmployment=null;
-        else
-            this.endOfEmployment=new Date(endOfEmployment.getTime());
+    public void setEndOfEmployment(String endOfEmployment) {
+            this.endOfEmployment=endOfEmployment;
     }
 
     public void setPartOfJob(String partOfJob) {

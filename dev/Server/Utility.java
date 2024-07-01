@@ -1,10 +1,14 @@
-package Presentetion;
+package Server;
 
 import Domain.Branch;
 import Domain.GeneralEmployee;
 import Domain.Network;
 import Domain.Role;
-
+import java.io.File;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.*;
 
 public class Utility {
@@ -242,5 +246,27 @@ public class Utility {
 
         return shifts;
     }
-
+    private static String getDBUrl(){
+        //return "jdbc:sqlite:C:\\uni\\D\\nitoz\\testing\\dev\\DataLayer\\DataBase.db";
+        String relativePath = "DataLayer/DataBase.db";
+        File databaseFile = Paths.get(relativePath).toFile();
+        if (databaseFile.exists()) {
+            return "jdbc:sqlite:"+databaseFile.getAbsolutePath().replace("\\", "\\\\");
+        } else {
+            throw new IllegalStateException("Error: Database file not found in the url: " + databaseFile.getAbsolutePath());
+        }
+    }
+    public static Connection toConnect(){
+        Connection connection=null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection(getDBUrl());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return connection;
+    }
 }
+
