@@ -1,4 +1,5 @@
 package suppliers.DataAccessLayer.DAO;
+import suppliers.DataAccessLayer.DataBase;
 import suppliers.DaysOfTheWeek;
 
 import java.sql.*;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static suppliers.DaysOfTheWeek.DayToInt;
+import static suppliers.DaysOfTheWeek.intToDay;
 
 public class OrderDeliveryDayDAO {
     private Connection conn;
@@ -16,15 +18,16 @@ public class OrderDeliveryDayDAO {
 
 
     public OrderDeliveryDayDAO() throws SQLException{
-        conn = DataBase.connect();
+        conn = DataBase.getConnection();
     }
 
-    public List<Integer> getAllOrderDeliveryDaysByOrder(int orderId) throws SQLException {
-        List<Integer> days = new ArrayList<Integer>();
+    public List<DaysOfTheWeek.Day> getAllOrderDeliveryDaysByOrder(int orderId) throws SQLException {
+        List<DaysOfTheWeek.Day> days = new ArrayList<DaysOfTheWeek.Day>();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT "+ dayColumnName+" FROM "+tableName+" WHERE id ="+orderId);
         while (rs.next()) {
-            days.add(rs.getInt(dayColumnName));
+            DaysOfTheWeek.Day day = intToDay(rs.getInt(dayColumnName));
+            days.add(day);
         }
         return days;
     }

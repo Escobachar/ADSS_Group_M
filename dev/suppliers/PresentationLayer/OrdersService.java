@@ -17,8 +17,13 @@ public class OrdersService {
     private static OrdersService instance;
 
     private OrdersService() {
-        of = OrdersFacade.getInstance();
-        sf = SuppliersFacade.getInstance();
+        try {
+            of = OrdersFacade.getInstance();
+            sf = SuppliersFacade.getInstance();
+        }
+        catch (Exception e){
+
+        }
 
     }
 

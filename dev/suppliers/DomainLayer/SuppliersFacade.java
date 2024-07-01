@@ -160,14 +160,6 @@ public class SuppliersFacade {
         return new Category(name, getCategoryNumber(name));
     }
 
-    // price //discount value // discount amount // catalog number
-    public void setCatalogNumber(int newCatalogNumber, int supplierId, int catalogNumber) {
-        Product product = getProductInSupplier(supplierId, catalogNumber);
-        removeProductFromSupplier(supplierId, catalogNumber);
-        product.setCatalogNumber(newCatalogNumber);
-        addProductToSupplier(supplierId, product);
-    }
-
     public void setDiscountAmount(int newDiscountAmount, int supplierId, int catalogNumber) {
         getProductInSupplier(supplierId, catalogNumber).getDiscount().setAmount(newDiscountAmount);
     }

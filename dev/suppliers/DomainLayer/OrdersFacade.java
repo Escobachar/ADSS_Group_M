@@ -1,5 +1,6 @@
 package suppliers.DomainLayer;
 
+import suppliers.DataAccessLayer.DAO.OrderDAO;
 import suppliers.DaysOfTheWeek.Day;
 
 import java.sql.SQLException;
@@ -12,13 +13,15 @@ public class OrdersFacade {
     private static OrdersFacade instance;
     private int orderIdCounter;
     private HashMap<Integer, Order> orders;
+    private OrderDAO orderDAO;
 
-    private OrdersFacade() {
+    private OrdersFacade() throws SQLException {
         orderIdCounter = 1;
         orders = new HashMap<>();
+        orderDAO = new OrderDAO();
     }
 
-    public static OrdersFacade getInstance() {
+    public static OrdersFacade getInstance() throws SQLException {
         if (instance == null) {
             instance = new OrdersFacade();
         }
@@ -27,7 +30,7 @@ public class OrdersFacade {
 
     public int addOrder(Supplier supplier, Date creationDate, Date deliveryDate,
             HashMap<Product, Integer> items,
-            List<Day> deliveryDays) {
+            List<Day> deliveryDays) throws SQLException {
         if (deliveryDate == null || deliveryDate.before(creationDate)) {
             throw new IllegalArgumentException("Delivery date must be after creation date");
         }
@@ -40,6 +43,7 @@ public class OrdersFacade {
         Order order = new Order(orderIdCounter, supplier, creationDate, deliveryDate, items,
                 deliveryDays);
         orders.put(orderIdCounter, order);
+        orderDAO.addOrder(order);
         orderIdCounter++;
         return orderIdCounter - 1;
     }
@@ -75,8 +79,9 @@ public class OrdersFacade {
         }
     }
 
-    public void removeOrder(int orderId) {
+    public void removeOrder(int orderId) throws SQLException {
         Order o = orders.remove(orderId);
+        orderDAO.deleteOrder(orderId);
         if (o == null) {
             throw new IllegalArgumentException("Order not found");
         }
