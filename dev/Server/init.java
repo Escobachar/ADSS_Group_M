@@ -10,7 +10,7 @@ import java.util.List;
 public class init {
     public static Network init(boolean init) {
 
-        HRManager hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, new Date(2024, 6, 4), null, "Full", 18, "1111");
+        HRManager hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, "04-06-2024", null, "Full", 18, "1111");
         Network network = Network.createNewNetwork(hrm);
         List<String> GeneralEmployeeAccess = new ArrayList<>();
         network.addRole(new Role("cashier", GeneralEmployeeAccess));
@@ -20,8 +20,8 @@ public class init {
         network.addRole(new Role("driver", DriverAccess));
         if (init) {
             Branch branch = hrm.addBranch("Beer Sheva", "Beer Sheva", null);
-            BranchManager bm = new BranchManager(222222222, "Tomer Cohen", "2222222222", 50, new Date(2024, 6, 4), null, "Half", 18, branch, "2222", network);
-            List<Role> roleList = hrm.getNetwork().getRoles();
+            BranchManager bm = new BranchManager(222222222, "Tomer Cohen", "2222222222", 50,"04-06-2024", null, "Half", 18, branch, "2222");
+            List<Role> roleList = Network.getNetwork().getRoles();
             List<Role> oneRole = new ArrayList<>();
             oneRole.add(roleList.get(1));
             EmployeeDao test = new GeneralEmployeeDao();

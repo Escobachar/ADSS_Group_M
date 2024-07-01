@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriverDao implements EmployeeDao{
+public class DriverDao implements EmployeeDao {
     @Override
     public void create(Employee emp) {
         Driver d = (Driver) emp;

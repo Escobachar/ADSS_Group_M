@@ -17,7 +17,7 @@ abstract public class Employee {
     private int vacationsDays;
     private String password;
 
-    public Employee(int ID,String name, String bankAccountDetails, int salary,Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays,String password  ){
+    public Employee(int ID,String name, String bankAccountDetails, int salary,String startOfEmployment ,String endOfEmployment,String partOfJob,int vacationsDays,String password  ){
         this.ID=ID;
         this.name=name;
         this.bankAccountDetails=bankAccountDetails;

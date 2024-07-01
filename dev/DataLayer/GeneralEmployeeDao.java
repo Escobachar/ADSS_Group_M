@@ -5,10 +5,7 @@ import java.sql.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import Server.Utility;
 import Domain.GeneralEmployee;
 import Domain.Employee;
 import Domain.Network;
@@ -28,8 +25,8 @@ public class GeneralEmployeeDao implements EmployeeDao {
             prepare.setString(2, ge.getName());
             prepare.setString(3, ge.getBankAccountDetails());
             prepare.setInt(4, ge.getSalary());
-            prepare.setString(5, convertDateToString(ge.getStartOfEmployment(), format));
-            prepare.setString(6, convertDateToString(ge.getEndOfEmployment(),format));
+            prepare.setString(5, ge.getStartOfEmployment());
+            prepare.setString(6, ge.getEndOfEmployment());
             prepare.setString(7, ge.getPartOfJob());
             prepare.setInt(8, ge.getVacationsDays());
             prepare.setString(9, ge.getPassword());
@@ -38,6 +35,26 @@ public class GeneralEmployeeDao implements EmployeeDao {
             prepare.executeUpdate();
             System.out.println("Employee has been added.");
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (connection != null)
+                    connection.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        //insert to EmployeeList table
+        query = "INSERT INTO EmployeeList(branchName, ID, employeeType) VALUES(?, ?, ?)";
+        try {
+            PreparedStatement prepare = connection.prepareStatement(query);
+            prepare.setString(1, ge.getBranch().getBranchName());
+            prepare.setInt(2, ge.getID());
+            prepare.setString(3, employeeType);
+            prepare.executeUpdate();
+            System.out.println("GneralEmployee has been added to EmployeeList.");
+        }catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
             try {
@@ -64,13 +81,13 @@ public class GeneralEmployeeDao implements EmployeeDao {
                         String name = resultSet.getString("name");
                         String bankAccountDetails = resultSet.getString("bankAccountDetails");
                         int salary = resultSet.getInt("salary");
-                        String startOfEmploymentString =resultSet.getString("startOfEmployment");
-                        String endOfEmploymentString = resultSet.getString("endOfEmployment");
+                        String startOfEmployment =resultSet.getString("startOfEmployment");
+                        String endOfEmployment = resultSet.getString("endOfEmployment");
                         String partOfJob =resultSet.getString("partOfJob");
                         int vacationsDays = resultSet.getInt("vacationsDays");
                         String password =resultSet.getString("password");
                         int isManager = resultSet.getInt("isManager");
-                        String branch =resultSet.getString("branch");
+                        String branch =resultSet.getString("branchName");
                         //Roles
                         query = "SELECT * FROM GeneralEmployeeRole WHERE ID = ?";
                         List<Role> roles = new ArrayList<>();
@@ -97,7 +114,7 @@ public class GeneralEmployeeDao implements EmployeeDao {
                             System.out.println(e.getMessage());
                         }
 
-                       ge = new GeneralEmployee(id, name, bankAccountDetails, salary,convertstringToDate(startOfEmploymentString,format), convertstringToDate(endOfEmploymentString, format), partOfJob, vacationsDays,roles, isManager==1,Network.getNetwork().getBranch(branch),password);
+                       ge = new GeneralEmployee(id, name, bankAccountDetails, salary,startOfEmployment, endOfEmployment, partOfJob, vacationsDays,roles, isManager==1,Network.getNetwork().getBranch(branch),password);
                     }
                 }
             } catch (SQLException e) {
@@ -143,6 +160,36 @@ public class GeneralEmployeeDao implements EmployeeDao {
 
     @Override
     public void delete(int ID) {
-        //not used
+        Connection connection = Utility.toConnect();
+        String query = "DELETE FROM GeneralEmployee WHERE ID = ?";
+        try {
+            //Delete from GeneralEmployee
+            PreparedStatement prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ID);
+            int deleteRows = prepare.executeUpdate();
+
+            if (deleteRows > 0) {
+                System.out.println("Employee has been deleted from GeneralEmployee table.");
+            } else {
+                System.out.println("No employee found with ID: " + ID);
+            }
+            prepare.close();
+
+            //Delete from EmployeeList table
+            query = "DELETE FROM EmployeeList WHERE ID = ?";
+            prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ID);
+            deleteRows = prepare.executeUpdate();
+
+            if (deleteRows > 0) {
+                System.out.println("Employee has been deleted from EmployeeList table.");
+            } else {
+                System.out.println("No employee found with ID: " + ID);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
+
 }

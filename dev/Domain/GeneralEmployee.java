@@ -7,7 +7,7 @@ public class GeneralEmployee extends Employee {
     private boolean[][] ShiftsRequest;
     private Branch branch;
 
-    public GeneralEmployee(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment , Date endOfEmployment, String partOfJob,
+    public GeneralEmployee(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment , String endOfEmployment, String partOfJob,
                            int vacationsDays, List<Role> roles, boolean isManager, Branch branch,String password){
         super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays,password);
         this.getAccess().add("updateShifts");

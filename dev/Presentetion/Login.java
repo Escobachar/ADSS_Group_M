@@ -495,18 +495,18 @@ public class Login {
                 }
             }
             Branch branch = ((BranchManager)emp).getBranch();
-            emp.addGeneralEmployee(id, name, bankAccount, salary, new Date(startOfEmp), endDate, partOfJob, vacationDays, newRL, SM, branch, password);
+            emp.addGeneralEmployee(id, name, bankAccount, salary, startOfEmp, endOfEmp, partOfJob, vacationDays, newRL, SM, branch, password);
         }
         else if(type=='m') {
             Branch branch = branchSelect();
             if(branch!=null)
-                ((HRManager)emp).addBranchManager(id, name, bankAccount, salary, new Date(startOfEmp), endDate, partOfJob, vacationDays,branch,password);
+                ((HRManager)emp).addBranchManager(id, name, bankAccount, salary, startOfEmp, endOfEmp, partOfJob, vacationDays,branch,password);
 
         }
         else if(type=='b') {
             Branch branch = Network.lookForNewBranch(Network.getNetwork());
             if (branch != null)
-                ((HRManager) emp).addBranchManager(id, name, bankAccount, salary, new Date(startOfEmp), endDate, partOfJob, vacationDays, branch, password);
+                ((HRManager) emp).addBranchManager(id, name, bankAccount, salary, startOfEmp, endOfEmp, partOfJob, vacationDays, branch, password);
         }
     }
     private static void UpdateEmployeeDetails(Manager emp) {
@@ -589,7 +589,7 @@ public class Login {
                 System.out.print("New start of employment(mm-dd-yyyy): ");
                 start = scanner.nextLine();
             } while (!Network.checkCreateDate(start));
-            e.setStartOfEmployment(new Date(start));
+            e.setStartOfEmployment(start);
         }
 
         System.out.println("employee's end of employment: "+e.getEndOfEmployment());
@@ -612,7 +612,7 @@ public class Login {
             if(end.equals("TBD"))
                 e.setEndOfEmployment(null);
             else
-                e.setEndOfEmployment(new Date(end));
+                e.setEndOfEmployment(end);
         }
 
         System.out.println("employee's part of job: "+e.getPartOfJob());

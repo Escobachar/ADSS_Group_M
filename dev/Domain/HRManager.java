@@ -1,9 +1,10 @@
 package Domain;
 
+import java.net.NetworkInterface;
 import java.util.*;
 public class HRManager extends Manager{
-    public HRManager(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment, Date endOfEmployment, String partOfJob, int vacationsDays,String password) {
-        super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays,password,null);
+    public HRManager(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment, String endOfEmployment, String partOfJob, int vacationsDays,String password) {
+        super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays,password);
         this.getAccess().add("HRAddGeneralEmployee");
         this.getAccess().add("HRAssignBranchManager");
         this.getAccess().add("HRUpdateEmployeeDetails");
@@ -13,7 +14,7 @@ public class HRManager extends Manager{
         this.getAccess().add("HRShowBranchShiftsAvailability");
         this.getAccess().add("HRAddBranch");
     }
-    public HRManager(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment, String partOfJob, int vacationsDays,String password) {
+    public HRManager(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment, String partOfJob, int vacationsDays,String password) {
         this(ID, name, bankAccountDetails, salary, startOfEmployment,null, partOfJob, vacationsDays,password);
     }
     public Branch addBranch(String name,String location, BranchManager bm){
@@ -25,7 +26,7 @@ public class HRManager extends Manager{
     public void setBranchName(BranchManager brm,Branch branch){
         branch.setBranchManager(brm);
     }
-    public void addBranchManager(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment , Date endOfEmployment, String partOfJob, int vacationsDays, Branch branch, String password){
+    public void addBranchManager(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment , String endOfEmployment, String partOfJob, int vacationsDays, Branch branch, String password){
         List<Employee> el=branch.getEmployeesList();
         if(Network.checkGeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,null,true,branch.getBranchName()))
         {
