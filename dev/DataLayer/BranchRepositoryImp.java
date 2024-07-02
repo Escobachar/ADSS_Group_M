@@ -1,6 +1,9 @@
 package DataLayer;
 
 import Domain.Branch;
+import Domain.Employee;
+import java.util.stream.*;
+import java.util.List;
 
 public class BranchRepositoryImp implements BranchRepository {
     private BranchDao branchDao=new BranchDaoImp();
@@ -11,7 +14,10 @@ public class BranchRepositoryImp implements BranchRepository {
 
     @Override
     public Branch get(String branchName) {
-        return null;//todo
+        Branch branch = null;
+        branch = branchDao.read(branchName);
+        List<Employee> employeeList = Stream.concat(driverDao.readAll(branchName).stream(), generalEmployeeDao.readAll(branchName).stream()).toList();
+
     }
 
     @Override

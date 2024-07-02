@@ -15,6 +15,7 @@ import java.util.List;
 
 public class DriverDao implements EmployeeDao {
     final static String stringEmployeeType = "Driver";
+    ShiftRequestDao shiftRequestDao = new ShiftRequestDaoImp();
 
     @Override
     public void create(Employee emp) {
@@ -53,6 +54,10 @@ public class DriverDao implements EmployeeDao {
             prepare.setString(3, stringEmployeeType);
             prepare.executeUpdate();
             System.out.println("Driver has been added to EmployeeList.");
+
+            //insert to shiftRequests table
+            shiftRequestDao.create(d.getShiftsRequest(), d.getID());
+
         }catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -97,6 +102,7 @@ public class DriverDao implements EmployeeDao {
                         }
                     }
                     d = new Driver(id, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, Network.getNetwork().getBranch(branch), password, driverLicense, driverLicenseTypes);
+                    d.updateShifts(shiftRequestDao.read(id));
                 }
             } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -152,10 +158,72 @@ public class DriverDao implements EmployeeDao {
                 System.out.println("No Driver found with ID: " + ID);
             }
 
+            //Delete from ShiftsRequests table
+            query = "DELETE FROM ShiftsRequests WHERE ID = ?";
+            prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ID);
+            deleteRows = prepare.executeUpdate();
+
+            if (deleteRows > 0) {
+                System.out.println("ShiftsRequests has been deleted from ShiftsRequests table.");
+            } else {
+                System.out.println("No ShiftsRequests found with ID: " + ID);
+            }
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         Utility.Close(connection);
+    }
+    @Override
+    public List<Employee> readAll(String branchName){
+        List<Employee> list = null;
+        Driver d = null;
+        Connection connection = Utility.toConnect();
+        String query = "SELECT * FROM Driver WHERE branchName = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, branchName);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("ID");
+                    String name = resultSet.getString("name");
+                    String bankAccountDetails = resultSet.getString("bankAccountDetails");
+                    int salary = resultSet.getInt("salary");
+                    String startOfEmployment = resultSet.getString("startOfEmployment");
+                    String endOfEmployment = resultSet.getString("endOfEmployment");
+                    String partOfJob = resultSet.getString("partOfJob");
+                    int vacationsDays = resultSet.getInt("vacationsDays");
+                    String password = resultSet.getString("password");
+                    String branch = resultSet.getString("branchName");
+                    int driverLicense = resultSet.getInt("driverLicense");
+                    //DriverLicenseTypes
+                    List<String> driverLicenseTypes = new ArrayList<>();
+                    {
+                        query = "SELECT * FROM DriverLicenseTypes WHERE ID = ?";
+                        statement = connection.prepareStatement(query);
+                        statement.setInt(1, id);
+                        try (ResultSet resultSet2 = statement.executeQuery()) {
+                            while (resultSet2.next()) {
+                                String driverLicenseType = resultSet2.getString("driverLicenseType");
+                                driverLicenseTypes.add(driverLicenseType);
+                            }
+                        } catch (SQLException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    d = new Driver(id, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, Network.getNetwork().getBranch(branch), password, driverLicense, driverLicenseTypes);
+                    d.updateShifts(shiftRequestDao.read(id));
+                    list.add(d);
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        Utility.Close(connection);
+        return list;
     }
 }
 

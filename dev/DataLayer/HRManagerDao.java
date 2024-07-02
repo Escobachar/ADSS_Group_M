@@ -92,4 +92,9 @@ public class HRManagerDao implements EmployeeDao{
         }
         Utility.Close(connection);
     }
+
+    @Override
+    public List<Employee> readAll(String branchName) {
+        return null;
+    }
 }

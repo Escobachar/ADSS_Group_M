@@ -14,6 +14,8 @@ import Domain.Role;
 
 public class GeneralEmployeeDao implements EmployeeDao {
     final static String stringEmployeeType = "GeneralEmployee";
+    ShiftRequestDao shiftRequestDao = new ShiftRequestDaoImp();
+
     @Override
     public void create(Employee emp) {
         GeneralEmployee ge = (GeneralEmployee) emp;
@@ -55,6 +57,10 @@ public class GeneralEmployeeDao implements EmployeeDao {
                 prepare.executeUpdate();
             }
             System.out.println("GeneralEmployee has been added to GeneralEmployeeRole.");
+
+            //insert to shiftRequests table
+            shiftRequestDao.create(ge.getShiftsRequest(), ge.getID());
+
 
         }catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -109,7 +115,8 @@ public class GeneralEmployeeDao implements EmployeeDao {
                             System.out.println(e.getMessage());
                         }
 
-                       ge = new GeneralEmployee(id, name, bankAccountDetails, salary,startOfEmployment, endOfEmployment, partOfJob, vacationsDays,roles, isManager==1,Network.getNetwork().getBranch(branch),password);
+                        ge = new GeneralEmployee(id, name, bankAccountDetails, salary,startOfEmployment, endOfEmployment, partOfJob, vacationsDays,roles, isManager==1,Network.getNetwork().getBranch(branch),password);
+                        ge.updateShifts(shiftRequestDao.read(id));
                     }
                 }
             } catch (SQLException e) {
@@ -163,6 +170,18 @@ public class GeneralEmployeeDao implements EmployeeDao {
                 System.out.println("GeneralEmployee has been deleted from GeneralEmployeeRole table.");
             } else {
                 System.out.println("No employee found with ID: " + ID);
+            }
+
+            //Delete from ShiftsRequests table
+            query = "DELETE FROM ShiftsRequests WHERE ID = ?";
+            prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ID);
+            deleteRows = prepare.executeUpdate();
+
+            if (deleteRows > 0) {
+                System.out.println("ShiftsRequests has been deleted from ShiftsRequests table.");
+            } else {
+                System.out.println("No ShiftsRequests found with ID: " + ID);
             }
 
         } catch (SQLException e) {

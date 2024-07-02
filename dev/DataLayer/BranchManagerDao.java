@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class BranchManagerDao implements EmployeeDao {
     @Override
@@ -100,5 +101,10 @@ public class BranchManagerDao implements EmployeeDao {
             System.out.println(e.getMessage());
         }
         Utility.Close(connection);
+    }
+
+    @Override
+    public List<Employee> readAll(String branchName) {
+        return null;
     }
 }
