@@ -268,5 +268,15 @@ public class Utility {
         }
         return connection;
     }
+    public static void Close(Connection connection){
+            try {
+                if (connection != null)
+                    connection.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+    }
 }
 

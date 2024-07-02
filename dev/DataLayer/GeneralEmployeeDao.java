@@ -53,7 +53,19 @@ public class GeneralEmployeeDao implements EmployeeDao {
             prepare.setInt(2, ge.getID());
             prepare.setString(3, employeeType);
             prepare.executeUpdate();
-            System.out.println("GneralEmployee has been added to EmployeeList.");
+            System.out.println("GeneralEmployee has been added to EmployeeList.");
+
+            //insert to GeneralEmployeeRole table
+            for(Role role: ge.getRoles()) {
+                query = "INSERT INTO GeneralEmployeeRole(ID, roleName) VALUES(?, ?)";
+
+                prepare = connection.prepareStatement(query);
+                prepare.setInt(1, ge.getID());
+                prepare.setString(2,role.getRoleName() );
+                prepare.executeUpdate();
+            }
+            System.out.println("GeneralEmployee has been added to GeneralEmployeeRole.");
+
         }catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -124,38 +136,10 @@ public class GeneralEmployeeDao implements EmployeeDao {
         }
 
 
-
     @Override
     public void update(Employee emp) {
-        GeneralEmployee ge = (GeneralEmployee) emp;
-        Connection connection = Utility.toConnect();
-        String query = "UPDATE GeneralEmployee SET name = ?, bankAccountDetails = ?, salary = ?, startOfEmployment = ?, endOfEmployment = ?, partOfJob = ?, vacationsDays = ?, password = ?, isManager=? , branchName=? WHERE ID = ?";
-        try {
-            PreparedStatement prepare = connection.prepareStatement(query);
-            prepare.setString(1, ge.getName());
-            prepare.setString(2, ge.getBankAccountDetails());
-            prepare.setInt(3, ge.getSalary());
-            prepare.setString(4, ge.getStartOfEmployment());
-            prepare.setString(5, ge.getEndOfEmployment());
-            prepare.setString(6, ge.getPartOfJob());
-            prepare.setInt(7, ge.getVacationsDays());
-            prepare.setString(8, ge.getPassword());
-            prepare.setBoolean(9, ge.isManager());
-            prepare.setString(10, ge.getBranch().getBranchName());
-            prepare.setInt(11, ge.getID());
-            prepare.executeUpdate();
-            System.out.println("Employee has been Updated.");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+        delete(emp.getID());
+        create(emp);
     }
 
     @Override
@@ -173,10 +157,9 @@ public class GeneralEmployeeDao implements EmployeeDao {
             } else {
                 System.out.println("No employee found with ID: " + ID);
             }
-            prepare.close();
 
             //Delete from EmployeeList table
-            query = "DELETE FROM EmployeeList WHERE ID = ?";
+            query = "DELETE FROM EmployeeList WHERE empID = ?";
             prepare = connection.prepareStatement(query);
             prepare.setInt(1, ID);
             deleteRows = prepare.executeUpdate();
@@ -190,6 +173,7 @@ public class GeneralEmployeeDao implements EmployeeDao {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        Utility.Close(connection);
     }
 
 }

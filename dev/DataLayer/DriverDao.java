@@ -14,11 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DriverDao implements EmployeeDao {
+    final static String stringEmployeeType = "Driver";
+
     @Override
     public void create(Employee emp) {
         Driver d = (Driver) emp;
         Connection connection = Utility.toConnect();
-        String query = "INSERT INTO Driver(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, password, isManager, branchName, driverLicense) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? , ? , ?, ?)";
+        String query = "INSERT INTO Driver(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, password, branchName, driverLicense) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? , ? , ?)";
         try {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setInt(1, d.getID());
@@ -30,33 +32,32 @@ public class DriverDao implements EmployeeDao {
             prepare.setString(7, d.getPartOfJob());
             prepare.setInt(8, d.getVacationsDays());
             prepare.setString(9, d.getPassword());
-            prepare.setBoolean(10, d.isManager());
-            prepare.setString(11, d.getBranch().getBranchName());
-            prepare.setString(12, d.getDriverLicense());
+            prepare.setString(10, d.getBranch().getBranchName());
+            prepare.setInt(11, d.getDriverLicense());
             prepare.executeUpdate();
-            query = "INSERT INTO DriverLicenseTypes&Drivers(ID, driverLicenseTypes) VALUES(? , ?)";
-            try {
-                for (String driverLicenseTypes : d.getDriverLicenseTypes()) {
-                    prepare = connection.prepareStatement(query);
-                    prepare.setInt(1, d.getID());
-                    prepare.setString(2, driverLicenseTypes);
-                    prepare.executeUpdate();
-                }
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
             System.out.println("Driver has been added.");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
+            query = "INSERT INTO DriverLicenseTypes(ID, driverLicenseType) VALUES(? , ?)";
+            for (String DLT : d.getDriverLicenseTypes()) {
+                prepare = connection.prepareStatement(query);
+                prepare.setInt(1, d.getID());
+                prepare.setString(2, DLT);
+                prepare.executeUpdate();
             }
+            System.out.println("Driver has been added to DriverLicenseTypes.");
+            //insert to EmployeeList table
+            query = "INSERT INTO EmployeeList(branchName, empID, type) VALUES(?, ?, ?)";
+
+            prepare = connection.prepareStatement(query);
+            prepare.setString(1, d.getBranch().getBranchName());
+            prepare.setInt(2, d.getID());
+            prepare.setString(3, stringEmployeeType);
+            prepare.executeUpdate();
+            System.out.println("Driver has been added to EmployeeList.");
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
+
+        Utility.Close(connection);
     }
 
     @Override
@@ -80,13 +81,13 @@ public class DriverDao implements EmployeeDao {
                     String password = resultSet.getString("password");
                     int isManager = resultSet.getInt("isManager");
                     String branch = resultSet.getString("branchName");
-                    String driverLicense = resultSet.getString("driverLicense");
+                    int driverLicense = resultSet.getInt("driverLicense");
                     //DriverLicenseTypes
                     List<String> driverLicenseTypes = new ArrayList<>();
                     {
                         query = "SELECT * FROM DriverLicenseTypes WHERE ID = ?";
-                        statement.setInt(1, ID);
                         statement = connection.prepareStatement(query);
+                        statement.setInt(1, ID);
                         try (ResultSet resultSet2 = statement.executeQuery()) {
                             while (resultSet2.next()) {
                                 String driverLicenseType = resultSet2.getString("driverLicenseType");
@@ -96,87 +97,66 @@ public class DriverDao implements EmployeeDao {
                             System.out.println(e.getMessage());
                         }
                     }
-                d = new Driver(id, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, Network.getNetwork().getBranch(branch), password, driverLicense, driverLicenseTypes);
+                    d = new Driver(id, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, Network.getNetwork().getBranch(branch), password, driverLicense, driverLicenseTypes);
+                }
+            } catch (SQLException e) {
+            System.out.println(e.getMessage());
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    } catch(
-    SQLException e)
-
-    {
+        } catch(SQLException e) {
         System.out.println(e.getMessage());
-    }finally
-
-    {
-        try {
-            if (connection != null)
-                connection.close();
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
         }
-    }
+        Utility.Close(connection);
         return d;
     }
 
-    @Override
-    public void update(Employee emp) {
-        /*
-        Driver d = (Driver) emp;
-        Connection connection = Utility.toConnect();
-        String query = "UPDATE Driver SET name = ?, bankAccountDetails = ?, salary = ?, startOfEmployment = ?, endOfEmployment = ?, partOfJob = ?, vacationsDays = ?, branchName=?, password = ?, driverLicense = ? WHERE ID = ?";
-        try {
-            PreparedStatement prepare = connection.prepareStatement(query);
-            prepare.setString(1, d.getName());
-            prepare.setString(2, d.getBankAccountDetails());
-            prepare.setInt(3, d.getSalary());
-            prepare.setString(4, d.getStartOfEmployment());
-            prepare.setString(5, d.getEndOfEmployment());
-            prepare.setString(6, d.getPartOfJob());
-            prepare.setInt(7, d.getVacationsDays());
-            prepare.setString(8, d.getBranch().getBranchName());
-            prepare.setString(9, d.getPassword());
-            prepare.setString(10, d.getDriverLicense());
-            prepare.executeUpdate();
-
-            //DriverLicenseTypes
-            {
-                query = "SELECT * FROM DriverLicenseTypes WHERE ID = ?";
-                statement.setInt(1, ID);
-                List<String> driverLicenseTypes = new ArrayList<>();
-                statement = connection.prepareStatement(query);
-                try (ResultSet resultSet2 = statement.executeQuery()) {
-                    while (resultSet2.next()) {
-                        String driverLicenseType = resultSet2.getString("driverLicenseType");
-                        driverLicenseTypes.add(driverLicenseType);
-                    }
-                } catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-
-
-
-            System.out.println("Driver has been Updated.");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-
-         */
+    public void update(Employee emp){
+        delete(emp.getID());
+        create(emp);
     }
-
     @Override
     public void delete(int ID) {
-        //not used
+        Connection connection = Utility.toConnect();
+        String query = "DELETE FROM Driver WHERE ID = ?";
+        try {
+            //Delete from Driver
+            PreparedStatement prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ID);
+            int deleteRows = prepare.executeUpdate();
+
+            if (deleteRows > 0) {
+                System.out.println("Driver has been deleted from Driver table.");
+            } else {
+                System.out.println("No Driver found with ID: " + ID);
+            }
+
+            //Delete from EmployeeList table
+            query = "DELETE FROM EmployeeList WHERE empID = ?";
+            prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ID);
+            deleteRows = prepare.executeUpdate();
+
+            if (deleteRows > 0) {
+                System.out.println("Driver has been deleted from EmployeeList table.");
+            } else {
+                System.out.println("No Driver found with ID: " + ID);
+            }
+
+            //Delete from DriverLicenseTypes&Drivers table
+            query = "DELETE FROM DriverLicenseTypes WHERE ID = ?";
+            prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ID);
+            deleteRows = prepare.executeUpdate();
+
+            if (deleteRows > 0) {
+                System.out.println("Driver has been deleted from DriverLicenseTypes&Driver table.");
+            } else {
+                System.out.println("No Driver found with ID: " + ID);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        Utility.Close(connection);
     }
-    }
+}
 

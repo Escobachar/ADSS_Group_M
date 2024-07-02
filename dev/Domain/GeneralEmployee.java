@@ -43,6 +43,7 @@ public class GeneralEmployee extends Employee {
         this.setEndOfEmployment(other.getEndOfEmployment());
         this.setPartOfJob(other.getPartOfJob());
         this.setVacationsDays(other.getVacationsDays());
+        this.setPassword(other.getPassword());
         this.roles = new LinkedList<>();
         this.roles.addAll(other.roles);
         this.isManager=other.isManager;

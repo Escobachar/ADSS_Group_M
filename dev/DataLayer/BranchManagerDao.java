@@ -71,10 +71,11 @@ public class BranchManagerDao implements EmployeeDao {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            return bm;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        Utility.Close(connection);
+        return bm;
     }
 
     @Override

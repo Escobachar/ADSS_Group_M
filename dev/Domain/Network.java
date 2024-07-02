@@ -1,6 +1,7 @@
 package Domain;
 
-import com.sun.source.tree.NewArrayTree;
+import DataLayer.EmployeeDao;
+import DataLayer.HRManagerDao;
 
 import java.util.*;
 public class Network {
@@ -12,7 +13,7 @@ public class Network {
     private HRManager HRmanager;
     private List<Role> roles;//list of all roles in the network, programmers my add more if customer need
     public List<Branch> getBranchList(){return branchList;}
-
+    private EmployeeDao HRMDao = new HRManagerDao();
 
     private Network(HRManager HRmanager)
     {
@@ -92,6 +93,12 @@ public class Network {
         return (CheckID(ID) & CheckName(name) & CheckBankAccountDetails(bankAccountDetails) & checkSalary(salary) & checkPartOfJob(partOfJob)
                 & checkVacationsDays(vacationsDays) & network.isBranchExist(branch));
     }
+    public static boolean checkDriver(int ID,String name, String bankAccountDetails, int salary,
+                                               String startOfEmployment ,String endOfEmployment,String partOfJob,int vacationsDays,int driverLicense,String branch){
+
+        return (CheckID(ID) & CheckName(name) & CheckBankAccountDetails(bankAccountDetails) & checkSalary(salary) & checkPartOfJob(partOfJob)
+                & checkVacationsDays(vacationsDays) & network.isBranchExist(branch) & CheckDriverLicense(driverLicense));//add test that  types in not empty
+    }
     public static boolean CheckID(Integer ID){
         //ID - 9 numbers
         if(ID==null)
@@ -163,5 +170,17 @@ public class Network {
             if(b.getBranchManager()==null)
                 return b;
         return null;
+    }
+    public static boolean CheckDriverLicense(Integer driverLicense){
+        //ID - 7 numbers
+        if(driverLicense == null)
+            return false;
+        int count=0;
+        for(int i=driverLicense;i>0;i=i/10, count++);
+        return count == 7;
+    }
+
+    public void addHRM(HRManager hrm) {
+        HRMDao.create(hrm);
     }
 }
