@@ -1,6 +1,7 @@
 package suppliers.DataAccessLayer.DAO;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,11 +23,20 @@ public class SuppliersDAO {
     private final String colIsDelivering = "isDelivering";
     private final String colSupplierAddress = "address";
     private final String tableName = "Suppliers";
+    private ProductsDAO productsDAO;
+    private SupplierCategoriesDAO supplierCategoriesDAO;
+    private SupplierDeliveryDaysDAO supplierDeliveryDaysDAO;
+    private SupplierContactDAO supplierContactDAO;
 
     private Connection conn = null;
 
-    public SuppliersDAO() {
+    public SuppliersDAO() throws SQLException {
         this.conn = DataBase.getConnection();
+        productsDAO = new ProductsDAO();
+        supplierCategoriesDAO = new SupplierCategoriesDAO();
+        supplierDeliveryDaysDAO =new SupplierDeliveryDaysDAO();
+        supplierContactDAO = new SupplierContactDAO();
+
     }
 
     public void addSupplier(Supplier supplier) throws SQLException {
@@ -41,32 +51,32 @@ public class SuppliersDAO {
     public void removeSupplier(int supplierId) throws SQLException {
         String query = "DELETE FROM " + tableName + " WHERE " + colSupplierId + " = " + supplierId;
         conn.createStatement().executeUpdate(query);
+        supplierDeliveryDaysDAO.deleteAll(supplierId);
+        supplierContactDAO.deleteAll(supplierId);
+        supplierCategoriesDAO.deleteSupplierCategories(supplierId);
+        productsDAO.deleteAllProductBySupplier(supplierId);
+
     }
 
     public Supplier getSupplierById(int supplierId) throws SQLException {
 
-        SupplierContactDAO supplierContactDAO = new SupplierContactDAO();
         List<DataTypeSupplierContact> contacts = supplierContactDAO.select(supplierId);
         HashMap<String, String> contactsMap = new HashMap<>();
         for (DataTypeSupplierContact contact : contacts) {
             contactsMap.put(contact.contactName, contact.contactNum);
         }
-        SupplierDeliveryDaysDAO supplierDeliveryDaysDAO = new SupplierDeliveryDaysDAO();
         List<Day> deliveryDays = supplierDeliveryDaysDAO.select(supplierId);
         List<Integer> deliveryDaysInt = new ArrayList<>();
         for (Day day : deliveryDays) {
             deliveryDaysInt.add(DaysOfTheWeek.DayToInt(day));
         }
 
-        SupplierCategoriesDAO supplierCategoriesDAO;
-        supplierCategoriesDAO = new SupplierCategoriesDAO();
         List<Integer> categoriesInt = supplierCategoriesDAO.getCategoryBySupplierId(supplierId);
-        ProductDAO productDAO = new ProductDAO();
         HashMap<Category, HashMap<Integer, Product>> categories = new HashMap<>();
-        categoriesDAO categoriesDAO = new categoriesDAO();
+        CategoriesDAO categoriesDAO = new CategoriesDAO();
 
         for (int categoryId : categoriesInt) {
-            categories.put(categoriesDAO.getCategoryById(categoryId), productDAO.getProductsByCategory(categoryId));
+            categories.put(categoriesDAO.getCategoryById(categoryId), productsDAO.getCategoryProducts(supplierId,categoryId));
         }
         String query = "SELECT * FROM " + tableName + " WHERE " + colSupplierId + " = " + supplierId;
         ResultSet result = conn.createStatement().executeQuery(query);
@@ -84,9 +94,13 @@ public class SuppliersDAO {
         }
         throw new SQLException("No such supplier");
     }
-
-    public void delete(int supplierId) {
-        // TODO: implement this method
+    public void updateSupplier(int sid, Supplier supplier) throws SQLException{
+        PreparedStatement stmt = conn.prepareStatement("UPDATE Suppliers SET name = ?, bankAccount = ?, paymentOption = ?, address = ? WHERE SupplierId = ?");
+        stmt.setString(1, supplier.getName());
+        stmt.setString(2, supplier.getBankAccount());
+        stmt.setString(3, supplier.getPaymentMethod());
+        stmt.setString(4, supplier.getAddress());
+        stmt.executeUpdate();
     }
 
 }

@@ -13,15 +13,8 @@ public class Category {
         return categoryId;
     }
 
-    public void setCategoryId(int number) {
-        this.categoryId = number;
-    }
-
     public String getCategoryName() {
         return categoryName;
     }
 
-    public void setCategoryName(String name) {
-        this.categoryName = name;
-    }
 }

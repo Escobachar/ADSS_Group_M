@@ -615,7 +615,8 @@ public class Main {
             System.out.println("2. Edit supplier bank account");
             System.out.println("3. Edit supplier payment option");
             System.out.println("4. Edit supplier contacts");
-            System.out.println("5. Back");
+            System.out.println("5. Edit supplier address");
+            System.out.println("6. Back");
             Integer choice = inputToInt();
             if (choice == null) {
                 System.out.println("Invalid number");
@@ -626,7 +627,8 @@ public class Main {
                 case 2 -> editSupplierBankAccount(id);
                 case 3 -> editSupplierPaymentOption(id);
                 case 4 -> editSupplierContacts(id);
-                case 5 -> flag = false;
+                case 5 -> editSupplierAddress(id);
+                case 6 -> flag = false;
                 default -> System.out.println("Invalid choice");
             }
         }
@@ -637,6 +639,12 @@ public class Main {
         System.out.println("Enter new supplier name");
         String name = sc.next();
         System.out.println(ss.setSupplierName(id, name));
+    }
+
+    public static void editSupplierAddress(int id) {
+        System.out.println("Enter new supplier address");
+        String address = sc.next();
+        System.out.println(ss.setSupplierAddress(id, address));
     }
 
     public static void editSupplierBankAccount(int id) {
@@ -773,7 +781,7 @@ public class Main {
         }
         System.out.println("Enter new discount percentage");
         double discountPercentage = Double.parseDouble(sc.next());
-        System.out.println(ss.setDiscountPrecentage(discountPercentage, id, catalogNumber));
+        System.out.println(ss.setDiscountPercentage(discountPercentage, id, catalogNumber));
     }
 
     public static void setProductName(int id) {
@@ -835,7 +843,7 @@ public class Main {
         if (os.displayThisWeekOrders().isEmpty())
             System.out.println("No orders this week");
         else
-            System.out.println(os.displayThisWeekOrders());
+            System.out.println(os.displayThisWeekDeliveries());
     }
      public static void connectToDatabase() {
         Connection conn = null;  
@@ -859,31 +867,6 @@ public class Main {
             } catch (SQLException ex) {  
                 System.out.println(ex.getMessage());  
             }  
-        }  
-    }  
-    /** 
-     * @param args the command line arguments 
-     */  
-
-     public static void createNewTable() {  
-        // SQLite connection string  
-        String url = "jdbc:sqlite:C:\\Users\\GoomeGum\\Desktop\\omer\\semester D\\n" + //
-                                "itutz\\ADSS_Group_M\\test.db";  
-          
-        // SQL statement for creating a new table  
-        String sql = """
-                     CREATE TABLE IF NOT EXISTS employees (
-                      id integer PRIMARY KEY,
-                      name text NOT NULL,
-                      capacity real
-                     );""";  
-          
-        try{  
-            Connection conn = DriverManager.getConnection(url);  
-            Statement stmt = conn.createStatement();  
-            stmt.execute(sql);  
-        } catch (SQLException e) {  
-            System.out.println(e.getMessage());  
         }  
     }  
 

@@ -53,14 +53,6 @@ public class OrdersFacade {
         getOrder(orderId).addConstDeliveryDay(day);
     }
 
-    public void addOrderConstDeliveryDays(int orderId, List<Day> days) throws SQLException {
-        if (days == null || days.isEmpty()) {
-            throw new IllegalArgumentException("Days list is empty");
-        }
-        for (Day day : days) {
-            addOrderConstDeliveryDay(orderId, day);
-        }
-    }
 
     public String getToStringConstDeliveringDays(int orderId) {
         return getOrder(orderId).getStringConstDeliveryDays();
@@ -68,15 +60,6 @@ public class OrdersFacade {
 
     public void removeOrderConstDeliveryDay(int orderId, Day day) throws SQLException {
         getOrder(orderId).removeConstDeliveryDay(day);
-    }
-
-    public void removeOrderConstDeliveryDays(int orderId, List<Day> days) throws SQLException {
-        if (days == null || days.isEmpty()) {
-            throw new IllegalArgumentException("Days list is empty");
-        }
-        for (Day day : days) {
-            removeOrderConstDeliveryDay(orderId, day);
-        }
     }
 
     public void removeOrder(int orderId) throws SQLException {
@@ -117,12 +100,13 @@ public class OrdersFacade {
             order.addItem(product, quantity); // addItem removes the product and adds it again with the new quantity
     }
 
-    public void setOrderDeliveryDate(int orderId, Date deliveryDate) {
+    public void setOrderDeliveryDate(int orderId, Date deliveryDate) throws SQLException {
         Order order = getOrder(orderId);
         if (deliveryDate.before(new Date())) { // new date = now
             throw new IllegalArgumentException("Delivery date must be after today");
         }
         order.setDeliveryDate(deliveryDate);
+        orderDAO.updateOrder(order);
     }
 
     public double getOrderPrice(int orderId) {
@@ -164,13 +148,6 @@ public class OrdersFacade {
         return toString;
     }
 
-    public double calcOrderPrice(int orderId) {
-        Order order = getOrder(orderId);
-        if (order == null) {
-            throw new IllegalArgumentException("Order not found");
-        }
-        return order.getPrice();
-    }
 
     public boolean isOrderCanBeEdit(int orderId) {
         return getOrder(orderId).canEdit();

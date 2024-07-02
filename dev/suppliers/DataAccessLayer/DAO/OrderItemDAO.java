@@ -15,9 +15,12 @@ public class OrderItemDAO {
     private String supplierIdColumnName = "SupplierId";
 
     private String amountColumnName = "amount";
+    private ProductsDAO productsDAO;
+
 
     public OrderItemDAO() throws SQLException {
         conn = DataBase.getConnection();
+        productsDAO = new ProductsDAO();
     }
 
     public HashMap<Product, Integer> getAllOrderItems(int orderId) throws SQLException {
@@ -29,7 +32,7 @@ public class OrderItemDAO {
             int supplierId = rs.getInt(supplierIdColumnName);
             int amount = rs.getInt(amountColumnName);
 
-            Product product = ProductsDAO.getProduct(supplierId, catalogNum);
+            Product product = productsDAO.getProduct(supplierId,catalogNum);
             items.put(product, amount);
         }
         return items;

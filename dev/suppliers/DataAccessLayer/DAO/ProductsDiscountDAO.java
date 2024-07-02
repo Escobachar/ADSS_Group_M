@@ -24,14 +24,14 @@ public class ProductsDiscountDAO {
         stmt.setInt(1, sid);
         stmt.setInt(2, catalogNumber);
         stmt.setInt(3, discount.getAmount());
-        stmt.setDouble(4, discount.getDiscountPrecentage());
+        stmt.setDouble(4, discount.getDiscountPercentage());
         stmt.executeUpdate();
     }
 
     public void updateDiscountQuantity(int sid, int catalogNumber, DiscountQuantity discount) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement("UPDATE ProductsDiscount SET amount = ?, precentage = ? WHERE SupplierId = ? AND catalogNum = ?");
         stmt.setInt(1, discount.getAmount());
-        stmt.setDouble(2, discount.getDiscountPrecentage());
+        stmt.setDouble(2, discount.getDiscountPercentage());
         stmt.setInt(3, sid);
         stmt.setInt(4, catalogNumber);
         stmt.executeUpdate();

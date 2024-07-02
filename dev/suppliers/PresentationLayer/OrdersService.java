@@ -142,4 +142,8 @@ public class OrdersService {
     public boolean isOrderCanBeEdit(int orderId) {
         return of.isOrderCanBeEdit(orderId);
     }
+
+    public String displayThisWeekDeliveries() {
+        return of.OrdersToString(of.getThisWeekPickupOrders());
+    }
 }
