@@ -40,7 +40,7 @@ public class SupplierDeliveryDaysDAO {
         conn.createStatement().executeUpdate(query);
     }
     
-    public void insertAll(int supplierId, Day[] deliveryDays) throws SQLException {
+    public void insertAll(int supplierId, List<Day> deliveryDays) throws SQLException {
         for (DaysOfTheWeek.Day deliveryDay : deliveryDays) {
             insert(supplierId, deliveryDay);
         }

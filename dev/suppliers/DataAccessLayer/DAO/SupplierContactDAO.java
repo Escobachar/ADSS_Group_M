@@ -39,6 +39,14 @@ public class SupplierContactDAO {
         conn.createStatement().executeUpdate(query);
     }
 
+    public void insertAll(int supplierId, HashMap<String, String> contacts) throws SQLException {
+        for (Map.Entry<String,String> contact:contacts.entrySet()) {
+            String query = "INSERT INTO " + tableName + " VALUES (" + supplierId + ", " + contact.getKey() + ", " + contact.getValue()
+                    + ")";
+            conn.createStatement().executeUpdate(query);
+        }
+    }
+
     public void update(int supplierId, String contactName, String contactNum) throws SQLException {
         String query = "UPDATE " + tableName + " SET " + colContactName + " = " + contactName + ", " + colContactNum
                 + " = " + contactNum + " WHERE " + colSupplierId + " = " + supplierId;

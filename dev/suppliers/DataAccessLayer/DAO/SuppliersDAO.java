@@ -15,6 +15,8 @@ import suppliers.DomainLayer.Category;
 import suppliers.DomainLayer.Product;
 import suppliers.DomainLayer.Supplier;
 
+import static suppliers.DaysOfTheWeek.intToDay;
+
 public class SuppliersDAO {
     private final String colSupplierId = "id";
     private final String colSupplierName = "name";
@@ -46,6 +48,19 @@ public class SuppliersDAO {
                 + supplier.getBankAccount() + "', '" + supplier.getPaymentMethod() + "', " + supplier.isDelivering()
                 + ", '" + supplier.getAddress() + "')";
         conn.createStatement().executeUpdate(query);
+        int id = supplier.getId();
+        List<Day> dayDeliveryDays = new ArrayList<>();
+        for (Integer day:supplier.getDeliveryDays()) {
+            dayDeliveryDays.add(intToDay(day));
+        }
+        if(!dayDeliveryDays.isEmpty())
+            supplierDeliveryDaysDAO.insertAll(id, dayDeliveryDays);
+        List<Integer> categories = new ArrayList<>();
+        for (Category category:supplier.getCategories().keySet()) {
+            categories.add(category.getCategoryId());
+        }
+        supplierCategoriesDAO.addAllSupplierCategory(id,categories);
+        supplierContactDAO.insertAll(id,supplier.getContacts());
     }
 
     public void removeSupplier(int supplierId) throws SQLException {

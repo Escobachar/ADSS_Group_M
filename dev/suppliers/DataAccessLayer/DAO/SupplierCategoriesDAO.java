@@ -35,6 +35,14 @@ public class SupplierCategoriesDAO {
         String query = "INSERT INTO " + tableName + " (" + colCategoryId + ", " + colSupplierId + ") VALUES (" + categoryId + ", " + supplierId + ")";
         stmt.executeUpdate(query);
     }
+
+    public void addAllSupplierCategory(int supplierId, List<Integer> categories) throws  SQLException{
+        Statement stmt = conn.createStatement();
+        for (Integer categoryId:categories) {
+            String query = "INSERT INTO " + tableName + " (" + colCategoryId + ", " + colSupplierId + ") VALUES (" + categoryId + ", " + supplierId + ")";
+            stmt.executeUpdate(query);
+        }
+    }
     public void deleteSupplierCategory(int supplierId, int categoryId) throws SQLException {
         Statement stmt = conn.createStatement();
         String query = "DELETE FROM " + tableName + " WHERE " + colCategoryId + " = " + categoryId + " AND " + colSupplierId + " = " + supplierId;

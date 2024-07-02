@@ -6,24 +6,27 @@ import java.sql.SQLException;
 
 public final class DataBase {
     private static DataBase dataBase = null;
+    private static final String url = "jdbc:sqlite:C:\\\\Users\\97254\\ADSS_Group_M_2\\Suppliers.db";
+
     public Connection conn = null;
     private DataBase() {
         connectToDatabase();
     }
 
-    public static Connection getConnection() {
-        if (dataBase == null) {
-            dataBase = new DataBase();
-            return dataBase.conn;
+    public static Connection getConnection()  {
+        try{
+            return DriverManager.getConnection(url);
         }
-        return dataBase.conn;
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public  void connectToDatabase() {
         try {
             // db parameters
-            String url = "jdbc:sqlite:C:\\\\Users\\GoomeGum\\Desktop\\omer\\semester D\\n" + //
-                    "itutz\\ADSS_Group_M\\test.db";
+            String url = "jdbc:sqlite:C:\\\\Users\\97254\\ADSS_Group_M_2\\Suppliers.db";
             // create a connection to the database
             this.conn = DriverManager.getConnection(url);
 
