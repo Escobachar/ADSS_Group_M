@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import suppliers.DataAccessLayer.DAO.OrderDeliveryDayDAO;
 import suppliers.DataAccessLayer.DAO.OrderItemDAO;
+import suppliers.DataAccessLayer.DAO.ProductsDAO;
 import suppliers.DaysOfTheWeek.Day;
 
 public class Order {
@@ -20,12 +21,13 @@ public class Order {
     private List<Day> constDeliveryDays;
     private double price;
     private boolean isChanged;
+    private ProductsDAO productsDAO;
 
     private OrderDeliveryDayDAO deliveryDayDAO;
     private OrderItemDAO itemDAO;
 
     public Order(int orderId, Supplier supplier, Date creationDate, Date deliveryDate, HashMap<Product, Integer> items,
-            List<Day> deliveryDays) {
+            List<Day> deliveryDays) throws SQLException {
         this.orderId = orderId;
         this.supplier = supplier;
         this.creationDate = creationDate;
@@ -34,6 +36,8 @@ public class Order {
         priceCalculation();
         this.isChanged = false;
         this.constDeliveryDays = deliveryDays;
+        itemDAO= new OrderItemDAO();
+        productsDAO = new ProductsDAO();
         increaseProductOrdersCount();
     }
 
@@ -41,14 +45,14 @@ public class Order {
         for (HashMap.Entry<Product, Integer> entry : this.items.entrySet()) {
             Product product = entry.getKey();
             product.incrementOrdersCount();
+
         }
     }
 
-    private void decreaseProductOrdersCount() {
-        for (HashMap.Entry<Product, Integer> entry : this.items.entrySet()) {
-            Product product = entry.getKey();
-            product.decrementOrdersCount();
-        }
+    private void decrementOrdersCountForProduct(Product product) throws SQLException {
+        product.decrementOrdersCount();
+        productsDAO.updateProduct(supplier.getId(), product);
+
     }
 
     public List<Day> getConstDeliveryDays() {
@@ -64,12 +68,6 @@ public class Order {
             toString += day.name() + ", ";
         }
         return toString.substring(0, toString.length() - 2);
-    }
-
-    public void setConstDeliveryDays(List<Day> deliveryDays) throws SQLException {
-        deliveryDayDAO.deleteOrderDeliveryDays(orderId);
-        deliveryDayDAO.addOrderDeliveryDays(orderId,deliveryDays);
-        this.constDeliveryDays = deliveryDays;
     }
 
     public void removeConstDeliveryDay(Day day) throws SQLException {
@@ -129,18 +127,9 @@ public class Order {
         return items;
     }
 
-    public void setItems(HashMap<Product, Integer> items) throws SQLException {
-        decreaseProductOrdersCount();
-        this.items = items;
-        increaseProductOrdersCount();
-        isChanged = true;
-        itemDAO.deleteOrderItems(orderId);
-        itemDAO.addOrderItems(orderId,getSupplierId(),items);
-    }
-
     public void removeItem(Product product) throws SQLException {
         if (this.items.containsKey(product)) {
-            product.decrementOrdersCount();
+            decrementOrdersCountForProduct(product);
             this.items.remove(product);
             isChanged = true;
             itemDAO.deleteOrderItems(orderId,product);
@@ -156,12 +145,17 @@ public class Order {
             isChanged = true;
             itemDAO.updateProductAmount(orderId, product.getCatalogNumber(),amount);
         } else {
-            product.incrementOrdersCount();
+            incrementOrdersCountForProduct(product);
             this.items.put(product, amount);
             isChanged = true;
             itemDAO.addOrderItem(orderId,getSupplierId(),product,amount);
         }
 
+    }
+
+    private void incrementOrdersCountForProduct(Product product) throws SQLException {
+        product.incrementOrdersCount();
+        productsDAO.updateProduct(supplier.getId(),product);
     }
 
     public double getPrice() {
@@ -179,18 +173,6 @@ public class Order {
         }
         price = newPrice;
         isChanged = false;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public boolean isChanged() {
-        return isChanged;
-    }
-
-    public void setChanged(boolean changed) {
-        isChanged = changed;
     }
 
     public boolean isDelivering() {

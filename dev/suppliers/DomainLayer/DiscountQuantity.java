@@ -19,13 +19,6 @@ public class DiscountQuantity {
         this.discountPrecentage = discountPrecentage;
     }
 
-    public int getCatalogNumber() {
-        return catalogNumber;
-    }
-
-    public void setCatalogNumber(int catalogNumber) {
-        this.catalogNumber = catalogNumber;
-    }
 
     public int getAmount() {
         return amount;
@@ -40,7 +33,7 @@ public class DiscountQuantity {
     }
 
 
-    public double getDiscountPrecentage() {
+    public double getDiscountPercentage() {
         return discountPrecentage;
     }
 

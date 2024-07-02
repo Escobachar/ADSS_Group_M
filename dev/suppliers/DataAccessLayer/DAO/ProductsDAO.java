@@ -1,16 +1,18 @@
 package suppliers.DataAccessLayer.DAO;
 import java.sql.*;
 import java.util.HashMap;
+
+import suppliers.DataAccessLayer.DataBase;
 import suppliers.DomainLayer.*;
 
-public class ProductsDAO implements ProductsDAO {
+public class ProductsDAO {
     private Connection conn;
     private CategoriesDAO categoriesDAO;
     private ProductsDiscountDAO productsDiscountDAO;
 
     public ProductsDAO() throws SQLException {
-        conn = Database.connect();
-        categoriesDAO = new categoriesDAO();
+        conn = DataBase.getConnection();
+        categoriesDAO = new CategoriesDAO();
         productsDiscountDAO = new ProductsDiscountDAO();
     }
 
@@ -25,6 +27,26 @@ public class ProductsDAO implements ProductsDAO {
             products.put(product.getCatalogNumber(), product);
         }
         return products;
+    }
+
+    public HashMap<Integer, Product> getAllProductsBySupplier(int sid) throws SQLException{
+        HashMap<Integer, Product> products = new HashMap<>();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Products WHERE SupplierId = ?");
+        stmt.setInt(1, sid);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            Product product = createProduct(rs);
+            products.put(product.getCatalogNumber(), product);
+        }
+        return products;
+    }
+
+    public Product getProduct(int sid, int catalogNum) throws SQLException{
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Products WHERE SupplierId = ? AND catalogNum = ?");
+        stmt.setInt(1, sid);
+        stmt.setInt(2, catalogNum);
+        ResultSet rs = stmt.executeQuery();
+        return createProduct(rs);
     }
 
     public void addProduct(int sid, Product product) throws SQLException{
@@ -56,6 +78,15 @@ public class ProductsDAO implements ProductsDAO {
         stmt.setInt(2, catalogNumber);
         stmt.executeUpdate();
         productsDiscountDAO.deleteDiscountQuantity(sid, catalogNumber);
+    }
+    public void deleteAllProductBySupplier(int sid) throws SQLException{
+        HashMap<Integer,Product> productHashMap = getAllProductsBySupplier(sid);
+        PreparedStatement stmt = conn.prepareStatement("S FROM Products WHERE SupplierId = ?");
+        stmt.setInt(1, sid);
+        stmt.executeUpdate();
+        for (Integer catalogNum: productHashMap.keySet()) {
+            productsDiscountDAO.deleteDiscountQuantity(sid, catalogNum);
+        }
     }
 
     private Product createProduct(ResultSet rs) throws SQLException{

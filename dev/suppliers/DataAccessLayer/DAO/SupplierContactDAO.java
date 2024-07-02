@@ -3,7 +3,9 @@ package suppliers.DataAccessLayer.DAO;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import suppliers.DataAccessLayer.DataBase;
 
@@ -41,6 +43,13 @@ public class SupplierContactDAO {
         String query = "UPDATE " + tableName + " SET " + colContactName + " = " + contactName + ", " + colContactNum
                 + " = " + contactNum + " WHERE " + colSupplierId + " = " + supplierId;
         conn.createStatement().executeUpdate(query);
+    }
+
+    public void updateAll(int supplierId, HashMap<String, String> contacts) throws SQLException {
+        deleteAll(supplierId);
+        for (Map.Entry<String,String> contact:contacts.entrySet()) {
+            insert(supplierId, contact.getKey(), contact.getValue());
+        }
     }
 
     public void deleteAll(int supplierId) throws SQLException {

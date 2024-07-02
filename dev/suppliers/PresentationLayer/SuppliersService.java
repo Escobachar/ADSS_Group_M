@@ -13,7 +13,11 @@ public class SuppliersService {
     private static SuppliersService instance;
 
     private SuppliersService() {
-        sf = SuppliersFacade.getInstance();
+        try{
+        sf = SuppliersFacade.getInstance();}
+        catch (Exception e){
+
+        }
 
     }
 
@@ -109,9 +113,9 @@ public class SuppliersService {
         }
     }
 
-    public String setDiscountPrecentage(double newDiscount, int supplierId, int catalogNumber) {
+    public String setDiscountPercentage(double newDiscount, int supplierId, int catalogNumber) {
         try {
-            sf.setDiscountPrecentage(newDiscount, supplierId, catalogNumber);
+            sf.setDiscountPercentage(newDiscount, supplierId, catalogNumber);
             return "Discount percentage updated successfully";
         } catch (Exception e) {
             return e.getMessage();
@@ -217,5 +221,14 @@ public class SuppliersService {
 
     public boolean isProductExists(String name) {
         return sf.isProductExists(name);
+    }
+
+    public String setSupplierAddress(int id, String address) {
+        try {
+            sf.setSupplierAddress(id, address);
+            return "Supplier address updated successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 }

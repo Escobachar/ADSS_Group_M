@@ -1,8 +1,17 @@
 package suppliers.DomainLayer;
 
+import suppliers.DataAccessLayer.DAO.ProductsDAO;
+import suppliers.DataAccessLayer.DAO.SupplierCategoriesDAO;
+import suppliers.DataAccessLayer.DAO.SupplierContactDAO;
+import suppliers.DataAccessLayer.DAO.SupplierDeliveryDaysDAO;
+
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import static suppliers.DaysOfTheWeek.DayToInt;
+import static suppliers.DaysOfTheWeek.intToDay;
 
 public class Supplier {
     private String name;
@@ -14,10 +23,15 @@ public class Supplier {
     private HashMap<Category, HashMap<Integer, Product>> categories;
     private boolean isDelivering;
     private String address;
+    private SupplierCategoriesDAO supplierCategoriesDAO;
+    private SupplierContactDAO supplierContactDAO;
+    private SupplierDeliveryDaysDAO supplierDeliveryDaysDAO;
+    private ProductsDAO productsDAO;
+
 
     public Supplier(String name, int id, String bankAccount, String paymentOption,
             HashMap<String, String> contacts, List<Integer> deliveryDays,
-            HashMap<Category, HashMap<Integer, Product>> categories, boolean isDelivering, String address) {
+            HashMap<Category, HashMap<Integer, Product>> categories, boolean isDelivering, String address) throws SQLException {
         this.name = name;
         this.id = id;
         this.bankAccount = bankAccount;
@@ -27,6 +41,10 @@ public class Supplier {
         this.categories = categories;
         this.isDelivering = isDelivering;
         this.address = address;
+        supplierCategoriesDAO = new SupplierCategoriesDAO();
+        supplierContactDAO = new SupplierContactDAO();
+        supplierDeliveryDaysDAO = new SupplierDeliveryDaysDAO();
+        productsDAO = new ProductsDAO();
     }
 
     public Supplier(String name, int id, String bankAccount, String paymentOption, boolean isDelivering,
@@ -81,8 +99,9 @@ public class Supplier {
         return contacts;
     }
 
-    public void setContacts(HashMap<String, String> contacts) {
+    public void setContacts(HashMap<String, String> contacts) throws SQLException {
         this.contacts = contacts;
+        supplierContactDAO.updateAll(id,contacts);
     }
 
     public List<Integer> getDeliveryDays() {
@@ -97,16 +116,13 @@ public class Supplier {
         this.address = address;
     }
 
-    public void setDeliveryDays(List<Integer> deliveryDays) {
+    public void setDeliveryDays(List<Integer> deliveryDays) throws SQLException {
         this.deliveryDays = deliveryDays;
+        supplierDeliveryDaysDAO.updateAll(id,deliveryDays);
     }
 
     public HashMap<Category, HashMap<Integer, Product>> getCategories() {
         return categories;
-    }
-
-    public void setCategories(HashMap<Category, HashMap<Integer, Product>> categories) {
-        this.categories = categories;
     }
 
     public boolean isDelivering() {
@@ -124,18 +140,24 @@ public class Supplier {
             return Integer.MAX_VALUE;
         return product.calculatePrice(amount);
     }
-    public void addContact(String contactName, String contactDetails) {
+    public void addContact(String contactName, String contactDetails) throws SQLException {
         contacts.put(contactName, contactDetails);
+        supplierContactDAO.update(id,contactName,contactDetails);
     }
 
-    public void removeContact(String contactName) {
-        if (contacts.containsKey(contactName))
+    public void removeContact(String contactName) throws SQLException {
+        if (contacts.containsKey(contactName)){
             contacts.remove(contactName);
+            supplierContactDAO.delete(id,contactName);
+        }
+
     }
 
-    public void addCategory(Category category) {
-        if (!categories.containsKey(category))
+    public void addCategory(Category category) throws SQLException {
+        if (!categories.containsKey(category)){
             categories.put(category, new HashMap<Integer, Product>());
+            supplierCategoriesDAO.addSupplierCategory(id,category.getCategoryId());
+        }
     }
 
     public Product getProduct(int catalogNumber) {
@@ -155,33 +177,48 @@ public class Supplier {
         return null;
     }
 
-    public void removeCategory(Category category) {
-        if (categories.containsKey(category))
+    public void removeCategory(Category category) throws SQLException {
+        if (categories.containsKey(category)){
             categories.remove(category);
+            supplierCategoriesDAO.deleteSupplierCategory(id,category.getCategoryId());
+
+        }
     }
 
-    public void addProduct(Category category, Product product) {
+    public void addProduct(Category category, Product product) throws SQLException {
         if (!categories.containsKey(category)) {
             addCategory(category);
         }
         categories.get(category).put(product.getCatalogNumber(), product);
+        productsDAO.addProduct(id,product);
     }
 
-    public void removeProduct(int catalogNumber) {
+    public void removeProduct(int catalogNumber) throws SQLException {
         for (HashMap<Integer, Product> products : categories.values()) {
-            if (products.containsKey(catalogNumber))
+            if (products.containsKey(catalogNumber)){
+                Category category = products.get(catalogNumber).getCategory();
                 products.remove(catalogNumber);
+                if(categories.get(category).isEmpty())
+                {
+                    removeCategory(category);
+                }
+                productsDAO.deleteProduct(id,catalogNumber);
+            }
         }
     }
 
-    public void addDeliveryDay(int day) {
-        if (!deliveryDays.contains(day))
+    public void addDeliveryDay(int day) throws SQLException {
+        if (!deliveryDays.contains(day)){
             deliveryDays.add(day);
+            supplierDeliveryDaysDAO.insert(id,intToDay(day));
+        }
     }
 
-    public void removeDeliveryDay(int day) {
-        if (deliveryDays.contains(day))
+    public void removeDeliveryDay(int day) throws SQLException {
+        if (deliveryDays.contains(day)){
             deliveryDays.remove(day);
+            supplierDeliveryDaysDAO.delete(id,day);
+        }
     }
 
     public List<Product> getPurchasedProducts() {

@@ -1,5 +1,10 @@
 package suppliers.DomainLayer;
 
+import suppliers.DataAccessLayer.DAO.CategoriesDAO;
+import suppliers.DataAccessLayer.DAO.ProductsDAO;
+import suppliers.DataAccessLayer.DAO.SuppliersDAO;
+
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,13 +12,19 @@ public class SuppliersFacade {
     private HashMap<Integer, Supplier> suppliers;
     private static SuppliersFacade instance;
     private HashMap<String, Integer> categories;
+    private SuppliersDAO suppliersDAO;
+    private CategoriesDAO categoriesDAO;
+    private ProductsDAO productsDAO;
 
-    private SuppliersFacade() {
+    private SuppliersFacade() throws SQLException {
         suppliers = new HashMap<Integer, Supplier>();
         categories = new HashMap<String, Integer>();
+        categoriesDAO = new CategoriesDAO();
+        suppliersDAO = new SuppliersDAO();
+        productsDAO = new ProductsDAO();
     }
 
-    public static SuppliersFacade getInstance() {
+    public static SuppliersFacade getInstance() throws SQLException {
         if (instance == null) {
             instance = new SuppliersFacade();
         }
@@ -29,13 +40,14 @@ public class SuppliersFacade {
 
     public void addSupplier(String name, int id, String bankAccount, String paymentOption,
             HashMap<String, String> contacts, List<Integer> deliveryDays,
-            HashMap<Category, HashMap<Integer, Product>> categories, boolean isDelivering, String address) {
+            HashMap<Category, HashMap<Integer, Product>> categories, boolean isDelivering, String address) throws SQLException {
         if (suppliers.containsKey(id)) {
             throw new IllegalArgumentException("Supplier with ID " + id + " already exists");
         }
         Supplier supplier = new Supplier(name, id, bankAccount, paymentOption, contacts, deliveryDays, categories,
                 isDelivering, address);
         suppliers.put(id, supplier);
+        suppliersDAO.addSupplier(supplier);
     }
 
     public Supplier getSupplier(int supplierId) {
@@ -49,66 +61,46 @@ public class SuppliersFacade {
 
         }
 
-    public void removeSupplier(int supplierId) {
+    public void removeSupplier(int supplierId) throws SQLException {
         Supplier s = suppliers.remove(supplierId);
         if (s == null)
             throw new IllegalArgumentException("Supplier with ID " + supplierId + " not found");
+        suppliersDAO.removeSupplier(supplierId);
     }
 
-    public void setSupplierName(int supplierId, String name) {
-        getSupplier(supplierId).setName(name);
+    public void setSupplierName(int supplierId, String name) throws SQLException {
+        Supplier sup = getSupplier(supplierId);
+        sup.setName(name);
+        suppliersDAO.updateSupplier(supplierId,sup);
     }
 
-    public void setSupplierBankAccount(int supplierId, String bankAccount) {
-        getSupplier(supplierId).setBankAccount(bankAccount);
+    public void setSupplierBankAccount(int supplierId, String bankAccount) throws SQLException {
+        Supplier sup = getSupplier(supplierId);
+        sup.setBankAccount(bankAccount);
+        suppliersDAO.updateSupplier(supplierId,sup);
     }
 
-    public void setSupplierPaymentOption(int supplierId, String paymentOption) {
-        getSupplier(supplierId).setPaymentMethod(paymentOption);
+    public void setSupplierPaymentOption(int supplierId, String paymentOption) throws SQLException {
+        Supplier sup = getSupplier(supplierId);
+        sup.setPaymentMethod(paymentOption);
+        suppliersDAO.updateSupplier(supplierId,sup);
     }
 
-    public void setSupplierContacts(int supplierId, HashMap<String, String> contacts) {
-        if (contacts.isEmpty())
-            throw new IllegalArgumentException("Contacts list cannot be empty");
-        getSupplier(supplierId).setContacts(contacts);
-    }
-
-    public void setSupplierDeliveryDays(int supplierId, List<Integer> deliveryDays) {
-        getSupplier(supplierId).setDeliveryDays(deliveryDays);
-    }
-
-    public void setSupplierCategories(int supplierId, HashMap<Category, HashMap<Integer, Product>> categories) {
-        if (categories.isEmpty())
-            throw new IllegalArgumentException("Categories list cannot be empty");
-        getSupplier(supplierId).setCategories(categories);
-    }
-
-    public void setSupplierIsDelivering(int supplierId, boolean isDelivering) {
-        getSupplier(supplierId).setDelivering(isDelivering);
-    }
-
-    public void addSupplierContact(int supplierId, String contactName, String contactDetails) {
+    public void addSupplierContact(int supplierId, String contactName, String contactDetails) throws SQLException {
         getSupplier(supplierId).addContact(contactName, contactDetails);
     }
 
-    public void removeSupplierContact(int supplierId, String contactName) {
+    public void removeSupplierContact(int supplierId, String contactName) throws SQLException {
         getSupplier(supplierId).removeContact(contactName);
     }
 
-    public void addSupplierCategory(int supplierId, Category category) {
-        getSupplier(supplierId).addCategory(category);
-    }
-
-    public void addSupplierDeliveryDay(int supplierId, int day) {
-        getSupplier(supplierId).addDeliveryDay(day);
-    }
-
-    public void removeSupplierDeliveryDay(int supplierId, int day) {
-        getSupplier(supplierId).removeDeliveryDay(day);
-    }
-
-    public void addProductToSupplier(int supplierId, Product product) {
+    public void addProductToSupplier(int supplierId, Product product) throws SQLException {
         getSupplier(supplierId).addProduct(product.getCategory(), product);
+        Category category = product.getCategory();
+        if(!categories.containsKey(category.getCategoryId())){
+            categories.put(category.getCategoryName(),category.getCategoryId());
+            categoriesDAO.addCategory(category);
+        }
     }
 
     public Product getProductInSupplier(int supplierId, Category category, int catalogNumber) {
@@ -129,7 +121,7 @@ public class SuppliersFacade {
         getSupplier(supplierId).setAddress(address);
     }
 
-    public void removeProductFromSupplier(int supplierId, int catalogNumber) {
+    public void removeProductFromSupplier(int supplierId, int catalogNumber) throws SQLException {
         getSupplier(supplierId).removeProduct(catalogNumber);
     }
 
@@ -141,60 +133,37 @@ public class SuppliersFacade {
         return getSupplier(supplierId).getAllProducts();
     }
 
-    public void addCategory(String name) {
-        int number = categories.size() + 1;
-        categories.put(name, number);
-    }
-
-    public void removeCategory(String name) {
-        categories.remove(name);
-    }
-
     public int getCategoryNumber(String name) {
         if (!categories.containsKey(name))
             throw new IllegalArgumentException("Category " + name + " not found");
         return categories.get(name);
     }
 
-    public Category getCategory(String name) {
-        return new Category(name, getCategoryNumber(name));
+    public void setDiscountAmount(int newDiscountAmount, int supplierId, int catalogNumber) throws SQLException {
+        getProductInSupplier(supplierId, catalogNumber).setDiscountAmount(supplierId, newDiscountAmount);
     }
 
-    public void setDiscountAmount(int newDiscountAmount, int supplierId, int catalogNumber) {
-        getProductInSupplier(supplierId, catalogNumber).getDiscount().setAmount(newDiscountAmount);
+    public void setDiscountPercentage(double newDiscount, int supplierId, int catalogNumber) throws SQLException {
+        getProductInSupplier(supplierId, catalogNumber).setDiscountPercentage(supplierId, newDiscount);
     }
 
-    public void setDiscountPrecentage(double newDiscount, int supplierId, int catalogNumber) {
-        getProductInSupplier(supplierId, catalogNumber).getDiscount().setDiscount(newDiscount);
+    public void setProductName(String newName, int supplierId, int catalogNumber) throws SQLException {
+        Product product= getProductInSupplier(supplierId, catalogNumber);
+        product.setName(newName);
+        productsDAO.updateProduct(supplierId,product);
     }
 
-    public void setProductName(String newName, int supplierId, int catalogNumber) {
-        getProductInSupplier(supplierId, catalogNumber).setName(newName);
+    public void setPrice(double newPrice, int supplierId, int catalogNumber) throws SQLException {
+        Product product= getProductInSupplier(supplierId, catalogNumber);
+        product.setPrice(newPrice);
+        productsDAO.updateProduct(supplierId,product);
     }
 
-    public void setPrice(double newPrice, int supplierId, int catalogNumber) {
-        getProductInSupplier(supplierId, catalogNumber).setPrice(newPrice);
-    }
-
-    public void changeSupplierBankAccount(int supplierId, String bankAccount) {
-        getSupplier(supplierId).setBankAccount(bankAccount);
-    }
-
-    public void changeSupplierPaymentOption(int supplierId, String paymentOption) {
-        getSupplier(supplierId).setPaymentMethod(paymentOption);
-    }
 
     public void changeSupplierIsDelivering(int supplierId, boolean isDelivering) {
         getSupplier(supplierId).setDelivering(isDelivering);
     }
 
-    public void changeSupplierName(int supplierId, String name) {
-        getSupplier(supplierId).setName(name);
-    }
-
-    public void changeSupplierPaymentMethod(int supplierId, String paymentMethod) {
-        getSupplier(supplierId).setPaymentMethod(paymentMethod);
-    }
 
     public boolean isProductExistsInSupplier(int id, Category category, Integer catalogNumber) {
         return getSupplier(id).isProductExist(category,catalogNumber);
@@ -240,5 +209,11 @@ public class SuppliersFacade {
             }
         }
         return false;
+    }
+
+    public void setSupplierAddress(int id, String address) throws SQLException {
+        Supplier sup = getSupplier(id);
+        sup.setAddress(address);
+        suppliersDAO.updateSupplier(id,sup);
     }
 }

@@ -10,12 +10,12 @@ import java.util.List;
 import suppliers.DataAccessLayer.DataBase;
 import suppliers.DomainLayer.Category;
 
-public class categoriesDAO {
+public class CategoriesDAO {
     private final String colNmae = "name";
     private final String colId = "id";
     private final String tableName = "categories";
     private Connection conn = null;
-    public categoriesDAO() {
+    public CategoriesDAO() {
         this.conn = DataBase.getConnection();
     }
     public List<Category> getAllCategories() throws SQLException {

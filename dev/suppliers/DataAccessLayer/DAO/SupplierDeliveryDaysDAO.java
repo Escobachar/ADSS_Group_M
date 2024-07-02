@@ -11,6 +11,7 @@ import suppliers.DaysOfTheWeek;
 import suppliers.DaysOfTheWeek.Day;
 
 import static suppliers.DaysOfTheWeek.DayToInt;
+import static suppliers.DaysOfTheWeek.intToDay;
 
 
 public class SupplierDeliveryDaysDAO {
@@ -45,6 +46,12 @@ public class SupplierDeliveryDaysDAO {
         }
     }
 
+    public void updateAll(int supplierId, List<Integer> deliveryDays) throws SQLException{
+        deleteAll(supplierId);
+        for (Integer deliveryDay : deliveryDays) {
+            insert(supplierId, intToDay(deliveryDay));
+        }    }
+
     public void delete(int supplierId, int deliveryDay) throws SQLException {
         String query = "DELETE FROM " + tableName + " WHERE " + colSupplierId + " = " + supplierId + " AND " + colDeliveryDay + " = " + deliveryDay;
         conn.createStatement().executeUpdate(query);
@@ -60,7 +67,7 @@ public class SupplierDeliveryDaysDAO {
         ResultSet result = conn.createStatement().executeQuery(query);
         List<Day> days = new ArrayList<>();
         while (result.next()) {
-            days.add(IntToDay(result.getInt(colDeliveryDay)));
+            days.add(intToDay(result.getInt(colDeliveryDay)));
         }
         return days;
     }
