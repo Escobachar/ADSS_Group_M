@@ -1,15 +1,10 @@
 package suppliers.DataAccessLayer.DAO;
 
 import suppliers.DataAccessLayer.DataBase;
-import suppliers.DaysOfTheWeek;
 import suppliers.DomainLayer.Product;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-import static suppliers.DaysOfTheWeek.DayToInt;
 
 public class OrderItemDAO {
 
@@ -34,7 +29,7 @@ public class OrderItemDAO {
             int supplierId = rs.getInt(supplierIdColumnName);
             int amount = rs.getInt(amountColumnName);
 
-            Product product = ProductDAO.getProduct(supplierId, catalogNum);
+            Product product = ProductsDAO.getProduct(supplierId, catalogNum);
             items.put(product, amount);
         }
         return items;

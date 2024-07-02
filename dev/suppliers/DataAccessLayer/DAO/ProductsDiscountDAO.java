@@ -1,12 +1,14 @@
 package suppliers.DataAccessLayer.DAO;
 import java.sql.*;
+
+import suppliers.DataAccessLayer.DataBase;
 import suppliers.DomainLayer.*;
 
-public class ProductsDiscountDAOImpl {
+public class ProductsDiscountDAO {
     private Connection conn;
     
-    public ProductsDiscountDAOImpl() throws SQLException {
-        conn = Database.connect();
+    public ProductsDiscountDAO() throws SQLException {
+        conn = DataBase.getConnection();
     }
 
     public DiscountQuantity getDiscountQuantity(int sid, int catalogNumber) throws SQLException {

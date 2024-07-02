@@ -12,7 +12,7 @@ import suppliers.DataAccessLayer.DataBase;
 
 
 
-public class SupplierCategoriesDAOImpl {
+public class SupplierCategoriesDAO {
     public class DataTypeSupplierCategories {
         public int categoryId;
         public int supplierId;
@@ -26,8 +26,8 @@ public class SupplierCategoriesDAOImpl {
     private final String tableName = "SupplierCategories";
 
     private Connection conn = null;
-    public SupplierCategoriesDAOImpl() {
-        this.conn = DataBase.getConn().conn;
+    public SupplierCategoriesDAO() {
+        this.conn = DataBase.getConnection();
     }
     
     public void addSupplierCategory(int supplierId, int categoryId) throws  SQLException{

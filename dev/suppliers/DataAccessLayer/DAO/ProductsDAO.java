@@ -3,15 +3,15 @@ import java.sql.*;
 import java.util.HashMap;
 import suppliers.DomainLayer.*;
 
-public class ProductsDAOImpl implements ProductsDAO {
+public class ProductsDAO implements ProductsDAO {
     private Connection conn;
     private CategoriesDAO categoriesDAO;
     private ProductsDiscountDAO productsDiscountDAO;
 
-    public ProductsDAOImpl() throws SQLException {
+    public ProductsDAO() throws SQLException {
         conn = Database.connect();
-        categoriesDAO = new categoriesDAOImpl();
-        productsDiscountDAO = new ProductsDiscountDAOImpl();
+        categoriesDAO = new categoriesDAO();
+        productsDiscountDAO = new ProductsDiscountDAO();
     }
 
     public HashMap<Integer, Product> getCategoryProducts(int sid, int categoryId) throws SQLException{

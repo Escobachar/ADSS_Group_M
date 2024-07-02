@@ -7,7 +7,7 @@ import java.util.List;
 
 import suppliers.DataAccessLayer.DataBase;
 
-public class SupplierContactDAOImpl {
+public class SupplierContactDAO {
     public class DataTypeSupplierContact {
         public int supplierId;
         public String contactName;
@@ -27,7 +27,7 @@ public class SupplierContactDAOImpl {
 
     private Connection conn = null;
 
-    public SupplierContactDAOImpl() {
+    public SupplierContactDAO() {
         this.conn = DataBase.getConnection();
     }
 

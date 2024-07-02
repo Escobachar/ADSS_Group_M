@@ -10,8 +10,10 @@ import suppliers.DataAccessLayer.DataBase;
 import suppliers.DaysOfTheWeek;
 import suppliers.DaysOfTheWeek.Day;
 
+import static suppliers.DaysOfTheWeek.DayToInt;
 
-public class SupplierDeliveryDaysDAOImpl {
+
+public class SupplierDeliveryDaysDAO {
     public class DataTypeSupplierDeliveryDays {
         public int supplierId;
         public int deliveryDay;
@@ -27,8 +29,8 @@ public class SupplierDeliveryDaysDAOImpl {
     
     private Connection conn = null;
 
-    public SupplierDeliveryDaysDAOImpl() {
-        this.conn = DataBase.getConn().conn;
+    public SupplierDeliveryDaysDAO() {
+        this.conn = DataBase.getConnection();
     }
 
     public void insert(int supplierId, Day deliveryDay) throws SQLException {

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import suppliers.DataAccessLayer.DAO.SupplierContactDAOImpl.DataTypeSupplierContact;
+import suppliers.DataAccessLayer.DAO.SupplierContactDAO.DataTypeSupplierContact;
 import suppliers.DataAccessLayer.DataBase;
 import suppliers.DaysOfTheWeek;
 import suppliers.DaysOfTheWeek.Day;
@@ -14,7 +14,7 @@ import suppliers.DomainLayer.Category;
 import suppliers.DomainLayer.Product;
 import suppliers.DomainLayer.Supplier;
 
-public class SuppliersDAOImpl {
+public class SuppliersDAO {
     private final String colSupplierId = "id";
     private final String colSupplierName = "name";
     private final String colSupplierBankAccount = "bankAccount";
@@ -25,7 +25,7 @@ public class SuppliersDAOImpl {
 
     private Connection conn = null;
 
-    public SuppliersDAOImpl() {
+    public SuppliersDAO() {
         this.conn = DataBase.getConnection();
     }
 
@@ -45,25 +45,25 @@ public class SuppliersDAOImpl {
 
     public Supplier getSupplierById(int supplierId) throws SQLException {
 
-        SupplierContactDAOImpl supplierContactDAO = new SupplierContactDAOImpl();
+        SupplierContactDAO supplierContactDAO = new SupplierContactDAO();
         List<DataTypeSupplierContact> contacts = supplierContactDAO.select(supplierId);
         HashMap<String, String> contactsMap = new HashMap<>();
         for (DataTypeSupplierContact contact : contacts) {
             contactsMap.put(contact.contactName, contact.contactNum);
         }
-        SupplierDeliveryDaysDAOImpl supplierDeliveryDaysDAO = new SupplierDeliveryDaysDAOImpl();
+        SupplierDeliveryDaysDAO supplierDeliveryDaysDAO = new SupplierDeliveryDaysDAO();
         List<Day> deliveryDays = supplierDeliveryDaysDAO.select(supplierId);
         List<Integer> deliveryDaysInt = new ArrayList<>();
         for (Day day : deliveryDays) {
             deliveryDaysInt.add(DaysOfTheWeek.DayToInt(day));
         }
 
-        SupplierCategoriesDAOImpl supplierCategoriesDAO;
-        supplierCategoriesDAO = new SupplierCategoriesDAOImpl();
+        SupplierCategoriesDAO supplierCategoriesDAO;
+        supplierCategoriesDAO = new SupplierCategoriesDAO();
         List<Integer> categoriesInt = supplierCategoriesDAO.getCategoryBySupplierId(supplierId);
-        ProductDAOImpl productDAO = new ProductDAOImpl();
+        ProductDAO productDAO = new ProductDAO();
         HashMap<Category, HashMap<Integer, Product>> categories = new HashMap<>();
-        categoriesDAOImpl categoriesDAO = new categoriesDAOImpl();
+        categoriesDAO categoriesDAO = new categoriesDAO();
 
         for (int categoryId : categoriesInt) {
             categories.put(categoriesDAO.getCategoryById(categoryId), productDAO.getProductsByCategory(categoryId));
