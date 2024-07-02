@@ -3,13 +3,16 @@ package DataLayer;
 import Domain.BranchManager;
 import Domain.HRManager;
 import Domain.Network;
+import Server.Utility;
+import java.sql.SQLException;
+import java.sql.*;
 
-public class NetworkRepositoryImp implements  NetworkRepository{
+public class NetworkRepositoryImp implements  NetworkRepository {
     private HRManagerDao HRManagerDao;
     private BranchRepositoryImp branchRepositoryImp;
     private RoleDaoImp RoleDaoImp;
 
-    public NetworkRepositoryImp(){
+    public NetworkRepositoryImp() {
         //todo
     }
 

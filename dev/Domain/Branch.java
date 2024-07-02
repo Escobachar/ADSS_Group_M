@@ -16,6 +16,10 @@ public class Branch {
 
     public BranchRepository branchRepository= new BranchRepositoryImp();
     public EmployeeDao generalEmployeeDao = new GeneralEmployeeDao();
+    public EmployeeDao driverDao = new DriverDao();
+    public EmployeeDao BMDao = new BranchManagerDao();
+
+
 
     //creating new branch with a manager
     public Branch(String name,String location,BranchManager brm){
@@ -120,5 +124,15 @@ public class Branch {
 
     public void DBaddGeneralEmployee(GeneralEmployee ge) {
         generalEmployeeDao.create(ge);
+    }
+    public void DBaddDriver(Driver d) {
+        driverDao.create(d);
+    }
+    public void DBaddBranchManager(BranchManager bm) {
+        BMDao.create(bm);
+    }
+
+    public String getLocation() {
+        return location;
     }
 }

@@ -23,6 +23,9 @@ public class BranchManager extends Manager{
     public void addGeneralEmployee(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment, String partOfJob, int vacationsDays, List<Role> roles, boolean isManager, String password){
        super.addGeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,null,partOfJob,vacationsDays,roles,isManager,branch, password);
     }
+    public void addDriver(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment, String partOfJob, int vacationsDays,String password, Integer driverLicense,List<String> driverLicenseTypes){
+        super.addDriver(ID,name,bankAccountDetails,salary,startOfEmployment,null,partOfJob,vacationsDays,branch, password, driverLicense,driverLicenseTypes);
+    }
     public void addGeneralEmployee(int ID,String name, String bankAccountDetails, int salary,String startOfEmployment ,String endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,boolean isManager, String password){
         super.addGeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,roles,isManager,branch, password);
     }

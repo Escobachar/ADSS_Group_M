@@ -32,22 +32,15 @@ public class HRManagerDao implements EmployeeDao{
             System.out.println("HRManager has been added.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
         }
+        Utility.Close(connection);
     }
 
     @Override
     public Employee read(int ID) {
         HRManager hrm = null;
         Connection connection = Utility.toConnect();
-        String query = "SELECT * FROM HRManager WHERE ID = ?";//is this the name?
+        String query = "SELECT * FROM HRManager WHERE ID = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, ID);
@@ -68,44 +61,35 @@ public class HRManagerDao implements EmployeeDao{
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            return hrm;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        Utility.Close(connection);
+        return hrm;
     }
 
-        @Override
-    public void update(Employee emp) {
-            HRManager hrm = (HRManager) emp;
-            Connection connection = Utility.toConnect();
-            String query = "UPDATE GeneralEmployee SET name = ?, bankAccountDetails = ?, salary = ?, startOfEmployment = ?, endOfEmployment = ?, partOfJob = ?, vacationsDays = ?, password = ? WHERE ID = ?";
-            try {
-                PreparedStatement prepare = connection.prepareStatement(query);
-                prepare.setString(1, hrm.getName());
-                prepare.setString(2, hrm.getBankAccountDetails());
-                prepare.setInt(3, hrm.getSalary());
-                prepare.setString(4, hrm.getStartOfEmployment());
-                prepare.setString(5, hrm.getEndOfEmployment());
-                prepare.setString(6, hrm.getPartOfJob());
-                prepare.setInt(7, hrm.getVacationsDays());
-                prepare.setString(8, hrm.getPassword());
-                prepare.executeUpdate();
-                System.out.println("HRManager has been Updated.");
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            } finally {
-                try {
-                    if (connection != null)
-                        connection.close();
-
-                } catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
+    @Override
+    public void update(Employee emp){
+        delete(emp.getID());
+        create(emp);
     }
 
     @Override
     public void delete(int ID) {
-        //not used
+        Connection connection = Utility.toConnect();
+        String query = "DELETE FROM HRManager WHERE ID = ?";
+        try {
+            PreparedStatement prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ID);
+            int deleteRows = prepare.executeUpdate();
+
+            if (deleteRows > 0)
+                System.out.println("HRManager has been deleted from HRManager table.");
+            else
+                System.out.println("No HRManager found with ID: " + ID);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        Utility.Close(connection);
     }
 }

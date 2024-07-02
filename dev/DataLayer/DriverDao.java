@@ -79,7 +79,6 @@ public class DriverDao implements EmployeeDao {
                     String partOfJob = resultSet.getString("partOfJob");
                     int vacationsDays = resultSet.getInt("vacationsDays");
                     String password = resultSet.getString("password");
-                    int isManager = resultSet.getInt("isManager");
                     String branch = resultSet.getString("branchName");
                     int driverLicense = resultSet.getInt("driverLicense");
                     //DriverLicenseTypes

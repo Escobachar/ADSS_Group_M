@@ -27,12 +27,31 @@ abstract public class Manager extends Employee{
         }
         return null;
     }
+
+    public Driver addDriver (int ID,String name, String bankAccountDetails, int salary,String startOfEmployment ,String endOfEmployment,String partOfJob,
+                                              int vacationsDays,Branch branch,String password, Integer driverLicense, List<String> driverLicenseTypes){
+        List<Employee> el=branch.getEmployeesList();
+        if(Network.checkDriver(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,driverLicense,branch.getBranchName()))
+        {
+            for (Employee e : el) {
+                if (e.getID() == ID)
+                    return null;
+            }
+            Driver d= new Driver(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,branch, password, driverLicense, driverLicenseTypes);
+            el.add(d);
+            branch.DBaddDriver(d);
+            return d;
+        }
+        return null;
+    }
+
     public void UpdateEmployee(int ID,String name, String bankAccountDetails, int salary,String startOfEmployment ,String endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,boolean isManager,Branch branch,String password  ) {
         if ((Network.checkGeneralEmployee(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, roles, isManager, branch.getBranchName()))&& Network.getNetwork().SearchByID(ID)!=null) {
             List<Employee> gel = branch.getEmployeesList();
             branch.SearchGeneralEmployee(ID).copyGeneralEmployee(new GeneralEmployee(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, roles, isManager, branch, password));
         }
     }
+
     public void SetRolesOfShiftsOfBranch(Branch branch, HashMap<Role,Integer[][]> rolesOfShifts) {
         branch.setRolesOfShifts(rolesOfShifts);
     }
@@ -56,12 +75,14 @@ abstract public class Manager extends Employee{
         }
 
     }
+
     public void UpdateRolesOfShiftsOfBranch(Branch branch, Role r, int theShift, int theDay, int numOfEmployees) {
         if(!r.getRoleName().equals("Shift Manager"))
             branch.getRolesOfShifts().get(r)[theShift][theDay]=numOfEmployees;
         else
             System.out.print("error: cant change shift manager number of needed employees.");
     }
+
     public boolean ShiftManagerCheck(Branch branch) {
         Role shiftManager=Network.getNetwork().getRole("Shift Manager");
         for(int i=0;i<Network.shifts;i++)

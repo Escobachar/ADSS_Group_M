@@ -13,7 +13,7 @@ import Domain.Role;
 //import java.text.SimpleDateFormat;
 
 public class GeneralEmployeeDao implements EmployeeDao {
-    private static String employeeType = "GeneralEmployee";
+    final static String stringEmployeeType = "GeneralEmployee";
     @Override
     public void create(Employee emp) {
         GeneralEmployee ge = (GeneralEmployee) emp;
@@ -33,25 +33,15 @@ public class GeneralEmployeeDao implements EmployeeDao {
             prepare.setBoolean(10, ge.isManager());
             prepare.setString(11, ge.getBranch().getBranchName());
             prepare.executeUpdate();
-            System.out.println("Employee has been added.");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
+            System.out.println("GeneralEmployee has been added.");
 
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        //insert to EmployeeList table
-        query = "INSERT INTO EmployeeList(branchName, ID, employeeType) VALUES(?, ?, ?)";
-        try {
-            PreparedStatement prepare = connection.prepareStatement(query);
+            //insert to EmployeeList table
+            query = "INSERT INTO EmployeeList(branchName, empID, type) VALUES(?, ?, ?)";
+
+            prepare = connection.prepareStatement(query);
             prepare.setString(1, ge.getBranch().getBranchName());
             prepare.setInt(2, ge.getID());
-            prepare.setString(3, employeeType);
+            prepare.setString(3, stringEmployeeType);
             prepare.executeUpdate();
             System.out.println("GeneralEmployee has been added to EmployeeList.");
 
@@ -68,15 +58,8 @@ public class GeneralEmployeeDao implements EmployeeDao {
 
         }catch (SQLException e) {
             System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
         }
+        Utility.Close(connection);
     }
 
     @Override
@@ -110,7 +93,7 @@ public class GeneralEmployeeDao implements EmployeeDao {
                                 String roleName = resultSet2.getString("roleName");
                                 List<String> access = new ArrayList<>();
                                 //Access
-                                query = "SELECT * FROM Role WHERE roleNme = ?";
+                                query = "SELECT * FROM Role WHERE roleName = ?";
                                 statement = connection.prepareStatement(query);
                                 statement.setString(1, roleName);
                                 try (ResultSet resultSet3 = statement.executeQuery()) {
@@ -132,9 +115,9 @@ public class GeneralEmployeeDao implements EmployeeDao {
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
+            Utility.Close(connection);
             return ge;
         }
-
 
     @Override
     public void update(Employee emp) {
@@ -153,7 +136,7 @@ public class GeneralEmployeeDao implements EmployeeDao {
             int deleteRows = prepare.executeUpdate();
 
             if (deleteRows > 0) {
-                System.out.println("Employee has been deleted from GeneralEmployee table.");
+                System.out.println("GeneralEmployee has been deleted from GeneralEmployee table.");
             } else {
                 System.out.println("No employee found with ID: " + ID);
             }
@@ -165,7 +148,19 @@ public class GeneralEmployeeDao implements EmployeeDao {
             deleteRows = prepare.executeUpdate();
 
             if (deleteRows > 0) {
-                System.out.println("Employee has been deleted from EmployeeList table.");
+                System.out.println("GeneralEmployee has been deleted from EmployeeList table.");
+            } else {
+                System.out.println("No employee found with ID: " + ID);
+            }
+
+            //Delete from GeneralEmployeeRole table
+            query = "DELETE FROM GeneralEmployeeRole WHERE ID = ?";
+            prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ID);
+            deleteRows = prepare.executeUpdate();
+
+            if (deleteRows > 0) {
+                System.out.println("GeneralEmployee has been deleted from GeneralEmployeeRole table.");
             } else {
                 System.out.println("No employee found with ID: " + ID);
             }

@@ -16,7 +16,7 @@ public class BranchManagerDao implements EmployeeDao {
     public void create(Employee emp) {
         BranchManager bm = (BranchManager) emp;
         Connection connection = Utility.toConnect();
-        String query = "INSERT INTO GeneralEmployee(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, branchName, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO BranchManager(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, branchName, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setInt(1, bm.getID());
@@ -77,40 +77,28 @@ public class BranchManagerDao implements EmployeeDao {
         Utility.Close(connection);
         return bm;
     }
-
     @Override
-    public void update(Employee emp) {
-        BranchManager bm = (BranchManager)emp;
-        Connection connection = Utility.toConnect();
-        String query = "UPDATE GeneralEmployee SET name = ?, bankAccountDetails = ?, salary = ?, startOfEmployment = ?, endOfEmployment = ?, partOfJob = ?, vacationsDays = ?, branchName = ? , password = ? WHERE ID = ?";
-        try {
-            PreparedStatement prepare = connection.prepareStatement(query);
-            prepare.setString(1, bm.getName());
-            prepare.setString(2, bm.getBankAccountDetails());
-            prepare.setInt(3, bm.getSalary());
-            prepare.setString(4, bm.getStartOfEmployment());
-            prepare.setString(5, bm.getEndOfEmployment());
-            prepare.setString(6, bm.getPartOfJob());
-            prepare.setInt(7, bm.getVacationsDays());
-            prepare.setString(8, bm.getBranch().getBranchName());
-            prepare.setString(9, bm.getPassword());
-            prepare.executeUpdate();
-            System.out.println("BranchManager has been Updated.");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+    public void update(Employee emp){
+        delete(emp.getID());
+        create(emp);
     }
 
     @Override
     public void delete(int ID) {
-        //not used
+        Connection connection = Utility.toConnect();
+        String query = "DELETE FROM BranchManager WHERE ID = ?";
+        try {
+            PreparedStatement prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ID);
+            int deleteRows = prepare.executeUpdate();
+
+            if (deleteRows > 0)
+                System.out.println("BranchManager has been deleted from GeneralEmployee table.");
+            else
+                System.out.println("No BranchManager found with ID: " + ID);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        Utility.Close(connection);
     }
 }
