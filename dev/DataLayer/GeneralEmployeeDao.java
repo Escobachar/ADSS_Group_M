@@ -190,4 +190,61 @@ public class GeneralEmployeeDao implements EmployeeDao {
         Utility.Close(connection);
     }
 
+    @Override
+    public  List<Employee> readAll(String branchName) {
+        List<Employee> list = new ArrayList<>();
+        GeneralEmployee ge = null;
+        Connection connection = Utility.toConnect();
+        String query = "SELECT * FROM GeneralEmployee WHERE branchName = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, branchName);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("ID");
+                    String name = resultSet.getString("name");
+                    String bankAccountDetails = resultSet.getString("bankAccountDetails");
+                    int salary = resultSet.getInt("salary");
+                    String startOfEmployment = resultSet.getString("startOfEmployment");
+                    String endOfEmployment = resultSet.getString("endOfEmployment");
+                    String partOfJob = resultSet.getString("partOfJob");
+                    int vacationsDays = resultSet.getInt("vacationsDays");
+                    String password = resultSet.getString("password");
+                    int isManager = resultSet.getInt("isManager");
+                    String branch = resultSet.getString("branchName");
+
+                    //Roles
+                    List<Role> roleList = new ArrayList<>();
+                    query = "SELECT * FROM GeneralEmployeeRole WHERE ID = ?";
+                    statement = connection.prepareStatement(query);
+                    statement.setInt(1, id);
+                    try (ResultSet resultSet2 = statement.executeQuery()) {
+                        while (resultSet2.next()) {
+                            String roleName = resultSet2.getString("roleName");
+                            List<String> access = new ArrayList<>();
+                            //Access
+                            query = "SELECT * FROM Role WHERE roleName = ?";
+                            statement = connection.prepareStatement(query);
+                            statement.setString(1, roleName);
+                            try (ResultSet resultSet3 = statement.executeQuery()) {
+                                while (resultSet3.next()) {
+                                    access.add(resultSet3.getString("access"));
+                                }
+                            }
+                            Role role = new Role(roleName, access);
+                            roleList.add(role);
+                        }
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    ge = new GeneralEmployee(id, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, roleList, isManager == 1, Network.getNetwork().getBranch(branch), password);
+                    ge.updateShifts(shiftRequestDao.read(id));
+                    list.add(ge);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
 }
