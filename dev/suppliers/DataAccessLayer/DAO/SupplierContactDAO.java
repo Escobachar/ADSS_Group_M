@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import suppliers.DataAccessLayer.DataBase;
 
 public class SupplierContactDAO {
@@ -23,7 +22,7 @@ public class SupplierContactDAO {
     private final String colSupplierId = "SupplierId";
     private final String colContactName = "contactName";
     private final String colContactNum = "contactNum";
-    private final String tableName = "SupplierContact";
+    private final String tableName = "SupplierContacts";
 
     private Connection conn = null;
 

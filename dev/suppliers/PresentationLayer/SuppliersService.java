@@ -2,7 +2,6 @@ package suppliers.PresentationLayer;
 
 import java.util.HashMap;
 import java.util.List;
-
 import suppliers.DomainLayer.Category;
 import suppliers.DomainLayer.Product;
 import suppliers.DomainLayer.SuppliersFacade;
@@ -13,7 +12,13 @@ public class SuppliersService {
     private static SuppliersService instance;
 
     private SuppliersService() {
+        try{
+            
         sf = SuppliersFacade.getInstance();
+        }
+        catch (Exception e){
+            e.getMessage();
+        }
 
     }
 
@@ -217,5 +222,14 @@ public class SuppliersService {
 
     public boolean isProductExists(String name) {
         return sf.isProductExists(name);
+    }
+
+    public void retrieveData(){
+        try{
+            sf.retrieveData();
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }

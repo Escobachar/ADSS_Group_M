@@ -1,12 +1,9 @@
 package suppliers.DataAccessLayer.DAO;
-import suppliers.DataAccessLayer.DataBase;
-import suppliers.DaysOfTheWeek;
-
 import java.sql.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import suppliers.DataAccessLayer.DataBase;
+import suppliers.DaysOfTheWeek;
 import static suppliers.DaysOfTheWeek.DayToInt;
 import static suppliers.DaysOfTheWeek.intToDay;
 
@@ -24,7 +21,7 @@ public class OrderDeliveryDayDAO {
     public List<DaysOfTheWeek.Day> getAllOrderDeliveryDaysByOrder(int orderId) throws SQLException {
         List<DaysOfTheWeek.Day> days = new ArrayList<DaysOfTheWeek.Day>();
         Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT "+ dayColumnName+" FROM "+tableName+" WHERE id ="+orderId);
+        ResultSet rs = stmt.executeQuery("SELECT "+ dayColumnName+" FROM "+tableName+" WHERE OrderId ="+orderId);
         while (rs.next()) {
             DaysOfTheWeek.Day day = intToDay(rs.getInt(dayColumnName));
             days.add(day);

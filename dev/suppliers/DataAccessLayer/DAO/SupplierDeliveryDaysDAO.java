@@ -60,7 +60,7 @@ public class SupplierDeliveryDaysDAO {
         ResultSet result = conn.createStatement().executeQuery(query);
         List<Day> days = new ArrayList<>();
         while (result.next()) {
-            days.add(IntToDay(result.getInt(colDeliveryDay)));
+            days.add(DaysOfTheWeek.intToDay(result.getInt(colDeliveryDay)));
         }
         return days;
     }

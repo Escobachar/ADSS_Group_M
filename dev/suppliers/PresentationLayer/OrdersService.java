@@ -4,6 +4,8 @@ import suppliers.DaysOfTheWeek;
 import suppliers.DomainLayer.OrdersFacade;
 import suppliers.DomainLayer.Product;
 import suppliers.DomainLayer.SuppliersFacade;
+import java.text.ParseException;
+import java.sql.SQLException;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -141,5 +143,14 @@ public class OrdersService {
 
     public boolean isOrderCanBeEdit(int orderId) {
         return of.isOrderCanBeEdit(orderId);
+    }
+
+    public void retrieveData() {
+        try{
+            of.retrieveData();
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }

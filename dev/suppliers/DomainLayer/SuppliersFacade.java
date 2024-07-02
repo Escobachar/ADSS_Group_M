@@ -1,21 +1,32 @@
 package suppliers.DomainLayer;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import suppliers.DataAccessLayer.DAO.SuppliersDAO;
+import suppliers.DataAccessLayer.DAO.CategoriesDAO;
+import java.text.ParseException;
 
 public class SuppliersFacade {
     private HashMap<Integer, Supplier> suppliers;
     private static SuppliersFacade instance;
     private HashMap<String, Integer> categories;
+    private SuppliersDAO suppliersDAO;
 
-    private SuppliersFacade() {
+    private SuppliersFacade() throws SQLException {
         suppliers = new HashMap<Integer, Supplier>();
         categories = new HashMap<String, Integer>();
+        suppliersDAO = new SuppliersDAO();
     }
 
-    public static SuppliersFacade getInstance() {
+    public static SuppliersFacade getInstance() throws SQLException {
         if (instance == null) {
-            instance = new SuppliersFacade();
+            try {
+                instance = new SuppliersFacade();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            // instance = new SuppliersFacade();
         }
         return instance;
     }
@@ -44,10 +55,11 @@ public class SuppliersFacade {
         }
         return suppliers.get(supplierId);
     }
-    public boolean isSupplierExists(int supplierId){
+
+    public boolean isSupplierExists(int supplierId) {
         return suppliers.containsKey(supplierId);
 
-        }
+    }
 
     public void removeSupplier(int supplierId) {
         Supplier s = suppliers.remove(supplierId);
@@ -197,7 +209,7 @@ public class SuppliersFacade {
     }
 
     public boolean isProductExistsInSupplier(int id, Category category, Integer catalogNumber) {
-        return getSupplier(id).isProductExist(category,catalogNumber);
+        return getSupplier(id).isProductExist(category, catalogNumber);
     }
 
     public HashMap<Integer, HashMap<Product, Integer>> getCheapestProducts(HashMap<String, Integer> productToOrder) {
@@ -217,13 +229,13 @@ public class SuppliersFacade {
         }
         return supplierToOrder;
     }
-    private Supplier getCheapestSupplier(String productName, int amount){
+
+    private Supplier getCheapestSupplier(String productName, int amount) {
         Supplier sup = null;
         double priceAfterDiscount = Integer.MAX_VALUE;
-        for (Supplier supplier: suppliers.values()) {
-            double supplierPrice = supplier.getPriceForProduct(productName,amount);
-            if(supplierPrice < priceAfterDiscount)
-            {
+        for (Supplier supplier : suppliers.values()) {
+            double supplierPrice = supplier.getPriceForProduct(productName, amount);
+            if (supplierPrice < priceAfterDiscount) {
                 sup = supplier;
                 priceAfterDiscount = supplierPrice;
             }
@@ -232,13 +244,17 @@ public class SuppliersFacade {
     }
 
     public boolean isProductExists(String productName) {
-        for (Supplier supplier: suppliers.values()) {
+        for (Supplier supplier : suppliers.values()) {
             Product product = supplier.getProduct(productName);
-            if(product != null)
-            {
+            if (product != null) {
                 return true;
             }
         }
         return false;
+    }
+
+    public void retrieveData() throws SQLException, ParseException {
+        suppliers = suppliersDAO.getAllSuppliers();
+        categories = new CategoriesDAO().getAllCategories();
     }
 }

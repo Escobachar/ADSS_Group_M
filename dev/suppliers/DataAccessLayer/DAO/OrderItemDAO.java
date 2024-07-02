@@ -1,10 +1,9 @@
 package suppliers.DataAccessLayer.DAO;
 
-import suppliers.DataAccessLayer.DataBase;
-import suppliers.DomainLayer.Product;
-
 import java.sql.*;
 import java.util.HashMap;
+import suppliers.DataAccessLayer.DataBase;
+import suppliers.DomainLayer.Product;
 
 public class OrderItemDAO {
 
@@ -23,13 +22,13 @@ public class OrderItemDAO {
     public HashMap<Product, Integer> getAllOrderItems(int orderId) throws SQLException {
         HashMap<Product, Integer> items = new HashMap<Product, Integer>();
         Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT "+ catalogNumColumnName+", "+supplierIdColumnName+", "+amountColumnName+" FROM "+tableName+" WHERE id ="+orderId);
+        ResultSet rs = stmt.executeQuery("SELECT "+ catalogNumColumnName+", "+supplierIdColumnName+", "+amountColumnName+" FROM "+tableName+" WHERE OrderId ="+orderId);
         while (rs.next()) {
             int catalogNum = rs.getInt(catalogNumColumnName);
             int supplierId = rs.getInt(supplierIdColumnName);
             int amount = rs.getInt(amountColumnName);
 
-            Product product = ProductsDAO.getProduct(supplierId, catalogNum);
+            Product product = new ProductsDAO().getProduct(supplierId, catalogNum);
             items.put(product, amount);
         }
         return items;

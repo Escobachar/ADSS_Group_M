@@ -2,6 +2,7 @@ package suppliers.DomainLayer;
 
 import suppliers.DataAccessLayer.DAO.OrderDAO;
 import suppliers.DaysOfTheWeek.Day;
+import java.text.ParseException;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -174,5 +175,10 @@ public class OrdersFacade {
 
     public boolean isOrderCanBeEdit(int orderId) {
         return getOrder(orderId).canEdit();
+    }
+
+    public void retrieveData() throws SQLException, ParseException {
+        orders = orderDAO.getAllOrders();
+        orderIdCounter = orders.size() + 1;
     }
 }
