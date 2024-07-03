@@ -1,6 +1,7 @@
 package suppliers.DataAccessLayer.DAO;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,15 +33,19 @@ public class SupplierContactDAO {
         this.conn = DataBase.getConnection();
     }
 
-    public void insert(int supplierId, String contactName, String contactNum) throws SQLException {
-        String query = "INSERT INTO " + tableName + " VALUES (" + supplierId + ", " + contactName + ", " + contactNum
-                + ")";
-        conn.createStatement().executeUpdate(query);
+    public void insert(int supplierId, String cName, String cNum) throws SQLException {
+        String query = "INSERT INTO SupplierContacts (SupplierId, contactName, contactNum) VALUES (?, ?, ?)";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, supplierId);
+            pstmt.setString(2, cName);
+            pstmt.setString(3, cNum);
+            pstmt.executeUpdate();
+
     }
 
     public void insertAll(int supplierId, HashMap<String, String> contacts) throws SQLException {
         for (Map.Entry<String,String> contact:contacts.entrySet()) {
-            String query = "INSERT INTO " + tableName + " VALUES (" + supplierId + ", " + contact.getKey() + ", " + contact.getValue()
+            String query = "INSERT INTO " + tableName + " ("+colSupplierId+", "+ colContactName+","+ colContactNum+") VALUES (" + supplierId + ", " + contact.getKey() + ", " + contact.getValue()
                     + ")";
             conn.createStatement().executeUpdate(query);
         }
@@ -65,9 +70,11 @@ public class SupplierContactDAO {
     }
 
     public void delete(int supplierId, String contactName) throws SQLException {
-        String query = "DELETE FROM " + tableName + " WHERE " + colSupplierId + " = " + supplierId + " AND "
-                + colContactName + " = " + contactName;
-        conn.createStatement().executeUpdate(query);
+        String query = "DELETE FROM " + tableName + " WHERE " + colSupplierId + " = ? AND " + colContactName + " = ?";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, supplierId);
+            pstmt.setString(2, contactName);
+            pstmt.executeUpdate();
     }
 
     public List<DataTypeSupplierContact> select(int supplierId) throws SQLException {

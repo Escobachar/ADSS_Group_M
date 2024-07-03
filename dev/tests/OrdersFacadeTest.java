@@ -2,6 +2,7 @@ package tests;
 
 import org.junit.Test;
 import org.junit.Before;
+import suppliers.DataAccessLayer.DataBase;
 import suppliers.DomainLayer.OrdersFacade;
 import suppliers.DomainLayer.Order;
 import suppliers.DomainLayer.Product;
@@ -28,12 +29,15 @@ public class OrdersFacadeTest {
     private static DiscountQuantity discountQuantity;
     private static Supplier supplier;
     private static boolean isSetUpComplete = false;
+    private DataBase dataBase;
+
     @Before
     public void setUp() {
         try{
             if (isSetUpComplete) {
                 return;
             }
+            dataBase.deleteAll();
             ordersFacade = OrdersFacade.getInstance();
             supplier = new Supplier("Shimon", 1, "123", "check", false, "here");
             categoryDairy = new Category("Dairy", 0);
@@ -84,6 +88,7 @@ public class OrdersFacadeTest {
         assertTrue(ordersFacade.getOrder(1) != null);
         }
         catch (SQLException e){
+            System.out.println(e.getMessage());
         }
     }
     @Test
@@ -150,6 +155,7 @@ public class OrdersFacadeTest {
         assertTrue(ordersFacade.getOrder(1) == null);
         }
         catch (SQLException e){
+            System.out.println(e.getMessage());
         }
     }
     @Test 

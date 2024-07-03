@@ -1,5 +1,6 @@
  package tests;
 
+ import suppliers.DataAccessLayer.DataBase;
  import suppliers.DomainLayer.Product;
  import suppliers.DomainLayer.Supplier;
  import suppliers.DomainLayer.SuppliersFacade;
@@ -24,6 +25,7 @@
      private static DiscountQuantity discountQuantity;
      private static boolean isSetUpComplete = false;
      private static Supplier newSupplier;
+     private DataBase dataBase;
 
      @Before
      public void setUp() {
@@ -31,6 +33,7 @@
              return;
          }
          try {
+             dataBase.deleteAll();
              suppliersFacade = SuppliersFacade.getInstance();
              supplier = new Supplier("Shimon", supplierId, "123", "check", false, "here");
              suppliersFacade.addSupplier(supplier);
@@ -43,9 +46,8 @@
          }
          catch (Exception e)
          {
-
+             isSetUpComplete = false;
          }
-         isSetUpComplete = false;
      }
 
      @Test
@@ -110,14 +112,23 @@
 
      @Test
      public void E_addSupplier() {
-         newSupplier = new Supplier("Yossi", 2, "123", "check", false, "there");
+         try {
+             newSupplier = new Supplier("Yossi", 2, "123", "check", false, "there");
+         } catch (SQLException e) {
+             throw new RuntimeException(e);
+         }
          suppliersFacade.addSupplier(newSupplier);
          Supplier addedSupplier = suppliersFacade.getSupplier(newSupplier.getId());
          assertEquals(newSupplier.getId(), addedSupplier.getId());
      }
      @Test(expected = IllegalArgumentException.class)
      public void F_Fail_addSupplier() {
-         Supplier BadNewSupplier = new Supplier("not Yossi", 2, "123", "check", false, "there");
+         Supplier BadNewSupplier = null;
+         try {
+             BadNewSupplier = new Supplier("not Yossi", 2, "123", "check", false, "there");
+         } catch (SQLException e) {
+             throw new RuntimeException(e);
+         }
          suppliersFacade.addSupplier(BadNewSupplier);
      }
      @Test
@@ -169,12 +180,14 @@
      @Test
      public void L_removeSupplierContact() {
          try {
-             suppliersFacade.getSupplier(newSupplier.getId()).addContact("avi", "ron");
-             suppliersFacade.getSupplier(newSupplier.getId()).removeContact("avi");
+             suppliersFacade.getSupplier(newSupplier.getId()).addContact("ron", "avi");
+             suppliersFacade.getSupplier(newSupplier.getId()).removeContact("ron");
          }
-         catch (Exception e){}
+         catch (Exception e){
+             System.out.println(e.getMessage());
+         }
 
-        assertNull(suppliersFacade.getSupplier(newSupplier.getId()).getContactDetails("avi"));
+        assertNull(suppliersFacade.getSupplier(newSupplier.getId()).getContactDetails("ron"));
      }
 
  }

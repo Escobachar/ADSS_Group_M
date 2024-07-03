@@ -37,17 +37,17 @@ public class OrderDeliveryDayDAO {
     public void addOrderDeliveryDays(int orderId, List<DaysOfTheWeek.Day> days) throws SQLException {
         for (DaysOfTheWeek.Day day : days) {
             int intDay = DayToInt(day);
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO " + tableName + " " + orderId + " ," + intDay);
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO " + tableName + "(OrderId, day) VALUES (" + orderId + " ," + intDay+")");
             stmt.executeUpdate();
         }
     }
     public void deleteOrderDeliveryDay(int orderId, DaysOfTheWeek.Day day) throws SQLException {
         int intDay = DayToInt(day);
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM"+ tableName+" WHERE "+orderIdColumnName +"="+orderId+" AND "+ dayColumnName+"="+intDay);
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM "+ tableName+" WHERE "+orderIdColumnName +"="+orderId+" AND "+ dayColumnName+"="+intDay);
         stmt.executeUpdate();
     }
     public void deleteOrderDeliveryDays(int orderId) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM"+ tableName+" WHERE "+orderIdColumnName +"="+orderId);
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM "+ tableName+" WHERE "+orderIdColumnName +"="+orderId);
         stmt.executeUpdate();
     }
     }

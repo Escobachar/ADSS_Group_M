@@ -38,6 +38,7 @@ public class Order {
         this.constDeliveryDays = deliveryDays;
         itemDAO= new OrderItemDAO();
         productsDAO = new ProductsDAO();
+        deliveryDayDAO = new OrderDeliveryDayDAO();
         increaseProductOrdersCount();
     }
 

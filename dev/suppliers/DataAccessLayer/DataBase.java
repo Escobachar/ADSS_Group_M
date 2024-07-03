@@ -8,14 +8,15 @@ public final class DataBase {
     private static DataBase dataBase = null;
     private static final String url = "jdbc:sqlite:C:\\\\Users\\97254\\ADSS_Group_M_2\\Suppliers.db";
 
-    public Connection conn = null;
+    public static Connection conn = null;
     private DataBase() {
         connectToDatabase();
     }
 
     public static Connection getConnection()  {
         try{
-            return DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url);
+            return conn;
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
@@ -36,5 +37,24 @@ public final class DataBase {
         catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static void deleteAll() throws SQLException {
+        getConnection();
+        String query = "BEGIN;\n" +
+                "\n" +
+                "DELETE FROM Categories;\n" +
+                "DELETE FROM OrderDeliveryDays;\n" +
+                "DELETE FROM OrderItems;\n" +
+                "DELETE FROM Orders;\n" +
+                "DELETE FROM Products;\n" +
+                "DELETE FROM ProductsDiscount;\n" +
+                "DELETE FROM SupplierCategories;\n" +
+                "DELETE FROM SupplierContacts;\n" +
+                "DELETE FROM SupplierDeliveryDays;\n" +
+                "DELETE FROM Suppliers;\n" +
+                "\n" +
+                "COMMIT;";
+        conn.createStatement().executeUpdate(query);
     }
 }

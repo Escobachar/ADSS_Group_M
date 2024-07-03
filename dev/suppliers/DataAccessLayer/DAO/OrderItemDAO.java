@@ -43,7 +43,7 @@ public class OrderItemDAO {
             int catalogNum = entry.getKey().getCatalogNumber();
             int amount = entry.getValue();
             PreparedStatement stmt = conn.prepareStatement(
-                    "INSERT INTO " + tableName + " " + orderId + " ," + catalogNum + " ," + supId + " ," + amount);
+                    "INSERT INTO " + tableName + " (OrderId, catalogNum, SupplierId, amount)  VALUES (" + orderId + " ," + catalogNum + " ," + supId + " ," + amount+")");
             stmt.executeUpdate();
         }
     }
@@ -57,12 +57,12 @@ public class OrderItemDAO {
 
     public void deleteOrderItems(int orderId) throws SQLException {
         PreparedStatement stmt = conn
-                .prepareStatement("DELETE FROM" + tableName + " WHERE " + orderIdColumnName + "=" + orderId);
+                .prepareStatement("DELETE FROM " + tableName + " WHERE " + orderIdColumnName + "=" + orderId);
         stmt.executeUpdate();
     }
 
     public void deleteOrderItems(int orderId, Product product) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM" + tableName + " WHERE " + orderIdColumnName + "="
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE " + orderIdColumnName + "="
                 + orderId + " AND " + catalogNumColumnName + "=" + product.getCatalogNumber());
         stmt.executeUpdate();
     }

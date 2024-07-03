@@ -79,7 +79,7 @@ public class ProductsDAO {
 
     public void deleteAllProductBySupplier(int sid) throws SQLException {
         HashMap<Integer, Product> productHashMap = getAllProductsBySupplier(sid);
-        PreparedStatement stmt = conn.prepareStatement("S FROM Products WHERE SupplierId = ?");
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Products WHERE SupplierId = ?");
         stmt.setInt(1, sid);
         stmt.executeUpdate();
         for (Integer catalogNum : productHashMap.keySet()) {

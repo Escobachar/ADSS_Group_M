@@ -75,7 +75,8 @@ public class SuppliersFacade {
         Supplier s = suppliers.remove(supplierId);
         if (s == null)
             throw new IllegalArgumentException("Supplier with ID " + supplierId + " not found");
-        suppliersDAO.removeSupplier(supplierId);
+        else
+            suppliersDAO.removeSupplier(supplierId);
     }
 
     public void setSupplierName(int supplierId, String name) throws SQLException {

@@ -48,7 +48,7 @@ public class Supplier {
     }
 
     public Supplier(String name, int id, String bankAccount, String paymentOption, boolean isDelivering,
-            String address) {
+            String address) throws SQLException {
         this.name = name;
         this.id = id;
         this.bankAccount = bankAccount;
@@ -58,6 +58,10 @@ public class Supplier {
         this.categories = new HashMap<Category, HashMap<Integer, Product>>();
         this.isDelivering = isDelivering;
         this.address = address;
+        supplierCategoriesDAO = new SupplierCategoriesDAO();
+        supplierContactDAO = new SupplierContactDAO();
+        supplierDeliveryDaysDAO = new SupplierDeliveryDaysDAO();
+        productsDAO = new ProductsDAO();
     }
 
     public String getName() {
@@ -142,7 +146,7 @@ public class Supplier {
     }
     public void addContact(String contactName, String contactDetails) throws SQLException {
         contacts.put(contactName, contactDetails);
-        supplierContactDAO.update(id,contactName,contactDetails);
+        supplierContactDAO.insert(id,contactName,contactDetails);
     }
 
     public void removeContact(String contactName) throws SQLException {
