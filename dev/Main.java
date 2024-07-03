@@ -862,9 +862,6 @@ public class Main {
         }
     }
 
-    /**
-     * @param args the command line arguments
-     */
 
     private static void retrieveData() {
         SuppliersService ss = SuppliersService.getInstance();

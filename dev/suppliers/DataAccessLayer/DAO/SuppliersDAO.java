@@ -152,12 +152,13 @@ public class SuppliersDAO {
     }
 
 
-    public void delete(int supplierId) throws SQLException{
-//        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Suppliers WHERE id = ?");
-//        stmt.setInt(1, supplierId);
-//        stmt.executeUpdate();
-//        su.deleteOrderDeliveryDays(id);
-//        orderItemsDAO.deleteOrderItems(id);   
-        }
+    public void updateSupplier(int sid, Supplier supplier) throws SQLException{
+        PreparedStatement stmt = conn.prepareStatement("UPDATE Suppliers SET name = ?, bankAccount = ?, paymentOption = ?, address = ? WHERE id = ?");
+        stmt.setString(1, supplier.getName());
+        stmt.setString(2, supplier.getBankAccount());
+        stmt.setString(3, supplier.getPaymentMethod());
+        stmt.setString(4, supplier.getAddress());
+        stmt.executeUpdate();
+    }
 
 }

@@ -28,6 +28,23 @@ public class OrdersFacade {
         }
         return instance;
     }
+    public void addOrderConstDeliveryDays(int orderId, List<Day> days) throws SQLException {
+        if (days == null || days.isEmpty()) {
+            throw new IllegalArgumentException("Days list is empty");
+        }
+        for (Day day : days) {
+            addOrderConstDeliveryDay(orderId, day);
+        }
+    }
+
+    public void removeOrderConstDeliveryDays(int orderId, List<Day> days) throws SQLException {
+        if (days == null || days.isEmpty()) {
+            throw new IllegalArgumentException("Days list is empty");
+        }
+        for (Day day : days) {
+            removeOrderConstDeliveryDay(orderId, day);
+        }
+    }
 
     public int addOrder(Supplier supplier, Date creationDate, Date deliveryDate,
             HashMap<Product, Integer> items,

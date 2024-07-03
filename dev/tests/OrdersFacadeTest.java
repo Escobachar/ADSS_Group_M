@@ -156,7 +156,11 @@ public class OrdersFacadeTest {
     public void J_TestsetOrderDeliveryDate(){
         LocalDate tomorrow = LocalDate.now().plusDays(1);
         Date deliveryDate = java.sql.Date.valueOf(tomorrow);
-        ordersFacade.setOrderDeliveryDate(2, deliveryDate);
+        try {
+            ordersFacade.setOrderDeliveryDate(2, deliveryDate);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         assertTrue(ordersFacade.getOrder(2).getDeliveryDate().equals(deliveryDate));
     }
     //fail test
@@ -164,7 +168,11 @@ public class OrdersFacadeTest {
     public void K_TestsetOrderDeliveryDateBeforeCreationDate(){
         LocalDate yesterdayDate = LocalDate.now().minusDays(1);
         Date deliveryDate = java.sql.Date.valueOf(yesterdayDate);
-        ordersFacade.setOrderDeliveryDate(1,deliveryDate);
+        try {
+            ordersFacade.setOrderDeliveryDate(1,deliveryDate);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
     @Test
     public void L_testGetThisWeekOrders(){
