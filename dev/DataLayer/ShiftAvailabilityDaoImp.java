@@ -74,6 +74,7 @@ public class ShiftAvailabilityDaoImp {
         }
         Utility.Close(connection);
         return shiftsAvailability;
+
     }
 
 
