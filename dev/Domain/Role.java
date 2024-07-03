@@ -18,6 +18,7 @@ public class Role {
         this.access=access;
     }
     public String getRoleName(){return roleName;}
+    public List<String> getAccess(){return access;}
 
 
 }

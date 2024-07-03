@@ -7,7 +7,7 @@ public class GeneralEmployee extends Employee {
     private boolean[][] ShiftsRequest;
     private Branch branch;
 
-    public GeneralEmployee(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment , Date endOfEmployment, String partOfJob,
+    public GeneralEmployee(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment , String endOfEmployment, String partOfJob,
                            int vacationsDays, List<Role> roles, boolean isManager, Branch branch,String password){
         super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays,password);
         this.getAccess().add("updateShifts");
@@ -21,13 +21,13 @@ public class GeneralEmployee extends Employee {
                 ShiftsRequest[i][j]=false;
         this.branch=branch;
     }
-    public GeneralEmployee(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment, String partOfJob, int vacationsDays, List<Role> roles, boolean isManager, Branch branch,String password  ){
+    public GeneralEmployee(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment, String partOfJob, int vacationsDays, List<Role> roles, boolean isManager, Branch branch,String password  ){
         this(ID, name, bankAccountDetails, salary, startOfEmployment, null, partOfJob, vacationsDays,roles,isManager,branch,password);
 
     }
     public GeneralEmployee(){}
 
-    public void createConstuctor(int ID, String name, String bankAccountDetails, int salary, Date startOfEmployment , Date endOfEmployment, String partOfJob,
+    public void createConstuctor(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment , String endOfEmployment, String partOfJob,
                             int vacationsDays, List<Role> roles, boolean isManager, Branch branch,String password){
         GeneralEmployee ge=new GeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment ,endOfEmployment,partOfJob,
         vacationsDays,roles,isManager,branch,password);
@@ -43,6 +43,7 @@ public class GeneralEmployee extends Employee {
         this.setEndOfEmployment(other.getEndOfEmployment());
         this.setPartOfJob(other.getPartOfJob());
         this.setVacationsDays(other.getVacationsDays());
+        this.setPassword(other.getPassword());
         this.roles = new LinkedList<>();
         this.roles.addAll(other.roles);
         this.isManager=other.isManager;

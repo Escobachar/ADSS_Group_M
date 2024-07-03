@@ -5,10 +5,7 @@ import java.sql.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import Server.Utility;
 import Domain.GeneralEmployee;
 import Domain.Employee;
 import Domain.Network;
@@ -16,58 +13,13 @@ import Domain.Role;
 //import java.text.SimpleDateFormat;
 
 public class GeneralEmployeeDao implements EmployeeDao {
-    String url  = "jdbc:sqlite:C:\\uni\\D\\nitoz\\testing\\dev\\DataLayer\\DataBase.db";
-
-    public static String format = "yyyy-MM-dd";//if working, maby change to dd-MM-yyyy
-    public static Date convertstringToDate(String dateString, String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        try {
-            return sdf.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    public static String convertDateToString(Date date, String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(date);
-    }
-
-    public GeneralEmployeeDao() {
-        Connection connection=null;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection(url);
-        } catch (SQLException | ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
-
-                } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-                }
-            }
-    }
-
-    private Connection toConnect(){
-        Connection connection=null;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection(url);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        return connection;
-    }
+    final static String stringEmployeeType = "GeneralEmployee";
+    ShiftRequestDao shiftRequestDao = new ShiftRequestDaoImp();
 
     @Override
     public void create(Employee emp) {
         GeneralEmployee ge = (GeneralEmployee) emp;
-        Connection connection = toConnect();
+        Connection connection = Utility.toConnect();
         String query = "INSERT INTO GeneralEmployee(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, password, isManager, branchName) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? , ? ,?)";
         try {
             PreparedStatement prepare = connection.prepareStatement(query);
@@ -75,32 +27,51 @@ public class GeneralEmployeeDao implements EmployeeDao {
             prepare.setString(2, ge.getName());
             prepare.setString(3, ge.getBankAccountDetails());
             prepare.setInt(4, ge.getSalary());
-            prepare.setString(5, convertDateToString(ge.getStartOfEmployment(), format));
-            prepare.setString(6, convertDateToString(ge.getEndOfEmployment(),format));
+            prepare.setString(5, ge.getStartOfEmployment());
+            prepare.setString(6, ge.getEndOfEmployment());
             prepare.setString(7, ge.getPartOfJob());
             prepare.setInt(8, ge.getVacationsDays());
             prepare.setString(9, ge.getPassword());
             prepare.setBoolean(10, ge.isManager());
             prepare.setString(11, ge.getBranch().getBranchName());
             prepare.executeUpdate();
-            System.out.println("Employee has been added.");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
+            System.out.println("GeneralEmployee has been added.");
 
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
+            //insert to EmployeeList table
+            query = "INSERT INTO EmployeeList(branchName, empID, type) VALUES(?, ?, ?)";
+
+            prepare = connection.prepareStatement(query);
+            prepare.setString(1, ge.getBranch().getBranchName());
+            prepare.setInt(2, ge.getID());
+            prepare.setString(3, stringEmployeeType);
+            prepare.executeUpdate();
+            System.out.println("GeneralEmployee has been added to EmployeeList.");
+
+            //insert to GeneralEmployeeRole table
+            for(Role role: ge.getRoles()) {
+                query = "INSERT INTO GeneralEmployeeRole(ID, roleName) VALUES(?, ?)";
+
+                prepare = connection.prepareStatement(query);
+                prepare.setInt(1, ge.getID());
+                prepare.setString(2,role.getRoleName() );
+                prepare.executeUpdate();
             }
+            System.out.println("GeneralEmployee has been added to GeneralEmployeeRole.");
+
+            //insert to shiftRequests table
+            shiftRequestDao.create(ge.getShiftsRequest(), ge.getID());
+
+
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
+        Utility.Close(connection);
     }
 
     @Override
     public Employee read(int ID) {
         GeneralEmployee ge = null;
-        Connection connection = toConnect();
+        Connection connection = Utility.toConnect();
         String query = "SELECT * FROM GeneralEmployee WHERE ID = ?";
         try {
                 PreparedStatement statement = connection.prepareStatement(query);
@@ -111,13 +82,13 @@ public class GeneralEmployeeDao implements EmployeeDao {
                         String name = resultSet.getString("name");
                         String bankAccountDetails = resultSet.getString("bankAccountDetails");
                         int salary = resultSet.getInt("salary");
-                        String startOfEmploymentString =resultSet.getString("startOfEmployment");
-                        String endOfEmploymentString = resultSet.getString("endOfEmployment");
+                        String startOfEmployment =resultSet.getString("startOfEmployment");
+                        String endOfEmployment = resultSet.getString("endOfEmployment");
                         String partOfJob =resultSet.getString("partOfJob");
                         int vacationsDays = resultSet.getInt("vacationsDays");
                         String password =resultSet.getString("password");
                         int isManager = resultSet.getInt("isManager");
-                        String branch =resultSet.getString("branch");
+                        String branch =resultSet.getString("branchName");
                         //Roles
                         query = "SELECT * FROM GeneralEmployeeRole WHERE ID = ?";
                         List<Role> roles = new ArrayList<>();
@@ -128,7 +99,7 @@ public class GeneralEmployeeDao implements EmployeeDao {
                                 String roleName = resultSet2.getString("roleName");
                                 List<String> access = new ArrayList<>();
                                 //Access
-                                query = "SELECT * FROM Role WHERE roleNme = ?";
+                                query = "SELECT * FROM Role WHERE roleName = ?";
                                 statement = connection.prepareStatement(query);
                                 statement.setString(1, roleName);
                                 try (ResultSet resultSet3 = statement.executeQuery()) {
@@ -144,52 +115,136 @@ public class GeneralEmployeeDao implements EmployeeDao {
                             System.out.println(e.getMessage());
                         }
 
-                       ge = new GeneralEmployee(id, name, bankAccountDetails, salary,convertstringToDate(startOfEmploymentString,format), convertstringToDate(endOfEmploymentString, format), partOfJob, vacationsDays,roles, isManager==1,Network.getNetwork().getBranch(branch),password);
+                        ge = new GeneralEmployee(id, name, bankAccountDetails, salary,startOfEmployment, endOfEmployment, partOfJob, vacationsDays,roles, isManager==1,Network.getNetwork().getBranch(branch),password);
+                        ge.updateShifts(shiftRequestDao.read(id));
                     }
                 }
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
+            Utility.Close(connection);
             return ge;
         }
 
-
-
     @Override
     public void update(Employee emp) {
-        GeneralEmployee ge = (GeneralEmployee) emp;
-        Connection connection = toConnect();
-        String query = "UPDATE GeneralEmployee SET name = ?, bankAccountDetails = ?, salary = ?, startOfEmployment = ?, endOfEmployment = ?, partOfJob = ?, vacationsDays = ?, password = ?, isManager=? , branchName=? WHERE ID = ?";
-        try {
-            PreparedStatement prepare = connection.prepareStatement(query);
-            prepare.setString(1, ge.getName());
-            prepare.setString(2, ge.getBankAccountDetails());
-            prepare.setInt(3, ge.getSalary());
-            prepare.setString(4, ge.getStartOfEmployment().toString());
-            prepare.setString(5, ge.getEndOfEmployment().toString());
-            prepare.setString(6, ge.getPartOfJob());
-            prepare.setInt(7, ge.getVacationsDays());
-            prepare.setString(8, ge.getPassword());
-            prepare.setBoolean(9, ge.isManager());
-            prepare.setString(10, ge.getBranch().getBranchName());
-            prepare.setInt(11, ge.getID());
-            prepare.executeUpdate();
-            System.out.println("Employee has been Updated.");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+        delete(emp.getID());
+        create(emp);
     }
 
     @Override
     public void delete(int ID) {
-        //not used
+        Connection connection = Utility.toConnect();
+        String query = "DELETE FROM GeneralEmployee WHERE ID = ?";
+        try {
+            //Delete from GeneralEmployee
+            PreparedStatement prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ID);
+            int deleteRows = prepare.executeUpdate();
+
+            if (deleteRows > 0) {
+                System.out.println("GeneralEmployee has been deleted from GeneralEmployee table.");
+            } else {
+                System.out.println("No employee found with ID: " + ID);
+            }
+
+            //Delete from EmployeeList table
+            query = "DELETE FROM EmployeeList WHERE empID = ?";
+            prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ID);
+            deleteRows = prepare.executeUpdate();
+
+            if (deleteRows > 0) {
+                System.out.println("GeneralEmployee has been deleted from EmployeeList table.");
+            } else {
+                System.out.println("No employee found with ID: " + ID);
+            }
+
+            //Delete from GeneralEmployeeRole table
+            query = "DELETE FROM GeneralEmployeeRole WHERE ID = ?";
+            prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ID);
+            deleteRows = prepare.executeUpdate();
+
+            if (deleteRows > 0) {
+                System.out.println("GeneralEmployee has been deleted from GeneralEmployeeRole table.");
+            } else {
+                System.out.println("No employee found with ID: " + ID);
+            }
+
+            //Delete from ShiftsRequests table
+            query = "DELETE FROM ShiftsRequests WHERE ID = ?";
+            prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ID);
+            deleteRows = prepare.executeUpdate();
+
+            if (deleteRows > 0) {
+                System.out.println("ShiftsRequests has been deleted from ShiftsRequests table.");
+            } else {
+                System.out.println("No ShiftsRequests found with ID: " + ID);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        Utility.Close(connection);
+    }
+
+    @Override
+    public  List<Employee> readAll(String branchName) {
+        List<Employee> list = new ArrayList<>();
+        GeneralEmployee ge = null;
+        Connection connection = Utility.toConnect();
+        String query = "SELECT * FROM GeneralEmployee WHERE branchName = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, branchName);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("ID");
+                    String name = resultSet.getString("name");
+                    String bankAccountDetails = resultSet.getString("bankAccountDetails");
+                    int salary = resultSet.getInt("salary");
+                    String startOfEmployment = resultSet.getString("startOfEmployment");
+                    String endOfEmployment = resultSet.getString("endOfEmployment");
+                    String partOfJob = resultSet.getString("partOfJob");
+                    int vacationsDays = resultSet.getInt("vacationsDays");
+                    String password = resultSet.getString("password");
+                    int isManager = resultSet.getInt("isManager");
+                    String branch = resultSet.getString("branchName");
+
+                    //Roles
+                    List<Role> roleList = new ArrayList<>();
+                    query = "SELECT * FROM GeneralEmployeeRole WHERE ID = ?";
+                    statement = connection.prepareStatement(query);
+                    statement.setInt(1, id);
+                    try (ResultSet resultSet2 = statement.executeQuery()) {
+                        while (resultSet2.next()) {
+                            String roleName = resultSet2.getString("roleName");
+                            List<String> access = new ArrayList<>();
+                            //Access
+                            query = "SELECT * FROM Role WHERE roleName = ?";
+                            statement = connection.prepareStatement(query);
+                            statement.setString(1, roleName);
+                            try (ResultSet resultSet3 = statement.executeQuery()) {
+                                while (resultSet3.next()) {
+                                    access.add(resultSet3.getString("access"));
+                                }
+                            }
+                            Role role = new Role(roleName, access);
+                            roleList.add(role);
+                        }
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    ge = new GeneralEmployee(id, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, roleList, isManager == 1, Network.getNetwork().getBranch(branch), password);
+                    ge.updateShifts(shiftRequestDao.read(id));
+                    list.add(ge);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
     }
 }

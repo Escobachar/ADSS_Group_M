@@ -1,6 +1,7 @@
 package Domain;
 
-import com.sun.source.tree.NewArrayTree;
+import DataLayer.EmployeeDao;
+import DataLayer.HRManagerDao;
 
 import java.util.*;
 public class Network {
@@ -12,12 +13,11 @@ public class Network {
     private HRManager HRmanager;
     private List<Role> roles;//list of all roles in the network, programmers my add more if customer need
     public List<Branch> getBranchList(){return branchList;}
-
+    private EmployeeDao HRMDao = new HRManagerDao();
 
     private Network(HRManager HRmanager)
     {
         this.HRmanager = HRmanager;
-        HRmanager.setNetwork(this);
         branchList=new LinkedList<Branch>();
         roles = new LinkedList<>();
         addRole(new Role("shift manager",new ArrayList<>()));
@@ -65,6 +65,19 @@ public class Network {
         return null;
     }
 
+    public Employee getEmployee(String branchName, int ID){
+        for(Branch b:branchList) {
+            if(b.getBranchName().equals(branchName)){
+                for (Employee e: b.getEmployeesList()){
+                    if (e.getID() == ID){
+                        return e;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     public void addBranch(Branch branch){
         branchList.add(branch);
     }
@@ -87,11 +100,17 @@ public class Network {
 
 
     public static boolean checkGeneralEmployee(int ID,String name, String bankAccountDetails, int salary,
-                                               Date startOfEmployment ,Date endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,
-                                               boolean isManager,String branch, Network network){
+                                               String startOfEmployment ,String endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,
+                                               boolean isManager,String branch){
 
         return (CheckID(ID) & CheckName(name) & CheckBankAccountDetails(bankAccountDetails) & checkSalary(salary) & checkPartOfJob(partOfJob)
                 & checkVacationsDays(vacationsDays) & network.isBranchExist(branch));
+    }
+    public static boolean checkDriver(int ID,String name, String bankAccountDetails, int salary,
+                                               String startOfEmployment ,String endOfEmployment,String partOfJob,int vacationsDays,int driverLicense,String branch){
+
+        return (CheckID(ID) & CheckName(name) & CheckBankAccountDetails(bankAccountDetails) & checkSalary(salary) & checkPartOfJob(partOfJob)
+                & checkVacationsDays(vacationsDays) & network.isBranchExist(branch) & CheckDriverLicense(driverLicense));//add test that  types in not empty
     }
     public static boolean CheckID(Integer ID){
         //ID - 9 numbers
@@ -131,13 +150,13 @@ public class Network {
         return vacationsDays >= 0;
     }
     public static boolean checkCreateDate(String createDate){
-        boolean good=true;
-        try{
-            Date testing = new Date(createDate);
-        }catch(Exception e){
-            good=false;
-        }
-        return good;
+       if(createDate.length()!=10)
+           return false;
+        return onlyNumbers(createDate.charAt(0)) && onlyNumbers(createDate.charAt(1)) && onlyNumbers(createDate.charAt(3)) && onlyNumbers(createDate.charAt(4)) &&
+                onlyNumbers(createDate.charAt(6)) && onlyNumbers(createDate.charAt(7)) && onlyNumbers(createDate.charAt(8)) && onlyNumbers(createDate.charAt(9)) && createDate.charAt(2) == '-' && createDate.charAt(5) == '-';
+    }
+    private static boolean onlyNumbers(char toCheck){
+        return onlyNumbers(""+toCheck);
     }
     private static boolean onlyNumbers(String toCheck) {
         for (int i = 0; i < toCheck.length(); i++)
@@ -164,5 +183,17 @@ public class Network {
             if(b.getBranchManager()==null)
                 return b;
         return null;
+    }
+    public static boolean CheckDriverLicense(Integer driverLicense){
+        //ID - 7 numbers
+        if(driverLicense == null)
+            return false;
+        int count=0;
+        for(int i=driverLicense;i>0;i=i/10, count++);
+        return count == 7;
+    }
+
+    public void addHRM(HRManager hrm) {
+        HRMDao.create(hrm);
     }
 }

@@ -5,7 +5,6 @@ import DataLayer.*;
 import java.util.*;
 
 public class Branch {
-    private Network network;
     private String branchName;
     private String location;
     private BranchManager branchManager;
@@ -17,12 +16,15 @@ public class Branch {
 
     public BranchRepository branchRepository= new BranchRepositoryImp();
     public EmployeeDao generalEmployeeDao = new GeneralEmployeeDao();
+    public EmployeeDao driverDao = new DriverDao();
+    public EmployeeDao BMDao = new BranchManagerDao();
+
+
 
     //creating new branch with a manager
-    public Branch(String name,String location,Network network,BranchManager brm){
+    public Branch(String name,String location,BranchManager brm){
         this.branchName=name;
         this.location=location;
-        this.network=network;
         branchManager=brm;
         employeesList=new ArrayList<Employee>();
         employeesShifts=new HashMap[Network.shifts][Network.days];
@@ -31,7 +33,7 @@ public class Branch {
                 employeesShifts[i][j]=new HashMap<>();
         rolesOfShifts = new HashMap<Role,Integer[][]>();
         shiftsAvailability = new HashMap<Role,Set<GeneralEmployee>[][]>();
-        for(Role r: network.getRoles()){
+        for(Role r: Network.getNetwork().getRoles()){
             rolesOfShifts.put(r,new Integer[Network.shifts][Network.days]);
             shiftsAvailability.put(r,new HashSet[Network.shifts][Network.days]);
             Set<GeneralEmployee>[][] setList=shiftsAvailability.get(r);
@@ -46,14 +48,14 @@ public class Branch {
         }
         for(int i=0;i<Network.shifts;i++)
             for (int j = 0; j < Network.days; j++)
-                rolesOfShifts.get(network.getRole("shift manager"))[i][j]=1;
+                rolesOfShifts.get(Network.getNetwork().getRole("shift manager"))[i][j]=1;
 
 
         historyEmployeesShifts = new LinkedList<>();
     }
     //creating new branch without manager(inserting him manually after creating it)
-    public Branch(String name,String location,Network network){
-        this(name,location,network,null);
+    public Branch(String name,String location){
+        this(name,location,null);
     }
     public BranchManager getBranchManager(){return branchManager;}
     public void setBranchManager(BranchManager brm){
@@ -61,7 +63,7 @@ public class Branch {
     }
     public String getBranchName(){return branchName;}
     public List<Role> getRoles(){
-        return network.getRoles();
+        return Network.getNetwork().getRoles();
     }
 
     public void setShiftsAvailability(HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability){this.shiftsAvailability=shiftsAvailability;}
@@ -122,5 +124,15 @@ public class Branch {
 
     public void DBaddGeneralEmployee(GeneralEmployee ge) {
         generalEmployeeDao.create(ge);
+    }
+    public void DBaddDriver(Driver d) {
+        driverDao.create(d);
+    }
+    public void DBaddBranchManager(BranchManager bm) {
+        BMDao.create(bm);
+    }
+
+    public String getLocation() {
+        return location;
     }
 }
