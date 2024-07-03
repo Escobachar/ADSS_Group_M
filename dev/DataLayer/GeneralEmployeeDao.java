@@ -37,16 +37,6 @@ public class GeneralEmployeeDao implements EmployeeDao {
             prepare.executeUpdate();
             System.out.println("GeneralEmployee has been added.");
 
-            //insert to EmployeeList table
-            query = "INSERT INTO EmployeeList(branchName, empID, type) VALUES(?, ?, ?)";
-
-            prepare = connection.prepareStatement(query);
-            prepare.setString(1, ge.getBranch().getBranchName());
-            prepare.setInt(2, ge.getID());
-            prepare.setString(3, stringEmployeeType);
-            prepare.executeUpdate();
-            System.out.println("GeneralEmployee has been added to EmployeeList.");
-
             //insert to GeneralEmployeeRole table
             for(Role role: ge.getRoles()) {
                 query = "INSERT INTO GeneralEmployeeRole(ID, roleName) VALUES(?, ?)";
@@ -144,18 +134,6 @@ public class GeneralEmployeeDao implements EmployeeDao {
 
             if (deleteRows > 0) {
                 System.out.println("GeneralEmployee has been deleted from GeneralEmployee table.");
-            } else {
-                System.out.println("No employee found with ID: " + ID);
-            }
-
-            //Delete from EmployeeList table
-            query = "DELETE FROM EmployeeList WHERE empID = ?";
-            prepare = connection.prepareStatement(query);
-            prepare.setInt(1, ID);
-            deleteRows = prepare.executeUpdate();
-
-            if (deleteRows > 0) {
-                System.out.println("GeneralEmployee has been deleted from EmployeeList table.");
             } else {
                 System.out.println("No employee found with ID: " + ID);
             }

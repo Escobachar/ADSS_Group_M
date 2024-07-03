@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ShiftAvailabilityDaoImp {
+public class ShiftAvailabilityDaoImp implements ShiftAvailabilityDao {
     public void create(String branchName, HashMap<Role,Set<GeneralEmployee>[][]> shiftAvailability){
         Connection connection = Utility.toConnect();
         String query = "INSERT INTO ShiftAvailability(branchNane, role, empID, day, shift) VALUES (?,?,?,?,?)";
@@ -38,7 +38,6 @@ public class ShiftAvailabilityDaoImp {
         }
         Utility.Close(connection);
     }
-
     public HashMap<Role,Set<GeneralEmployee>[][]> read(String branchName){
         //set up the shiftsAvailability HashMap
         HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability = new HashMap<Role,Set<GeneralEmployee>[][]>();
@@ -76,8 +75,6 @@ public class ShiftAvailabilityDaoImp {
         return shiftsAvailability;
 
     }
-
-
     public void update(String branchName, HashMap<Role,Set<GeneralEmployee>[][]> newShiftAvailability){
         delete(branchName);
         create(branchName, newShiftAvailability);

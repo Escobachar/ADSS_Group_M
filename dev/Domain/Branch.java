@@ -19,8 +19,6 @@ public class Branch {
     public EmployeeDao driverDao = new DriverDao();
     public EmployeeDao BMDao = new BranchManagerDao();
 
-
-
     //creating new branch with a manager
     public Branch(String name,String location,BranchManager brm){
         this.branchName=name;
@@ -134,5 +132,9 @@ public class Branch {
 
     public String getLocation() {
         return location;
+    }
+
+    public void setHistoryEmployeesShifts(List<HashMap<Integer,Role>[][]> historyEmployeesShifts) {
+        this.historyEmployeesShifts = historyEmployeesShifts;
     }
 }
