@@ -189,5 +189,24 @@
 
         assertNull(suppliersFacade.getSupplier(newSupplier.getId()).getContactDetails("ron"));
      }
+     @Test
+     public void M_checkCheapestProductInSuppliers(){
+         try {
+             Supplier supplier1 = new Supplier("Shimon1", 10, "123", "check", false, "here");
+             Supplier supplier2 = new Supplier("Shimon2", 11, "123", "check", false, "here");
+             suppliersFacade.addSupplier(supplier1);
+             suppliersFacade.addSupplier(supplier2);
+
+             Product prod1 = new Product("tea", 1, 10, categoryDairy, discountQuantity);
+             Product prod2 = new Product("tea", 1, 5, categoryDairy, discountQuantity);
+             supplier1.addProduct(categoryDairy,prod1);
+             supplier2.addProduct(categoryDairy,prod2);
+             Supplier res = suppliersFacade.getCheapestSupplier("tea",10);
+             assertEquals(res.getId(), supplier2.getId());
+         }
+         catch (Exception e){
+             fail(e.getMessage());
+         }
+     }
 
  }

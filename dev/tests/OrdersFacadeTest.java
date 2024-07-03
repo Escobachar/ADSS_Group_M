@@ -9,6 +9,8 @@ import suppliers.DomainLayer.Product;
 import suppliers.DomainLayer.Category;
 import suppliers.DomainLayer.DiscountQuantity;
 import suppliers.DomainLayer.Supplier;
+
+import static org.junit.Assert.*;
 import static suppliers.DaysOfTheWeek.Day;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -17,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 import org.junit.runners.MethodSorters;
 import org.junit.FixMethodOrder;
-import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -196,24 +198,40 @@ public class OrdersFacadeTest {
         }
     }
     @Test
-    public void M_testgetThisWeekPickupOrders(){
-        try{
-        List<Day> days = new ArrayList<Day>();
-        days.add(Day.SUNDAY);
-        HashMap<Product,Integer> items = new HashMap<Product,Integer>();
-        items.put(productMilk, 5);
-        LocalDate not_include = LocalDate.now().plusDays(10000000);
-        Date deliveryDate = java.sql.Date.valueOf(not_include);
-        Supplier newSupplier = new Supplier("new Shimon", 1, "123", "check", true, "here");
-        ordersFacade.addOrder(newSupplier, new Date(), deliveryDate, items, days);
-        HashMap<Integer,Order> orders = ordersFacade.getThisWeekPickupOrders();
-        assertTrue(orders.size() == 2);
-        }
-        catch (SQLException e){
+    public void M_testgetThisWeekPickupOrders() {
+        try {
+            List<Day> days = new ArrayList<Day>();
+            days.add(Day.SUNDAY);
+            HashMap<Product, Integer> items = new HashMap<Product, Integer>();
+            items.put(productMilk, 5);
+            LocalDate not_include = LocalDate.now().plusDays(10000000);
+            Date deliveryDate = java.sql.Date.valueOf(not_include);
+            Supplier newSupplier = new Supplier("new Shimon", 1, "123", "check", true, "here");
+            ordersFacade.addOrder(newSupplier, new Date(), deliveryDate, items, days);
+            HashMap<Integer, Order> orders = ordersFacade.getThisWeekPickupOrders();
+            assertTrue(orders.size() == 2);
+        } catch (SQLException e) {
         }
     }
     @Test
     public void N_testOrderPrice(){
         assertTrue(ordersFacade.getOrderPrice(2) == 5.9*5);
+    }
+    @Test
+    public void O_testcannotEditOrderOneDayBeforeDelivery(){
+        HashMap<Product,Integer> items = new HashMap<Product,Integer>();
+        items.put(productMilk, 5);
+        List<Day> days = new ArrayList<Day>();
+        days.add(Day.SUNDAY);
+        int id = 1;
+        try {
+        id = ordersFacade.addOrder(supplier, new Date(), new Date(), items, days);
+        }
+        catch (Exception e){
+            fail(e.getMessage());
+        }
+        Order ord = ordersFacade.getOrder(id);
+        boolean canChange = ordersFacade.isOrderCanBeEdit(id);
+        assertFalse(canChange);
     }
 }

@@ -198,7 +198,7 @@ public class SuppliersFacade {
         return supplierToOrder;
     }
 
-    private Supplier getCheapestSupplier(String productName, int amount) {
+    public Supplier getCheapestSupplier(String productName, int amount) {
         Supplier sup = null;
         double priceAfterDiscount = Integer.MAX_VALUE;
         for (Supplier supplier : suppliers.values()) {
