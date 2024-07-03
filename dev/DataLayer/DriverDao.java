@@ -45,15 +45,6 @@ public class DriverDao implements EmployeeDao {
                 prepare.executeUpdate();
             }
             System.out.println("Driver has been added to DriverLicenseTypes.");
-            //insert to EmployeeList table
-            query = "INSERT INTO EmployeeList(branchName, empID, type) VALUES(?, ?, ?)";
-
-            prepare = connection.prepareStatement(query);
-            prepare.setString(1, d.getBranch().getBranchName());
-            prepare.setInt(2, d.getID());
-            prepare.setString(3, stringEmployeeType);
-            prepare.executeUpdate();
-            System.out.println("Driver has been added to EmployeeList.");
 
             //insert to shiftRequests table
             shiftRequestDao.create(d.getShiftsRequest(), d.getID());
@@ -130,18 +121,6 @@ public class DriverDao implements EmployeeDao {
 
             if (deleteRows > 0) {
                 System.out.println("Driver has been deleted from Driver table.");
-            } else {
-                System.out.println("No Driver found with ID: " + ID);
-            }
-
-            //Delete from EmployeeList table
-            query = "DELETE FROM EmployeeList WHERE empID = ?";
-            prepare = connection.prepareStatement(query);
-            prepare.setInt(1, ID);
-            deleteRows = prepare.executeUpdate();
-
-            if (deleteRows > 0) {
-                System.out.println("Driver has been deleted from EmployeeList table.");
             } else {
                 System.out.println("No Driver found with ID: " + ID);
             }

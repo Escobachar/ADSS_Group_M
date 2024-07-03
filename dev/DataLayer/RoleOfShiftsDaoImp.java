@@ -36,7 +36,6 @@ public class RoleOfShiftsDaoImp implements RoleOfShiftsDao{
         }
         Utility.Close(connection);
     }
-
     @Override
     public HashMap<Role,Integer[][]> read(String branchName){
         //set up the rolesOfShifts HashMap
@@ -74,16 +73,11 @@ public class RoleOfShiftsDaoImp implements RoleOfShiftsDao{
         Utility.Close(connection);
         return rolesOfShifts;
     }
-
-
-
-
     @Override
     public void update(String branchName, HashMap<Role,Integer[][]> newRoleOfShifts){
         delete(branchName);
         create(branchName, newRoleOfShifts);
     }
-
     @Override
     public void delete(String branchName){
         Connection connection = Utility.toConnect();

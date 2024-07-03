@@ -15,8 +15,7 @@ public class Network {
     public List<Branch> getBranchList(){return branchList;}
     private EmployeeDao HRMDao = new HRManagerDao();
 
-    private Network(HRManager HRmanager)
-    {
+    private Network(HRManager HRmanager){
         this.HRmanager = HRmanager;
         branchList=new LinkedList<Branch>();
         roles = new LinkedList<>();
@@ -26,11 +25,12 @@ public class Network {
         network = new Network(HRmanager);
         return network;
     }
-
-
-    public static Network getNetwork()
-    {
+    public static Network getNetwork() {
         return network;
+    }
+
+    public void addHRM(HRManager hrm) {
+        HRMDao.create(hrm);
     }
 
     public boolean addRole(Role r){
@@ -57,6 +57,7 @@ public class Network {
         }
         return null;
     }
+
     public Branch getBranch(String name){
         for(Branch b:branchList) {
             if(b.getBranchName().equals(name))
@@ -77,10 +78,6 @@ public class Network {
         }
         return null;
     }
-
-    public void addBranch(Branch branch){
-        branchList.add(branch);
-    }
     public Employee SearchByID(int ID){
         Employee emp=null;
         for(Branch br:branchList) {
@@ -90,6 +87,10 @@ public class Network {
         }
         return emp;
     }
+
+    public void addBranch(Branch branch){
+        branchList.add(branch);
+    }
     public boolean isBranchExist(String branch){
         for(Branch br:branchList) {
             if(br.getBranchName().equals(branch))
@@ -98,7 +99,6 @@ public class Network {
         return false;
     }
 
-
     public static boolean checkGeneralEmployee(int ID,String name, String bankAccountDetails, int salary,
                                                String startOfEmployment ,String endOfEmployment,String partOfJob,int vacationsDays,List<Role> roles,
                                                boolean isManager,String branch){
@@ -106,6 +106,7 @@ public class Network {
         return (CheckID(ID) & CheckName(name) & CheckBankAccountDetails(bankAccountDetails) & checkSalary(salary) & checkPartOfJob(partOfJob)
                 & checkVacationsDays(vacationsDays) & network.isBranchExist(branch));
     }
+
     public static boolean checkDriver(int ID,String name, String bankAccountDetails, int salary,
                                                String startOfEmployment ,String endOfEmployment,String partOfJob,int vacationsDays,int driverLicense,String branch){
 
@@ -178,12 +179,6 @@ public class Network {
         }
         return false;
     }
-    public static Branch lookForNewBranch(Network network){
-        for(Branch b: network.branchList)
-            if(b.getBranchManager()==null)
-                return b;
-        return null;
-    }
     public static boolean CheckDriverLicense(Integer driverLicense){
         //ID - 7 numbers
         if(driverLicense == null)
@@ -193,7 +188,11 @@ public class Network {
         return count == 7;
     }
 
-    public void addHRM(HRManager hrm) {
-        HRMDao.create(hrm);
+    public static Branch lookForNewBranch(Network network){
+        for(Branch b: network.branchList)
+            if(b.getBranchManager()==null)
+                return b;
+        return null;
     }
+
 }

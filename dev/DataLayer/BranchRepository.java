@@ -2,9 +2,11 @@ package DataLayer;
 
 import Domain.Branch;
 
+import java.util.List;
+
 public interface BranchRepository {
-    Branch get(String branchName);
     void create(Branch branch);
-    void update(Branch branch);
-    void delete(String branchName);
+    Branch get(String branchName);
+    void update(Branch branch, String commands);
+    void delete(Branch branch, String commands);
 }
