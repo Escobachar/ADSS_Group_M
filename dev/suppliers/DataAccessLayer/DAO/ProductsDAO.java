@@ -2,12 +2,9 @@ package suppliers.DataAccessLayer.DAO;
 
 import java.sql.*;
 import java.util.HashMap;
-
 import suppliers.DataAccessLayer.DataBase;
 import suppliers.DomainLayer.*;
-import suppliers.DataAccessLayer.DataBase;
 
-public class ProductsDAO {
 public class ProductsDAO {
     private Connection conn;
     private CategoriesDAO categoriesDAO;
@@ -35,7 +32,7 @@ public class ProductsDAO {
         return products;
     }
 
-    public HashMap<Integer, Product> getAllProductsBySupplier(int sid) throws SQLException{
+    public HashMap<Integer, Product> getAllProductsBySupplier(int sid) throws SQLException {
         HashMap<Integer, Product> products = new HashMap<>();
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Products WHERE SupplierId = ?");
         stmt.setInt(1, sid);
@@ -47,10 +44,9 @@ public class ProductsDAO {
         return products;
     }
 
-
-
-    public void addProduct(int sid, Product product) throws SQLException{
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Products (SupplierId, catalogNum, CategoryId, name, price, ordersCount) VALUES (?, ?, ?, ?, ?, ?)");
+    public void addProduct(int sid, Product product) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement(
+                "INSERT INTO Products (SupplierId, catalogNum, CategoryId, name, price, ordersCount) VALUES (?, ?, ?, ?, ?, ?)");
         stmt.setInt(1, sid);
         stmt.setInt(2, product.getCatalogNumber());
         stmt.setInt(3, product.getCategory().getCategoryId());
@@ -80,23 +76,26 @@ public class ProductsDAO {
         stmt.executeUpdate();
         productsDiscountDAO.deleteDiscountQuantity(sid, catalogNumber);
     }
-    public void deleteAllProductBySupplier(int sid) throws SQLException{
-        HashMap<Integer,Product> productHashMap = getAllProductsBySupplier(sid);
+
+    public void deleteAllProductBySupplier(int sid) throws SQLException {
+        HashMap<Integer, Product> productHashMap = getAllProductsBySupplier(sid);
         PreparedStatement stmt = conn.prepareStatement("S FROM Products WHERE SupplierId = ?");
         stmt.setInt(1, sid);
         stmt.executeUpdate();
-        for (Integer catalogNum: productHashMap.keySet()) {
+        for (Integer catalogNum : productHashMap.keySet()) {
             productsDiscountDAO.deleteDiscountQuantity(sid, catalogNum);
         }
     }
-    public Product getProduct(int sid, int catalogNum) throws SQLException{
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Products WHERE SupplierId = ? AND catalogNum = ?");
+
+    public Product getProduct(int sid, int catalogNum) throws SQLException {
+        PreparedStatement stmt = conn
+                .prepareStatement("SELECT * FROM Products WHERE SupplierId = ? AND catalogNum = ?");
         stmt.setInt(1, sid);
         stmt.setInt(2, catalogNum);
         ResultSet rs = stmt.executeQuery();
         return createProduct(rs);
     }
-    
+
     private Product createProduct(ResultSet rs) throws SQLException {
         String name = rs.getString("name");
         int catalogNumber = rs.getInt("catalogNum");

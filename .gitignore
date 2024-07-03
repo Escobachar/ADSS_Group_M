@@ -16,3 +16,6 @@ dev/suppliers/PresentationLayer/SuppliersService.class
 target/classes/suppliers/DomainLayer/Order.class
 *.class
 *.jar
+.vscode/launch.json
+.vscode/launch.json
+.vscode/settings.json
