@@ -5,8 +5,8 @@ import  Domain.*;
 import java.util.HashMap;
 
 public interface RoleOfShiftsDao {
-    void create(String branchName, HashMap<Role,Integer[][]> hashMap);
+    void create(String branchName, HashMap<Role,Integer[][]> roleOfShifts);
     HashMap<Role,Integer[][]> read(String branchName);
-    void update();
-    void delete();
+    void update(String branchName, HashMap<Role,Integer[][]> newRoleOfShifts);
+    void delete(String branchName);
 }

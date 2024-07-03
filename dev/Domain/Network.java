@@ -65,6 +65,19 @@ public class Network {
         return null;
     }
 
+    public Employee getEmployee(String branchName, int ID){
+        for(Branch b:branchList) {
+            if(b.getBranchName().equals(branchName)){
+                for (Employee e: b.getEmployeesList()){
+                    if (e.getID() == ID){
+                        return e;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     public void addBranch(Branch branch){
         branchList.add(branch);
     }

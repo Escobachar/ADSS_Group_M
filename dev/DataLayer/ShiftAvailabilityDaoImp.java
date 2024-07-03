@@ -13,21 +13,23 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class RoleOfShiftsDaoImp implements RoleOfShiftsDao{
-    @Override
-    public void create(String branchName, HashMap<Role,Integer[][]> roleOfShifts){
+public class ShiftAvailabilityDaoImp {
+    public void create(String branchName, HashMap<Role,Set<GeneralEmployee>[][]> shiftAvailability){
         Connection connection = Utility.toConnect();
-        String query = "INSERT INTO RoleOfShifts(branchNane, roleName, day, shift, amount) VALUES (?,?,?,?,?)";
+        String query = "INSERT INTO ShiftAvailability(branchNane, role, empID, day, shift) VALUES (?,?,?,?,?)";
         try{
             PreparedStatement prepare = connection.prepareStatement(query);
-            for(Role role : roleOfShifts.keySet()){
+            for(Role role : shiftAvailability.keySet()){
                 for (int i = 0; i < Network.shifts; i++) {
                     for(int j = 0; j < Network.days; j++){
-                        prepare.setString(1, branchName);
-                        prepare.setString(2, role.getRoleName());
-                        prepare.setInt(3, i);
-                        prepare.setInt(4, j);
-                        prepare.setInt(5, roleOfShifts.get(role)[i][j]);
+                        Set<GeneralEmployee> availableEmployees = shiftAvailability.get(role.getRoleName())[i][j];
+                        for(GeneralEmployee employee: availableEmployees){
+                            prepare.setString(1, branchName);
+                            prepare.setString(2, role.getRoleName());
+                            prepare.setInt(3,employee.getID());
+                            prepare.setInt(4, j);
+                            prepare.setInt(5, i);
+                        }
                     }
                 }
             }
@@ -37,32 +39,31 @@ public class RoleOfShiftsDaoImp implements RoleOfShiftsDao{
         Utility.Close(connection);
     }
 
-    @Override
-    public HashMap<Role,Integer[][]> read(String branchName){
-        //set up the rolesOfShifts HashMap
-        HashMap<Role,Integer[][]> rolesOfShifts =  new HashMap<>();
+    public HashMap<Role,Set<GeneralEmployee>[][]> read(String branchName){
+        //set up the shiftsAvailability HashMap
+        HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability = new HashMap<Role,Set<GeneralEmployee>[][]>();
         for(Role r: Network.getNetwork().getRoles()) {
-            rolesOfShifts.put(r, new Integer[Network.shifts][Network.days]);
+            shiftsAvailability.put(r, new HashSet[Network.shifts][Network.days]);
+            Set<GeneralEmployee>[][] setList = shiftsAvailability.get(r);
             for (int i = 0; i < Network.shifts; i++) {
-                rolesOfShifts.get(r)[i] = new Integer[Network.days];
                 for (int j = 0; j < Network.days; j++) {
-                    rolesOfShifts.get(r)[i][j] = 0;
+                    setList[i][j] = new HashSet<>();
                 }
             }
         }
         //insert data from database
         Connection connection = Utility.toConnect();
-        String query = "SELECT * FROM RoleOfShifts WHERE branchName = ?";
+        String query = "SELECT * FROM ShiftAvailability WHERE branchName = ?";
         try{
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, branchName);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    String roleName = resultSet.getString("roleName");
+                    String roleName = resultSet.getString("role");
                     int day = resultSet.getInt("day");
                     int shift = resultSet.getInt("shift");
-                    int amount = resultSet.getInt("amount");
-                    rolesOfShifts.get(Network.getNetwork().getRole(roleName))[shift][day] = amount;
+                    int empID = resultSet.getInt("empID");
+                    shiftsAvailability.get(Network.getNetwork().getRole(roleName))[shift][day].add((GeneralEmployee) Network.getNetwork().getEmployee(branchName,empID));
                 }
             }catch (SQLException e) {
                 System.out.println(e.getMessage());
@@ -72,30 +73,25 @@ public class RoleOfShiftsDaoImp implements RoleOfShiftsDao{
             System.out.println(e.getMessage());
         }
         Utility.Close(connection);
-        return rolesOfShifts;
+        return shiftsAvailability;
     }
 
 
-
-
-    @Override
-    public void update(String branchName, HashMap<Role,Integer[][]> newRoleOfShifts){
+    public void update(String branchName, HashMap<Role,Set<GeneralEmployee>[][]> newShiftAvailability){
         delete(branchName);
-        create(branchName, newRoleOfShifts);
+        create(branchName, newShiftAvailability);
     }
-
-    @Override
     public void delete(String branchName){
         Connection connection = Utility.toConnect();
-        String query = "DELETE FROM RoleOfShifts WHERE branchName = ?";
+        String query = "DELETE FROM ShiftAvailability WHERE branchName = ?";
         try {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setString(1, branchName);
             int deleteRows = prepare.executeUpdate();
             if (deleteRows > 0)
-                System.out.println("roleOfShifts has been deleted");
+                System.out.println("ShiftAvailability has been deleted");
             else
-                System.out.println("No roleOfShifts found with branchName: " + branchName);
+                System.out.println("No ShiftAvailability found with branchName: " + branchName);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
