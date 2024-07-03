@@ -6,26 +6,26 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.HashMap;
 import suppliers.DataAccessLayer.DataBase;
 import suppliers.DomainLayer.Category;
 
 public class CategoriesDAO {
     private final String colNmae = "name";
     private final String colId = "id";
-    private final String tableName = "categories";
+    private final String tableName = "Categories";
     private Connection conn = null;
     public CategoriesDAO() {
         this.conn = DataBase.getConnection();
     }
-    public List<Category> getAllCategories() throws SQLException {
-        List<Category> categories = new ArrayList<>();
+    public HashMap<String, Integer> getAllCategories() throws SQLException {
+        HashMap<String, Integer> categories = new HashMap<>();
             Statement stmt = conn.createStatement();
             String query = "SELECT * FROM " + tableName;
             ResultSet res = stmt.executeQuery(query);
             while (res.next()) {
                 Category category = new Category(res.getString(colNmae), res.getInt(colId));
-                categories.add(category);
+                categories.put(category.getCategoryName(), category.getCategoryId());
             }
         return categories;
     }

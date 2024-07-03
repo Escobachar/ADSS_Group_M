@@ -1,14 +1,12 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
 import suppliers.DomainLayer.Category;
 import suppliers.DomainLayer.DiscountQuantity;
 import suppliers.DomainLayer.Product;
@@ -89,17 +87,16 @@ public class Main {
     private static void addOrdersBasedOnStockShortages() {
         HashMap<String, Integer> productToOrder = new HashMap<>();
         boolean flag = true;
-        while (flag){
+        while (flag) {
             System.out.println("Enter product name: (Enter 0 to stop)");
             String name = sc.next();
-            if(name.equals("0")) {
+            if (name.equals("0")) {
                 flag = false;
                 break;
             }
-            if(!ss.isProductExists(name)){
+            if (!ss.isProductExists(name)) {
                 System.out.println("The product is not available at any supplier");
-            }
-            else {
+            } else {
                 System.out.println("Enter product amount");
                 Integer amount = inputToInt();
                 if (amount == null) {
@@ -110,15 +107,15 @@ public class Main {
             }
         }
         HashMap<Integer, HashMap<Product, Integer>> supplierToOrder = ss.getCheapestProducts(productToOrder);
-        if(supplierToOrder.isEmpty()){
+        if (supplierToOrder.isEmpty()) {
             System.out.println("Operation Canceled");
             return;
         }
-        String supplierToOrderString ="";
-        for (Map.Entry<Integer,HashMap<Product, Integer>> sup: supplierToOrder.entrySet()) {
-            supplierToOrderString += "Supplier ID: "+sup.getKey().toString()+":\n";
-            for (Map.Entry<Product,Integer> products: sup.getValue().entrySet()) {
-                supplierToOrderString += products.getKey().productToString(products.getValue())+ "\n";
+        String supplierToOrderString = "";
+        for (Map.Entry<Integer, HashMap<Product, Integer>> sup : supplierToOrder.entrySet()) {
+            supplierToOrderString += "Supplier ID: " + sup.getKey().toString() + ":\n";
+            for (Map.Entry<Product, Integer> products : sup.getValue().entrySet()) {
+                supplierToOrderString += products.getKey().productToString(products.getValue()) + "\n";
             }
         }
         System.out.println("These are the suppliers with the lowest price for the out-of-stock products");
@@ -137,15 +134,14 @@ public class Main {
     private static void addingOrders(HashMap<Integer, HashMap<Product, Integer>> supplierToOrder) {
         System.out.println("Enter delivery date (dd/MM/yyyy)");
         String deliveryDate = sc.next();
-        for (Map.Entry<Integer,HashMap<Product, Integer>> sup: supplierToOrder.entrySet()) {
+        for (Map.Entry<Integer, HashMap<Product, Integer>> sup : supplierToOrder.entrySet()) {
             HashMap<Integer, Integer> items = new HashMap<>();
-            for (Map.Entry<Product,Integer> products: sup.getValue().entrySet()) {
+            for (Map.Entry<Product, Integer> products : sup.getValue().entrySet()) {
                 items.put(products.getKey().getCatalogNumber(), products.getValue());
             }
-            System.out.println(os.addOrder(sup.getKey(), deliveryDate,items,null));
+            System.out.println(os.addOrder(sup.getKey(), deliveryDate, items, null));
         }
     }
-
 
     private static void editOrder() {
         boolean flag = true;
@@ -155,11 +151,10 @@ public class Main {
             System.out.println("Invalid choice");
             return;
         }
-        if(!os.isOrderExists(OrderId))
-        {
+        if (!os.isOrderExists(OrderId)) {
             System.out.println("Order Doesn't Exists");
         }
-        if(!os.isOrderCanBeEdit(OrderId)){
+        if (!os.isOrderCanBeEdit(OrderId)) {
             System.out.println("It is not possible to change an order whose delivery date is within a day");
             return;
         }
@@ -288,11 +283,10 @@ public class Main {
         if (OrderId == null)
             System.out.println("Invalid choice");
         else {
-            if(!os.isOrderExists(OrderId))
-            {
+            if (!os.isOrderExists(OrderId)) {
                 System.out.println("Order Doesn't Exists");
             }
-            if(!os.isOrderCanBeEdit(OrderId)){
+            if (!os.isOrderCanBeEdit(OrderId)) {
                 System.out.println("It is not possible to remove an order whose delivery date is within a day");
                 return;
             }
@@ -311,11 +305,10 @@ public class Main {
         List<Integer> constDeliveryDays = new ArrayList<>();
         HashMap<Integer, Integer> items = new HashMap<>();
         Integer supplierId;
-        do{
+        do {
             System.out.println("Enter supplier id");
             supplierId = inputToInt();
-        }
-        while (supplierId == null || !ss.isSupplierExists(supplierId));
+        } while (supplierId == null || !ss.isSupplierExists(supplierId));
         System.out.println("Enter delivery date (dd/MM/yyyy)");
         String deliveryDate = sc.next();
         System.out.println("Is this a recurring order?- 1 (Yes), 2 (No)");
@@ -359,18 +352,17 @@ public class Main {
                 System.out.println("Invalid catalog number");
                 return;
             }
-            if(ss.isProductExistsInSupplier(supplierId,null, catalogNumber))
-            {
-                System.out.println("Product Doesn't Already Exists in Supplier "+supplierId);
+            if (ss.isProductExistsInSupplier(supplierId, null, catalogNumber)) {
+                System.out.println("Product Doesn't Already Exists in Supplier " + supplierId);
+            } else {
+                System.out.println("Enter product amount");
+                Integer amount = inputToInt();
+                if (amount == null) {
+                    System.out.println("Invalid amount");
+                    return;
+                }
+                items.put(catalogNumber, amount);
             }
-            else{
-            System.out.println("Enter product amount");
-            Integer amount = inputToInt();
-            if (amount == null) {
-                System.out.println("Invalid amount");
-                return;
-            }
-            items.put(catalogNumber, amount);}
         }
         os.addOrder(supplierId, deliveryDate, items, constDeliveryDays);
     }
@@ -481,7 +473,7 @@ public class Main {
             }
             for (int j = 0; j < limP; j++) {
                 Product product = createProduct(id, category);
-                if(product != null)
+                if (product != null)
                     products.put(product.getCatalogNumber(), product);
             }
             categories.put(category, products);
@@ -543,15 +535,14 @@ public class Main {
         System.out.println(ss.displaySupplierCard(id));
     }
 
-    private static Product createProduct(int sID,Category category) {
+    private static Product createProduct(int sID, Category category) {
         System.out.println("Enter product catalog number");
         Integer catalogNumber = inputToInt();
         if (catalogNumber == null) {
             System.out.println("Invalid number");
             return null;
         }
-        if(ss.isSupplierExists(sID) && ss.isProductExistsInSupplier(sID,category,catalogNumber))
-        {
+        if (ss.isSupplierExists(sID) && ss.isProductExistsInSupplier(sID, category, catalogNumber)) {
             System.out.println("Product Already Exists");
             return null;
         }
@@ -728,7 +719,7 @@ public class Main {
         }
         Category category = new Category(categoryName, categoryID);
         Product product = createProduct(id, category);
-        if(product != null)
+        if (product != null)
             System.out.println(ss.addProduct(id, product));
     }
 
@@ -845,34 +836,46 @@ public class Main {
         else
             System.out.println(os.displayThisWeekDeliveries());
     }
-     public static void connectToDatabase() {
-        Connection conn = null;  
-        try {  
-            // db parameters  
-            String url = "jdbc:sqlite:C:\\\\Users\\GoomeGum\\Desktop\\omer\\semester D\\n" + //
-                                "itutz\\ADSS_Group_M\\test.db";  
-            // create a connection to the database  
-            conn = DriverManager.getConnection(url);  
-              
-            System.out.println("Connection to SQLite has been established.");  
-            System.out.println(conn.getMetaData().getURL());              
-        } catch (SQLException e) {  
-            System.out.println(e.getMessage());  
-        } finally {  
-            try {  
-                if (conn != null) {  
-                    System.out.println("Closing connection...");
-                    conn.close();  
-                }  
-            } catch (SQLException ex) {  
-                System.out.println(ex.getMessage());  
-            }  
-        }  
-    }  
 
-  
+    public static void connectToDatabase() {
+        Connection conn = null;
+        try {
+            // db parameters
+
+            String url = "jdbc:sqlite://Users/yuvalbachar/Documents/uni/Year B/Semester B/ADSS/ADSS_Group_M/Suppliers.db";
+            // create a connection to the database
+            conn = DriverManager.getConnection(url);
+
+            System.out.println("Connection to SQLite has been established.");
+            System.out.println(conn.getMetaData().getURL());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    System.out.println("Closing connection...");
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+
+    private static void retrieveData() {
+        SuppliersService ss = SuppliersService.getInstance();
+        OrdersService os = OrdersService.getInstance();
+        ss.retrieveData();
+        os.retrieveData();
+    }
+
     public static void main(String[] args) {
-        menuLoop();
         //connectToDatabase();
+        retrieveData();
+        menuLoop();
     }
 }

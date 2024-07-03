@@ -5,11 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import suppliers.DataAccessLayer.DataBase;
 import suppliers.DaysOfTheWeek;
 import suppliers.DaysOfTheWeek.Day;
-
 import static suppliers.DaysOfTheWeek.DayToInt;
 import static suppliers.DaysOfTheWeek.intToDay;
 
@@ -67,7 +65,7 @@ public class SupplierDeliveryDaysDAO {
         ResultSet result = conn.createStatement().executeQuery(query);
         List<Day> days = new ArrayList<>();
         while (result.next()) {
-            days.add(intToDay(result.getInt(colDeliveryDay)));
+            days.add(DaysOfTheWeek.intToDay(result.getInt(colDeliveryDay)));
         }
         return days;
     }

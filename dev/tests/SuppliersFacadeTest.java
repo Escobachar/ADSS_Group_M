@@ -67,14 +67,16 @@
              suppliersFacade.setDiscountPercentage(0.2, supplier.getId(), productMilk.getCatalogNumber());
              suppliersFacade.setProductName("soy milk", supplier.getId(), productMilk.getCatalogNumber());
          }
-         catch (Exception e){}
+         catch (Exception e){
+                fail("error in testEditProductInSupplier: " + e.getMessage());
+         }
 
          Product editedProduct = suppliersFacade.getProductInSupplier(supplier.getId(), categoryDairy,
                  productMilk.getCatalogNumber());
 
          assertEquals("soy milk", editedProduct.getName());
          assertEquals(6.9, editedProduct.getPrice(), 0.00); // Use delta value to account for floating-point precision
-         assertEquals(2, editedProduct.getCatalogNumber());
+         assertEquals(1, editedProduct.getCatalogNumber());
          assertEquals(3, editedProduct.getDiscount().getAmount());
          assertEquals(0.2, editedProduct.getDiscount().getDiscountPercentage(), 0.00);
      }

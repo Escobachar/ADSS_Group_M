@@ -1,15 +1,14 @@
 package suppliers.PresentationLayer;
 
-import suppliers.DaysOfTheWeek;
-import suppliers.DomainLayer.OrdersFacade;
-import suppliers.DomainLayer.Product;
-import suppliers.DomainLayer.SuppliersFacade;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import suppliers.DaysOfTheWeek;
+import suppliers.DomainLayer.OrdersFacade;
+import suppliers.DomainLayer.Product;
+import suppliers.DomainLayer.SuppliersFacade;
 
 public class OrdersService {
     private OrdersFacade of;
@@ -145,5 +144,14 @@ public class OrdersService {
 
     public String displayThisWeekDeliveries() {
         return of.OrdersToString(of.getThisWeekPickupOrders());
+    }
+
+    public void retrieveData() {
+        try{
+            of.retrieveData();
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }

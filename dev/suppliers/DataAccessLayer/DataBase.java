@@ -26,7 +26,7 @@ public final class DataBase {
     public  void connectToDatabase() {
         try {
             // db parameters
-            String url = "jdbc:sqlite:C:\\\\Users\\97254\\ADSS_Group_M_2\\Suppliers.db";
+            String url = "jdbc:sqlite:Suppliers.db";
             // create a connection to the database
             this.conn = DriverManager.getConnection(url);
 

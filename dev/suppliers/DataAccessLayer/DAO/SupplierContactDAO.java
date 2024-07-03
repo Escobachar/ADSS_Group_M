@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import suppliers.DataAccessLayer.DataBase;
 
 public class SupplierContactDAO {
@@ -25,7 +24,7 @@ public class SupplierContactDAO {
     private final String colSupplierId = "SupplierId";
     private final String colContactName = "contactName";
     private final String colContactNum = "contactNum";
-    private final String tableName = "SupplierContact";
+    private final String tableName = "SupplierContacts";
 
     private Connection conn = null;
 

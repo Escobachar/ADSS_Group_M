@@ -2,7 +2,6 @@ package suppliers.PresentationLayer;
 
 import java.util.HashMap;
 import java.util.List;
-
 import suppliers.DomainLayer.Category;
 import suppliers.DomainLayer.Product;
 import suppliers.DomainLayer.SuppliersFacade;
@@ -14,9 +13,11 @@ public class SuppliersService {
 
     private SuppliersService() {
         try{
-        sf = SuppliersFacade.getInstance();}
+            
+        sf = SuppliersFacade.getInstance();
+        }
         catch (Exception e){
-
+            e.getMessage();
         }
 
     }
@@ -229,6 +230,15 @@ public class SuppliersService {
             return "Supplier address updated successfully";
         } catch (Exception e) {
             return e.getMessage();
+        }
+    }
+
+    public void retrieveData(){
+        try{
+            sf.retrieveData();
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 }
