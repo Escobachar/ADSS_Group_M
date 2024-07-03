@@ -25,7 +25,7 @@ public class BranchRepositoryImp implements BranchRepository {
         String branchName = branch.getBranchName();
         roleOfShiftsDao.create(branchName,branch.getRolesOfShifts());
         shiftAvailabilityDao.create(branchName,branch.getShiftsAvailability());
-        historyOfEmployeesShiftsDao.create(branchNameranch.getHistoryEmployeesShifts());
+        historyOfEmployeesShiftsDao.create(branchName, branch.getHistoryEmployeesShifts());
         employeeShiftsDao.create(branchName,branch.getEmployeesShifts());
     }
     private void createList(Branch branch) {
@@ -79,7 +79,7 @@ public class BranchRepositoryImp implements BranchRepository {
         }
         if(whatToUpdate.contains("historyOfEmployeesShifts")) {
             delete(branch,"historyOfEmployeesShifts");
-            historyOfEmployeesShiftsDao.create(branchNameranch.getHistoryEmployeesShifts());
+            historyOfEmployeesShiftsDao.create(branchName, branch.getHistoryEmployeesShifts());
         }
         if(whatToUpdate.contains("employeeShifts")) {
             delete(branch,"employeeShifts");

@@ -137,4 +137,5 @@ public class Branch {
     public void setHistoryEmployeesShifts(List<HashMap<Integer,Role>[][]> historyEmployeesShifts) {
         this.historyEmployeesShifts = historyEmployeesShifts;
     }
+    public List<HashMap<Integer,Role>[][]> getHistoryEmployeesShifts(){return historyEmployeesShifts;}
 }
