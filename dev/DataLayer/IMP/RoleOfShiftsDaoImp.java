@@ -76,6 +76,36 @@ public class RoleOfShiftsDaoImp implements RoleOfShiftsDao {
         delete(branchName);
         create(branchName, newRoleOfShifts);
     }
+
+    @Override
+    public void update(String branchName, String roleName, int day, int shift, int numOfEmployees) {
+        Connection connection = Utility.toConnect();
+            String query = "DELETE FROM RoleOfShift where BranchName = ?  AND roleName = ?  AND day = ? AND shift = ? AND empID = ?";
+            try {
+                PreparedStatement prepare = connection.prepareStatement(query);
+                prepare.setString(1, branchName);
+                prepare.setString(2, roleName);
+                prepare.setInt(3, day);
+                prepare.setInt(4, shift);
+                prepare.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        query = "INSERT INTO RoleOfShifts(branchNane, roleName, day, shift, amount) VALUES (?,?,?,?,?)";
+            try {
+                PreparedStatement prepare = connection.prepareStatement(query);
+                prepare.setString(1, branchName);
+                prepare.setString(2, roleName);
+                prepare.setInt(3, day);
+                prepare.setInt(4, shift);
+                prepare.setInt(5, numOfEmployees);
+                prepare.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        Utility.Close(connection);
+    }
+
     @Override
     public void delete(String branchName){
         Connection connection = Utility.toConnect();

@@ -1,10 +1,14 @@
 package Domain;
 
+import DataLayer.IMP.DriverDao;
+import DataLayer.interfaces.EmployeeDao;
+
 import java.util.*;
 
 public class Driver extends GeneralEmployee {
     private Integer driverLicense;
     private List<String> driverLicenseTypes;
+    private EmployeeDao DriverDao = new DriverDao();
 
     public Driver(int ID, String name, String bankAccountDetails, int salary,String  startOfEmployment, String endOfEmployment, String partOfJob, int vacationsDays, Branch branch, String password,
                   Integer driverLicense,List<String> driverLicenseTypes) {
@@ -34,5 +38,8 @@ public class Driver extends GeneralEmployee {
     }
     public void setDriverLicenseTypes(List<String> driverLicenseTypes) {
         this.driverLicenseTypes = driverLicenseTypes;
+    }
+    public void DBUpdateDetails(){
+        DriverDao.update(this);
     }
 }

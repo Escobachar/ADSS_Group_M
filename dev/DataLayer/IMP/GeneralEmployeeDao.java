@@ -51,10 +51,6 @@ public class GeneralEmployeeDao implements EmployeeDao {
             }
             System.out.println("GeneralEmployee has been added to GeneralEmployeeRole.");
 
-            //insert to shiftRequests table
-            shiftRequestDao.create(ge.getShiftsRequest(), ge.getID());
-
-
         }catch (SQLException e) {
             System.out.println(e.getMessage());
         }

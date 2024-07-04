@@ -11,4 +11,5 @@ public interface ShiftAvailabilityDao {
     HashMap<Role,Set<GeneralEmployee>[][]>  read(String branchName);
     void update(String branchName, HashMap<Role,Set<GeneralEmployee>[][]> shiftAvailability);
     void delete(String branchName);
+    void update(boolean add,String BranchName, Role r, int ID, int day, int shift);
 }

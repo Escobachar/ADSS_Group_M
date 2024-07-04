@@ -1,11 +1,9 @@
 
 package Domain;
-import DataLayer.IMP.BranchManagerDao;
-import DataLayer.IMP.BranchRepositoryImp;
-import DataLayer.IMP.DriverDao;
-import DataLayer.IMP.GeneralEmployeeDao;
+import DataLayer.IMP.*;
 import DataLayer.interfaces.BranchRepository;
 import DataLayer.interfaces.EmployeeDao;
+import DataLayer.interfaces.ShiftAvailabilityDao;
 
 import java.util.*;
 
@@ -18,6 +16,8 @@ public class Branch {
     private HashMap<Role,Integer[][]> rolesOfShifts;
     private HashMap<String, HashMap<Integer,Role>[][]> historyEmployeesShifts;
     private HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability;
+
+    private ShiftAvailabilityDao shiftsAvailabilityDao = new ShiftAvailabilityDaoImp();
 
     //creating new branch with a manager
     public Branch(String name,String location,BranchManager brm){
@@ -129,9 +129,12 @@ public class Branch {
     public HashMap<String, HashMap<Integer,Role>[][]> getHistoryEmployeesShifts(){return historyEmployeesShifts;}
 
     public void addToShiftAvailability(Role r, int shift, int day, GeneralEmployee ge) {
+        shiftsAvailabilityDao.update(true,branchName,r,ge.getID(),day,shift);
         shiftsAvailability.get(r)[shift][day].add(ge);
+
     }
     public void removeFromShiftAvailability(Role r, int shift, int day, GeneralEmployee ge) {
+        shiftsAvailabilityDao.update(false,branchName,r,ge.getID(),day,shift);
         shiftsAvailability.get(r)[shift][day].remove(ge);
     }
 }

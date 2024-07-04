@@ -13,20 +13,22 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 public class EmployeeShiftsDaoImp implements EmployeeShiftsDao {
+    @Override
     public void create(String branchName, HashMap<Integer, Role>[][] employeeShifts){
         Connection connection = Utility.toConnect();
         String query = "INSERT INTO EmployeeShifts(branchNane, empID, role, day, shift) VALUES (?,?,?,?,?)";
         try{
-            PreparedStatement prepare = connection.prepareStatement(query);
             for (int i = 0; i < employeeShifts.length; i++) {
                 for (int j = 0; j < employeeShifts[i].length; j++) {
                     HashMap<Integer, Role> map = employeeShifts[i][j];
                     for (Integer id : map.keySet()) {
+                        PreparedStatement prepare = connection.prepareStatement(query);
                         prepare.setString(1, branchName);
                         prepare.setInt(2, id);
                         prepare.setString(3, map.get(id).getRoleName());
                         prepare.setInt(4, j);
                         prepare.setInt(5, i);
+                        prepare.execute();
                     }
                 }
             }
@@ -35,6 +37,7 @@ public class EmployeeShiftsDaoImp implements EmployeeShiftsDao {
         }
         Utility.Close(connection);
     }
+    @Override
     public HashMap<Integer,Role>[][] read(String branchName){
         HashMap<Integer,Role>[][] employeesShifts=new HashMap[Network.shifts][Network.days];
         for(int i=0;i<Network.shifts;i++)
@@ -64,10 +67,48 @@ public class EmployeeShiftsDaoImp implements EmployeeShiftsDao {
         Utility.Close(connection);
         return employeesShifts;
     }
+    @Override
     public void update(String branchName, HashMap<Integer,Role>[][] employeeShifts){
         delete(branchName);
         create(branchName, employeeShifts);
     }
+
+    @Override
+    public void update(boolean add,String branchName, Integer ID, Role r, int day, int shift) {
+        Connection connection = Utility.toConnect();
+        if(!add) {
+            String query = "DELETE FROM EmployeeShifts where BranchName = ?  AND empID = ? AND role = ? AND day = ? AND shift = ?";
+            try {
+                PreparedStatement prepare = connection.prepareStatement(query);
+                prepare.setString(1, branchName);
+                prepare.setInt(2, ID);
+                prepare.setString(3, r.getRoleName());
+                prepare.setInt(4, day);
+                prepare.setInt(5, shift);
+                prepare.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        else{
+            String query = "INSERT into EmployeeShifts where BranchName = ?  AND role = ? AND empID = ? AND day = ? AND shift = ?";
+            try {
+                PreparedStatement prepare = connection.prepareStatement(query);
+                prepare.setString(1, branchName);
+                prepare.setInt(2, ID);
+                prepare.setString(3, r.getRoleName());
+                prepare.setInt(4, day);
+                prepare.setInt(5, shift);
+                prepare.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        }
+        Utility.Close(connection);
+    }
+
+    @Override
     public void delete(String branchName){
         Connection connection = Utility.toConnect();
         String query = "DELETE FROM EmployeeShifts WHERE branchName = ?";
@@ -84,4 +125,5 @@ public class EmployeeShiftsDaoImp implements EmployeeShiftsDao {
         }
         Utility.Close(connection);
     }
+
 }

@@ -199,8 +199,10 @@ public class Utility {
         int maxHash=0,maxStringLength=0;
         for(int i=0;i<Network.shifts;i++)
             for(int j=0;j<Network.days;j++) {
-                maxHash = Math.max(shifts[i][j].size(), maxHash);
-                maxStringLength=Math.max(maxStringLength,maxStringLength(shifts[i][j]));
+                if(shifts[i][j]!=null) {
+                    maxHash = Math.max(shifts[i][j].size(), maxHash);
+                    maxStringLength = Math.max(maxStringLength, maxStringLength(shifts[i][j]));
+                }
             }
         System.out.print("----");
         for (int i = 1; i <= Network.days; i++) {
@@ -212,7 +214,9 @@ public class Utility {
         Iterator<String>[][] NamesList = new Iterator[Network.shifts][Network.days];
         for (int i = 0; i < Network.shifts; i++)
             for (int j = 0; j < Network.days; j++) {
-                NamesList[i][j]= shifts[i][j].iterator();
+                NamesList[i][j]=null;
+                if( shifts[i][j]!=null)
+                    NamesList[i][j]= shifts[i][j].iterator();
             }
 
         for (int i = 0; i < Network.shifts; i++) {
@@ -220,7 +224,7 @@ public class Utility {
             for(int m=0;m<maxHash;m++) {
                 for (int j = 0; j < Network.days; j++) {
                     String thisName="";
-                    if(NamesList[i][j].hasNext()) {
+                    if(NamesList[i][j]!=null && NamesList[i][j].hasNext()) {
                         thisName = NamesList[i][j].next();
                         System.out.print(thisName);
                     }

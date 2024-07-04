@@ -47,9 +47,6 @@ public class DriverDao implements EmployeeDao {
             }
             System.out.println("Driver has been added to DriverLicenseTypes.");
 
-            //insert to shiftRequests table
-            shiftRequestDao.create(d.getShiftsRequest(), d.getID());
-
         }catch (SQLException e) {
             System.out.println(e.getMessage());
         }
