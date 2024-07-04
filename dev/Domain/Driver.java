@@ -41,5 +41,6 @@ public class Driver extends GeneralEmployee {
     }
     public void DBUpdateDetails(){
         DriverDao.update(this);
+
     }
 }

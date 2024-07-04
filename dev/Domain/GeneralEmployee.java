@@ -97,6 +97,8 @@ public class GeneralEmployee extends Employee {
                 }
             }
         }
+        shiftRequestDao.update(shifts,this.getID());
+
     }
 
     public void updateShift(int shift, int day) {

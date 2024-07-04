@@ -23,7 +23,7 @@ public class GeneralEmployeeDaoTest {
     public Branch branch;
     public Network network;
     public List<Role> roleList;
-    EmployeeDao GeneralDao = new GeneralEmployeeDao();
+    public EmployeeDao GeneralDao = new GeneralEmployeeDao();
 
     @Before
     public void initTest() {

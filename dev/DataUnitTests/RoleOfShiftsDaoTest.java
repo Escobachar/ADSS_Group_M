@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class RoleOfShiftsDaoTest {
     public HashMap<Role,Integer[][]> rolesOfShifts;
-    RoleOfShiftsDao roleOfShiftsDao;
+    public RoleOfShiftsDao roleOfShiftsDao;
 
     @Before
     public void setUp() {

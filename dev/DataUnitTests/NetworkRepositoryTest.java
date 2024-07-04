@@ -14,8 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class NetworkRepositoryTest {
-    NetworkRepository NR = new NetworkRepositoryImp();
-    Network network=null;
+    public NetworkRepository NR = new NetworkRepositoryImp();
+    public Network network=null;
 
     @Before
     public void setUp() {
