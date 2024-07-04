@@ -62,7 +62,7 @@ public class HRManagerTest {
         }
 
     }
-    /*
+
     @Test
     public void addEmployee1() {
         this.hrm.addGeneralEmployee(123456789, "Shai Hubashi", "12345678", 500, "04-06-2024", "Full", 18, this.roles, false, this.branch,"1234");
@@ -141,7 +141,7 @@ public class HRManagerTest {
         Assert.assertFalse(branch.isEmployeeExist("Shai Hubashi"));
 
     }
-*/
+
     @Test
     public void UpdateShifts1() {//success
         ge1.updateShifts(ShiftsRequest1);

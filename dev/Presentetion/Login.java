@@ -12,19 +12,8 @@ import java.util.*;
 public class Login {
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
-        boolean flag=true;
-        Network network=null;
-        while(flag) {
-            System.out.println("with items or no? \n1.with\n2.without");
-            String answer = scanner.nextLine();
-            flag = false;
-            if (answer.equals("1"))
-                network = Server.init.init(true);
-            else if (answer.equals("2"))
-                network = Server.init.init(false);
-            else
-                flag=true;
-        }
+        Network network=Server.init.init();
+
         System.out.print("Enter ID: ");
         String ID = scanner.nextLine();
         while(true) {
