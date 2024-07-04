@@ -21,15 +21,15 @@ public class ShiftRequestDaoImp implements ShiftRequestDao {
                     try {
                         PreparedStatement prepare = connection.prepareStatement(query);
                         prepare.setInt(1, ID);
-                        prepare.setInt(2, j);
-                        prepare.setInt(3, i);
+                        prepare.setInt(2, i);
+                        prepare.setInt(3, j);
                         prepare.executeUpdate();
 
                     } catch (SQLException e) {
                         System.out.println(e.getMessage());
                     }
-                    Utility.Close(connection);
                 }
+        Utility.Close(connection);
         System.out.println("ShiftRequest has been added.");
     }
 

@@ -207,12 +207,12 @@ public class Network {
     public static boolean CheckDriverLicenseTypes(String typesString) {
         if(typesString.isEmpty())
             return false;
-        return typesString.charAt(typesString.length() - 1) != ',';
+        return typesString.charAt(typesString.length() - 1) != ',' && !typesString.contains(" ");
     }
 
     public static Branch lookForNewBranch(Network network){
         for(Branch b: network.branchList)
-            if(b.getBranchManager()==null && !b.getBranchName().equals(""))
+            if(b.getBranchManager()==null && !b.getBranchName().isEmpty())
                 return b;
         return null;
     }

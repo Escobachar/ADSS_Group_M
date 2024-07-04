@@ -2,6 +2,7 @@ package DataUnitTests;
 
 import DataLayer.IMP.GeneralEmployeeDao;
 import DataLayer.IMP.NetworkRepositoryImp;
+import DataLayer.IMP.ShiftRequestDaoImp;
 import DataLayer.interfaces.EmployeeDao;
 import DataLayer.interfaces.NetworkRepository;
 import DataLayer.interfaces.ShiftRequestDao;
@@ -20,8 +21,8 @@ import java.util.List;
 
 public class ShiftRequestDaoTest {
     public boolean[][] shiftsRequest;
-    ShiftRequestDao ShiftRequestDao;
-    EmployeeDao GeneralDao = new GeneralEmployeeDao();
+    public ShiftRequestDao ShiftRequestDao= new ShiftRequestDaoImp();
+    public EmployeeDao GeneralDao = new GeneralEmployeeDao();
     public GeneralEmployee ge1;
 
 

@@ -82,7 +82,7 @@ public class RoleOfShiftsDaoImp implements RoleOfShiftsDao {
     @Override
     public void update(String branchName, String roleName, int day, int shift, int numOfEmployees) {
         Connection connection = Utility.toConnect();
-            String query = "DELETE FROM RoleOfShift where BranchName = ?  AND roleName = ?  AND day = ? AND shift = ? AND empID = ?";
+            String query = "DELETE FROM RoleOfShifts where BranchName = ?  AND roleName = ?  AND day = ? AND shift = ?";
             try {
                 PreparedStatement prepare = connection.prepareStatement(query);
                 prepare.setString(1, branchName);
@@ -93,7 +93,7 @@ public class RoleOfShiftsDaoImp implements RoleOfShiftsDao {
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
-        query = "INSERT INTO RoleOfShifts(branchNane, roleName, day, shift, amount) VALUES (?,?,?,?,?)";
+        query = "INSERT INTO RoleOfShifts(branchName, roleName, day, shift, amount) VALUES (?,?,?,?,?)";
             try {
                 PreparedStatement prepare = connection.prepareStatement(query);
                 prepare.setString(1, branchName);

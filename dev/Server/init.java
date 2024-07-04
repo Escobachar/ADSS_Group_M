@@ -24,6 +24,7 @@ public class init {
 
 
         List<Role> roleList = Network.getNetwork().getRoles();
+        roleList.remove(network.getRole("driver"));
         List<Role> oneRole = new ArrayList<>();
         oneRole.add(roleList.get(1));
         List<String> licenseTypes = new ArrayList<>();
@@ -56,7 +57,7 @@ public class init {
         GeneralEmployee ge1_b1 = hrm.addGeneralEmployee(444444444, "Shelly atanelov", "9999995555", 35,"05-06-2024",null,"Full",18 , oneRole, false, branch1,"4444" );
         GeneralEmployee ge2_b1 = hrm.addGeneralEmployee(333333333, "Shahar Bar", "9999999999", 50,"04-06-2024",null,"Half",18 , roleList, true, branch1,"3333");
         Driver d1_b1 = hrm.addDriver(555555555, "Illy Hason", "9999999999", 35,"05-06-2024",null,"Full",18 , branch1,"5555",1234567, licenseTypes);
-        GeneralEmployee ge3_b1 = hrm.addGeneralEmployee(111222111, "Yubal Bahar", "9999995555", 50,"05-06-2024",null,"Full",18 , roleList, true, branch1,"1212" );
+        GeneralEmployee ge3_b1 = hrm.addGeneralEmployee(111222111, "Yuval Bahar", "9999995555", 50,"05-06-2024",null,"Full",18 , roleList, true, branch1,"1212" );
 
         ge1_b1.updateShifts(shiftRequest1);
         ge2_b1.updateShifts(shiftRequest2);

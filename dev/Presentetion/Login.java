@@ -731,12 +731,13 @@ public class Login {
                     }
                 }
             } else {
-                System.out.print("This employee is not a shift manager.\n would you like to change it? y/n ");
+                System.out.print("This employee is not a shift manager.\nwould you like to change it? y/n ");
                 ans = scanner.nextLine();
                 if (ans.equals("y")) {
                     ge.setManager(true);
                 }
             }
+
 
         }
         if(e instanceof Driver) {
@@ -750,7 +751,7 @@ public class Login {
                 do{
                     if(license!=null)
                         System.out.println("drivers license not valid");
-                    System.out.println("drivers license: ");
+                    System.out.print("drivers license: ");
                     String licenseScan = scanner.nextLine();
                     if(Utility.onlyNumbers(licenseScan))
                         license=Integer.parseInt(licenseScan);
@@ -779,8 +780,9 @@ public class Login {
                         types.add(""+typesString.charAt(i));
                 d.setDriverLicenseTypes(types);
             }
+
         }
-        else if(emp instanceof HRManager && !(e instanceof HRManager)) {
+        if(emp instanceof HRManager && !(e instanceof HRManager)) {
             System.out.println("employee's branch: "+e.getBranch().getBranchName());
             System.out.print("DO you want to change? y/n ");
             ans = scanner.nextLine();
@@ -789,7 +791,23 @@ public class Login {
                 e.setBranch(b);
             }
         }
-        e.DBUpdateDetails();
+        if((e instanceof Driver)) {
+            Driver d = (Driver) e;
+            d.DBUpdateDetails();
+
+        }
+        else if((e instanceof GeneralEmployee)) {
+            GeneralEmployee ge = (GeneralEmployee) e;
+            ge.DBUpdateDetails();
+        }
+        else if(e instanceof BranchManager) {
+            BranchManager bm = (BranchManager) e;
+            bm.DBUpdateDetails();
+        }
+        else {
+            HRManager hrm = (HRManager) e;
+            hrm.DBUpdateDetails();
+        }
         System.out.println("successfully updated");
     }
     private static void UpdateRolesOfShifts(BranchManager emp) {
