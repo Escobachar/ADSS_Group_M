@@ -17,15 +17,17 @@ public class RoleOfShiftsDaoImp implements RoleOfShiftsDao {
         Connection connection = Utility.toConnect();
         String query = "INSERT INTO RoleOfShifts(branchNane, roleName, day, shift, amount) VALUES (?,?,?,?,?)";
         try{
-            PreparedStatement prepare = connection.prepareStatement(query);
+
             for(Role role : roleOfShifts.keySet()){
                 for (int i = 0; i < Network.shifts; i++) {
                     for(int j = 0; j < Network.days; j++){
+                        PreparedStatement prepare = connection.prepareStatement(query);
                         prepare.setString(1, branchName);
                         prepare.setString(2, role.getRoleName());
                         prepare.setInt(3, i);
                         prepare.setInt(4, j);
                         prepare.setInt(5, roleOfShifts.get(role)[i][j]);
+                        prepare.execute();
                     }
                 }
             }
