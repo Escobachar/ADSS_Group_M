@@ -2,6 +2,10 @@ package Presentetion;
 
 import Domain.*;
 import Server.Utility;
+import java.time.LocalDate;
+import java.time.DayOfWeek;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 
 import java.util.*;
 
@@ -245,8 +249,6 @@ public class Login {
         }
     }
 
-
-
     private static void showYourDetails(Employee emp) {
         System.out.println("ID: " + emp.getID());
         System.out.println("Name: " + emp.getName());
@@ -279,6 +281,16 @@ public class Login {
             System.out.println("Shifts requests for next week:");
             getShiftsReq(ge);
             System.out.println("Branch: " + ge.getBranch().getBranchName());
+            if(emp instanceof Driver){
+                Driver d = (Driver) emp;
+                System.out.println("drivers License: " + d.getDriverLicense());
+                System.out.print("drivers license types: ");
+                String out="";
+                for(String s :d.getDriverLicenseTypes())
+                    out+=s+", ";
+                System.out.println(out.substring(0, out.length()-2));
+            }
+
         }
         else if(emp instanceof BranchManager){
             BranchManager bm = (BranchManager) emp;
@@ -317,14 +329,9 @@ public class Login {
                         int theShift = Integer.parseInt(shift);
                         if (theShift < 1 || theShift > 3)
                             System.out.println("Please send a number between 1-"+(Network.shifts+1)+".");
-                        else if(theShift != 3){
-                            emp.getShiftsRequest()[theShift - 1][theDay - 1] = !emp.getShiftsRequest()[theShift - 1][theDay - 1];
-                            for (Role r : emp.getRoles())
-                                        if (emp.getShiftsRequest()[theShift - 1][theDay - 1])
-                                            emp.getBranch().getShiftsAvailability().get(r)[theShift - 1][theDay - 1].add(emp);
-                                        else
-                                            emp.getBranch().getShiftsAvailability().get(r)[theShift - 1][theDay - 1].remove(emp);
-                        }
+                        else if(theShift != 3)
+                            emp.updateShift(theShift - 1,theDay - 1);
+
 
                             System.out.println("your new shifts request:");
                             getShiftsReq(emp);
@@ -768,7 +775,12 @@ public class Login {
         }
     }
     private static void UpdateShiftsOfWeek(BranchManager emp) {
-        emp.getBranch().addToHistory(emp.getBranch().getEmployeesShifts());
+        LocalDate today = LocalDate.now(); // Get the current date
+        LocalDate sunday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)); // Get the date of the most recent Sunday, including today if it is Sunday
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); // Define the desired date format
+        String dateOfWeek = sunday.format(formatter); // Format the date as a string
+
+        emp.getBranch().addToHistory(dateOfWeek, emp.getBranch().getEmployeesShifts());
         emp.getBranch().setEmployeesShifts(new HashMap[Network.shifts][Network.days]);
         HashMap<Integer,Role>[][] ShiftsOfWeek=emp.getBranch().getEmployeesShifts();
         for(int i=0;i<Network.shifts;i++)

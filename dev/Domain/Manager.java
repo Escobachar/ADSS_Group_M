@@ -1,8 +1,16 @@
 package Domain;
 
+import DataLayer.IMP.*;
+import DataLayer.interfaces.*;
+
 import java.util.*;
 
 abstract public class Manager extends Employee{
+    protected EmployeeDao branchManagerDao = new BranchManagerDao();
+    protected EmployeeDao generalEmployeeDao = new GeneralEmployeeDao();
+    protected EmployeeDao driverDao = new DriverDao();
+
+
 
     public Manager(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment , String endOfEmployment, String partOfJob, int vacationsDays,String password  ) {
         super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays,password);
@@ -22,7 +30,7 @@ abstract public class Manager extends Employee{
             }
             GeneralEmployee ge= new GeneralEmployee(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,roles,isManager,branch,password);
             el.add(ge);
-            branch.DBaddGeneralEmployee(ge);
+            generalEmployeeDao.create(ge);
             return ge;
         }
         return null;
@@ -39,7 +47,7 @@ abstract public class Manager extends Employee{
             }
             Driver d= new Driver(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,branch, password, driverLicense, driverLicenseTypes);
             el.add(d);
-            branch.DBaddDriver(d);
+            driverDao.create(d);
             return d;
         }
         return null;

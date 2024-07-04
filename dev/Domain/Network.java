@@ -1,7 +1,9 @@
 package Domain;
 
-import DataLayer.EmployeeDao;
-import DataLayer.HRManagerDao;
+import DataLayer.IMP.RoleDaoImp;
+import DataLayer.interfaces.EmployeeDao;
+import DataLayer.IMP.HRManagerDao;
+import DataLayer.interfaces.RoleDao;
 
 import java.util.*;
 public class Network {
@@ -12,8 +14,9 @@ public class Network {
     private List<Branch> branchList;
     private HRManager HRmanager;
     private List<Role> roles;//list of all roles in the network, programmers my add more if customer need
-    public List<Branch> getBranchList(){return branchList;}
+
     private EmployeeDao HRMDao = new HRManagerDao();
+    private RoleDao roleDao = new RoleDaoImp();
 
     private Network(HRManager HRmanager){
         this.HRmanager = HRmanager;
@@ -28,6 +31,7 @@ public class Network {
     public static Network getNetwork() {
         return network;
     }
+
 
     public void addHRM(HRManager hrm) {
         HRMDao.create(hrm);
@@ -46,9 +50,9 @@ public class Network {
                     shiftsAvailability.get(r)[i][j] = new HashSet<GeneralEmployee>();
         }
         roles.add(r);
+        roleDao.create(r);
         return true;
     }
-    public List<Role> getRoles(){return this.roles;}
     public Role getRole(String role){
         for (Role r : roles) {
             if (role.equals(r.getRoleName())) {
@@ -57,10 +61,20 @@ public class Network {
         }
         return null;
     }
+    public List<Role> getRoles(){return this.roles;}
+    public void setRoles(List<Role> roles) {this.roles=roles;}
 
+    public List<Branch> getBranchList(){return branchList;}
     public Branch getBranch(String name){
         for(Branch b:branchList) {
             if(b.getBranchName().equals(name))
+                return b;
+        }
+        return null;
+    }
+    public Branch getEmptyBranch(){
+        for(Branch b:branchList) {
+            if(b.getBranchName().equals(""))
                 return b;
         }
         return null;
@@ -89,6 +103,7 @@ public class Network {
     }
 
     public void addBranch(Branch branch){
+        if(!branch.getBranchName().equals(""))
         branchList.add(branch);
     }
     public boolean isBranchExist(String branch){
@@ -194,5 +209,7 @@ public class Network {
                 return b;
         return null;
     }
+
+
 
 }

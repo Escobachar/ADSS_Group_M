@@ -1,11 +1,18 @@
 package Domain;
 
+import DataLayer.IMP.GeneralEmployeeDao;
+import DataLayer.IMP.ShiftRequestDaoImp;
+import DataLayer.interfaces.EmployeeDao;
+import DataLayer.interfaces.ShiftRequestDao;
+
 import java.util.*;
 public class GeneralEmployee extends Employee {
     private List<Role> roles;
     private boolean isManager;
     private boolean[][] ShiftsRequest;
     private Branch branch;
+    private EmployeeDao generalEmployeeDao=new GeneralEmployeeDao();
+    private ShiftRequestDao shiftRequestDao=new ShiftRequestDaoImp();
 
     public GeneralEmployee(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment , String endOfEmployment, String partOfJob,
                            int vacationsDays, List<Role> roles, boolean isManager, Branch branch,String password){
@@ -35,6 +42,7 @@ public class GeneralEmployee extends Employee {
     }
 
     public void copyGeneralEmployee(GeneralEmployee other){
+        this.setAccess(other.getAccess());
         this.setID(other.getID());
         this.setName(other.getName());
         this.setBankAccountDetails(other.getBankAccountDetails());
@@ -54,6 +62,9 @@ public class GeneralEmployee extends Employee {
         this.branch=other.branch;
 
     }
+
+
+
     public boolean isManager(){return this.isManager;}
     public void setManager(boolean isManager ){this.isManager=isManager;}
 
@@ -86,5 +97,15 @@ public class GeneralEmployee extends Employee {
                 }
             }
         }
+    }
+
+    public void updateShift(int shift, int day) {
+        ShiftsRequest[shift][day] = !ShiftsRequest[shift][day];
+        shiftRequestDao.update();
+        for (Role r : roles)
+            if (ShiftsRequest[shift][day])
+                branch.addToShiftAvailability(r,shift,day,this);
+            else
+                branch.removeFromShiftAvailability(r,shift,day,this);
     }
 }

@@ -1,6 +1,11 @@
 
 package Domain;
-import DataLayer.*;
+import DataLayer.IMP.BranchManagerDao;
+import DataLayer.IMP.BranchRepositoryImp;
+import DataLayer.IMP.DriverDao;
+import DataLayer.IMP.GeneralEmployeeDao;
+import DataLayer.interfaces.BranchRepository;
+import DataLayer.interfaces.EmployeeDao;
 
 import java.util.*;
 
@@ -11,13 +16,8 @@ public class Branch {
     private List<Employee> employeesList;
     private HashMap<Integer,Role>[][] employeesShifts;
     private HashMap<Role,Integer[][]> rolesOfShifts;
-    private List<HashMap<Integer,Role>[][]> historyEmployeesShifts;
+    private HashMap<String, HashMap<Integer,Role>[][]> historyEmployeesShifts;
     private HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability;
-
-    public BranchRepository branchRepository= new BranchRepositoryImp();
-    public EmployeeDao generalEmployeeDao = new GeneralEmployeeDao();
-    public EmployeeDao driverDao = new DriverDao();
-    public EmployeeDao BMDao = new BranchManagerDao();
 
     //creating new branch with a manager
     public Branch(String name,String location,BranchManager brm){
@@ -49,7 +49,7 @@ public class Branch {
                 rolesOfShifts.get(Network.getNetwork().getRole("shift manager"))[i][j]=1;
 
 
-        historyEmployeesShifts = new LinkedList<>();
+        historyEmployeesShifts = new HashMap<>();
     }
     //creating new branch without manager(inserting him manually after creating it)
     public Branch(String name,String location){
@@ -114,28 +114,24 @@ public class Branch {
             if (e.getName().equals(name)) return true;
         return false;
     }
-    public void addToHistory(HashMap<Integer,Role>[][] employeesShifts) {
-        historyEmployeesShifts.add(employeesShifts);
+    public void addToHistory(String dateOfWeek, HashMap<Integer,Role>[][] employeesShifts) {
+        historyEmployeesShifts.put(dateOfWeek, employeesShifts);
     }
 
-    //db
-
-    public void DBaddGeneralEmployee(GeneralEmployee ge) {
-        generalEmployeeDao.create(ge);
-    }
-    public void DBaddDriver(Driver d) {
-        driverDao.create(d);
-    }
-    public void DBaddBranchManager(BranchManager bm) {
-        BMDao.create(bm);
-    }
 
     public String getLocation() {
         return location;
     }
 
-    public void setHistoryEmployeesShifts(List<HashMap<Integer,Role>[][]> historyEmployeesShifts) {
+    public void setHistoryEmployeesShifts(HashMap<String, HashMap<Integer,Role>[][]> historyEmployeesShifts) {
         this.historyEmployeesShifts = historyEmployeesShifts;
     }
-    public List<HashMap<Integer,Role>[][]> getHistoryEmployeesShifts(){return historyEmployeesShifts;}
+    public HashMap<String, HashMap<Integer,Role>[][]> getHistoryEmployeesShifts(){return historyEmployeesShifts;}
+
+    public void addToShiftAvailability(Role r, int shift, int day, GeneralEmployee ge) {
+        shiftsAvailability.get(r)[shift][day].add(ge);
+    }
+    public void removeFromShiftAvailability(Role r, int shift, int day, GeneralEmployee ge) {
+        shiftsAvailability.get(r)[shift][day].remove(ge);
+    }
 }
