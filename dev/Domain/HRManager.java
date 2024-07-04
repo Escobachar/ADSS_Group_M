@@ -55,4 +55,8 @@ public class HRManager extends Manager{
     }
     public void setBranch(Branch branch) {}
     public Branch getBranch() {return null;}
+
+    public void DBUpdateDetails(){
+        hRManagerDao.update(this);
+    }
 }

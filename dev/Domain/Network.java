@@ -33,6 +33,8 @@ public class Network {
     }
 
 
+
+
     public void addHRM(HRManager hrm) {
         HRMDao.create(hrm);
     }
@@ -202,10 +204,17 @@ public class Network {
         for(int i=driverLicense;i>0;i=i/10, count++);
         return count == 7;
     }
+    public static boolean CheckDriverLicenseTypes(String typesString) {
+        for(int i=0;i<typesString.length();i++)
+            if(i%2==1)
+                if(typesString.charAt(i)!=',')
+                    return false;
+        return true;
+    }
 
     public static Branch lookForNewBranch(Network network){
         for(Branch b: network.branchList)
-            if(b.getBranchManager()==null)
+            if(b.getBranchManager()==null && !b.getBranchName().equals(""))
                 return b;
         return null;
     }

@@ -1,21 +1,27 @@
 package Domain;
 
+import DataLayer.IMP.BranchManagerDao;
+import DataLayer.interfaces.EmployeeDao;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 public class BranchManager extends Manager{
     private Branch branch;
+    private EmployeeDao branchManagerDao= new BranchManagerDao();
     public BranchManager(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment, String endOfEmployment, String partOfJob, int vacationsDays,Branch branch,String password) {
         super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays,password);
         this.branch=branch;
         branch.setBranchManager(this);
         this.getAccess().add("AddGeneralEmployee");
+        this.getAccess().add("AddDriver");
         this.getAccess().add("UpdateGeneralEmployeeDetails");
         this.getAccess().add("ShowEmployeeDetails");
         this.getAccess().add("UpdateBranchShifts");
         this.getAccess().add("UpdateRolesOfShifts");
         this.getAccess().add("ShowShiftsAvailability");
+
         branch.getEmployeesList().add(this);
     }
     public Branch getBranch() {return branch;}
@@ -43,5 +49,9 @@ public class BranchManager extends Manager{
     }
     public boolean DriverCheck() {
         return super.DriverCheck(branch);
+    }
+
+    public void DBUpdateDetails(){
+        branchManagerDao.update(this);
     }
 }

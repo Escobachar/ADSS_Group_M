@@ -69,19 +69,30 @@ public class ShiftRequestDaoImp implements ShiftRequestDao {
     @Override
     public void update(boolean shifts, int ID, int shift, int day) {
         Connection connection = Utility.toConnect();
-        String query = "UPDATE FROM ShiftRequests WHERE ID = ? AND shift = ? AND day = ?";
-        try {
-            PreparedStatement prepare = connection.prepareStatement(query);
-            prepare.setInt(1, ID);
-            prepare.setInt(2, shift);
-            prepare.setInt(3, day);
-            int deleteRows = prepare.executeUpdate();
-            if (deleteRows > 0)
-                System.out.println("ShiftRequest has been deleted from ShiftRequests table.");
-            else
-                System.out.println("No ShiftRequest found with ID: " + ID);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        if(!shifts) {
+            String query = "DELETE FROM ShiftRequests WHERE ID = ? AND shift = ? AND day = ?";
+            try {
+                PreparedStatement prepare = connection.prepareStatement(query);
+                prepare.setInt(1, ID);
+                prepare.setInt(2, shift);
+                prepare.setInt(3, day);
+                prepare.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        else{
+            String query = "INSERT into ShiftRequests WHERE ID = ? AND shift = ? AND day = ?";
+            try {
+                PreparedStatement prepare = connection.prepareStatement(query);
+                prepare.setInt(1, ID);
+                prepare.setInt(2, shift);
+                prepare.setInt(3, day);
+                prepare.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
         }
         Utility.Close(connection);
     }

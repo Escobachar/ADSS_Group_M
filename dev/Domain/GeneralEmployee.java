@@ -101,11 +101,15 @@ public class GeneralEmployee extends Employee {
 
     public void updateShift(int shift, int day) {
         ShiftsRequest[shift][day] = !ShiftsRequest[shift][day];
-        shiftRequestDao.update();
+        shiftRequestDao.update(ShiftsRequest[shift][day],getID(),shift,day);
         for (Role r : roles)
             if (ShiftsRequest[shift][day])
                 branch.addToShiftAvailability(r,shift,day,this);
             else
                 branch.removeFromShiftAvailability(r,shift,day,this);
+    }
+
+    public void DBUpdateDetails(){
+        generalEmployeeDao.update(this);
     }
 }

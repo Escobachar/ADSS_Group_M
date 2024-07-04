@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ShiftAvailabilityDaoImp implements ShiftAvailabilityDao {
+    @Override
     public void create(String branchName, HashMap<Role,Set<GeneralEmployee>[][]> shiftAvailability){
         Connection connection = Utility.toConnect();
         String query = "INSERT INTO ShiftAvailability(branchNane, role, empID, day, shift) VALUES (?,?,?,?,?)";
@@ -39,6 +40,7 @@ public class ShiftAvailabilityDaoImp implements ShiftAvailabilityDao {
         }
         Utility.Close(connection);
     }
+    @Override
     public HashMap<Role,Set<GeneralEmployee>[][]> read(String branchName){
         //set up the shiftsAvailability HashMap
         HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability = new HashMap<Role,Set<GeneralEmployee>[][]>();
@@ -75,10 +77,12 @@ public class ShiftAvailabilityDaoImp implements ShiftAvailabilityDao {
         Utility.Close(connection);
         return shiftsAvailability;
     }
+    @Override
     public void update(String branchName, HashMap<Role,Set<GeneralEmployee>[][]> newShiftAvailability){
         delete(branchName);
         create(branchName, newShiftAvailability);
     }
+    @Override
     public void delete(String branchName){
         Connection connection = Utility.toConnect();
         String query = "DELETE FROM ShiftAvailability WHERE branchName = ?";
@@ -92,6 +96,40 @@ public class ShiftAvailabilityDaoImp implements ShiftAvailabilityDao {
                 System.out.println("No ShiftAvailability found with branchName: " + branchName);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+        Utility.Close(connection);
+    }
+    @Override
+    public void update(boolean add, String BranchName, Role r, int ID, int day, int shift) {
+        Connection connection = Utility.toConnect();
+        if(!add) {
+            String query = "DELETE FROM ShiftAvailability where BranchName = ?  AND role = ? AND empID = ? AND day = ? AND shift = ?";
+            try {
+                PreparedStatement prepare = connection.prepareStatement(query);
+                prepare.setString(1, BranchName);
+                prepare.setString(2, r.getRoleName());
+                prepare.setInt(3, ID);
+                prepare.setInt(4, day);
+                prepare.setInt(5, shift);
+                prepare.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        else{
+            String query = "INSERT into ShiftAvailability where BranchName = ?  AND role = ? AND empID = ? AND day = ? AND shift = ?";
+            try {
+                PreparedStatement prepare = connection.prepareStatement(query);
+                prepare.setString(1, BranchName);
+                prepare.setString(2, r.getRoleName());
+                prepare.setInt(3, ID);
+                prepare.setInt(4, day);
+                prepare.setInt(5, shift);
+                prepare.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
         }
         Utility.Close(connection);
     }
