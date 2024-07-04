@@ -13,6 +13,7 @@ public class HRManager extends Manager{
     public HRManager(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment, String endOfEmployment, String partOfJob, int vacationsDays,String password) {
         super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays,password);
         this.getAccess().add("HRAddGeneralEmployee");
+        this.getAccess().add("HRAddDriver");
         this.getAccess().add("HRAssignBranchManager");
         this.getAccess().add("HRUpdateEmployeeDetails");
         this.getAccess().add("HRShowEmployeeDetails");
@@ -43,7 +44,7 @@ public class HRManager extends Manager{
                     return null;
             }
             if(branch.getBranchManager()!=null) {
-                branch.getBranchManager().setBranch(Network.getNetwork().getEmptyBranch());
+                branch.getBranchManager().setBranch(null);
                 branchManagerDao.update(branch.getBranchManager());
             }
             BranchManager bm= new BranchManager(ID,name,bankAccountDetails,salary,startOfEmployment,endOfEmployment,partOfJob,vacationsDays,branch,password);

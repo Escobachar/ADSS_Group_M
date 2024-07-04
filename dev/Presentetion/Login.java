@@ -26,8 +26,12 @@ public class Login {
                     if(Utility.onlyNumbers(ID))
                         IDFound=true;
                 }
-                emp = network.SearchByID(Integer.parseInt(ID));
-                IDFound=emp!=null;
+                if(Integer.toString(Network.getNetwork().getHRM().getID()).equals(ID))
+                    emp=Network.getNetwork().getHRM();
+                else
+                    emp = network.SearchByID(Integer.parseInt(ID));
+                if(emp==null)
+                    IDFound=emp!=null;
             }while((!IDFound) );
             System.out.print("Enter password: ");
             String password = scanner.nextLine();
@@ -118,6 +122,11 @@ public class Login {
             if (access.contains("HRAddGeneralEmployee")) {
                 System.out.println(i + ". add general employee");
                 options[i] = "HRAddGeneralEmployee";
+                i++;
+            }
+            if (access.contains("HRAddDriver")) {
+                System.out.println(i + ". Add driver");
+                options[i] = "HRAddDriver";
                 i++;
             }
             if (access.contains("HRAssignBranchManager")) {
@@ -213,6 +222,9 @@ public class Login {
                 //HR Manager
                 case "HRAddGeneralEmployee":
                     HRAddGeneralEmployee((HRManager)emp);
+                    break;
+                case "HRAddDriver":
+                    HRAddDriver((HRManager)emp);
                     break;
                 case "HRAssignBranchManager":
                     HRAssignBranchManager((HRManager)emp);
@@ -533,7 +545,7 @@ public class Login {
                     typesString = scanner.nextLine();
                 }while(!Network.CheckDriverLicenseTypes(typesString));
                 List<String> types = new LinkedList<>();
-            String t="";
+                String t="";
                 for(int i=0;i<typesString.length();i++) {
                     if (typesString.charAt(i)==',') {
                         types.add(t);
@@ -543,9 +555,9 @@ public class Login {
                         t+=typesString.charAt(i);
                     }
                 }
-            types.add(t);
-            Branch branch = ((BranchManager) emp).getBranch();
-            emp.addDriver(id, name, bankAccount, salary, startOfEmp, endOfEmp, partOfJob, vacationDays, branch, password, license, types);
+                types.add(t);
+                Branch branch = ((BranchManager) emp).getBranch();
+                emp.addDriver(id, name, bankAccount, salary, startOfEmp, endOfEmp, partOfJob, vacationDays, branch, password, license, types);
             }
         else if(type=='m') {
             Branch branch = branchSelect();
@@ -938,42 +950,43 @@ public class Login {
                     } else if (theDay == 9)
                         return;
                     else{
-                        System.out.println("Which shift?\n1.Morning\n2.Evening\n3.Back to day selection");
-                        String shift = scanner.nextLine();
-                        if (!(Utility.onlyNumbers(day)))
-                            System.out.println("Not a valid option, select only numbers.");
-                        else {
-                            int theShift = Integer.parseInt(shift);
-                            if (theShift < 1 || theShift > 3)
-                                System.out.println("Please send a number between 1-3.");
-                            else if (theShift != 3) {
-                                if (shiftAvi[theShift - 1][theDay - 1].isEmpty())
+                        boolean done = false;
+                        while (!done) {
+                            System.out.println("Which shift?\n1.Morning\n2.Evening\n3.Back to day selection");
+                            String shift = scanner.nextLine();
+                            if (!(Utility.onlyNumbers(day)))
+                                System.out.println("Not a valid option, select only numbers.");
+                            else {
+                                int theShift = Integer.parseInt(shift);
+                                if (theShift < 1 || theShift > 3)
+                                    System.out.println("Please send a number between 1-3.");
+                                else if (theShift != 3) {
+                                    if (shiftAvi[theShift - 1][theDay - 1].isEmpty())
                                     System.out.println("No one here");
-                                else {
-                                    boolean done = false;
-                                    while (!done) {
+                                    else {
+
                                         System.out.println("Please enter the number of the employee to add/remove from the list of the selected shift:");
                                         int i = 1;
-                                        for (GeneralEmployee ge : shiftAvi[theShift - 1][theDay - 1]) {
+                                        for (GeneralEmployee ge : new ArrayList<>(shiftAvi[theShift - 1][theDay - 1])) {
                                             System.out.println(i + ". " + ge.getName());
                                             i++;
                                         }
-                                        Integer select = -1;
+                                        Integer select=-1;
                                         do {
-                                            select = 1;
                                             String scanned = scanner.nextLine();
                                             while (!(Utility.onlyNumbers(scanned))) {
                                                 System.out.print("selected employee not valid or not found.\nselect another: ");
                                                 scanned = scanner.nextLine();
-                                                if (Utility.onlyNumbers(scanned))
-                                                    select = Integer.parseInt(scanned);
                                             }
+                                            select = Integer.parseInt(scanned);
                                         } while ((select > i || select < 1));
                                         i = 1;
                                         GeneralEmployee selectedEmployee = null;
-                                        for (GeneralEmployee ge : shiftAvi[theShift - 1][theDay - 1]) {
-                                            if (i == select)
+                                        for (GeneralEmployee ge :  new ArrayList<>(shiftAvi[theShift - 1][theDay - 1])) {
+                                            if (i == select) {
                                                 selectedEmployee = ge;
+                                                break;
+                                            }
                                             i++;
                                         }
 
@@ -994,10 +1007,13 @@ public class Login {
                                             System.out.println("Number of needed employees:");
                                             Utility.shiftPrinter(emp.getBranch().getRolesOfShifts().get(r));
                                         }
-                                        System.out.println("current shifts:");
-                                        Utility.ShiftsOfWeekPrinter(emp.getBranch());
+
                                     }
                                 }
+                                else if(theShift==3)
+                                    done = true;
+                                System.out.println("current shifts:");
+                                Utility.ShiftsOfWeekPrinter(emp.getBranch());
                             }
                         }
                     }
@@ -1045,6 +1061,11 @@ public class Login {
         if(b!=null)
             AddEmployee(b.getBranchManager(),'g');
     }
+    private static void HRAddDriver(HRManager emp) {
+        Branch b=branchSelect();
+        if(b!=null)
+            AddEmployee(b.getBranchManager(),'d');
+    }
     private static void HRShowBranchShiftsAvailability(HRManager emp) {
         Branch b=branchSelect();
         if(b!=null)
@@ -1079,8 +1100,6 @@ public class Login {
         UpdateEmployeeDetails(emp);
     }
     private static void HRAssignBranchManager(HRManager emp) {
-        Branch b=branchSelect();
-        if(b!=null)
             AddEmployee(emp,'m');
     }
     private static void HRaddBranch(HRManager emp){

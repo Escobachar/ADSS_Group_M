@@ -157,8 +157,10 @@ public class Utility {
         int maxHash=0,maxStringLength=0;
         for(int i=0;i<Network.shifts;i++)
             for(int j=0;j<Network.days;j++) {
-                maxHash = Math.max(shifts[i][j].size(), maxHash);
-                maxStringLength=Math.max(maxStringLength,maxStringLength(shifts[i][j]));
+                if(shifts[i][j]!=null) {
+                    maxHash = Math.max(shifts[i][j].size(), maxHash);
+                    maxStringLength = Math.max(maxStringLength, maxStringLength(shifts[i][j]));
+                }
             }
         System.out.print("----");
         for (int i = 1; i <= Network.days; i++) {
@@ -174,16 +176,20 @@ public class Utility {
             }
 
         for (int i = 0; i < Network.shifts; i++) {
-            System.out.print("\n"+(i+1)+"  ");
+            System.out.print("\n"+(i+1)+"    ");
             for(int m=0;m<maxHash;m++) {
                 for (int j = 0; j < Network.days; j++) {
                     String thisName="";
                     if(NamesList[i][j].hasNext()) {
                         thisName = NamesList[i][j].next();
                         System.out.print(thisName+" - "+shifts[i][j].get(thisName).getRoleName());
+                        for(int space=0;space<maxStringLength-(thisName.length()+shifts[i][j].get(thisName).getRoleName().length()+2);space++)
+                            System.out.print(" ");
                     }
-                    for(int space=0;space<maxStringLength-thisName.length();space++)
-                        System.out.print(" ");
+                    else
+                        for(int space=0;space<maxStringLength+2;space++)
+                            System.out.print(" ");
+
                 }
             }
         }
@@ -244,10 +250,11 @@ public class Utility {
     public static HashMap<String, Role>[][] getShiftsWithNames(HashMap<Integer, Role>[][] shiftsWithID,Branch branch) {
         HashMap<String, Role>[][] shifts = new HashMap[Network.shifts][Network.days];
         for (int i = 0; i < Network.shifts; i++)
-            for (int j = 0; j < Network.days; j++)
+            for (int j = 0; j < Network.days; j++){
+                shifts[i][j] = new LinkedHashMap<>();
                 for(Integer ID:shiftsWithID[i][j].keySet())
-                    shifts[i][j].put(branch.getEmployeeName(ID),shiftsWithID[i][j].get(ID));
-
+                    shifts[i][j].put(branch.getEmployeeName(ID), shiftsWithID[i][j].get(ID));
+                }
         return shifts;
     }
     private static String getDBUrl(){

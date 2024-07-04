@@ -30,7 +30,6 @@ public class ShiftRequestDaoImp implements ShiftRequestDao {
                     }
                 }
         Utility.Close(connection);
-        System.out.println("ShiftRequest has been added.");
     }
 
     @Override
@@ -106,10 +105,6 @@ public class ShiftRequestDaoImp implements ShiftRequestDao {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setInt(1, ID);
             int deleteRows = prepare.executeUpdate();
-            if (deleteRows > 0)
-                System.out.println("ShiftRequest has been deleted from ShiftRequests table.");
-            else
-                System.out.println("No ShiftRequest found with ID: " + ID);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

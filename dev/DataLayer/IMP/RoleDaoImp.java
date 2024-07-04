@@ -23,7 +23,6 @@ public class RoleDaoImp implements RoleDao {
                 prepare.setString(2, access);
                 prepare.executeUpdate();
             }
-            System.out.println("Role " +role.getRoleName() + " has been added.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -69,11 +68,6 @@ public class RoleDaoImp implements RoleDao {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setString(1, role.getRoleName());
             int deleteRows = prepare.executeUpdate();
-
-            if (deleteRows > 0)
-                System.out.println("role has been deleted from Role table.");
-            else
-                System.out.println("No role found with roleName: " + role.getRoleName());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

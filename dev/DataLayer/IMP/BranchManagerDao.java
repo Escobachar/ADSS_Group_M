@@ -21,6 +21,12 @@ public class BranchManagerDao implements EmployeeDao {
         Connection connection = Utility.toConnect();
         String query = "INSERT INTO BranchManager(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, branchName, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
+
+            String branchName;
+            if(bm.getBranch()!=null)
+                branchName = bm.getBranch().getBranchName();
+            else
+                branchName = null;
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setInt(1, bm.getID());
             prepare.setString(2, bm.getName());
@@ -30,14 +36,13 @@ public class BranchManagerDao implements EmployeeDao {
             prepare.setString(6, bm.getEndOfEmployment());
             prepare.setString(7, bm.getPartOfJob());
             prepare.setInt(8, bm.getVacationsDays());
-            prepare.setString(9, bm.getBranch().getBranchName());
+            prepare.setString(9, branchName);
             prepare.setString(10, bm.getPassword());
 
             prepare.executeUpdate();
-            System.out.println("BranchManager has been added to BranchManager table.");
 
             //update into Branch table
-            branchDao.update( bm.getID(), bm.getBranch().getBranchName());
+            branchDao.update( bm.getID(), branchName);
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -98,11 +103,6 @@ public class BranchManagerDao implements EmployeeDao {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setInt(1, ID);
             int deleteRows = prepare.executeUpdate();
-
-            if (deleteRows > 0)
-                System.out.println("BranchManager has been deleted from GeneralEmployee table.");
-            else
-                System.out.println("No BranchManager found with ID: " + ID);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

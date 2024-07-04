@@ -87,10 +87,6 @@ public class HistoryOfEmployeesShiftsDaoImp implements HistoryOfEmployeesShiftsD
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setString(1, branchName);
             int deleteRows = prepare.executeUpdate();
-            if (deleteRows > 0)
-                System.out.println("HistoryOfEmployeesShifts has been deleted");
-            else
-                System.out.println("No HistoryOfEmployeesShifts found with branchName: " + branchName);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

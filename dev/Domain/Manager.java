@@ -66,8 +66,8 @@ abstract public class Manager extends Employee{
 
     public void updateShift(GeneralEmployee ge, Role r,Branch b,int shift,int day) {
         HashMap<Integer, Role> theShift = b.getEmployeesShifts()[shift][day];
-        if (theShift.containsKey(ge.getName())) {
-            theShift.remove(ge.getName());
+        if (theShift.containsKey(ge.getID())) {
+            theShift.remove(ge.getID());
             employeeShiftsDao.update(false,b.getBranchName(),ge.getID(),r,day,shift);
         }
         else {

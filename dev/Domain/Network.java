@@ -38,6 +38,9 @@ public class Network {
     public void addHRM(HRManager hrm) {
         HRMDao.create(hrm);
     }
+    public HRManager getHRM() {
+        return HRmanager;
+    }
 
     public boolean addRole(Role r){
         if(roles.contains(r))
@@ -70,13 +73,6 @@ public class Network {
     public Branch getBranch(String name){
         for(Branch b:branchList) {
             if(b.getBranchName().equals(name))
-                return b;
-        }
-        return null;
-    }
-    public Branch getEmptyBranch(){
-        for(Branch b:branchList) {
-            if(b.getBranchName().equals(""))
                 return b;
         }
         return null;

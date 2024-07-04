@@ -114,4 +114,5 @@ public class GeneralEmployee extends Employee {
     public void DBUpdateDetails(){
         generalEmployeeDao.update(this);
     }
+
 }

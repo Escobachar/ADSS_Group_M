@@ -96,7 +96,10 @@ abstract public class Employee {
         this.vacationsDays=vacationsDays;
     }
     public void setPassword(String password) {this.password=password;}
-
+    @Override
+    public String toString(){
+        return this.getName();
+    }
     public abstract void DBUpdateDetails();
 
 }

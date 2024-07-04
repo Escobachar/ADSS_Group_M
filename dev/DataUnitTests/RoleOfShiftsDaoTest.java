@@ -1,7 +1,9 @@
 package DataUnitTests;
 
+import DataLayer.IMP.RoleOfShiftsDaoImp;
 import DataLayer.interfaces.RoleOfShiftsDao;
 import Domain.GeneralEmployee;
+import Domain.HRManager;
 import Domain.Network;
 import Domain.Role;
 import Server.Utility;
@@ -13,16 +15,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class RoleOfShiftsDaoTest {
     public HashMap<Role,Integer[][]> rolesOfShifts;
-    public RoleOfShiftsDao roleOfShiftsDao;
+    public RoleOfShiftsDao roleOfShiftsDao = new RoleOfShiftsDaoImp();
 
     @Before
     public void setUp() {
+        HRManager hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, "04-06-2024", null, "Full", 18, "1111");
+        Network network = Network.createNewNetwork(hrm);
         rolesOfShifts = new HashMap<Role,Integer[][]>();
         for(Role r: Network.getNetwork().getRoles()) {
             rolesOfShifts.put(r, new Integer[Network.shifts][Network.days]);
@@ -52,7 +54,7 @@ public class RoleOfShiftsDaoTest {
         }
         Utility.Close(connection);
 
-        Assert.assertNotEquals(0,rowCount);
+        Assert.assertEquals(0,rowCount);
     }
     @Test
     public void update(){
