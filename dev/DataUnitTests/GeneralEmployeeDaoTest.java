@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -62,21 +63,29 @@ public class GeneralEmployeeDaoTest {
 
 
     @Test
-        public void create() {
-        int addedRows = 0;
+        public void create1() {
         GeneralDao.create(ge1);
-
         Connection connection = Utility.toConnect();
         String query = "SELECT COUNT(*) FROM GeneralEmployee";
         try {
             PreparedStatement prepare = connection.prepareStatement(query);
-            addedRows = prepare.executeUpdate();
+            ResultSet resultSet = prepare.executeQuery();
+            resultSet.next();
+            int rowCount = resultSet.getInt(1);
+            Assert.assertEquals(1, rowCount);
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         Utility.Close(connection);
-
-        Assert.assertEquals(1, addedRows);
-
     }
+    @Test
+    public void read() {
+        GeneralDao.create(ge1);
+        GeneralEmployee test = (GeneralEmployee) GeneralDao.read(333333333);
+
+        Assert.assertEquals(ge1.getName(), test.getName());
+    }
+
+
 }

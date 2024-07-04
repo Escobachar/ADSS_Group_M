@@ -125,4 +125,5 @@ public class EmployeeShiftsDaoImp implements EmployeeShiftsDao {
         }
         Utility.Close(connection);
     }
+
 }

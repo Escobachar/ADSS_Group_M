@@ -26,11 +26,13 @@ public class ShiftAvailabilityDaoImp implements ShiftAvailabilityDao {
                     for(int j = 0; j < Network.days; j++){
                         Set<GeneralEmployee> availableEmployees = shiftAvailability.get(role.getRoleName())[i][j];
                         for(GeneralEmployee employee: availableEmployees){
+                            PreparedStatement prepare = connection.prepareStatement(query);
                             prepare.setString(1, branchName);
                             prepare.setString(2, role.getRoleName());
                             prepare.setInt(3,employee.getID());
                             prepare.setInt(4, j);
                             prepare.setInt(5, i);
+                            prepare.execute();
                         }
                     }
                 }

@@ -17,19 +17,21 @@ public class HistoryOfEmployeesShiftsDaoImp implements HistoryOfEmployeesShiftsD
         Connection connection = Utility.toConnect();
         String query = "INSERT INTO HistoryOfEmployeesShifts(branchNane, empID, roleName, day, shift, dateOfWeek) VALUES (?,?,?,?,?,?)";
         try {
-            PreparedStatement prepare = connection.prepareStatement(query);
+
             for(String dateOfWeek : historyEmployeesShifts.keySet()){
                 HashMap<Integer,Role>[][] employeeShifts = historyEmployeesShifts.get(dateOfWeek);
                 for (int i = 0; i < employeeShifts.length; i++) {
                     for (int j = 0; j < employeeShifts[i].length; j++) {
                         HashMap<Integer, Role> map = employeeShifts[i][j];
                         for (Integer id : map.keySet()) {
+                            PreparedStatement prepare = connection.prepareStatement(query);
                             prepare.setString(1, branchName);
                             prepare.setInt(2, id);
                             prepare.setString(3, map.get(id).getRoleName());
                             prepare.setInt(4, j);
                             prepare.setInt(5, i);
                             prepare.setString(6, dateOfWeek);
+                            prepare.execute();
                         }
                     }
                 }
