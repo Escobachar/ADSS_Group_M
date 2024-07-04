@@ -17,7 +17,7 @@ public class ShiftRequestDaoImp implements ShiftRequestDao {
         for(int i=0;i<Network.shifts;i++)
             for(int j=0;j<Network.days;j++)
                 if (shifts[i][j]) {
-                    String query = "INSERT INTO ShiftRequests(ID,shift,day) VALUES(?, ?, ?)";
+                    String query = "INSERT INTO ShiftsRequests(ID,shift,day) VALUES(?, ?, ?)";
                     try {
                         PreparedStatement prepare = connection.prepareStatement(query);
                         prepare.setInt(1, ID);
@@ -35,12 +35,12 @@ public class ShiftRequestDaoImp implements ShiftRequestDao {
 
     @Override
     public boolean[][] read(int ID) {
-        boolean[][] shifts = new boolean[Network.days][Network.shifts];
-        for (int i = 1; i <= Network.days; i++)
-            for (int j = 0; j < Network.shifts; j++)
+        boolean[][] shifts = new boolean[Network.shifts][Network.days];
+        for (int i = 0; i < Network.shifts; i++)
+            for (int j = 0; j < Network.days; j++)
                 shifts[i][j]=false;
         Connection connection = Utility.toConnect();
-        String query = "SELECT * FROM ShiftRequests WHERE ID = ?";
+        String query = "SELECT * FROM ShiftsRequests WHERE ID = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, ID);
@@ -70,7 +70,7 @@ public class ShiftRequestDaoImp implements ShiftRequestDao {
     public void update(boolean shifts, int ID, int shift, int day) {
         Connection connection = Utility.toConnect();
         if(!shifts) {
-            String query = "DELETE FROM ShiftRequests WHERE ID = ? AND shift = ? AND day = ?";
+            String query = "DELETE FROM ShiftsRequests WHERE ID = ? AND shift = ? AND day = ?";
             try {
                 PreparedStatement prepare = connection.prepareStatement(query);
                 prepare.setInt(1, ID);
@@ -82,7 +82,7 @@ public class ShiftRequestDaoImp implements ShiftRequestDao {
             }
         }
         else{
-            String query = "INSERT into ShiftRequests WHERE ID = ? AND shift = ? AND day = ?";
+            String query = "INSERT into ShiftsRequests(ID,shift,day) VALUES(?, ?, ?)";
             try {
                 PreparedStatement prepare = connection.prepareStatement(query);
                 prepare.setInt(1, ID);
@@ -101,7 +101,7 @@ public class ShiftRequestDaoImp implements ShiftRequestDao {
     @Override
     public void delete(int ID) {
         Connection connection = Utility.toConnect();
-        String query = "DELETE FROM ShiftRequests WHERE ID = ?";
+        String query = "DELETE FROM ShiftsRequests WHERE ID = ?";
         try {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setInt(1, ID);

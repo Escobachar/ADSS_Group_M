@@ -9,8 +9,8 @@ abstract public class Manager extends Employee{
     protected EmployeeDao branchManagerDao = new BranchManagerDao();
     protected EmployeeDao generalEmployeeDao = new GeneralEmployeeDao();
     protected EmployeeDao driverDao = new DriverDao();
-
-
+    protected RoleOfShiftsDao roleOfShiftsDao = new RoleOfShiftsDaoImp();
+    protected EmployeeShiftsDao employeeShiftsDao = new EmployeeShiftsDaoImp();
 
     public Manager(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment , String endOfEmployment, String partOfJob, int vacationsDays,String password  ) {
         super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays,password);
@@ -64,20 +64,24 @@ abstract public class Manager extends Employee{
         branch.setRolesOfShifts(rolesOfShifts);
     }
 
-    public void updateShift(GeneralEmployee selectedEmployee, Role r,Branch b,int shift,int day) {
+    public void updateShift(GeneralEmployee ge, Role r,Branch b,int shift,int day) {
         HashMap<Integer, Role> theShift = b.getEmployeesShifts()[shift][day];
-        if (theShift.containsKey(selectedEmployee.getName()))
-            theShift.remove(selectedEmployee.getName());
+        if (theShift.containsKey(ge.getName())) {
+            theShift.remove(ge.getName());
+            employeeShiftsDao.update(false,b.getBranchName(),ge.getID(),r,day,shift);
+        }
         else {
             int maxEmployees = b.getRolesOfShifts().get(r)[shift][day];
             if (theShift.keySet().size() == maxEmployees)
                 System.out.print("max employees in this day for this role reached.");
             else
-                if(selectedEmployee.getShiftsRequest()[shift][day])//check if the selected employee checked in his request for this shift
-                    if(!selectedEmployee.getRoles().contains(r))//check if the employee has the Role that we looked at to change in the shift
+                if(ge.getShiftsRequest()[shift][day])//check if the selected employee checked in his request for this shift
+                    if(!ge.getRoles().contains(r))//check if the employee has the Role that we looked at to change in the shift
                         System.out.print("error: Employee isn't the requested role to put in the shift.");
-                    else
-                        theShift.put(selectedEmployee.getID(), r);
+                    else {
+                        theShift.put(ge.getID(), r);
+                        employeeShiftsDao.update(true,b.getBranchName(),ge.getID(),r,day,shift);
+                    }
                 else
                     System.out.print("error: Employee didn't put his request here.");
         }
@@ -85,8 +89,10 @@ abstract public class Manager extends Employee{
     }
 
     public void UpdateRolesOfShiftsOfBranch(Branch branch, Role r, int theShift, int theDay, int numOfEmployees) {
-        if(!r.getRoleName().equals("Shift Manager"))
-            branch.getRolesOfShifts().get(r)[theShift][theDay]=numOfEmployees;
+        if(!r.getRoleName().equals("Shift Manager")) {
+            branch.getRolesOfShifts().get(r)[theShift][theDay] = numOfEmployees;
+            roleOfShiftsDao.update(branch.getBranchName(),r.getRoleName(),theDay,theShift,numOfEmployees);
+        }
         else
             System.out.print("error: cant change shift manager number of needed employees.");
     }

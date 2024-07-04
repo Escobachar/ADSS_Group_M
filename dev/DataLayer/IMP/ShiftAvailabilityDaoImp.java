@@ -18,9 +18,9 @@ public class ShiftAvailabilityDaoImp implements ShiftAvailabilityDao {
     @Override
     public void create(String branchName, HashMap<Role,Set<GeneralEmployee>[][]> shiftAvailability){
         Connection connection = Utility.toConnect();
-        String query = "INSERT INTO ShiftAvailability(branchNane, role, empID, day, shift) VALUES (?,?,?,?,?)";
+        String query = "INSERT INTO ShiftAvailability(branchName, role, empID, day, shift) VALUES (?,?,?,?,?)";
         try{
-            PreparedStatement prepare = connection.prepareStatement(query);
+
             for(Role role : shiftAvailability.keySet()){
                 for (int i = 0; i < Network.shifts; i++) {
                     for(int j = 0; j < Network.days; j++){
@@ -117,7 +117,7 @@ public class ShiftAvailabilityDaoImp implements ShiftAvailabilityDao {
             }
         }
         else{
-            String query = "INSERT into ShiftAvailability where BranchName = ?  AND role = ? AND empID = ? AND day = ? AND shift = ?";
+            String query = "INSERT INTO ShiftAvailability(branchName, role, empID, day, shift) VALUES (?,?,?,?,?)";
             try {
                 PreparedStatement prepare = connection.prepareStatement(query);
                 prepare.setString(1, BranchName);

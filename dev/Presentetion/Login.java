@@ -488,27 +488,39 @@ public class Login {
             List<Role> newRL = new ArrayList<>();
             if (shiftManager.equals("no")) {
                 SM = false;
-                System.out.println("Choose roles of the employee,\npress all the numbers of the roles you desire then enter: ");
+                System.out.println("Choose roles of the employee");
                 List<Role> RL = null;
                 RL = Network.getNetwork().getRoles();
+                RL.remove(Network.getNetwork().getRole("shift manager"));
+                RL.remove(Network.getNetwork().getRole("driver"));
                 int i = 1;
                 for (Role r : RL) {
                     System.out.println(i + ". " + r.getRoleName());
                     i++;
                 }
-                String rolesLine = scanner.nextLine();
-                int j = 0;
+
+                String rolesLine = null;
+                do {
+                    if(rolesLine!=null)
+                        System.out.println("Roles not valid");
+                    System.out.println("press all the numbers of the roles you desire then enter: : ");
+                    rolesLine = scanner.nextLine();
+                }while(!Utility.onlyNumbers(rolesLine));
+
                 i = 1;
                 for (Role r : RL) {
-                    if (i == rolesLine.charAt(j)) {
-                        newRL.add(r);
+                    int j = 0;
+                    while (rolesLine.length()>j && !Integer.toString(i).equals(Character.toString(rolesLine.charAt(j)))) {
                         j++;
                     }
+                    if(Integer.toString(i).equals(Character.toString(rolesLine.charAt(j))))
+                        newRL.add(r);
                     i++;
-                    if (j > rolesLine.length())
-                        break;
                 }
             }
+            else
+                newRL=Network.getNetwork().getRoles();
+
             Branch branch = ((BranchManager) emp).getBranch();
             emp.addGeneralEmployee(id, name, bankAccount, salary, startOfEmp, endOfEmp, partOfJob, vacationDays, newRL, SM, branch, password);
         }
@@ -532,9 +544,17 @@ public class Login {
                     typesString = scanner.nextLine();
                 }while(!Network.CheckDriverLicenseTypes(typesString));
                 List<String> types = new LinkedList<>();
-                for(int i=0;i<typesString.length();i++)
-                    if(i%2==0)
-                        types.add(""+typesString.charAt(i));
+            String t="";
+                for(int i=0;i<typesString.length();i++) {
+                    if (typesString.charAt(i)==',') {
+                        types.add(t);
+                        t="";
+                    }
+                    else{
+                        t+=typesString.charAt(i);
+                    }
+                }
+            types.add(t);
             Branch branch = ((BranchManager) emp).getBranch();
             emp.addDriver(id, name, bankAccount, salary, startOfEmp, endOfEmp, partOfJob, vacationDays, branch, password, license, types);
             }
@@ -730,7 +750,7 @@ public class Login {
             }
 
         }
-        else if(e instanceof Driver) {
+        if(e instanceof Driver) {
             Driver d = (Driver) e;
 
             System.out.println("employee's drivers license: "+d.getDriverLicense());

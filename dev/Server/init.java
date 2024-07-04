@@ -12,7 +12,7 @@ public class init {
     public static Network init(boolean init) {
 
         NetworkRepository NR = new NetworkRepositoryImp();
-        NR.delete();//delete
+        NR.delete();//delete?
 
         HRManager hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, "04-06-2024", null, "Full", 18, "1111");
         Network network = Network.createNewNetwork(hrm);
@@ -26,6 +26,7 @@ public class init {
             Branch branch = hrm.addBranch("Beer Sheva", "Beer Sheva", null);
             BranchManager bm = hrm.addBranchManager(222222222, "Tomer Cohen", "2222222222", 50,"04-06-2024", null, "Half", 18, branch, "2222");
             List<Role> roleList = Network.getNetwork().getRoles();
+            roleList.remove(Network.getNetwork().getRole("driver"));
             List<Role> oneRole = new ArrayList<>();
             oneRole.add(roleList.get(1));
             EmployeeDao GeneralDao = new GeneralEmployeeDao();

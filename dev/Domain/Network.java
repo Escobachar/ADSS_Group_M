@@ -205,11 +205,9 @@ public class Network {
         return count == 7;
     }
     public static boolean CheckDriverLicenseTypes(String typesString) {
-        for(int i=0;i<typesString.length();i++)
-            if(i%2==1)
-                if(typesString.charAt(i)!=',')
-                    return false;
-        return true;
+        if(typesString.isEmpty())
+            return false;
+        return typesString.charAt(typesString.length() - 1) != ',';
     }
 
     public static Branch lookForNewBranch(Network network){
