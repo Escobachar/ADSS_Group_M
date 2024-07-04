@@ -1,27 +1,27 @@
 package Server;
 
-import DataLayer.*;
+import DataLayer.IMP.*;
+import DataLayer.interfaces.EmployeeDao;
+import DataLayer.interfaces.NetworkRepository;
 import Domain.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class init {
     public static Network init(boolean init) {
 
         NetworkRepository NR = new NetworkRepositoryImp();
-        NR.delete();
+        NR.delete();//delete
 
         HRManager hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, "04-06-2024", null, "Full", 18, "1111");
         Network network = Network.createNewNetwork(hrm);
-        Network.getNetwork().addHRM(hrm);
         List<String> GeneralEmployeeAccess = new ArrayList<>();
         network.addRole(new Role("cashier", GeneralEmployeeAccess));
         network.addRole(new Role("storekeeper", GeneralEmployeeAccess));
         List<String> DriverAccess = new ArrayList<>();
-        DriverAccess.add("ShowAviStoreKeeper");
         network.addRole(new Role("driver", DriverAccess));
+        hrm.addBranch("", "", null);
         if (init) {
             Branch branch = hrm.addBranch("Beer Sheva", "Beer Sheva", null);
             BranchManager bm = hrm.addBranchManager(222222222, "Tomer Cohen", "2222222222", 50,"04-06-2024", null, "Half", 18, branch, "2222");
@@ -32,7 +32,7 @@ public class init {
             EmployeeDao DriverDao = new DriverDao();
             EmployeeDao BranchManagerDao = new BranchManagerDao();
             EmployeeDao HRMDao = new HRManagerDao();
-            hrm.addGeneralEmployee(444444444, "Shelly atanelov", "9999995555", 35,"05-06-2024",null,"Full",18 , roleList, false, branch,"4444" );
+            hrm.addGeneralEmployee(444444444, "Shelly atanelov", "9999995555", 35,"05-06-2024",null,"Full",18 , oneRole, false, branch,"4444" );
             hrm.addGeneralEmployee(333333333, "Shahar Bar", "9999999999", 50,"04-06-2024",null,"Half",18 , roleList, true, branch,"3333");
             List<String> licenseTypes = new ArrayList<>();
             licenseTypes.add("A");
@@ -40,6 +40,7 @@ public class init {
             hrm.addDriver(555555555, "Illy Hason", "9999999999", 35,"05-06-2024",null,"Full",18 , branch,"5555",1234567, licenseTypes);
 
 
+            /*
             GeneralEmployee shelly = (GeneralEmployee)GeneralDao.read(444444444);
             System.out.println(shelly.getName());
             shelly.setSalary(50);
@@ -79,6 +80,8 @@ public class init {
             DriverDao.update(Illy);
             Illy = (Driver)DriverDao.read(555555555);
             System.out.println("update was good? :"+ (Illy.getDriverLicenseTypes().get(0).equals("C")));
+*/
+
 
         }
 

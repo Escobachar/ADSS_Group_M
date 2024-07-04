@@ -1,10 +1,13 @@
-package DataLayer;
+package DataLayer.IMP;
 
 
 import java.sql.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
+import DataLayer.interfaces.EmployeeDao;
+import DataLayer.interfaces.ShiftRequestDao;
 import Server.Utility;
 import Domain.GeneralEmployee;
 import Domain.Employee;

@@ -1,10 +1,8 @@
-package DataLayer;
+package DataLayer.IMP;
 
+import DataLayer.interfaces.*;
 import Domain.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.stream.*;
 import java.util.List;
 
@@ -16,7 +14,7 @@ public class BranchRepositoryImp implements BranchRepository {
     private EmployeeDao generalEmployeeDao = new GeneralEmployeeDao();
     private RoleOfShiftsDao roleOfShiftsDao = new RoleOfShiftsDaoImp();
     private ShiftAvailabilityDao shiftAvailabilityDao = new ShiftAvailabilityDaoImp();
-    private EmployeeShiftsDao employeeShiftsDao = new EmployeeShiftsImp();
+    private EmployeeShiftsDao employeeShiftsDao = new EmployeeShiftsDaoImp();
     private HistoryOfEmployeesShiftsDao historyOfEmployeesShiftsDao = new HistoryOfEmployeesShiftsDaoImp();
     @Override
     public void create(Branch branch) {
@@ -25,7 +23,7 @@ public class BranchRepositoryImp implements BranchRepository {
         String branchName = branch.getBranchName();
         roleOfShiftsDao.create(branchName,branch.getRolesOfShifts());
         shiftAvailabilityDao.create(branchName,branch.getShiftsAvailability());
-        historyOfEmployeesShiftsDao.create(branchName, branch.getHistoryEmployeesShifts());
+        historyOfEmployeesShiftsDao.create(branchName,branch.getHistoryEmployeesShifts() );
         employeeShiftsDao.create(branchName,branch.getEmployeesShifts());
     }
     private void createList(Branch branch) {

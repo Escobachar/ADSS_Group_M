@@ -1,8 +1,9 @@
-package DataLayer;
+package DataLayer.IMP;
 
+import DataLayer.interfaces.BranchDao;
+import DataLayer.interfaces.EmployeeDao;
 import Domain.BranchManager;
 import Domain.Employee;
-import Domain.HRManager;
 import Domain.Network;
 import Server.Utility;
 
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class BranchManagerDao implements EmployeeDao {
+    private static BranchDao branchDao = new BranchDaoImp();
     @Override
     public void create(Employee emp) {
         BranchManager bm = (BranchManager) emp;
@@ -32,7 +34,11 @@ public class BranchManagerDao implements EmployeeDao {
             prepare.setString(10, bm.getPassword());
 
             prepare.executeUpdate();
-            System.out.println("BranchManager has been added.");
+            System.out.println("BranchManager has been added to BranchManager table.");
+
+            //update into Branch table
+            branchDao.update( bm.getID(), bm.getBranch().getBranchName());
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {

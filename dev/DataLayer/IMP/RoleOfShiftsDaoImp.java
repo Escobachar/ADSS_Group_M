@@ -1,6 +1,6 @@
-package DataLayer;
+package DataLayer.IMP;
 
-import Domain.GeneralEmployee;
+import DataLayer.interfaces.RoleOfShiftsDao;
 import Domain.Network;
 import Domain.Role;
 import Server.Utility;
@@ -10,10 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
-public class RoleOfShiftsDaoImp implements RoleOfShiftsDao{
+public class RoleOfShiftsDaoImp implements RoleOfShiftsDao {
     @Override
     public void create(String branchName, HashMap<Role,Integer[][]> roleOfShifts){
         Connection connection = Utility.toConnect();

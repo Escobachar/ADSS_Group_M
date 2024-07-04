@@ -11,6 +11,7 @@ public class Driver extends GeneralEmployee {
         List<Role> role = new LinkedList<>();
         role.add(Network.getNetwork().getRole("driver"));
         createConstuctor(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays,role, false, branch, password);
+        this.getAccess().add("ShowAviStoreKeeper");
         this.driverLicense=driverLicense;
         this.driverLicenseTypes=driverLicenseTypes;
     }

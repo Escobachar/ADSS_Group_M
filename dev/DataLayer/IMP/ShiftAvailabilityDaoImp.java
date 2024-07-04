@@ -1,5 +1,6 @@
-package DataLayer;
+package DataLayer.IMP;
 
+import DataLayer.interfaces.ShiftAvailabilityDao;
 import Domain.GeneralEmployee;
 import Domain.Network;
 import Domain.Role;

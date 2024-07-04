@@ -1,21 +1,21 @@
-package DataLayer;
+package DataLayer.IMP;
 
+import DataLayer.interfaces.EmployeeDao;
 import Domain.*;
 import Server.Utility;
 import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HRManagerDao implements EmployeeDao{
+public class HRManagerDao implements EmployeeDao {
     @Override
     public void create(Employee emp) {
         HRManager hrm = (HRManager) emp;
         Connection connection = Utility.toConnect();
-        String query = "INSERT INTO GeneralEmployee(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO HRManager(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setInt(1, hrm.getID());
@@ -67,13 +67,11 @@ public class HRManagerDao implements EmployeeDao{
         Utility.Close(connection);
         return hrm;
     }
-
     @Override
     public void update(Employee emp){
         delete(emp.getID());
         create(emp);
     }
-
     @Override
     public void delete(int ID) {
         Connection connection = Utility.toConnect();
@@ -95,6 +93,33 @@ public class HRManagerDao implements EmployeeDao{
 
     @Override
     public List<Employee> readAll(String branchName) {
-        return null;
-    }
+        List<Employee> theHRManager = new ArrayList<>();
+        Connection connection = Utility.toConnect();
+        String query = "SELECT * FROM HRManager";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("ID");
+                    String name = resultSet.getString("name");
+                    String bankAccountDetails = resultSet.getString("bankAccountDetails");
+                    int salary = resultSet.getInt("salary");
+                    String startOfEmployment = resultSet.getString("startOfEmployment");
+                    String endOfEmployment = resultSet.getString("endOfEmployment");
+                    String partOfJob = resultSet.getString("partOfJob");
+                    int vacationsDays = resultSet.getInt("vacationsDays");
+                    String password = resultSet.getString("password");
+
+                    theHRManager.add(new HRManager(id, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays, password));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        Utility.Close(connection);
+        return theHRManager;
+
+                }
 }

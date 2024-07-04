@@ -1,8 +1,6 @@
-package DataLayer;
+package DataLayer.interfaces;
 
 import Domain.Branch;
-
-import java.util.List;
 
 public interface BranchRepository {
     void create(Branch branch);

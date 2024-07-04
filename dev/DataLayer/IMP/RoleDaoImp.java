@@ -1,5 +1,6 @@
-package DataLayer;
+package DataLayer.IMP;
 
+import DataLayer.interfaces.RoleDao;
 import Domain.Role;
 import Server.Utility;
 
@@ -9,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class RoleDaoImp implements RoleDao{
+public class RoleDaoImp implements RoleDao {
 
     @Override
     public void create(Role role) {
@@ -22,7 +23,7 @@ public class RoleDaoImp implements RoleDao{
                 prepare.setString(2, access);
                 prepare.executeUpdate();
             }
-            System.out.println("Role" +role.getRoleName() + "has been added.");
+            System.out.println("Role " +role.getRoleName() + " has been added.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -77,6 +78,29 @@ public class RoleDaoImp implements RoleDao{
             System.out.println(e.getMessage());
         }
         Utility.Close(connection);
+    }
+    @Override
+    public List<Role> readAll(){
+        List<Role> roles = new ArrayList<>();
+        List<String> accesses;
+
+        accesses = new ArrayList<String>();
+        Connection connection = Utility.toConnect();
+        String query = "SELECT DISTINCT branchName FROM Role";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    roles.add(read(resultSet.getString("branchName")));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        Utility.Close(connection);
+        return roles;
     }
 
 }

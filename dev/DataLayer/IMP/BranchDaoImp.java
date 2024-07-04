@@ -1,17 +1,20 @@
-package DataLayer;
+package DataLayer.IMP;
 
+import DataLayer.interfaces.BranchDao;
+import DataLayer.interfaces.EmployeeDao;
 import Domain.Branch;
 import Domain.BranchManager;
-import Domain.HRManager;
 import Server.Utility;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BranchDaoImp implements BranchDao {
-    EmployeeDao BranchManagerDao = new BranchManagerDao();
+    private static EmployeeDao BranchManagerDao = new BranchManagerDao();
     @Override
     public void create(Branch branch) {
         Connection connection = Utility.toConnect();
@@ -20,7 +23,10 @@ public class BranchDaoImp implements BranchDao {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setString(1, branch.getBranchName());
             prepare.setString(2, branch.getLocation());
-            prepare.setInt(3, branch.getBranchManager().getID());
+            if(branch.getBranchManager()!=null)
+                prepare.setInt(3, branch.getBranchManager().getID());
+            else
+                prepare.setInt(3, 0);
             prepare.executeUpdate();
             System.out.println("Branch has been added to Branch.");
         } catch (SQLException e) {
@@ -79,4 +85,29 @@ public class BranchDaoImp implements BranchDao {
         }
         Utility.Close(connection);
     }
+
+    @Override
+    public List<String> readAll() {
+        List<String> branchNames = new ArrayList<String>();
+        Connection connection = Utility.toConnect();
+        String query = "SELECT branchName FROM Branch";
+        try{
+            PreparedStatement statement = connection.prepareStatement(query);
+            try (ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()) {
+                    String s = resultSet.getString("branchName");
+                    if(!s.equals(""))
+                        branchNames.add(s);
+                }
+            }catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        Utility.Close(connection);
+        return branchNames;
+    }
+
+
 }

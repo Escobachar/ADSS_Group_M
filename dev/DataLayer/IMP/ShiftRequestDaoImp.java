@@ -1,6 +1,6 @@
-package DataLayer;
+package DataLayer.IMP;
 
-import Domain.HRManager;
+import DataLayer.interfaces.ShiftRequestDao;
 import Domain.Network;
 import Server.Utility;
 
@@ -8,15 +8,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 public class ShiftRequestDaoImp implements ShiftRequestDao {
 
     @Override
     public void create(boolean[][] shifts, int ID) {
         Connection connection = Utility.toConnect();
-        for (int i = 1; i <= Network.days; i++)
-            for (int j = 0; j < Network.shifts; j++)
+        for(int i=0;i<Network.shifts;i++)
+            for(int j=0;j<Network.days;j++)
                 if (shifts[i][j]) {
                     String query = "INSERT INTO ShiftRequests(ID,shift,day) VALUES(?, ?, ?)";
                     try {
@@ -66,6 +65,27 @@ public class ShiftRequestDaoImp implements ShiftRequestDao {
         delete(ID);
         create(shifts, ID);
     }
+
+    @Override
+    public void update(boolean shifts, int ID, int shift, int day) {
+        Connection connection = Utility.toConnect();
+        String query = "UPDATE FROM ShiftRequests WHERE ID = ? AND shift = ? AND day = ?";
+        try {
+            PreparedStatement prepare = connection.prepareStatement(query);
+            prepare.setInt(1, ID);
+            prepare.setInt(2, shift);
+            prepare.setInt(3, day);
+            int deleteRows = prepare.executeUpdate();
+            if (deleteRows > 0)
+                System.out.println("ShiftRequest has been deleted from ShiftRequests table.");
+            else
+                System.out.println("No ShiftRequest found with ID: " + ID);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        Utility.Close(connection);
+    }
+
 
     @Override
     public void delete(int ID) {

@@ -35,9 +35,13 @@ abstract public class Employee {
     public Set<String> getAccess(){
         return access;
     }
+    public void setAccess(Set<String> access) {
+        this.access=access;
+    }
     public String getPassword(){
         return password;
     }
+
     public abstract void setBranch(Branch branch);
     public abstract Branch getBranch();
     public Integer getID(){return  ID;}

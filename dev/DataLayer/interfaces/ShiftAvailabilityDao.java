@@ -1,4 +1,4 @@
-package DataLayer;
+package DataLayer.interfaces;
 
 import Domain.GeneralEmployee;
 import Domain.Role;
