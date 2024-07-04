@@ -74,7 +74,6 @@ public class ShiftAvailabilityDaoImp implements ShiftAvailabilityDao {
         }
         Utility.Close(connection);
         return shiftsAvailability;
-
     }
     public void update(String branchName, HashMap<Role,Set<GeneralEmployee>[][]> newShiftAvailability){
         delete(branchName);

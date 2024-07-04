@@ -7,14 +7,15 @@ import Server.Utility;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
 public class HistoryOfEmployeesShiftsDaoImp implements HistoryOfEmployeesShiftsDao {
-    public void create(String branchName, List<HashMap<Integer, Role>[][]> historyEmployeesShifts){
+    public void create(String branchName, HashMap<String, HashMap<Integer,Role>[][]> historyEmployeesShifts){
         Connection connection = Utility.toConnect();
-        String query = "INSERT INTO HistoryOfEmployeesShifts(branchNane, empID, roleName, day, shift, dateOfWeek) VALUES (?,?,?,?,?)";
+        String query = "INSERT INTO HistoryOfEmployeesShifts(branchNane, empID, roleName, day, shift, dateOfWeek) VALUES (?,?,?,?,?,?)";
         try {
             PreparedStatement prepare = connection.prepareStatement(query);
             for(String dateOfWeek : historyEmployeesShifts.keySet()){
@@ -33,15 +34,43 @@ public class HistoryOfEmployeesShiftsDaoImp implements HistoryOfEmployeesShiftsD
                     }
                 }
             }
-
         }catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         Utility.Close(connection);
     }
 
-    public List<HashMap<Integer,Role>[][]> read(String branchName){
-        return null;
+    public HashMap<String, HashMap<Integer,Role>[][]> read(String branchName){
+        HashMap<String, HashMap<Integer,Role>[][]> historyEmployeesShifts = new HashMap<>();
+        HashMap<Integer,Role>[][] employeesShifts = new HashMap[Network.shifts][Network.days];
+        for(int i=0;i<Network.shifts;i++)
+            for(int j=0;j<Network.days;j++)
+                employeesShifts[i][j]=new HashMap<>();
+
+        Connection connection = Utility.toConnect();
+        String query = "SELECT * FROM HistoryOfEmployeesShifts WHERE branchName = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, branchName);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    String roleName = resultSet.getString("role");
+                    int day = resultSet.getInt("day");
+                    int shift = resultSet.getInt("shift");
+                    int empID = resultSet.getInt("empID");
+                    String dateOfWeek = resultSet.getString("dateOfWeek");
+                    employeesShifts[shift][day].put(empID,Network.getNetwork().getRole(roleName));
+                    historyEmployeesShifts.put(dateOfWeek,employeesShifts);
+                }
+            }catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        Utility.Close(connection);
+        return historyEmployeesShifts;
     }
 
     public void update(String branchName, HashMap<String, HashMap<Integer,Role>[][]> historyEmployeesShifts){

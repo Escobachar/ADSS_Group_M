@@ -67,6 +67,18 @@ public class BranchDaoImp implements BranchDao {
         create(branch);
     }
 
+    public void update(int BMID,String branchName){
+        Connection connection = Utility.toConnect();
+        String query = "UPDATE Branch SET BMID = ? WHERE branchName = ?";;
+        try {
+            PreparedStatement prepare = connection.prepareStatement(query);
+            prepare.setInt(1, BMID);
+            prepare.setString(2, branchName);
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     @Override
     public void delete(String branchName) {
         Connection connection = Utility.toConnect();
