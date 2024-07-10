@@ -1,11 +1,10 @@
 package suppliers.DataAccessLayer.DAO;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
 import suppliers.DataAccessLayer.DataBase;
 import suppliers.DomainLayer.Category;
@@ -14,11 +13,10 @@ public class CategoriesDAO {
     private final String colNmae = "name";
     private final String colId = "id";
     private final String tableName = "Categories";
-    private Connection conn = null;
     public CategoriesDAO() {
-        this.conn = DataBase.getConnection();
     }
     public HashMap<String, Integer> getAllCategories() throws SQLException {
+        Connection conn = DataBase.getConnection();
         HashMap<String, Integer> categories = new HashMap<>();
             Statement stmt = conn.createStatement();
             String query = "SELECT * FROM " + tableName;
@@ -27,34 +25,44 @@ public class CategoriesDAO {
                 Category category = new Category(res.getString(colNmae), res.getInt(colId));
                 categories.put(category.getCategoryName(), category.getCategoryId());
             }
+        DataBase.closeConnection();
         return categories;
     }
     public void addCategory(Category category) throws SQLException {
-        Statement stmt = conn.createStatement();
-        String query = "INSERT INTO " + tableName + " (" + colNmae + ", " + colId + ") VALUES ('" + category.getCategoryName() + "', " + category.getCategoryId() + ")";
-        stmt.executeUpdate(query);
+        Connection conn = DataBase.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO " + tableName + " (" + colNmae + ", " + colId + ") VALUES (?, ?)");
+        stmt.setString(1, category.getCategoryName());
+        stmt.setInt(2, category.getCategoryId());
+        stmt.executeUpdate();
+        DataBase.closeConnection();
     }
     public void deleteCategory(Category category) throws SQLException {
-        Statement stmt = conn.createStatement();
-        String query = "DELETE FROM " + tableName + " WHERE " + colId + " = " + category.getCategoryId();
-        stmt.executeUpdate(query);
+        Connection conn = DataBase.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE " + colId + " = ?");
+        stmt.setInt(1,category.getCategoryId());
+        stmt.executeUpdate();
+        DataBase.closeConnection();
     }
     public Category getCategoryById(int id) throws SQLException {
-        Statement stmt = conn.createStatement();
-        String query = "SELECT * FROM " + tableName + " WHERE " + colId + " = " + id;
-        ResultSet res = stmt.executeQuery(query);
+        Connection conn = DataBase.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE " + colId + " = ?");
+        stmt.setInt(1, id);
+        ResultSet res = stmt.executeQuery();
         if (res.next()) {
             return new Category(res.getString(colNmae), res.getInt(colId));
         }
+        DataBase.closeConnection();
         return null;
     }
     public Category getCategoryByName(String name) throws SQLException {
-        Statement stmt = conn.createStatement();
-        String query = "SELECT * FROM " + tableName + " WHERE " + colNmae + " = '" + name + "'";
-        ResultSet res = stmt.executeQuery(query);
+        Connection conn = DataBase.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE " + colNmae + " = ?");
+        stmt.setString(1, name);
+        ResultSet res = stmt.executeQuery();
         if (res.next()) {
             return new Category(res.getString(colNmae), res.getInt(colId));
         }
+        DataBase.closeConnection();
         return null;
     }
 }
