@@ -32,9 +32,6 @@ public final class DataBase {
             String url = "jdbc:sqlite:Suppliers.db";
             // create a connection to the database
             this.conn = DriverManager.getConnection(url);
-
-            System.out.println("Connection to SQLite has been established.");
-            System.out.println(conn.getMetaData().getURL());
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
