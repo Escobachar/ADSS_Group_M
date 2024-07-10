@@ -14,7 +14,7 @@ import java.text.ParseException;
 
 public class SuppliersFacade {
     private HashMap<Integer, Supplier> suppliers;
-    private static SuppliersFacade instance;
+    private static SuppliersFacade instance = null;
     private HashMap<String, Integer> categories;
     private SuppliersDAO suppliersDAO;
     private CategoriesDAO categoriesDAO;

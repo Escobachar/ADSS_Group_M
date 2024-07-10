@@ -13,7 +13,7 @@ import suppliers.DomainLayer.SuppliersFacade;
 public class OrdersService {
     private OrdersFacade of;
     private SuppliersFacade sf;
-    private static OrdersService instance;
+    private static OrdersService instance = null;
 
     private OrdersService() {
         try {
@@ -147,7 +147,10 @@ public class OrdersService {
     }
 
     public void retrieveData() {
+        
         try{
+            if(of == null)
+                of = OrdersFacade.getInstance();
             of.retrieveData();
         }
         catch (Exception e){
