@@ -45,6 +45,15 @@ public final class DataBase {
             System.out.println(e.getMessage());
         }
     }
+    public static void closeConnection() {
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }   
 
     public static void deleteAll() throws SQLException {
         getConnection();
