@@ -361,10 +361,11 @@ public class Main {
                     System.out.println("Invalid amount");
                     return;
                 }
+
                 items.put(catalogNumber, amount);
             }
         }
-        os.addOrder(supplierId, deliveryDate, items, constDeliveryDays);
+        System.out.println(os.addOrder(supplierId, deliveryDate, items, constDeliveryDays));
     }
 
     public static void suppliers() {

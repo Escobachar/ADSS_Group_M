@@ -6,8 +6,7 @@ import java.sql.SQLException;
 
 public final class DataBase {
     private static DataBase dataBase = null;
-    private static final String url = "jdbc:sqlite:C:\\\\Users\\GoomeGum\\Desktop\\omer\\semester D\\nitutz\\ADSS_Group_M\\Suppliers.db";
-
+    private static final String url = "jdbc:sqlite:Suppliers.db";
     public static Connection conn = null;
     private DataBase() {
         connectToDatabase();
@@ -21,6 +20,14 @@ public final class DataBase {
         catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
+        }
+    }
+
+    public static void closeConnection(){
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

@@ -13,21 +13,21 @@ import suppliers.DomainLayer.*;
 
 public class OrderDAO {
 
-        private Connection conn;
         private OrderDeliveryDayDAO orderDeliveryDaysDAO;
         private OrderItemDAO orderItemsDAO;
         private SuppliersDAO suppliersDAO;
         public OrderDAO() throws SQLException {
-            conn = DataBase.getConnection();
             orderDeliveryDaysDAO = new OrderDeliveryDayDAO();
             orderItemsDAO = new OrderItemDAO();
             suppliersDAO = new SuppliersDAO();
         }
 
     public HashMap<Integer, Order> getAllOrders() throws SQLException, ParseException {
+        Connection conn = DataBase.getConnection();
         HashMap<Integer, Order> orders = new HashMap<>();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM Orders");
+        DataBase.closeConnection();
         while (rs.next()) {
             Order order = createOrder(rs);
             orders.put(order.getOrderId(), order);
@@ -36,9 +36,11 @@ public class OrderDAO {
     }
 
     public Order getOrderById(int id) throws SQLException, ParseException {
+        Connection conn = DataBase.getConnection();
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Orders WHERE id = ?");
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
+        DataBase.closeConnection();
         if (rs.next()) {
             return createOrder(rs);
         } else {
@@ -47,6 +49,7 @@ public class OrderDAO {
     }
 
     public void addOrder(Order order) throws SQLException {
+        Connection conn = DataBase.getConnection();
         PreparedStatement stmt = conn.prepareStatement(
                 "INSERT INTO Orders (id, SupplierId, creationDate, deliveryDate, isConst) VALUES (?, ?, ?, ?, ?)");
         stmt.setInt(1, order.getOrderId());
@@ -56,15 +59,21 @@ public class OrderDAO {
         stmt.setString(4, dateFormat.format(order.getDeliveryDate()));
         if (order.getConstDeliveryDays().size() > 0) {
             stmt.setInt(5, 1);
-            orderDeliveryDaysDAO.addOrderDeliveryDays(order.getOrderId(), order.getConstDeliveryDays());
         } else {
             stmt.setInt(5, 0);
         }
-        orderItemsDAO.addOrderItems(order.getOrderId(), order.getSupplierId(), order.getItems());
         stmt.executeUpdate();
+        DataBase.closeConnection();
+        if (order.getConstDeliveryDays().size() > 0) {
+            orderDeliveryDaysDAO.addOrderDeliveryDays(order.getOrderId(), order.getConstDeliveryDays());
+        }
+        orderItemsDAO.addOrderItems(order.getOrderId(), order.getSupplierId(), order.getItems());
+        
+        
     }
 
     public void updateOrder(Order order) throws SQLException {
+        Connection conn = DataBase.getConnection();
         PreparedStatement stmt = conn.prepareStatement(
                 "UPDATE Orders SET SupplierId = ?, creationDate = ?, deliveryDate = ?, isConst = ? WHERE id = ?");
         stmt.setInt(1, order.getSupplierId());
@@ -78,12 +87,15 @@ public class OrderDAO {
         }
         stmt.setInt(5, order.getOrderId());
         stmt.executeUpdate();
+        DataBase.closeConnection();
     }
 
     public void deleteOrder(int id) throws SQLException {
+        Connection conn = DataBase.getConnection();
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Orders WHERE id = ?");
         stmt.setInt(1, id);
         stmt.executeUpdate();
+        DataBase.closeConnection();
         orderDeliveryDaysDAO.deleteOrderDeliveryDays(id);
         orderItemsDAO.deleteOrderItems(id);
     }
