@@ -44,12 +44,25 @@ public class SuppliersDAO {
     }
 
     public void addSupplier(Supplier supplier) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO " + tableName + " (" + colSupplierId + ", " + colSupplierName + ", "
+                + colSupplierBankAccount + ", " + colSupplierPaymantOption + ", " + colIsDelivering + ", "
+                + colSupplierAddress + ") VALUES (?,?,?,?,?,?)");
         String query = "INSERT INTO " + tableName + " (" + colSupplierId + ", " + colSupplierName + ", "
                 + colSupplierBankAccount + ", " + colSupplierPaymantOption + ", " + colIsDelivering + ", "
                 + colSupplierAddress + ") VALUES (" + supplier.getId() + ", '" + supplier.getName() + "', '"
                 + supplier.getBankAccount() + "', '" + supplier.getPaymentMethod() + "', " + supplier.isDelivering()
                 + ", '" + supplier.getAddress() + "')";
-        conn.createStatement().executeUpdate(query);
+        stmt.setInt(1, supplier.getId());
+        stmt.setString(2, supplier.getName());
+        stmt.setString(3, supplier.getBankAccount());
+        stmt.setString(4, supplier.getPaymentMethod());
+        if (supplier.isDelivering()) {
+            stmt.setInt(5, 1);
+        } else {
+            stmt.setInt(5, 0);
+        }
+        stmt.setString(6, supplier.getAddress());
+        stmt.executeUpdate();
         int id = supplier.getId();
         List<Day> dayDeliveryDays = new ArrayList<>();
         for (Integer day:supplier.getDeliveryDays()) {
@@ -71,8 +84,9 @@ public class SuppliersDAO {
     }
 
     public void removeSupplier(int supplierId) throws SQLException {
-        String query = "DELETE FROM " + tableName + " WHERE " + colSupplierId + " = " + supplierId;
-        conn.createStatement().executeUpdate(query);
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE " + colSupplierId +"= ?");
+        stmt.setInt(1, supplierId);
+        stmt.executeUpdate();
         supplierDeliveryDaysDAO.deleteAll(supplierId);
         supplierContactDAO.deleteAll(supplierId);
         supplierCategoriesDAO.deleteSupplierCategories(supplierId);
@@ -83,10 +97,11 @@ public class SuppliersDAO {
     public Supplier getSupplierById(int supplierId) throws SQLException {
         HashMap<String, String> contactsMap = getSupplierContacts(supplierId);
         List<Integer> deliveryDaysInt = getSupplierDeliveryDays(supplierId);
-        HashMap<Category, HashMap<Integer, Product>> categories = getSupplierCategories(supplierId);    
-        
-        String query = "SELECT * FROM " + tableName + " WHERE " + colSupplierId + " = " + supplierId;
-        ResultSet result = conn.createStatement().executeQuery(query);
+        HashMap<Category, HashMap<Integer, Product>> categories = getSupplierCategories(supplierId);
+
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Suppliers WHERE id = ?");
+        stmt.setInt(1, supplierId);
+        ResultSet result = stmt.executeQuery();
         if (result.next()) {
             return new Supplier(
                     result.getString(colSupplierName),

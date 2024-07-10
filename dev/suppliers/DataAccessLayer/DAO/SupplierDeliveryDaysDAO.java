@@ -1,8 +1,10 @@
 package suppliers.DataAccessLayer.DAO;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import suppliers.DataAccessLayer.DataBase;
@@ -34,8 +36,10 @@ public class SupplierDeliveryDaysDAO {
 
     public void insert(int supplierId, Day deliveryDay) throws SQLException {
         int day = DayToInt(deliveryDay);
-        String query = "INSERT INTO " + tableName + " VALUES (" + supplierId + ", " +  day + ")";
-        conn.createStatement().executeUpdate(query);
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO " + tableName + " VALUES (?,?)");
+        stmt.setInt(1, supplierId);
+        stmt.setInt(2, day);
+        stmt.executeUpdate();
     }
     
     public void insertAll(int supplierId, List<Day> deliveryDays) throws SQLException {
@@ -51,18 +55,22 @@ public class SupplierDeliveryDaysDAO {
         }    }
 
     public void delete(int supplierId, int deliveryDay) throws SQLException {
-        String query = "DELETE FROM " + tableName + " WHERE " + colSupplierId + " = " + supplierId + " AND " + colDeliveryDay + " = " + deliveryDay;
-        conn.createStatement().executeUpdate(query);
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE " + colSupplierId + " = ? AND " + colDeliveryDay + " = ?");
+        stmt.setInt(1, supplierId);
+        stmt.setInt(2, deliveryDay);
+        stmt.executeUpdate();
     }
 
     public void deleteAll(int supplierId) throws SQLException {
-        String query = "DELETE FROM " + tableName + " WHERE " + colSupplierId + " = " + supplierId;
-        conn.createStatement().executeUpdate(query);
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE " + colSupplierId + " = ?");
+        stmt.setInt(1, supplierId);
+        stmt.executeUpdate();
     }
     
     public List<Day> select(int supplierId) throws SQLException {
-        String query = "SELECT * FROM " + tableName + " WHERE " + colSupplierId + " = " + supplierId;
-        ResultSet result = conn.createStatement().executeQuery(query);
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE " + colSupplierId + " = ?");
+        stmt.setInt(1, supplierId);
+        ResultSet result = stmt.executeQuery();
         List<Day> days = new ArrayList<>();
         while (result.next()) {
             days.add(DaysOfTheWeek.intToDay(result.getInt(colDeliveryDay)));
