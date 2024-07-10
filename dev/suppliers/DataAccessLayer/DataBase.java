@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public final class DataBase {
     private static DataBase dataBase = null;
-    private static final String url = "jdbc:sqlite:C:\\\\Users\\97254\\ADSS_Group_M_2\\Suppliers.db";
+    private static final String url = "jdbc:sqlite:C:\\\\Users\\GoomeGum\\Desktop\\omer\\semester D\\nitutz\\ADSS_Group_M\\Suppliers.db";
 
     public static Connection conn = null;
     private DataBase() {
