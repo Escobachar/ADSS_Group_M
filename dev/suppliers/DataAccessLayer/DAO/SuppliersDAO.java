@@ -5,9 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
 import suppliers.DataAccessLayer.DAO.SupplierContactDAO.DataTypeSupplierContact;
 import suppliers.DataAccessLayer.DataBase;
 import suppliers.DaysOfTheWeek;
@@ -59,11 +58,16 @@ public class SuppliersDAO {
         if(!dayDeliveryDays.isEmpty())
             supplierDeliveryDaysDAO.insertAll(id, dayDeliveryDays);
         List<Integer> categories = new ArrayList<>();
-        for (Category category:supplier.getCategories().keySet()) {
-            categories.add(category.getCategoryId());
+        List<Product> items = new ArrayList<>();
+        for (Map.Entry<Category, HashMap<Integer, Product>> categoriesItems:supplier.getCategories().entrySet()) {
+            categories.add(categoriesItems.getKey().getCategoryId());
+            for (Product product: categoriesItems.getValue().values()) {
+                items.add(product);
+            }
         }
         supplierCategoriesDAO.addAllSupplierCategory(id,categories);
         supplierContactDAO.insertAll(id,supplier.getContacts());
+        productsDAO.insertAllProducts(id, items);
     }
 
     public void removeSupplier(int supplierId) throws SQLException {

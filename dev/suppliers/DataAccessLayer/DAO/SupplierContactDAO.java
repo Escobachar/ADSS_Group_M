@@ -80,9 +80,6 @@ public class SupplierContactDAO {
     public List<DataTypeSupplierContact> select(int supplierId) throws SQLException {
         String query = "SELECT * FROM " + tableName + " WHERE " + colSupplierId + " = " + supplierId;
         var result = conn.createStatement().executeQuery(query);
-        if (!result.next()) {
-            throw new SQLException("No such supplier contact");
-        }
         List<DataTypeSupplierContact> list = new ArrayList<>();
         while (result.next()) {
             list.add(new DataTypeSupplierContact(result.getInt(colSupplierId), result.getString(colContactName),

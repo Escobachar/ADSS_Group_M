@@ -20,12 +20,19 @@ public class ProductsDiscountDAO {
     }
 
     public void addDiscountQuantity(int sid, int catalogNumber, DiscountQuantity discount) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO ProductsDiscount (SupplierId, catalogNum, amount, precentage) VALUES (?, ?, ?, ?)");
-        stmt.setInt(1, sid);
-        stmt.setInt(2, catalogNumber);
-        stmt.setInt(3, discount.getAmount());
-        stmt.setDouble(4, discount.getDiscountPercentage());
-        stmt.executeUpdate();
+        try {
+            System.out.println("start addDiscountQuantity ");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO ProductsDiscount (SupplierId, catalogNum, amount, precentage) VALUES (?, ?, ?, ?)");
+            stmt.setInt(1, sid);
+            stmt.setInt(2, catalogNumber);
+            stmt.setInt(3, discount.getAmount());
+            stmt.setDouble(4, discount.getDiscountPercentage());
+            stmt.executeUpdate();
+        }
+        catch (Exception e)
+        {
+            System.out.println("addDiscountQuantity "+ e.getMessage());
+        }
     }
 
     public void updateDiscountQuantity(int sid, int catalogNumber, DiscountQuantity discount) throws SQLException {

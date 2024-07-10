@@ -2,6 +2,8 @@ package suppliers.DataAccessLayer.DAO;
 
 import java.sql.*;
 import java.util.HashMap;
+import java.util.List;
+
 import suppliers.DataAccessLayer.DataBase;
 import suppliers.DomainLayer.*;
 
@@ -45,16 +47,27 @@ public class ProductsDAO {
     }
 
     public void addProduct(int sid, Product product) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO Products (SupplierId, catalogNum, CategoryId, name, price, ordersCount) VALUES (?, ?, ?, ?, ?, ?)");
-        stmt.setInt(1, sid);
-        stmt.setInt(2, product.getCatalogNumber());
-        stmt.setInt(3, product.getCategory().getCategoryId());
-        stmt.setString(4, product.getName());
-        stmt.setDouble(5, product.getPrice());
-        stmt.setInt(6, product.getOrdersCount());
-        stmt.executeUpdate();
-        productsDiscountDAO.addDiscountQuantity(sid, product.getCatalogNumber(), product.getDiscount());
+        try {
+            PreparedStatement stmt = conn.prepareStatement(
+                    "INSERT INTO Products (SupplierId, catalogNum, CategoryId, name, price, ordersCount) VALUES (?, ?, ?, ?, ?, ?)");
+            stmt.setInt(1, sid);
+            stmt.setInt(2, product.getCatalogNumber());
+            stmt.setInt(3, product.getCategory().getCategoryId());
+            stmt.setString(4, product.getName());
+            stmt.setDouble(5, product.getPrice());
+            stmt.setInt(6, product.getOrdersCount());
+            stmt.executeUpdate();
+            productsDiscountDAO.addDiscountQuantity(sid, product.getCatalogNumber(), product.getDiscount());
+        }catch (Exception e)
+        {
+            System.out.println("addProduct "+ e.getMessage());
+        }
+    }
+
+    public void insertAllProducts(int id, List<Product> products) throws SQLException {
+        for (Product product: products ) {
+            addProduct(id, product);
+        }
     }
 
     public void updateProduct(int sid, Product product) throws SQLException {

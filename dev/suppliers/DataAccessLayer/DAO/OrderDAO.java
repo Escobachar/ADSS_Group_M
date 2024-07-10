@@ -89,7 +89,7 @@ public class OrderDAO {
     }
 
         private Order createOrder(ResultSet rs) throws SQLException, ParseException {
-            int orderId = rs.getInt("orderId");
+            int orderId = rs.getInt("Id");
             int supplierId = rs.getInt("SupplierId");
             Supplier supplier = suppliersDAO.getSupplierById(supplierId);
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

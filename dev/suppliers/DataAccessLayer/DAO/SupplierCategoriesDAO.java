@@ -58,7 +58,7 @@ public class SupplierCategoriesDAO {
         String query = "DELETE FROM " + tableName + " WHERE " + colCategoryId + " = " + categoryId;
         stmt.executeUpdate(query);
     }
-    public int getCategoryByCategoryId(int id) throws SQLException {
+    public Integer getCategoryByCategoryId(int id) throws SQLException {
 
         Statement stmt = conn.createStatement();
         String query = "SELECT * FROM " + tableName + " WHERE " + colCategoryId + " = " + id;
@@ -66,16 +66,13 @@ public class SupplierCategoriesDAO {
         if (res.next()) {
             return res.getInt(colSupplierId);
         }
-        throw new SQLException("Category not found");
+        return null;
     }
     public List<Integer> getCategoryBySupplierId(int id) throws SQLException {
         List<Integer> categories = new ArrayList<>();
         Statement stmt = conn.createStatement();
         String query = "SELECT * FROM " + tableName + " WHERE " + colSupplierId + " = " + id;
         ResultSet res = stmt.executeQuery(query);
-        if (!res.next()) {
-            throw new SQLException("Category not found");
-        }
         while (res.next()) {
             categories.add(res.getInt(colCategoryId));
         }
