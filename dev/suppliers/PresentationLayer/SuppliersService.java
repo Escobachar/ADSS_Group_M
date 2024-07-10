@@ -9,7 +9,7 @@ import suppliers.DomainLayer.SuppliersFacade;
 public class SuppliersService {
     private SuppliersFacade sf;
 
-    private static SuppliersService instance;
+    private static SuppliersService instance = null;
 
     private SuppliersService() {
         try{

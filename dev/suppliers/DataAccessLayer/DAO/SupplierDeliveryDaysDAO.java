@@ -40,7 +40,7 @@ public class SupplierDeliveryDaysDAO {
         stmt.setInt(1, supplierId);
         stmt.setInt(2, day);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public void insertAll(int supplierId, List<Day> deliveryDays) throws SQLException {
@@ -63,7 +63,7 @@ public class SupplierDeliveryDaysDAO {
         stmt.setInt(1, supplierId);
         stmt.setInt(2, deliveryDay);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public void deleteAll(int supplierId) throws SQLException {
@@ -71,7 +71,7 @@ public class SupplierDeliveryDaysDAO {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE " + colSupplierId + " = ?");
         stmt.setInt(1, supplierId);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public List<Day> select(int supplierId) throws SQLException {
@@ -85,7 +85,7 @@ public class SupplierDeliveryDaysDAO {
             days.add(DaysOfTheWeek.intToDay(result.getInt(colDeliveryDay)));
         }
 
-        DataBase.closeConnection();
+        
         return days;
     }
 

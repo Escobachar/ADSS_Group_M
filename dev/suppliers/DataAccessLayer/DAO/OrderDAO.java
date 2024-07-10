@@ -32,7 +32,7 @@ public class OrderDAO {
             Order order = createOrder(rs);
             orders.put(order.getOrderId(), order);
         }
-        DataBase.closeConnection();
+        
         return orders;
     }
 
@@ -44,16 +44,16 @@ public class OrderDAO {
         
         if (rs.next()) {
             Order ord =  createOrder(rs);
-            DataBase.closeConnection();
+            
             return ord;
         } else {
-            DataBase.closeConnection();
+            
             return null;
         }
     }
 
     public void addOrder(Order order) throws SQLException {
-        DataBase.closeConnection();
+        
         Connection conn = DataBase.getConnection();
         PreparedStatement stmt = conn.prepareStatement(
                 "INSERT INTO Orders (id, SupplierId, creationDate, deliveryDate, isConst) VALUES (?, ?, ?, ?, ?)");
@@ -92,7 +92,7 @@ public class OrderDAO {
         }
         stmt.setInt(5, order.getOrderId());
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public void deleteOrder(int id) throws SQLException {
@@ -100,7 +100,7 @@ public class OrderDAO {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Orders WHERE id = ?");
         stmt.setInt(1, id);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
         orderDeliveryDaysDAO.deleteOrderDeliveryDays(id);
         orderItemsDAO.deleteOrderItems(id);
     }

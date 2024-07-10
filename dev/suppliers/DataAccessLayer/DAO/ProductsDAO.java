@@ -28,7 +28,7 @@ public class ProductsDAO {
             Product product = createProduct(rs);
             products.put(product.getCatalogNumber(), product);
         }
-        DataBase.closeConnection();
+
         return products;
     }
 
@@ -43,7 +43,7 @@ public class ProductsDAO {
             Product product = createProduct(rs);
             products.put(product.getCatalogNumber(), product);
         }
-        DataBase.closeConnection();
+        
         return products;
     }
 
@@ -59,7 +59,7 @@ public class ProductsDAO {
             stmt.setDouble(5, product.getPrice());
             stmt.setInt(6, product.getOrdersCount());
             stmt.executeUpdate();
-            DataBase.closeConnection();
+            
             productsDiscountDAO.addDiscountQuantity(sid, product.getCatalogNumber(), product.getDiscount());
         }catch (Exception e)
         {
@@ -84,7 +84,7 @@ public class ProductsDAO {
         stmt.setInt(5, sid);
         stmt.setInt(6, product.getCatalogNumber());
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public void deleteProduct(int sid, int catalogNumber) throws SQLException {
@@ -93,7 +93,7 @@ public class ProductsDAO {
         stmt.setInt(1, sid);
         stmt.setInt(2, catalogNumber);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
         productsDiscountDAO.deleteDiscountQuantity(sid, catalogNumber);
     }
 
@@ -103,7 +103,7 @@ public class ProductsDAO {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Products WHERE SupplierId = ?");
         stmt.setInt(1, sid);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
         for (Integer catalogNum : productHashMap.keySet()) {
             productsDiscountDAO.deleteDiscountQuantity(sid, catalogNum);
         }
@@ -118,7 +118,7 @@ public class ProductsDAO {
         ResultSet rs = stmt.executeQuery();
         
         Product prd =  createProduct(rs);
-        DataBase.closeConnection();
+        
         return prd;
     }
 

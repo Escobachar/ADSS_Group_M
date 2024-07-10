@@ -16,7 +16,7 @@ public class ProductsDiscountDAO {
         ResultSet rs = stmt.executeQuery();
         
         DiscountQuantity dq = DiscountQuantity.createDiscountQuantity(rs.getInt("catalogNum"), rs.getInt("amount"), rs.getDouble("precentage"));
-        DataBase.closeConnection();
+        
         return dq;
     }
 
@@ -30,7 +30,7 @@ public class ProductsDiscountDAO {
             stmt.setInt(3, discount.getAmount());
             stmt.setDouble(4, discount.getDiscountPercentage());
             stmt.executeUpdate();
-            DataBase.closeConnection();
+            
         }
         catch (Exception e)
         {
@@ -46,7 +46,7 @@ public class ProductsDiscountDAO {
         stmt.setInt(3, sid);
         stmt.setInt(4, catalogNumber);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public void deleteDiscountQuantity(int sid, int catalogNumber) throws SQLException {
@@ -55,6 +55,6 @@ public class ProductsDiscountDAO {
         stmt.setInt(1, sid);
         stmt.setInt(2, catalogNumber);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 }

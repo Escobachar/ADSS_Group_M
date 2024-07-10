@@ -25,7 +25,7 @@ public class CategoriesDAO {
                 Category category = new Category(res.getString(colNmae), res.getInt(colId));
                 categories.put(category.getCategoryName(), category.getCategoryId());
             }
-        DataBase.closeConnection();
+        
         return categories;
     }
     public void addCategory(Category category) throws SQLException {
@@ -34,14 +34,14 @@ public class CategoriesDAO {
         stmt.setString(1, category.getCategoryName());
         stmt.setInt(2, category.getCategoryId());
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
     public void deleteCategory(Category category) throws SQLException {
         Connection conn = DataBase.getConnection();
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE " + colId + " = ?");
         stmt.setInt(1,category.getCategoryId());
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
     public Category getCategoryById(int id) throws SQLException {
         Connection conn = DataBase.getConnection();
@@ -51,7 +51,7 @@ public class CategoriesDAO {
         if (res.next()) {
             return new Category(res.getString(colNmae), res.getInt(colId));
         }
-        DataBase.closeConnection();
+        
         return null;
     }
     public Category getCategoryByName(String name) throws SQLException {
@@ -62,7 +62,7 @@ public class CategoriesDAO {
         if (res.next()) {
             return new Category(res.getString(colNmae), res.getInt(colId));
         }
-        DataBase.closeConnection();
+        
         return null;
     }
 }

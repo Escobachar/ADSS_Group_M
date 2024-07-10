@@ -40,7 +40,7 @@ public class SupplierContactDAO {
         pstmt.setString(2, cName);
         pstmt.setString(3, cNum);
         pstmt.executeUpdate();
-        DataBase.closeConnection();
+        
 
     }
 
@@ -52,7 +52,7 @@ public class SupplierContactDAO {
             PreparedStatement pstmt = conn.prepareStatement(query);
             conn.createStatement().executeUpdate(query);
         }
-        DataBase.closeConnection();
+        
     }
 
     public void update(int supplierId, String contactName, String contactNum) throws SQLException {
@@ -63,7 +63,7 @@ public class SupplierContactDAO {
         pstmt.setString(2, contactNum);
         pstmt.setInt(3, supplierId);
         pstmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public void updateAll(int supplierId, HashMap<String, String> contacts) throws SQLException {
@@ -79,7 +79,7 @@ public class SupplierContactDAO {
                 .prepareStatement("DELETE FROM " + tableName + " WHERE " + colSupplierId + " = ?");
         pstmt.setInt(1, supplierId);
         pstmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public void delete(int supplierId, String contactName) throws SQLException {
@@ -89,7 +89,7 @@ public class SupplierContactDAO {
         pstmt.setInt(1, supplierId);
         pstmt.setString(2, contactName);
         pstmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public List<DataTypeSupplierContact> select(int supplierId) throws SQLException {
@@ -104,7 +104,7 @@ public class SupplierContactDAO {
             list.add(new DataTypeSupplierContact(result.getInt(colSupplierId), result.getString(colContactName),
                     result.getString(colContactNum)));
         }
-        DataBase.closeConnection();
+        
         return list;
     }
 
@@ -117,7 +117,7 @@ public class SupplierContactDAO {
             list.add(new DataTypeSupplierContact(result.getInt(colSupplierId), result.getString(colContactName),
                     result.getString(colContactNum)));
         }
-        DataBase.closeConnection();
+        
         return list;
     }
 

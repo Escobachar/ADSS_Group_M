@@ -37,7 +37,7 @@ public class OrderItemDAO {
             Product product = productsDAO.getProduct(supplierId,catalogNum);
             items.put(product, amount);
         }
-        DataBase.closeConnection();
+        
         return items;
     }
 
@@ -53,7 +53,7 @@ public class OrderItemDAO {
             stmt.setInt(3, supId);
             stmt.setInt(4, amount);
             stmt.executeUpdate();
-            DataBase.closeConnection();
+            
         }
     }
 
@@ -67,7 +67,7 @@ public class OrderItemDAO {
         stmt.setInt(3, supId);
         stmt.setInt(4, amount);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public void deleteOrderItems(int orderId) throws SQLException {
@@ -76,7 +76,7 @@ public class OrderItemDAO {
                 .prepareStatement("DELETE FROM " + tableName + " WHERE " + orderIdColumnName + " = ?");
         stmt.setInt(1, orderId);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public void deleteOrderItems(int orderId, Product product) throws SQLException {
@@ -85,7 +85,7 @@ public class OrderItemDAO {
         stmt.setInt(1, orderId);
         stmt.setInt(2, product.getCatalogNumber());
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public void updateProductAmount(int orderId, int catalogNum, int amount) throws SQLException {
@@ -97,7 +97,7 @@ public class OrderItemDAO {
         stmt.setInt(2, orderId);
         stmt.setInt(3, catalogNum);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
 }

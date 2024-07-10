@@ -37,7 +37,7 @@ public class SupplierCategoriesDAO {
         stmt.setInt(1, categoryId);
         stmt.setInt(2, supplierId);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public void addAllSupplierCategory(int supplierId, List<Integer> categories) throws SQLException {
@@ -49,7 +49,7 @@ public class SupplierCategoriesDAO {
             stmt.setInt(2, supplierId);
             stmt.executeUpdate();
         }
-        DataBase.closeConnection();
+        
     }
 
     public void deleteSupplierCategory(int supplierId, int categoryId) throws SQLException {
@@ -59,7 +59,7 @@ public class SupplierCategoriesDAO {
         stmt.setInt(1, categoryId);
         stmt.setInt(2, supplierId);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public void deleteSupplierCategories(int supplierId) throws SQLException {
@@ -67,7 +67,7 @@ public class SupplierCategoriesDAO {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE " + colSupplierId + " = ?");
         stmt.setInt(1, supplierId);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public void deleteCategorySuppliers(int categoryId) throws SQLException {
@@ -75,7 +75,7 @@ public class SupplierCategoriesDAO {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE " + colCategoryId + " = ?");
         stmt.setInt(1, categoryId);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public Integer getCategoryByCategoryId(int id) throws SQLException {
@@ -86,10 +86,10 @@ public class SupplierCategoriesDAO {
         ResultSet res = stmt.executeQuery();
         if (res.next()) {
             int sid = res.getInt(colSupplierId);
-            DataBase.closeConnection();
+            
             return id;
         }
-        DataBase.closeConnection();
+        
         return null;
     }
 
@@ -103,7 +103,7 @@ public class SupplierCategoriesDAO {
         while (res.next()) {
             categories.add(res.getInt(colCategoryId));
         }
-        DataBase.closeConnection();
+        
         return categories;
     }
 
@@ -115,7 +115,7 @@ public class SupplierCategoriesDAO {
         while (res.next()) {
             categories.add(new DataTypeSupplierCategories(res.getInt(colCategoryId), res.getInt(colSupplierId)));
         }
-        DataBase.closeConnection();
+        
         return categories;
     }
 

@@ -63,7 +63,7 @@ public class SuppliersDAO {
         }
         stmt.setString(6, supplier.getAddress());
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
         int id = supplier.getId();
         List<Day> dayDeliveryDays = new ArrayList<>();
         for (Integer day:supplier.getDeliveryDays()) {
@@ -89,7 +89,7 @@ public class SuppliersDAO {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE " + colSupplierId +"= ?");
         stmt.setInt(1, supplierId);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
         supplierDeliveryDaysDAO.deleteAll(supplierId);
         supplierContactDAO.deleteAll(supplierId);
         supplierCategoriesDAO.deleteSupplierCategories(supplierId);
@@ -117,10 +117,10 @@ public class SuppliersDAO {
                     categories,
                     result.getBoolean(colIsDelivering),
                     result.getString(colSupplierAddress));
-            DataBase.closeConnection();
+            
             return sup;
         }
-        DataBase.closeConnection();
+        
         throw new SQLException("No such supplier");
     }
 
@@ -176,7 +176,7 @@ public class SuppliersDAO {
                     rs.getString(colSupplierAddress));
             suppliers.put(supplierId, supplier);
         }
-        DataBase.closeConnection();
+        
         return suppliers;
     }
 

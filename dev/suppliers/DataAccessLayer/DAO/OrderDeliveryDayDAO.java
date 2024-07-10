@@ -27,7 +27,7 @@ public class OrderDeliveryDayDAO {
             DaysOfTheWeek.Day day = intToDay(rs.getInt(dayColumnName));
             days.add(day);
         }
-        DataBase.closeConnection();
+        
         return days;
     }
     public void addOrderDeliveryDay(int orderId, DaysOfTheWeek.Day day) throws SQLException {
@@ -37,7 +37,7 @@ public class OrderDeliveryDayDAO {
         stmt.setInt(1, orderId);
         stmt.setInt(2, intDay);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
 
     public void addOrderDeliveryDays(int orderId, List<DaysOfTheWeek.Day> days) throws SQLException {
@@ -48,7 +48,7 @@ public class OrderDeliveryDayDAO {
             stmt.setInt(1, orderId);
             stmt.setInt(2, intDay);
             stmt.executeUpdate();
-            DataBase.closeConnection();
+            
         }
     }
     public void deleteOrderDeliveryDay(int orderId, DaysOfTheWeek.Day day) throws SQLException {
@@ -58,13 +58,13 @@ public class OrderDeliveryDayDAO {
         stmt.setInt(1, orderId);
         stmt.setInt(2, intDay);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
     public void deleteOrderDeliveryDays(int orderId) throws SQLException {
         Connection conn = DataBase.getConnection();
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM "+ tableName+" WHERE "+orderIdColumnName +" = ?");
         stmt.setInt(1, orderId);
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
     }
     }

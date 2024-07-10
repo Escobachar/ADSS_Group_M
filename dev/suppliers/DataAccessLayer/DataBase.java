@@ -12,15 +12,15 @@ public final class DataBase {
         connectToDatabase();
     }
 
-    public static Connection getConnection()  {
-        try{
-            conn = DriverManager.getConnection(url);
+   public static Connection getConnection()  {
+       if(conn == null) {
+           dataBase.connectToDatabase();
+           return conn;
+       }
+        else{
             return conn;
         }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+        
     }
 
 
