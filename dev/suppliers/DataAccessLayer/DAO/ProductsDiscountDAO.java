@@ -14,8 +14,10 @@ public class ProductsDiscountDAO {
         stmt.setInt(1, sid);
         stmt.setInt(2, catalogNumber);
         ResultSet rs = stmt.executeQuery();
+        
+        DiscountQuantity dq = DiscountQuantity.createDiscountQuantity(rs.getInt("catalogNum"), rs.getInt("amount"), rs.getDouble("precentage"));
         DataBase.closeConnection();
-        return DiscountQuantity.createDiscountQuantity(rs.getInt("catalogNum"), rs.getInt("amount"), rs.getDouble("precentage"));
+        return dq;
     }
 
     public void addDiscountQuantity(int sid, int catalogNumber, DiscountQuantity discount) throws SQLException {

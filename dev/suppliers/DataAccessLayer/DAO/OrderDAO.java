@@ -27,11 +27,12 @@ public class OrderDAO {
         HashMap<Integer, Order> orders = new HashMap<>();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM Orders");
-        DataBase.closeConnection();
+        
         while (rs.next()) {
             Order order = createOrder(rs);
             orders.put(order.getOrderId(), order);
         }
+        DataBase.closeConnection();
         return orders;
     }
 
@@ -40,15 +41,19 @@ public class OrderDAO {
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Orders WHERE id = ?");
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
-        DataBase.closeConnection();
+        
         if (rs.next()) {
-            return createOrder(rs);
+            Order ord =  createOrder(rs);
+            DataBase.closeConnection();
+            return ord;
         } else {
+            DataBase.closeConnection();
             return null;
         }
     }
 
     public void addOrder(Order order) throws SQLException {
+        DataBase.closeConnection();
         Connection conn = DataBase.getConnection();
         PreparedStatement stmt = conn.prepareStatement(
                 "INSERT INTO Orders (id, SupplierId, creationDate, deliveryDate, isConst) VALUES (?, ?, ?, ?, ?)");
@@ -63,7 +68,7 @@ public class OrderDAO {
             stmt.setInt(5, 0);
         }
         stmt.executeUpdate();
-        DataBase.closeConnection();
+        
         if (order.getConstDeliveryDays().size() > 0) {
             orderDeliveryDaysDAO.addOrderDeliveryDays(order.getOrderId(), order.getConstDeliveryDays());
         }

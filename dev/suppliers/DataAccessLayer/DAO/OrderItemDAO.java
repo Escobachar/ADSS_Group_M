@@ -27,16 +27,17 @@ public class OrderItemDAO {
         PreparedStatement stmt = conn.prepareStatement("SELECT "+ catalogNumColumnName+", "+supplierIdColumnName+", "+amountColumnName+" FROM "+tableName+" WHERE OrderId = ?");
         stmt.setInt(1, orderId);
         ResultSet rs = stmt.executeQuery();
-        DataBase.closeConnection();
+        
 
         while (rs.next()) {
             int catalogNum = rs.getInt(catalogNumColumnName);
             int supplierId = rs.getInt(supplierIdColumnName);
             int amount = rs.getInt(amountColumnName);
-
+            
             Product product = productsDAO.getProduct(supplierId,catalogNum);
             items.put(product, amount);
         }
+        DataBase.closeConnection();
         return items;
     }
 

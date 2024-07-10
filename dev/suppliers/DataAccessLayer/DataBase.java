@@ -23,13 +23,6 @@ public final class DataBase {
         }
     }
 
-    public static void closeConnection(){
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public  void connectToDatabase() {
         try {

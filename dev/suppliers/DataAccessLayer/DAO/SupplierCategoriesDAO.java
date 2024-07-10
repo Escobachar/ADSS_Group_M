@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import suppliers.DataAccessLayer.DataBase;
 
 public class SupplierCategoriesDAO {
@@ -85,10 +84,12 @@ public class SupplierCategoriesDAO {
                 .prepareStatement("SELECT * FROM " + tableName + " WHERE " + colCategoryId + " = ?");
         stmt.setInt(1, id);
         ResultSet res = stmt.executeQuery();
-        DataBase.closeConnection();
         if (res.next()) {
-            return res.getInt(colSupplierId);
+            int sid = res.getInt(colSupplierId);
+            DataBase.closeConnection();
+            return id;
         }
+        DataBase.closeConnection();
         return null;
     }
 
@@ -97,11 +98,12 @@ public class SupplierCategoriesDAO {
         List<Integer> categories = new ArrayList<>();
         PreparedStatement stmt = conn
                 .prepareStatement("SELECT * FROM " + tableName + " WHERE " + colSupplierId + " = ?");
+        stmt.setInt(1, id);
         ResultSet res = stmt.executeQuery();
-        DataBase.closeConnection();
         while (res.next()) {
             categories.add(res.getInt(colCategoryId));
         }
+        DataBase.closeConnection();
         return categories;
     }
 

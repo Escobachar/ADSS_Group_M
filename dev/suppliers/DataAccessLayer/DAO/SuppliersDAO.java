@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import suppliers.DataAccessLayer.DAO.SupplierContactDAO.DataTypeSupplierContact;
 import suppliers.DataAccessLayer.DataBase;
 import suppliers.DaysOfTheWeek;
@@ -107,9 +106,8 @@ public class SuppliersDAO {
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Suppliers WHERE id = ?");
         stmt.setInt(1, supplierId);
         ResultSet result = stmt.executeQuery();
-        DataBase.closeConnection();
         if (result.next()) {
-            return new Supplier(
+            Supplier sup = new Supplier(
                     result.getString(colSupplierName),
                     result.getInt(colSupplierId),
                     result.getString(colSupplierBankAccount),
@@ -119,7 +117,10 @@ public class SuppliersDAO {
                     categories,
                     result.getBoolean(colIsDelivering),
                     result.getString(colSupplierAddress));
+            DataBase.closeConnection();
+            return sup;
         }
+        DataBase.closeConnection();
         throw new SQLException("No such supplier");
     }
 
@@ -157,7 +158,7 @@ public class SuppliersDAO {
         HashMap<Integer, Supplier> suppliers = new HashMap<>();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM Suppliers");
-        DataBase.closeConnection();
+        
         while (rs.next()) {
             int supplierId = rs.getInt(colSupplierId);
             HashMap<String, String> contactsMap = getSupplierContacts(supplierId);
@@ -175,6 +176,7 @@ public class SuppliersDAO {
                     rs.getString(colSupplierAddress));
             suppliers.put(supplierId, supplier);
         }
+        DataBase.closeConnection();
         return suppliers;
     }
 

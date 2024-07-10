@@ -22,11 +22,12 @@ public class OrderDeliveryDayDAO {
         PreparedStatement stmt = conn.prepareStatement("SELECT "+ dayColumnName+" FROM "+tableName+" WHERE OrderId = ?");
         stmt.setInt(1, orderId);
         ResultSet rs = stmt.executeQuery();
-        DataBase.closeConnection();
+        
         while (rs.next()) {
             DaysOfTheWeek.Day day = intToDay(rs.getInt(dayColumnName));
             days.add(day);
         }
+        DataBase.closeConnection();
         return days;
     }
     public void addOrderDeliveryDay(int orderId, DaysOfTheWeek.Day day) throws SQLException {

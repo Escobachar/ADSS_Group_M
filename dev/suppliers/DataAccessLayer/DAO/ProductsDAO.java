@@ -23,11 +23,12 @@ public class ProductsDAO {
         stmt.setInt(1, sid);
         stmt.setInt(2, categoryId);
         ResultSet rs = stmt.executeQuery();
-        DataBase.closeConnection();
+        
         while (rs.next()) {
             Product product = createProduct(rs);
             products.put(product.getCatalogNumber(), product);
         }
+        DataBase.closeConnection();
         return products;
     }
 
@@ -37,11 +38,12 @@ public class ProductsDAO {
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Products WHERE SupplierId = ?");
         stmt.setInt(1, sid);
         ResultSet rs = stmt.executeQuery();
-        DataBase.closeConnection();
+        
         while (rs.next()) {
             Product product = createProduct(rs);
             products.put(product.getCatalogNumber(), product);
         }
+        DataBase.closeConnection();
         return products;
     }
 
@@ -114,8 +116,10 @@ public class ProductsDAO {
         stmt.setInt(1, sid);
         stmt.setInt(2, catalogNum);
         ResultSet rs = stmt.executeQuery();
+        
+        Product prd =  createProduct(rs);
         DataBase.closeConnection();
-        return createProduct(rs);
+        return prd;
     }
 
     private Product createProduct(ResultSet rs) throws SQLException {

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import suppliers.DataAccessLayer.DataBase;
 
 public class SupplierContactDAO {
@@ -99,12 +98,13 @@ public class SupplierContactDAO {
                 .prepareStatement("SELECT * FROM " + tableName + " WHERE " + colSupplierId + " = ?");
         stmt.setInt(1, supplierId);
         var result = stmt.executeQuery();
-        DataBase.closeConnection();
+        
         List<DataTypeSupplierContact> list = new ArrayList<>();
         while (result.next()) {
             list.add(new DataTypeSupplierContact(result.getInt(colSupplierId), result.getString(colContactName),
                     result.getString(colContactNum)));
         }
+        DataBase.closeConnection();
         return list;
     }
 
@@ -112,12 +112,12 @@ public class SupplierContactDAO {
         this.conn = DataBase.getConnection();
         String query = "SELECT * FROM " + tableName;
         var result = conn.createStatement().executeQuery(query);
-        DataBase.closeConnection();
         List<DataTypeSupplierContact> list = new ArrayList<>();
         while (result.next()) {
             list.add(new DataTypeSupplierContact(result.getInt(colSupplierId), result.getString(colContactName),
                     result.getString(colContactNum)));
         }
+        DataBase.closeConnection();
         return list;
     }
 
