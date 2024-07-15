@@ -21,19 +21,19 @@ public class Order {
     private double price;
     private boolean isChanged;
     private ProductsDAO productsDAO;
-    private int branchID;
+    private String branch;
 
     private OrderDeliveryDayDAO deliveryDayDAO;
     private OrderItemDAO itemDAO;
 
     public Order(int orderId, Supplier supplier, Date creationDate, Date deliveryDate, HashMap<Product, Integer> items,
-            List<Day> deliveryDays, int branchID) throws SQLException {
+            List<Day> deliveryDays, String branch) throws SQLException {
         this.orderId = orderId;
         this.supplier = supplier;
         this.creationDate = creationDate;
         this.deliveryDate = deliveryDate;
         this.items = items;
-        this.branchID = branchID;
+        this.branch = branch;
         priceCalculation();
         this.isChanged = false;
         this.constDeliveryDays = deliveryDays;
@@ -88,7 +88,7 @@ public class Order {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String order = "";
         order += "Order INFO:\n";
-        order += "branch ID: " + branchID + "\n";
+        order += "Branch: " + branch + "\n";
         order += "supplier name: " + supplier.getName() + " | address: " + supplier.getAddress() + " | order ID: "
                 + orderId + "\n";
         order += "supplier ID: " + supplier.getId() + " | Delivery Date: " + dateFormat.format(deliveryDate)
@@ -193,7 +193,7 @@ return false;        }
         return true;
     }
 
-    public int getBranchID() {
-        return branchID;
+    public String getBranch() {
+        return branch;
     }
 }

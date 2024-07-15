@@ -56,7 +56,7 @@ public class OrderDAO {
         
         Connection conn = DataBase.getConnection();
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO Orders (id, SupplierId, creationDate, deliveryDate, isConst, branchID) VALUES (?, ?, ?, ?, ?, ?)");
+                "INSERT INTO Orders (id, SupplierId, creationDate, deliveryDate, isConst, branch) VALUES (?, ?, ?, ?, ?, ?)");
         stmt.setInt(1, order.getOrderId());
         stmt.setInt(2, order.getSupplierId());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -67,7 +67,7 @@ public class OrderDAO {
         } else {
             stmt.setInt(5, 0);
         }
-        stmt.setInt(6, order.getBranchID());
+        stmt.setString(6, order.getBranch());
         stmt.executeUpdate();
         
         if (order.getConstDeliveryDays().size() > 0) {
@@ -121,7 +121,7 @@ public class OrderDAO {
             else{
                 constDeliveryDays = new ArrayList<DaysOfTheWeek.Day>();
             }
-            int branchID = rs.getInt("branchID");
-            return new Order(orderId, supplier, creationDate, deliveryDate, items, constDeliveryDays, branchID);
+            String branch = rs.getString("branch");
+            return new Order(orderId, supplier, creationDate, deliveryDate, items, constDeliveryDays, branch);
         }
     }

@@ -34,7 +34,7 @@ public class OrdersService {
     }
 
     public String addOrder(int supplierID, String deliveryDate, HashMap<Integer, Integer> items,
-            List<Integer> deliveryDays, int branchID) {
+            List<Integer> deliveryDays, String branch) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date date = dateFormat.parse(deliveryDate);
@@ -48,7 +48,7 @@ public class OrdersService {
             for (Integer day : deliveryDays) {
                 constDays.add(DaysOfTheWeek.intToDay(day));
             }
-            int orderId = of.addOrder(sf.getSupplier(supplierID), new Date(), date, products, constDays, branchID);
+            int orderId = of.addOrder(sf.getSupplier(supplierID), new Date(), date, products, constDays, branch);
             return "Order " + orderId + " added successfully";
 
         } catch (Exception e) {

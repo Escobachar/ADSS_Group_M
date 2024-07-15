@@ -49,7 +49,7 @@ public class OrdersFacade {
 
     public int addOrder(Supplier supplier, Date creationDate, Date deliveryDate,
             HashMap<Product, Integer> items,
-            List<Day> deliveryDays, int branchID) throws SQLException {
+            List<Day> deliveryDays, String branch) throws SQLException {
         if (deliveryDate == null || deliveryDate.before(creationDate)) {
             throw new IllegalArgumentException("Delivery date must be after creation date");
         }
@@ -60,7 +60,7 @@ public class OrdersFacade {
             throw new IllegalArgumentException("Delivery days list is empty");
         }
         Order order = new Order(orderIdCounter, supplier, creationDate, deliveryDate, items,
-                deliveryDays, branchID);
+                deliveryDays, branch);
         orders.put(orderIdCounter, order);
         orderDAO.addOrder(order);
         orderIdCounter++;
