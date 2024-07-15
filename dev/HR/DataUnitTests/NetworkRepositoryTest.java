@@ -1,9 +1,9 @@
-package DataUnitTests;
+package HR.DataUnitTests;
 
-import DataLayer.IMP.NetworkRepositoryImp;
-import DataLayer.interfaces.NetworkRepository;
-import Domain.Network;
-import Server.Utility;
+import HR.DataLayer.IMP.NetworkRepositoryImp;
+import HR.DataLayer.interfaces.NetworkRepository;
+import HR.Domain.Network;
+import HR.Server.Utility;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class NetworkRepositoryTest {
     @Before
     public void setUp() {
         //enter data to db
-        network = Server.init.init();
+        network = HR.Server.init.init();
     }
 
     @Test

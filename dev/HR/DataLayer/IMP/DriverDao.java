@@ -1,4 +1,4 @@
-package DataLayer.IMP;
+package HR.DataLayer.IMP;
 
 import DataLayer.interfaces.EmployeeDao;
 import DataLayer.interfaces.ShiftRequestDao;
@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class DriverDao implements EmployeeDao {
@@ -154,7 +155,7 @@ public class DriverDao implements EmployeeDao {
     }
     @Override
     public List<Employee> readAll(String branchName){
-        List<Employee> list = null;
+        List<Employee> list = new LinkedList<>();
         Driver d = null;
         Connection connection = Utility.toConnect();
         String query = "SELECT * FROM Driver WHERE branchName = ?";

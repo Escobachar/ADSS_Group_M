@@ -1,7 +1,7 @@
-package Domain;
+package HR.Domain;
 
-import DataLayer.IMP.*;
-import DataLayer.interfaces.*;
+import HR.DataLayer.IMP.*;
+import HR.DataLayer.interfaces.*;
 
 import java.util.*;
 

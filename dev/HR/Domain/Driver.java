@@ -1,7 +1,7 @@
-package Domain;
+package HR.Domain;
 
-import DataLayer.IMP.DriverDao;
-import DataLayer.interfaces.EmployeeDao;
+import HR.DataLayer.IMP.DriverDao;
+import HR.DataLayer.interfaces.EmployeeDao;
 
 import java.util.*;
 

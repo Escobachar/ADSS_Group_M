@@ -1,11 +1,11 @@
-package DataUnitTests;
+package HR.DataUnitTests;
 
 
-import Domain.*;
-import DataLayer.IMP.*;
-import DataLayer.interfaces.EmployeeDao;
-import DataLayer.interfaces.NetworkRepository;
-import Server.Utility;
+import HR.Domain.*;
+import HR.DataLayer.IMP.*;
+import HR.DataLayer.interfaces.EmployeeDao;
+import HR.DataLayer.interfaces.NetworkRepository;
+import HR.Server.Utility;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

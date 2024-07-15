@@ -1,7 +1,7 @@
-package Presentetion;
+package HR.Presentetion;
 
-import Domain.*;
-import Server.Utility;
+import HR.Domain.*;
+import HR.Server.Utility;
 import java.time.LocalDate;
 import java.time.DayOfWeek;
 import java.time.format.DateTimeFormatter;
@@ -12,7 +12,7 @@ import java.util.*;
 public class Login {
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
-        Network network=Server.init.init();
+        Network network=HR.Server.init.init();
 
         System.out.print("Enter ID: ");
         String ID = scanner.nextLine();
@@ -113,6 +113,11 @@ public class Login {
                 options[i] = "ShowShiftsAvailability";
                 i++;
             }
+            if (access.contains("OpenSupplierMenu")) {
+                System.out.println(i + ". open supplier menu");
+                options[i] = "OpenSupplierMenu";
+                i++;
+            }
 
             //HR Manager
             if (access.contains("HRAddGeneralEmployee")) {
@@ -150,10 +155,16 @@ public class Login {
                 options[i] ="HRShowBranchShiftsAvailability";
                 i++;
             }
-            if(access.contains("HRAddBranch")){
-                System.out.println(i+ ". add a new branch");
-            options[i] ="HRAddBranch";
-            i++;
+            if(access.contains("HRAddBranch")) {
+                System.out.println(i + ". add a new branch");
+                options[i] = "HRAddBranch";
+                i++;
+            }
+            if(access.contains("HROpenSupplierMenu")) {
+                System.out.println(i + ". open supplier menu");
+                options[i] = "HROpenSupplierMenu";
+                i++;
+            }
         }
 
             System.out.println(i + ". Logoff");
@@ -210,6 +221,9 @@ public class Login {
                 case "UpdateBranchShifts":
                     UpdateShiftsOfWeek((BranchManager)emp);
                     break;
+                case "OpenSupplierMenu":
+                    OpenSupplierMenu((BranchManager)emp);
+                    break;
                 //HR Manager
                 case "HRAddGeneralEmployee":
                     HRAddGeneralEmployee((HRManager)emp);
@@ -235,6 +249,9 @@ public class Login {
                 case "HRAddBranch":
                     HRaddBranch((HRManager)emp);
                     break;
+                case "HROpenSupplierMenu":
+                    HROpenSupplierMenu((HRManager)emp);
+                    break;
                 case "Logoff":
                     login = false;
                     break;
@@ -243,8 +260,8 @@ public class Login {
                     System.out.println("not a valid action\n");
             }
             i=1;
-        }
     }
+
 
     private static void showYourDetails(Employee emp) {
         System.out.println("ID: " + emp.getID());
@@ -987,6 +1004,12 @@ public class Login {
             }
         }
     }
+    private static void OpenSupplierMenu(BranchManager emp ){
+        String branchName= emp.getBranch().getBranchName();
+        //Supplier.suppliersMain(branchName);
+
+    }
+
     //HR Manager
     private static Branch branchSelect(){
         Scanner scanner = new Scanner(System.in);
@@ -1091,6 +1114,12 @@ public class Login {
         System.out.println("branch added successfully");
 
     }
+    private static void HROpenSupplierMenu(HRManager emp ){
+        Branch b=branchSelect();
+        if(b!=null)
+            OpenSupplierMenu(b.getBranchManager());
+    }
 }
+
 
 

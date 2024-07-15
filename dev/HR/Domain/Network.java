@@ -1,9 +1,9 @@
 package Domain;
 
-import DataLayer.IMP.RoleDaoImp;
-import DataLayer.interfaces.EmployeeDao;
-import DataLayer.IMP.HRManagerDao;
-import DataLayer.interfaces.RoleDao;
+import HR.DataLayer.IMP.RoleDaoImp;
+import HR.DataLayer.interfaces.EmployeeDao;
+import HR.DataLayer.IMP.HRManagerDao;
+import HR.DataLayer.interfaces.RoleDao;
 
 import java.util.*;
 public class Network {
@@ -22,7 +22,7 @@ public class Network {
         this.HRmanager = HRmanager;
         branchList=new LinkedList<Branch>();
         roles = new LinkedList<>();
-        addRole(new Role("shift manager",new ArrayList<>()));
+
     }
     public static Network createNewNetwork(HRManager HRmanager){
         network = new Network(HRmanager);

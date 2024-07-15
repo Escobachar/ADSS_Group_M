@@ -1,6 +1,6 @@
-package DomainUnitTests;
+package HR.DomainUnitTests;
 
-import Domain.*;
+import HR.Domain.*;
 import java.util.*;
 import org.junit.*;
 

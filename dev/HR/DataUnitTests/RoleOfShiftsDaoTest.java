@@ -1,10 +1,10 @@
-package DataUnitTests;
+package HR.DataUnitTests;
 
-import DataLayer.interfaces.RoleOfShiftsDao;
-import Domain.GeneralEmployee;
-import Domain.Network;
-import Domain.Role;
-import Server.Utility;
+import HR.DataLayer.interfaces.RoleOfShiftsDao;
+import HR.Domain.GeneralEmployee;
+import HR.Domain.Network;
+import HR.Domain.Role;
+import HR.Server.Utility;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

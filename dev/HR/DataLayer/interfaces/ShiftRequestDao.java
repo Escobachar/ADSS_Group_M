@@ -1,4 +1,4 @@
-package DataLayer.interfaces;
+package HR.DataLayer.interfaces;
 
 public interface ShiftRequestDao {
     void create(boolean[][] shifts,int ID);

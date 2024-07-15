@@ -1,4 +1,4 @@
-package DataLayer.IMP;
+package HR.DataLayer.IMP;
 
 import DataLayer.interfaces.ShiftAvailabilityDao;
 import Domain.GeneralEmployee;

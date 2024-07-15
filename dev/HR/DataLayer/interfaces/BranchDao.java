@@ -1,6 +1,6 @@
-package DataLayer.interfaces;
+package HR.DataLayer.interfaces;
 
-import Domain.Branch;
+import HR.Domain.Branch;
 
 import java.util.List;
 

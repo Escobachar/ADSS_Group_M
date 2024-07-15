@@ -1,4 +1,4 @@
-package Domain;
+package HR.Domain;
 
 import java.util.*;
 public class Role {

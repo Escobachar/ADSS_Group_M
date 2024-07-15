@@ -1,6 +1,6 @@
-package DataLayer.interfaces;
+package HR.DataLayer.interfaces;
 
-import Domain.Employee;
+import HR.Domain.Employee;
 
 import java.util.List;
 
