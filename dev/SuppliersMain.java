@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
 import suppliers.DomainLayer.Category;
 import suppliers.DomainLayer.DiscountQuantity;
 import suppliers.DomainLayer.Product;
@@ -16,6 +15,7 @@ public class SuppliersMain {
     static Scanner sc = new Scanner(System.in);
     private static final SuppliersService ss = SuppliersService.getInstance();
     private static final OrdersService os = OrdersService.getInstance();
+    private static boolean retrieveData = false;
 
     private static Integer inputToInt() {
         String line = sc.next();
@@ -32,7 +32,7 @@ public class SuppliersMain {
             System.out.println("1. Suppliers");
             System.out.println("2. Orders");
             System.out.println("3. Initialize data");
-            System.out.println("4. Exit");
+            System.out.println("4. Back");
             Integer choice = inputToInt();
             if (choice == null)
                 System.out.println("Invalid choice");
@@ -837,13 +837,16 @@ public class SuppliersMain {
     }
 
     private static void retrieveData() {
+        if (retrieveData)
+            return;
         SuppliersService ss = SuppliersService.getInstance();
         OrdersService os = OrdersService.getInstance();
         ss.retrieveData();
         os.retrieveData();
+        retrieveData = true;
     }
 
-    public static void main(String[] args) {
+    public static void suppliersMain() {
         retrieveData();
         menuLoop();
     }
