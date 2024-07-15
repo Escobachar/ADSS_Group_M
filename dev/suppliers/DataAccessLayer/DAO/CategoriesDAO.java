@@ -1,13 +1,13 @@
-package suppliers.DataAccessLayer.DAO;
+package Suppliers.DataAccessLayer.DAO;
 
+import Suppliers.DataAccessLayer.DataBase;
+import Suppliers.DomainLayer.Category;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
-import suppliers.DataAccessLayer.DataBase;
-import suppliers.DomainLayer.Category;
 
 public class CategoriesDAO {
     private final String colNmae = "name";

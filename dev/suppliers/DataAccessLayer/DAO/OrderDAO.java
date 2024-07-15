@@ -1,5 +1,8 @@
-package suppliers.DataAccessLayer.DAO;
+package Suppliers.DataAccessLayer.DAO;
 
+import Suppliers.DataAccessLayer.DataBase;
+import Suppliers.DaysOfTheWeek;
+import Suppliers.DomainLayer.*;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,9 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import suppliers.DataAccessLayer.DataBase;
-import suppliers.DaysOfTheWeek;
-import suppliers.DomainLayer.*;
 
 public class OrderDAO {
 
@@ -56,7 +56,7 @@ public class OrderDAO {
         
         Connection conn = DataBase.getConnection();
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO Orders (id, SupplierId, creationDate, deliveryDate, isConst) VALUES (?, ?, ?, ?, ?)");
+                "INSERT INTO Orders (id, SupplierId, creationDate, deliveryDate, isConst, branch) VALUES (?, ?, ?, ?, ?, ?)");
         stmt.setInt(1, order.getOrderId());
         stmt.setInt(2, order.getSupplierId());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -67,6 +67,7 @@ public class OrderDAO {
         } else {
             stmt.setInt(5, 0);
         }
+        stmt.setString(6, order.getBranch());
         stmt.executeUpdate();
         
         if (order.getConstDeliveryDays().size() > 0) {
@@ -120,6 +121,7 @@ public class OrderDAO {
             else{
                 constDeliveryDays = new ArrayList<DaysOfTheWeek.Day>();
             }
-            return new Order(orderId, supplier, creationDate, deliveryDate, items, constDeliveryDays);
+            String branch = rs.getString("branch");
+            return new Order(orderId, supplier, creationDate, deliveryDate, items, constDeliveryDays, branch);
         }
     }

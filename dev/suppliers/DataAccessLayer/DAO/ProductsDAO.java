@@ -1,10 +1,11 @@
-package suppliers.DataAccessLayer.DAO;
+package Suppliers.DataAccessLayer.DAO;
 
 import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
-import suppliers.DataAccessLayer.DataBase;
-import suppliers.DomainLayer.*;
+
+import Suppliers.DataAccessLayer.DataBase;
+import Suppliers.DomainLayer.*;
 
 public class ProductsDAO {
     private CategoriesDAO categoriesDAO;

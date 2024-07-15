@@ -1,7 +1,6 @@
-package suppliers.DomainLayer;
+package Suppliers.DomainLayer;
 
-import suppliers.DataAccessLayer.DAO.ProductsDiscountDAO;
-
+import Suppliers.DataAccessLayer.DAO.ProductsDiscountDAO;
 import java.sql.SQLException;
 
 public class Product {

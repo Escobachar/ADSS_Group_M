@@ -1,4 +1,4 @@
-package suppliers.PresentationLayer;
+package Suppliers.PresentationLayer;
 
 import java.io.Serializable;
 

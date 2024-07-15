@@ -1,9 +1,10 @@
-package suppliers.DataAccessLayer.DAO;
+package Suppliers.DataAccessLayer.DAO;
 
 import java.sql.*;
 import java.util.HashMap;
-import suppliers.DataAccessLayer.DataBase;
-import suppliers.DomainLayer.Product;
+
+import Suppliers.DataAccessLayer.DataBase;
+import Suppliers.DomainLayer.Product;
 
 public class OrderItemDAO {
 

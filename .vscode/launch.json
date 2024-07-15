@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Login",
+      "request": "launch",
+      "mainClass": "Presentetion.Login",
+      "projectName": "ADSS_Group_M_4deb1db7"
+    },
+    {
+      "type": "java",
       "name": "Main",
       "request": "launch",
       "mainClass": "Main",

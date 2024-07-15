@@ -1,15 +1,15 @@
+package Suppliers.PresentationLayer;
+
+
+import Suppliers.DomainLayer.Category;
+import Suppliers.DomainLayer.DiscountQuantity;
+import Suppliers.DomainLayer.Product;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import suppliers.DomainLayer.Category;
-import suppliers.DomainLayer.DiscountQuantity;
-import suppliers.DomainLayer.Product;
-import suppliers.PresentationLayer.Initialize;
-import suppliers.PresentationLayer.OrdersService;
-import suppliers.PresentationLayer.SuppliersService;
 
 public class SuppliersMain {
     static Scanner sc = new Scanner(System.in);
@@ -26,33 +26,27 @@ public class SuppliersMain {
         }
     }
 
-    public static void menuLoop() {
+    public static void menuLoop(String branch) {
         boolean flag = true;
         while (flag) {
             System.out.println("1. Suppliers");
             System.out.println("2. Orders");
-            System.out.println("3. Initialize data");
-            System.out.println("4. Back");
+            System.out.println("3. Back");
             Integer choice = inputToInt();
             if (choice == null)
                 System.out.println("Invalid choice");
             else {
                 switch (choice) {
                     case 1 -> suppliers();
-                    case 2 -> orders();
-                    case 3 -> initializeData();
-                    case 4 -> flag = false;
+                    case 2 -> orders(branch);
+                    case 3 -> flag = false;
                     default -> System.out.println("Invalid choice");
                 }
             }
         }
     }
 
-    private static void initializeData() {
-        Initialize init = new Initialize();
-    }
-
-    private static void orders() {
+    private static void orders(String branch) {
         boolean flag = true;
         while (flag) {
             System.out.println("1. Add Order");
@@ -68,13 +62,13 @@ public class SuppliersMain {
                 System.out.println("Invalid choice");
             else {
                 switch (choice) {
-                    case 1 -> addOrder();
+                    case 1 -> addOrder(branch);
                     case 2 -> editOrder();
                     case 3 -> removeOrder();
                     case 4 -> displayOrder();
                     case 5 -> displayThisWeekOrders();
                     case 6 -> displayThisWeekDeliveries();
-                    case 7 -> addOrdersBasedOnStockShortages();
+                    case 7 -> addOrdersBasedOnStockShortages(branch);
                     case 8 -> flag = false;
                     default -> System.out.println("Invalid choice");
                 }
@@ -82,7 +76,7 @@ public class SuppliersMain {
         }
     }
 
-    private static void addOrdersBasedOnStockShortages() {
+    private static void addOrdersBasedOnStockShortages(String branch) {
         HashMap<String, Integer> productToOrder = new HashMap<>();
         boolean flag = true;
         while (flag) {
@@ -122,14 +116,14 @@ public class SuppliersMain {
         Integer choice = inputToInt();
         boolean toRemove = choice != null && choice == 1;
         if (toRemove) {
-            addingOrders(supplierToOrder);
+            addingOrders(supplierToOrder, branch);
         } else {
             System.out.println("Operation Canceled");
         }
 
     }
 
-    private static void addingOrders(HashMap<Integer, HashMap<Product, Integer>> supplierToOrder) {
+    private static void addingOrders(HashMap<Integer, HashMap<Product, Integer>> supplierToOrder, String branch) {
         System.out.println("Enter delivery date (dd/MM/yyyy)");
         String deliveryDate = sc.next();
         for (Map.Entry<Integer, HashMap<Product, Integer>> sup : supplierToOrder.entrySet()) {
@@ -137,7 +131,7 @@ public class SuppliersMain {
             for (Map.Entry<Product, Integer> products : sup.getValue().entrySet()) {
                 items.put(products.getKey().getCatalogNumber(), products.getValue());
             }
-            System.out.println(os.addOrder(sup.getKey(), deliveryDate, items, null));
+            System.out.println(os.addOrder(sup.getKey(), deliveryDate, items, null, branch));
         }
     }
 
@@ -299,7 +293,7 @@ public class SuppliersMain {
         }
     }
 
-    private static void addOrder() {
+    private static void addOrder(String branch) {
         List<Integer> constDeliveryDays = new ArrayList<>();
         HashMap<Integer, Integer> items = new HashMap<>();
         Integer supplierId;
@@ -362,7 +356,7 @@ public class SuppliersMain {
                 items.put(catalogNumber, amount);
             }
         }
-        os.addOrder(supplierId, deliveryDate, items, constDeliveryDays);
+        os.addOrder(supplierId, deliveryDate, items, constDeliveryDays, branch);
     }
 
     public static void suppliers() {
@@ -846,8 +840,8 @@ public class SuppliersMain {
         retrieveData = true;
     }
 
-    public static void suppliersMain() {
+    public static void suppliersMain(String branch) {
         retrieveData();
-        menuLoop();
+        menuLoop(branch);
     }
 }

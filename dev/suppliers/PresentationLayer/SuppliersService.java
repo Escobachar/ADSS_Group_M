@@ -1,10 +1,11 @@
-package suppliers.PresentationLayer;
+package Suppliers.PresentationLayer;
 
 import java.util.HashMap;
 import java.util.List;
-import suppliers.DomainLayer.Category;
-import suppliers.DomainLayer.Product;
-import suppliers.DomainLayer.SuppliersFacade;
+
+import Suppliers.DomainLayer.Category;
+import Suppliers.DomainLayer.Product;
+import Suppliers.DomainLayer.SuppliersFacade;
 
 public class SuppliersService {
     private SuppliersFacade sf;

@@ -1,5 +1,13 @@
-package suppliers.DataAccessLayer.DAO;
+package Suppliers.DataAccessLayer.DAO;
 
+import Suppliers.DataAccessLayer.DAO.SupplierContactDAO.DataTypeSupplierContact;
+import Suppliers.DataAccessLayer.DataBase;
+import Suppliers.DaysOfTheWeek;
+import Suppliers.DaysOfTheWeek.Day;
+import static Suppliers.DaysOfTheWeek.intToDay;
+import Suppliers.DomainLayer.Category;
+import Suppliers.DomainLayer.Product;
+import Suppliers.DomainLayer.Supplier;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,14 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import suppliers.DataAccessLayer.DAO.SupplierContactDAO.DataTypeSupplierContact;
-import suppliers.DataAccessLayer.DataBase;
-import suppliers.DaysOfTheWeek;
-import suppliers.DaysOfTheWeek.Day;
-import static suppliers.DaysOfTheWeek.intToDay;
-import suppliers.DomainLayer.Category;
-import suppliers.DomainLayer.Product;
-import suppliers.DomainLayer.Supplier;
 
 public class SuppliersDAO {
     private final String colSupplierId = "id";

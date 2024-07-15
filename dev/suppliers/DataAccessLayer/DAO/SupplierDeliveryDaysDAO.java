@@ -1,16 +1,16 @@
-package suppliers.DataAccessLayer.DAO;
+package Suppliers.DataAccessLayer.DAO;
 
+import Suppliers.DataAccessLayer.DataBase;
+import Suppliers.DaysOfTheWeek;
+import Suppliers.DaysOfTheWeek.Day;
+import static Suppliers.DaysOfTheWeek.DayToInt;
+import static Suppliers.DaysOfTheWeek.intToDay;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import suppliers.DataAccessLayer.DataBase;
-import suppliers.DaysOfTheWeek;
-import suppliers.DaysOfTheWeek.Day;
-import static suppliers.DaysOfTheWeek.DayToInt;
-import static suppliers.DaysOfTheWeek.intToDay;
 
 public class SupplierDeliveryDaysDAO {
     public class DataTypeSupplierDeliveryDays {

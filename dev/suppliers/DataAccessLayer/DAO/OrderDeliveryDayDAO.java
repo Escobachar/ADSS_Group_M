@@ -1,11 +1,13 @@
-package suppliers.DataAccessLayer.DAO;
+package Suppliers.DataAccessLayer.DAO;
+import static Suppliers.DaysOfTheWeek.DayToInt;
+import static Suppliers.DaysOfTheWeek.intToDay;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import suppliers.DataAccessLayer.DataBase;
-import suppliers.DaysOfTheWeek;
-import static suppliers.DaysOfTheWeek.DayToInt;
-import static suppliers.DaysOfTheWeek.intToDay;
+
+import Suppliers.DaysOfTheWeek;
+import Suppliers.DataAccessLayer.DataBase;
 
 public class OrderDeliveryDayDAO {
     private String tableName = "OrderDeliveryDays";

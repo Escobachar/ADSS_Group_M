@@ -1,4 +1,4 @@
-package suppliers.DomainLayer;
+package Suppliers.DomainLayer;
 
 public class DiscountQuantity {
     private int catalogNumber;

@@ -1,4 +1,4 @@
-package suppliers.DomainLayer;
+package Suppliers.DomainLayer;
 
 public class Category {
     private int categoryId;
