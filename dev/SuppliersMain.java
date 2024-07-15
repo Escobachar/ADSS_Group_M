@@ -1,12 +1,10 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
 import suppliers.DomainLayer.Category;
 import suppliers.DomainLayer.DiscountQuantity;
 import suppliers.DomainLayer.Product;
@@ -14,7 +12,7 @@ import suppliers.PresentationLayer.Initialize;
 import suppliers.PresentationLayer.OrdersService;
 import suppliers.PresentationLayer.SuppliersService;
 
-public class Main {
+public class SuppliersMain {
     static Scanner sc = new Scanner(System.in);
     private static final SuppliersService ss = SuppliersService.getInstance();
     private static final OrdersService os = OrdersService.getInstance();
@@ -838,32 +836,6 @@ public class Main {
             System.out.println(os.displayThisWeekDeliveries());
     }
 
-    public static void connectToDatabase() {
-        Connection conn = null;
-        try {
-            // db parameters
-
-            String url = "jdbc:sqlite://Users/yuvalbachar/Documents/uni/Year B/Semester B/ADSS/ADSS_Group_M/Suppliers.db";
-            // create a connection to the database
-            conn = DriverManager.getConnection(url);
-
-            System.out.println("Connection to SQLite has been established.");
-            System.out.println(conn.getMetaData().getURL());
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (conn != null) {
-                    System.out.println("Closing connection...");
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-    }
-
-
     private static void retrieveData() {
         SuppliersService ss = SuppliersService.getInstance();
         OrdersService os = OrdersService.getInstance();
@@ -872,7 +844,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        //connectToDatabase();
         retrieveData();
         menuLoop();
     }
