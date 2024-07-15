@@ -13,17 +13,19 @@ public class BranchManager extends Manager{
     public BranchManager(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment, String endOfEmployment, String partOfJob, int vacationsDays,Branch branch,String password) {
         super(ID, name, bankAccountDetails, salary, startOfEmployment, endOfEmployment, partOfJob, vacationsDays,password);
         this.branch=branch;
-        branch.setBranchManager(this);
-        this.getAccess().add("AddGeneralEmployee");
-        this.getAccess().add("AddDriver");
-        this.getAccess().add("UpdateGeneralEmployeeDetails");
-        this.getAccess().add("ShowEmployeeDetails");
-        this.getAccess().add("UpdateBranchShifts");
-        this.getAccess().add("UpdateRolesOfShifts");
-        this.getAccess().add("ShowShiftsAvailability");
-        this.getAccess().add("OpenSupplierMenu");
+        if(branch!=null) {
+            branch.setBranchManager(this);
+            this.getAccess().add("AddGeneralEmployee");
+            this.getAccess().add("AddDriver");
+            this.getAccess().add("UpdateGeneralEmployeeDetails");
+            this.getAccess().add("ShowEmployeeDetails");
+            this.getAccess().add("UpdateBranchShifts");
+            this.getAccess().add("UpdateRolesOfShifts");
+            this.getAccess().add("ShowShiftsAvailability");
+            this.getAccess().add("OpenSupplierMenu");
 
-        branch.getEmployeesList().add(this);
+            branch.getEmployeesList().add(this);
+        }
     }
     public Branch getBranch() {return branch;}
     public void setBranch(Branch branch) {this.branch=branch;}

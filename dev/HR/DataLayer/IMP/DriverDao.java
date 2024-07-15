@@ -38,7 +38,6 @@ public class DriverDao implements EmployeeDao {
             prepare.setString(10, d.getBranch().getBranchName());
             prepare.setInt(11, d.getDriverLicense());
             prepare.executeUpdate();
-            System.out.println("Driver has been added.");
             query = "INSERT INTO DriverLicenseTypes(ID, driverLicenseType) VALUES(? , ?)";
             for (String DLT : d.getDriverLicenseTypes()) {
                 prepare = connection.prepareStatement(query);
@@ -46,7 +45,6 @@ public class DriverDao implements EmployeeDao {
                 prepare.setString(2, DLT);
                 prepare.executeUpdate();
             }
-            System.out.println("Driver has been added to DriverLicenseTypes.");
 
         }catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -118,35 +116,17 @@ public class DriverDao implements EmployeeDao {
             prepare.setInt(1, ID);
             int deleteRows = prepare.executeUpdate();
 
-            if (deleteRows > 0) {
-                System.out.println("Driver has been deleted from Driver table.");
-            } else {
-                System.out.println("No Driver found with ID: " + ID);
-            }
-
             //Delete from DriverLicenseTypes&Drivers table
             query = "DELETE FROM DriverLicenseTypes WHERE ID = ?";
             prepare = connection.prepareStatement(query);
             prepare.setInt(1, ID);
             deleteRows = prepare.executeUpdate();
 
-            if (deleteRows > 0) {
-                System.out.println("Driver has been deleted from DriverLicenseTypes&Driver table.");
-            } else {
-                System.out.println("No Driver found with ID: " + ID);
-            }
-
             //Delete from ShiftsRequests table
             query = "DELETE FROM ShiftsRequests WHERE ID = ?";
             prepare = connection.prepareStatement(query);
             prepare.setInt(1, ID);
             deleteRows = prepare.executeUpdate();
-
-            if (deleteRows > 0) {
-                System.out.println("ShiftsRequests has been deleted from ShiftsRequests table.");
-            } else {
-                System.out.println("No ShiftsRequests found with ID: " + ID);
-            }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());

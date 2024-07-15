@@ -96,6 +96,8 @@ public class Network {
     }
     public Employee SearchByID(int ID){
         Employee emp=null;
+        if(HRmanager.getID()==ID)
+            return HRmanager;
         for(Branch br:branchList) {
             emp = br.getEmployee(ID);
             if(emp!=null)

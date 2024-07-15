@@ -33,7 +33,6 @@ public class BranchManagerDao implements EmployeeDao {
             prepare.setString(10, bm.getPassword());
 
             prepare.executeUpdate();
-            System.out.println("BranchManager has been added to BranchManager table.");
 
             //update into Branch table
             branchDao.update( bm.getID(), bm.getBranch().getBranchName());
@@ -55,7 +54,7 @@ public class BranchManagerDao implements EmployeeDao {
     public Employee read(int ID) {
         BranchManager bm = null;
         Connection connection = Utility.toConnect();
-        String query = "SELECT * FROM BranchManager WHERE ID = ?";//is this the name?
+        String query = "SELECT * FROM BranchManager WHERE ID = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, ID);
@@ -97,11 +96,6 @@ public class BranchManagerDao implements EmployeeDao {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setInt(1, ID);
             int deleteRows = prepare.executeUpdate();
-
-            if (deleteRows > 0)
-                System.out.println("BranchManager has been deleted from GeneralEmployee table.");
-            else
-                System.out.println("No BranchManager found with ID: " + ID);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

@@ -29,7 +29,6 @@ public class HRManagerDao implements EmployeeDao {
             prepare.setString(9, hrm.getPassword());
 
             prepare.executeUpdate();
-            System.out.println("HRManager has been added.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -81,10 +80,6 @@ public class HRManagerDao implements EmployeeDao {
             prepare.setInt(1, ID);
             int deleteRows = prepare.executeUpdate();
 
-            if (deleteRows > 0)
-                System.out.println("HRManager has been deleted from HRManager table.");
-            else
-                System.out.println("No HRManager found with ID: " + ID);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

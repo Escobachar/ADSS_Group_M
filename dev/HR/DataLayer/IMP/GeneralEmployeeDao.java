@@ -38,7 +38,6 @@ public class GeneralEmployeeDao implements EmployeeDao {
             prepare.setBoolean(10, ge.isManager());
             prepare.setString(11, ge.getBranch().getBranchName());
             prepare.executeUpdate();
-            System.out.println("GeneralEmployee has been added.");
 
             //insert to GeneralEmployeeRole table
             for(Role role: ge.getRoles()) {
@@ -49,7 +48,6 @@ public class GeneralEmployeeDao implements EmployeeDao {
                 prepare.setString(2,role.getRoleName() );
                 prepare.executeUpdate();
             }
-            System.out.println("GeneralEmployee has been added to GeneralEmployeeRole.");
 
         }catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -131,35 +129,17 @@ public class GeneralEmployeeDao implements EmployeeDao {
             prepare.setInt(1, ID);
             int deleteRows = prepare.executeUpdate();
 
-            if (deleteRows > 0) {
-                System.out.println("GeneralEmployee has been deleted from GeneralEmployee table.");
-            } else {
-                System.out.println("No employee found with ID: " + ID);
-            }
-
             //Delete from GeneralEmployeeRole table
             query = "DELETE FROM GeneralEmployeeRole WHERE ID = ?";
             prepare = connection.prepareStatement(query);
             prepare.setInt(1, ID);
             deleteRows = prepare.executeUpdate();
 
-            if (deleteRows > 0) {
-                System.out.println("GeneralEmployee has been deleted from GeneralEmployeeRole table.");
-            } else {
-                System.out.println("No employee found with ID: " + ID);
-            }
-
             //Delete from ShiftsRequests table
             query = "DELETE FROM ShiftsRequests WHERE ID = ?";
             prepare = connection.prepareStatement(query);
             prepare.setInt(1, ID);
             deleteRows = prepare.executeUpdate();
-
-            if (deleteRows > 0) {
-                System.out.println("ShiftsRequests has been deleted from ShiftsRequests table.");
-            } else {
-                System.out.println("No ShiftsRequests found with ID: " + ID);
-            }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());

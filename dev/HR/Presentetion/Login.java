@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.DayOfWeek;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
-//import Suppliers.*;
+import Suppliers.PresentationLayer.SuppliersMain;
 
 import java.util.*;
 
@@ -47,8 +47,8 @@ public class Login {
     private static void Menu(Employee emp) {
         boolean login = true;
         System.out.println("Hello " + emp.getName());
-        String[] options = new String[emp.getAccess().size()+1];
-        int i=1;
+        String[] options = new String[emp.getAccess().size() + 1];
+        int i = 1;
         Scanner scanner = new Scanner(System.in);
         while (login) {
             System.out.println("\nactions menu:\n");
@@ -127,60 +127,59 @@ public class Login {
                 i++;
             }
             if (access.contains("HRAssignBranchManager")) {
-                System.out.println(i+ ". assign branch manager");
-                options[i] ="HRAssignBranchManager";
+                System.out.println(i + ". assign branch manager");
+                options[i] = "HRAssignBranchManager";
                 i++;
             }
             if (access.contains("HRUpdateEmployeeDetails")) {
-                System.out.println(i+ ". update employee details");
-                options[i] ="HRUpdateEmployeeDetails";
+                System.out.println(i + ". update employee details");
+                options[i] = "HRUpdateEmployeeDetails";
                 i++;
             }
             if (access.contains("HRShowEmployeeDetails")) {
-                System.out.println(i+ ". show employee details");
-                options[i] ="HRShowEmployeeDetails";
+                System.out.println(i + ". show employee details");
+                options[i] = "HRShowEmployeeDetails";
                 i++;
             }
             if (access.contains("HRUpdateBranchShiftsOfWeek")) {
-                System.out.println(i+ ". update branch shifts");
-                options[i] ="HRUpdateBranchShiftsOfWeek";
+                System.out.println(i + ". update branch shifts");
+                options[i] = "HRUpdateBranchShiftsOfWeek";
                 i++;
             }
             if (access.contains("HRUpdateBranchRolesOfShifts")) {
-                System.out.println(i+ ". update branch needed roles for shifts");
-                options[i] ="HRUpdateBranchRolesOfShifts";
+                System.out.println(i + ". update branch needed roles for shifts");
+                options[i] = "HRUpdateBranchRolesOfShifts";
                 i++;
             }
             if (access.contains("HRShowBranchShiftsAvailability")) {
-                System.out.println(i+ ". show branch shifts availability per role");
-                options[i] ="HRShowBranchShiftsAvailability";
+                System.out.println(i + ". show branch shifts availability per role");
+                options[i] = "HRShowBranchShiftsAvailability";
                 i++;
             }
-            if(access.contains("HRAddBranch")) {
+            if (access.contains("HRAddBranch")) {
                 System.out.println(i + ". add a new branch");
                 options[i] = "HRAddBranch";
                 i++;
             }
-            if(access.contains("HROpenSupplierMenu")) {
+            if (access.contains("HROpenSupplierMenu")) {
                 System.out.println(i + ". open supplier menu");
                 options[i] = "HROpenSupplierMenu";
                 i++;
             }
-        }
 
             System.out.println(i + ". Logoff");
             options[i] = "Logoff";
 
             String action = "s";
             int actionIndex;
-            do{
-                while(!Utility.onlyNumbers(action)) {
+            do {
+                while (!Utility.onlyNumbers(action)) {
                     action = scanner.nextLine();
                     if (!Utility.onlyNumbers(action))
                         System.out.println("Not valid number");
                 }
-                actionIndex=Integer.parseInt(action);
-            }while(actionIndex>options.length || actionIndex<1);
+                actionIndex = Integer.parseInt(action);
+            } while (actionIndex > options.length || actionIndex < 1);
 
             switch (options[actionIndex]) {
                 case "ShowYourDetails":
@@ -188,70 +187,70 @@ public class Login {
                     break;
                 //General Employee
                 case "updateShifts":
-                    updateShifts((GeneralEmployee)emp);
+                    updateShifts((GeneralEmployee) emp);
                     break;
                 case "getShifts":
-                    getGeneralEmployeeShifts((GeneralEmployee)emp);
+                    getGeneralEmployeeShifts((GeneralEmployee) emp);
                     break;
                 case "ShowShiftReq":
-                    getShiftsReq((GeneralEmployee)emp);
+                    getShiftsReq((GeneralEmployee) emp);
                     break;
                 //Driver
                 case "ShowAviStoreKeeper":
-                    ShowAviStoreKeeper((Driver)emp);
+                    ShowAviStoreKeeper((Driver) emp);
                     break;
                 //Branch Manager
                 case "AddGeneralEmployee":
-                    AddEmployee((BranchManager) emp,'g');
+                    AddEmployee((BranchManager) emp, 'g');
                     break;
                 case "AddDriver":
-                    AddEmployee((BranchManager) emp,'d');
+                    AddEmployee((BranchManager) emp, 'd');
                     break;
                 case "UpdateGeneralEmployeeDetails":
-                    UpdateEmployeeDetails((BranchManager)emp);
+                    UpdateEmployeeDetails((BranchManager) emp);
                     break;
                 case "ShowEmployeeDetails":
                     ShowDetailsOnGeneralEmployee((BranchManager) emp);
                     break;
                 case "ShowShiftsAvailability":
-                    ShowShiftAvailability((BranchManager)emp);
+                    ShowShiftAvailability((BranchManager) emp);
                     break;
                 case "UpdateRolesOfShifts":
-                    UpdateRolesOfShifts((BranchManager)emp);
+                    UpdateRolesOfShifts((BranchManager) emp);
                     break;
                 case "UpdateBranchShifts":
-                    UpdateShiftsOfWeek((BranchManager)emp);
+                    UpdateShiftsOfWeek((BranchManager) emp);
                     break;
                 case "OpenSupplierMenu":
-                    OpenSupplierMenu((BranchManager)emp);
+                    OpenSupplierMenu((BranchManager) emp);
                     break;
                 //HR Manager
                 case "HRAddGeneralEmployee":
-                    HRAddGeneralEmployee((HRManager)emp);
+                    HRAddGeneralEmployee((HRManager) emp);
                     break;
                 case "HRAssignBranchManager":
-                    HRAssignBranchManager((HRManager)emp);
+                    HRAssignBranchManager((HRManager) emp);
                     break;
                 case "HRUpdateEmployeeDetails":
-                    HRUpdateEmployeeDetails((HRManager)emp);
+                    HRUpdateEmployeeDetails((HRManager) emp);
                     break;
                 case "HRShowEmployeeDetails":
-                    HRShowEmployeeDetails((HRManager)emp);
+                    HRShowEmployeeDetails((HRManager) emp);
                     break;
                 case "HRUpdateBranchShiftsOfWeek":
-                    HRUpdateBranchShiftsOfWeek((HRManager)emp);
+                    HRUpdateBranchShiftsOfWeek((HRManager) emp);
                     break;
                 case "HRUpdateBranchRolesOfShifts":
-                    HRUpdateBranchRolesOfShifts((HRManager)emp);
+                    HRUpdateBranchRolesOfShifts((HRManager) emp);
                     break;
                 case "HRShowBranchShiftsAvailability":
-                    HRShowBranchShiftsAvailability((HRManager)emp);
+                    HRShowBranchShiftsAvailability((HRManager) emp);
                     break;
                 case "HRAddBranch":
-                    HRaddBranch((HRManager)emp);
+                    HRaddBranch((HRManager) emp);
                     break;
                 case "HROpenSupplierMenu":
-                    HROpenSupplierMenu((HRManager)emp);
+                    HROpenSupplierMenu((HRManager) emp);
                     break;
                 case "Logoff":
                     login = false;
@@ -260,7 +259,8 @@ public class Login {
                 default:
                     System.out.println("not a valid action\n");
             }
-            i=1;
+            i = 1;
+        }
     }
 
 
@@ -1007,8 +1007,7 @@ public class Login {
     }
     private static void OpenSupplierMenu(BranchManager emp ){
         String branchName= emp.getBranch().getBranchName();
-        //Supplier.suppliersMain(branchName);
-
+        SuppliersMain.suppliersMain(branchName);
     }
 
     //HR Manager

@@ -28,7 +28,6 @@ public class BranchDaoImp implements BranchDao {
             else
                 prepare.setInt(3, 0);
             prepare.executeUpdate();
-            System.out.println("Branch has been added to Branch.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -87,11 +86,6 @@ public class BranchDaoImp implements BranchDao {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setString(1, branchName);
             int deleteRows = prepare.executeUpdate();
-
-            if (deleteRows > 0)
-                System.out.println("branch has been deleted from Branch table.");
-            else
-                System.out.println("No branch found with branchName: " + branchName);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
