@@ -31,8 +31,7 @@ public class SuppliersMain {
         while (flag) {
             System.out.println("1. Suppliers");
             System.out.println("2. Orders");
-            System.out.println("3. Initialize data");
-            System.out.println("4. Back");
+            System.out.println("3. Back");
             Integer choice = inputToInt();
             if (choice == null)
                 System.out.println("Invalid choice");
@@ -40,16 +39,11 @@ public class SuppliersMain {
                 switch (choice) {
                     case 1 -> suppliers();
                     case 2 -> orders();
-                    case 3 -> initializeData();
-                    case 4 -> flag = false;
+                    case 3 -> flag = false;
                     default -> System.out.println("Invalid choice");
                 }
             }
         }
-    }
-
-    private static void initializeData() {
-        Initialize init = new Initialize();
     }
 
     private static void orders() {
