@@ -1,7 +1,7 @@
-package suppliers.DataAccessLayer.DAO;
+package Suppliers.DataAccessLayer.DAO;
+import Suppliers.DataAccessLayer.DataBase;
+import Suppliers.DomainLayer.*;
 import java.sql.*;
-import suppliers.DataAccessLayer.DataBase;
-import suppliers.DomainLayer.*;
 
 public class ProductsDiscountDAO {
     

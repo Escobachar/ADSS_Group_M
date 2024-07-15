@@ -6,7 +6,6 @@ import Domain.BranchManager;
 import Domain.Employee;
 import Domain.Network;
 import Server.Utility;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

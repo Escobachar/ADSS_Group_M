@@ -1,14 +1,14 @@
-package suppliers.PresentationLayer;
+package Suppliers.PresentationLayer;
 
+import Suppliers.DaysOfTheWeek;
+import Suppliers.DomainLayer.OrdersFacade;
+import Suppliers.DomainLayer.Product;
+import Suppliers.DomainLayer.SuppliersFacade;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import suppliers.DaysOfTheWeek;
-import suppliers.DomainLayer.OrdersFacade;
-import suppliers.DomainLayer.Product;
-import suppliers.DomainLayer.SuppliersFacade;
 
 public class OrdersService {
     private OrdersFacade of;
@@ -34,7 +34,7 @@ public class OrdersService {
     }
 
     public String addOrder(int supplierID, String deliveryDate, HashMap<Integer, Integer> items,
-            List<Integer> deliveryDays) {
+            List<Integer> deliveryDays, int branchID) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date date = dateFormat.parse(deliveryDate);
@@ -48,7 +48,7 @@ public class OrdersService {
             for (Integer day : deliveryDays) {
                 constDays.add(DaysOfTheWeek.intToDay(day));
             }
-            int orderId = of.addOrder(sf.getSupplier(supplierID), new Date(), date, products, constDays);
+            int orderId = of.addOrder(sf.getSupplier(supplierID), new Date(), date, products, constDays, branchID);
             return "Order " + orderId + " added successfully";
 
         } catch (Exception e) {

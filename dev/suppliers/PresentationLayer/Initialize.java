@@ -1,4 +1,4 @@
-package suppliers.PresentationLayer;
+package Suppliers.PresentationLayer;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import suppliers.DomainLayer.Category;
-import suppliers.DomainLayer.DiscountQuantity;
-import suppliers.DomainLayer.Product;
+import Suppliers.DomainLayer.Category;
+import Suppliers.DomainLayer.DiscountQuantity;
+import Suppliers.DomainLayer.Product;
 
 public class Initialize {
         public OrdersService os = OrdersService.getInstance();

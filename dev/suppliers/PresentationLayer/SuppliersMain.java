@@ -1,15 +1,15 @@
+package Suppliers.PresentationLayer;
+
+
+import Suppliers.DomainLayer.Category;
+import Suppliers.DomainLayer.DiscountQuantity;
+import Suppliers.DomainLayer.Product;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import suppliers.DomainLayer.Category;
-import suppliers.DomainLayer.DiscountQuantity;
-import suppliers.DomainLayer.Product;
-import suppliers.PresentationLayer.Initialize;
-import suppliers.PresentationLayer.OrdersService;
-import suppliers.PresentationLayer.SuppliersService;
 
 public class SuppliersMain {
     static Scanner sc = new Scanner(System.in);
@@ -130,6 +130,8 @@ public class SuppliersMain {
     }
 
     private static void addingOrders(HashMap<Integer, HashMap<Product, Integer>> supplierToOrder) {
+        System.out.println("Enter branch ID");
+        int branchID = inputToInt();
         System.out.println("Enter delivery date (dd/MM/yyyy)");
         String deliveryDate = sc.next();
         for (Map.Entry<Integer, HashMap<Product, Integer>> sup : supplierToOrder.entrySet()) {
@@ -137,7 +139,7 @@ public class SuppliersMain {
             for (Map.Entry<Product, Integer> products : sup.getValue().entrySet()) {
                 items.put(products.getKey().getCatalogNumber(), products.getValue());
             }
-            System.out.println(os.addOrder(sup.getKey(), deliveryDate, items, null));
+            System.out.println(os.addOrder(sup.getKey(), deliveryDate, items, null, branchID));
         }
     }
 
@@ -307,6 +309,8 @@ public class SuppliersMain {
             System.out.println("Enter supplier id");
             supplierId = inputToInt();
         } while (supplierId == null || !ss.isSupplierExists(supplierId));
+        System.out.println("Enter branch id");
+        int branchID = inputToInt();
         System.out.println("Enter delivery date (dd/MM/yyyy)");
         String deliveryDate = sc.next();
         System.out.println("Is this a recurring order?- 1 (Yes), 2 (No)");
@@ -362,7 +366,7 @@ public class SuppliersMain {
                 items.put(catalogNumber, amount);
             }
         }
-        os.addOrder(supplierId, deliveryDate, items, constDeliveryDays);
+        os.addOrder(supplierId, deliveryDate, items, constDeliveryDays, branchID);
     }
 
     public static void suppliers() {

@@ -1,15 +1,15 @@
-package suppliers.DomainLayer;
+package Suppliers.DomainLayer;
 
-import suppliers.DataAccessLayer.DAO.CategoriesDAO;
-import suppliers.DataAccessLayer.DAO.ProductsDAO;
-import suppliers.DataAccessLayer.DAO.SuppliersDAO;
-
-import java.sql.SQLException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
-import suppliers.DataAccessLayer.DAO.SuppliersDAO;
-import suppliers.DataAccessLayer.DAO.CategoriesDAO;
+
+import Suppliers.DataAccessLayer.DAO.CategoriesDAO;
+import Suppliers.DataAccessLayer.DAO.ProductsDAO;
+import Suppliers.DataAccessLayer.DAO.SuppliersDAO;
+import Suppliers.DomainLayer.Category;
+import Suppliers.DomainLayer.Product;
+
 import java.text.ParseException;
 
 public class SuppliersFacade {

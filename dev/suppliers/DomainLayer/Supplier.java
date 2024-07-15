@@ -1,17 +1,17 @@
-package suppliers.DomainLayer;
+package Suppliers.DomainLayer;
 
-import suppliers.DataAccessLayer.DAO.ProductsDAO;
-import suppliers.DataAccessLayer.DAO.SupplierCategoriesDAO;
-import suppliers.DataAccessLayer.DAO.SupplierContactDAO;
-import suppliers.DataAccessLayer.DAO.SupplierDeliveryDaysDAO;
+import static Suppliers.DaysOfTheWeek.DayToInt;
+import static Suppliers.DaysOfTheWeek.intToDay;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import static suppliers.DaysOfTheWeek.DayToInt;
-import static suppliers.DaysOfTheWeek.intToDay;
+import Suppliers.DataAccessLayer.DAO.ProductsDAO;
+import Suppliers.DataAccessLayer.DAO.SupplierCategoriesDAO;
+import Suppliers.DataAccessLayer.DAO.SupplierContactDAO;
+import Suppliers.DataAccessLayer.DAO.SupplierDeliveryDaysDAO;
 
 public class Supplier {
     private String name;

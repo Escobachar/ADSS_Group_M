@@ -1,16 +1,15 @@
-package suppliers.DomainLayer;
+package Suppliers.DomainLayer;
 
+import Suppliers.DataAccessLayer.DAO.OrderDeliveryDayDAO;
+import Suppliers.DataAccessLayer.DAO.OrderItemDAO;
+import Suppliers.DataAccessLayer.DAO.ProductsDAO;
+import Suppliers.DaysOfTheWeek.Day;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import suppliers.DataAccessLayer.DAO.OrderDeliveryDayDAO;
-import suppliers.DataAccessLayer.DAO.OrderItemDAO;
-import suppliers.DataAccessLayer.DAO.ProductsDAO;
-import suppliers.DaysOfTheWeek.Day;
 
 public class Order {
     final private int orderId;
@@ -22,17 +21,19 @@ public class Order {
     private double price;
     private boolean isChanged;
     private ProductsDAO productsDAO;
+    private int branchID;
 
     private OrderDeliveryDayDAO deliveryDayDAO;
     private OrderItemDAO itemDAO;
 
     public Order(int orderId, Supplier supplier, Date creationDate, Date deliveryDate, HashMap<Product, Integer> items,
-            List<Day> deliveryDays) throws SQLException {
+            List<Day> deliveryDays, int branchID) throws SQLException {
         this.orderId = orderId;
         this.supplier = supplier;
         this.creationDate = creationDate;
         this.deliveryDate = deliveryDate;
         this.items = items;
+        this.branchID = branchID;
         priceCalculation();
         this.isChanged = false;
         this.constDeliveryDays = deliveryDays;
@@ -87,6 +88,7 @@ public class Order {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String order = "";
         order += "Order INFO:\n";
+        order += "branch ID: " + branchID + "\n";
         order += "supplier name: " + supplier.getName() + " | address: " + supplier.getAddress() + " | order ID: "
                 + orderId + "\n";
         order += "supplier ID: " + supplier.getId() + " | Delivery Date: " + dateFormat.format(deliveryDate)
@@ -189,5 +191,9 @@ public class Order {
         if (TimeUnit.MILLISECONDS.toDays(diffInMillies) < 1) {
 return false;        }
         return true;
+    }
+
+    public int getBranchID() {
+        return branchID;
     }
 }

@@ -1,23 +1,26 @@
-package suppliers.tests;
+package Suppliers.tests;
 
 import org.junit.Test;
 import org.junit.Before;
-import suppliers.DataAccessLayer.DataBase;
-import suppliers.DomainLayer.OrdersFacade;
-import suppliers.DomainLayer.Order;
-import suppliers.DomainLayer.Product;
-import suppliers.DomainLayer.Category;
-import suppliers.DomainLayer.DiscountQuantity;
-import suppliers.DomainLayer.Supplier;
 
+import static Suppliers.DaysOfTheWeek.Day;
 import static org.junit.Assert.*;
-import static suppliers.DaysOfTheWeek.Day;
+
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.junit.runners.MethodSorters;
+
+import Suppliers.DataAccessLayer.DataBase;
+import Suppliers.DomainLayer.Category;
+import Suppliers.DomainLayer.DiscountQuantity;
+import Suppliers.DomainLayer.Order;
+import Suppliers.DomainLayer.OrdersFacade;
+import Suppliers.DomainLayer.Product;
+import Suppliers.DomainLayer.Supplier;
+
 import org.junit.FixMethodOrder;
 
 import java.util.HashMap;

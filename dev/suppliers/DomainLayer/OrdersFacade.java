@@ -1,7 +1,5 @@
-package suppliers.DomainLayer;
+package Suppliers.DomainLayer;
 
-import suppliers.DataAccessLayer.DAO.OrderDAO;
-import suppliers.DaysOfTheWeek.Day;
 import java.text.ParseException;
 
 import java.sql.SQLException;
@@ -9,6 +7,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import Suppliers.DataAccessLayer.DAO.OrderDAO;
+import Suppliers.DaysOfTheWeek.Day;
 
 public class OrdersFacade {
     private static OrdersFacade instance = null;
@@ -48,7 +49,7 @@ public class OrdersFacade {
 
     public int addOrder(Supplier supplier, Date creationDate, Date deliveryDate,
             HashMap<Product, Integer> items,
-            List<Day> deliveryDays) throws SQLException {
+            List<Day> deliveryDays, int branchID) throws SQLException {
         if (deliveryDate == null || deliveryDate.before(creationDate)) {
             throw new IllegalArgumentException("Delivery date must be after creation date");
         }
@@ -59,7 +60,7 @@ public class OrdersFacade {
             throw new IllegalArgumentException("Delivery days list is empty");
         }
         Order order = new Order(orderIdCounter, supplier, creationDate, deliveryDate, items,
-                deliveryDays);
+                deliveryDays, branchID);
         orders.put(orderIdCounter, order);
         orderDAO.addOrder(order);
         orderIdCounter++;

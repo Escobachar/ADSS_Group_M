@@ -1,18 +1,19 @@
- package suppliers.tests;
+ package Suppliers.tests;
 
- import suppliers.DataAccessLayer.DataBase;
- import suppliers.DomainLayer.Product;
- import suppliers.DomainLayer.Supplier;
- import suppliers.DomainLayer.SuppliersFacade;
- import suppliers.DomainLayer.Category;
- import suppliers.DomainLayer.DiscountQuantity;
  import org.junit.Before;
  import org.junit.FixMethodOrder;
  import org.junit.Test;
  import static org.junit.Assert.*;
  import org.junit.runners.MethodSorters;
 
- import java.sql.SQLException;
+import Suppliers.DataAccessLayer.DataBase;
+import Suppliers.DomainLayer.Category;
+import Suppliers.DomainLayer.DiscountQuantity;
+import Suppliers.DomainLayer.Product;
+import Suppliers.DomainLayer.Supplier;
+import Suppliers.DomainLayer.SuppliersFacade;
+
+import java.sql.SQLException;
 
 
  @FixMethodOrder(MethodSorters.NAME_ASCENDING)

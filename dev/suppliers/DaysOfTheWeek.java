@@ -1,4 +1,4 @@
-package suppliers;
+package Suppliers;
 
 public class DaysOfTheWeek {
     public enum Day {
