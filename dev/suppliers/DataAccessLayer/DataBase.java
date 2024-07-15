@@ -6,23 +6,25 @@ import java.sql.SQLException;
 
 public final class DataBase {
     private static DataBase dataBase = null;
-    private static final String url = "jdbc:sqlite:C:\\\\Users\\97254\\ADSS_Group_M_2\\Suppliers.db";
-
+    private static final String url = "jdbc:sqlite:Suppliers.db";
     public static Connection conn = null;
     private DataBase() {
         connectToDatabase();
     }
 
-    public static Connection getConnection()  {
-        try{
-            conn = DriverManager.getConnection(url);
+   public static Connection getConnection()  {
+       if(conn == null) {
+        if(dataBase == null)
+            dataBase = new DataBase();
+           dataBase.connectToDatabase();
+           return conn;
+       }
+        else{
             return conn;
         }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+        
     }
+
 
     public  void connectToDatabase() {
         try {
@@ -30,14 +32,20 @@ public final class DataBase {
             String url = "jdbc:sqlite:Suppliers.db";
             // create a connection to the database
             this.conn = DriverManager.getConnection(url);
-
-            System.out.println("Connection to SQLite has been established.");
-            System.out.println(conn.getMetaData().getURL());
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
+    public static void closeConnection() {
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }   
 
     public static void deleteAll() throws SQLException {
         getConnection();

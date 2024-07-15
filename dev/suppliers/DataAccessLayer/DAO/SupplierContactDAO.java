@@ -30,68 +30,86 @@ public class SupplierContactDAO {
     private Connection conn = null;
 
     public SupplierContactDAO() {
-        this.conn = DataBase.getConnection();
     }
 
     public void insert(int supplierId, String cName, String cNum) throws SQLException {
+        this.conn = DataBase.getConnection();
         String query = "INSERT INTO SupplierContacts (SupplierId, contactName, contactNum) VALUES (?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, supplierId);
-            pstmt.setString(2, cName);
-            pstmt.setString(3, cNum);
-            pstmt.executeUpdate();
+        pstmt.setInt(1, supplierId);
+        pstmt.setString(2, cName);
+        pstmt.setString(3, cNum);
+        pstmt.executeUpdate();
+        
 
     }
 
     public void insertAll(int supplierId, HashMap<String, String> contacts) throws SQLException {
-        for (Map.Entry<String,String> contact:contacts.entrySet()) {
-            String query = "INSERT INTO " + tableName + " ("+colSupplierId+", "+ colContactName+","+ colContactNum+") VALUES (" + supplierId + ", " + contact.getKey() + ", " + contact.getValue()
-                    + ")";
+        this.conn = DataBase.getConnection();
+        for (Map.Entry<String, String> contact : contacts.entrySet()) {
+            String query = "INSERT INTO " + tableName + " (" + colSupplierId + ", " + colContactName + ","
+                    + colContactNum + ") VALUES (?, ?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement(query);
             conn.createStatement().executeUpdate(query);
         }
+        
     }
 
     public void update(int supplierId, String contactName, String contactNum) throws SQLException {
-        String query = "UPDATE " + tableName + " SET " + colContactName + " = " + contactName + ", " + colContactNum
-                + " = " + contactNum + " WHERE " + colSupplierId + " = " + supplierId;
-        conn.createStatement().executeUpdate(query);
+        this.conn = DataBase.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("UPDATE " + tableName + " SET " + colContactName + " = ?, "
+                + colContactNum + " = ? WHERE " + colSupplierId + " = ?");
+        pstmt.setString(1, contactName);
+        pstmt.setString(2, contactNum);
+        pstmt.setInt(3, supplierId);
+        pstmt.executeUpdate();
+        
     }
 
     public void updateAll(int supplierId, HashMap<String, String> contacts) throws SQLException {
         deleteAll(supplierId);
-        for (Map.Entry<String,String> contact:contacts.entrySet()) {
+        for (Map.Entry<String, String> contact : contacts.entrySet()) {
             insert(supplierId, contact.getKey(), contact.getValue());
         }
     }
 
     public void deleteAll(int supplierId) throws SQLException {
-        String query = "DELETE FROM " + tableName + " WHERE " + colSupplierId + " = " + supplierId;
-        conn.createStatement().executeUpdate(query);
+        this.conn = DataBase.getConnection();
+        PreparedStatement pstmt = conn
+                .prepareStatement("DELETE FROM " + tableName + " WHERE " + colSupplierId + " = ?");
+        pstmt.setInt(1, supplierId);
+        pstmt.executeUpdate();
+        
     }
 
     public void delete(int supplierId, String contactName) throws SQLException {
+        this.conn = DataBase.getConnection();
         String query = "DELETE FROM " + tableName + " WHERE " + colSupplierId + " = ? AND " + colContactName + " = ?";
         PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, supplierId);
-            pstmt.setString(2, contactName);
-            pstmt.executeUpdate();
+        pstmt.setInt(1, supplierId);
+        pstmt.setString(2, contactName);
+        pstmt.executeUpdate();
+        
     }
 
     public List<DataTypeSupplierContact> select(int supplierId) throws SQLException {
-        String query = "SELECT * FROM " + tableName + " WHERE " + colSupplierId + " = " + supplierId;
-        var result = conn.createStatement().executeQuery(query);
-        if (!result.next()) {
-            throw new SQLException("No such supplier contact");
-        }
+        this.conn = DataBase.getConnection();
+        PreparedStatement stmt = conn
+                .prepareStatement("SELECT * FROM " + tableName + " WHERE " + colSupplierId + " = ?");
+        stmt.setInt(1, supplierId);
+        var result = stmt.executeQuery();
+        
         List<DataTypeSupplierContact> list = new ArrayList<>();
         while (result.next()) {
             list.add(new DataTypeSupplierContact(result.getInt(colSupplierId), result.getString(colContactName),
                     result.getString(colContactNum)));
         }
+        
         return list;
     }
 
     public List<DataTypeSupplierContact> selectAll() throws SQLException {
+        this.conn = DataBase.getConnection();
         String query = "SELECT * FROM " + tableName;
         var result = conn.createStatement().executeQuery(query);
         List<DataTypeSupplierContact> list = new ArrayList<>();
@@ -99,6 +117,7 @@ public class SupplierContactDAO {
             list.add(new DataTypeSupplierContact(result.getInt(colSupplierId), result.getString(colContactName),
                     result.getString(colContactNum)));
         }
+        
         return list;
     }
 
