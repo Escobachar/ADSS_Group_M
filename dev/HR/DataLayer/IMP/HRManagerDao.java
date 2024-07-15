@@ -1,8 +1,8 @@
-package DataLayer.IMP;
+package HR.DataLayer.IMP;
 
-import DataLayer.interfaces.EmployeeDao;
-import Domain.*;
-import Server.Utility;
+import HR.DataLayer.interfaces.EmployeeDao;
+import HR.Domain.*;
+import HR.Server.Utility;
 import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

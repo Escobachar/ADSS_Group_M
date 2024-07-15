@@ -1,6 +1,6 @@
-package DataLayer.interfaces;
+package HR.DataLayer.interfaces;
 
-import Domain.Network;
+import HR.Domain.Network;
 
 public interface NetworkRepository {
 

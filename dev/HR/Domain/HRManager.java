@@ -1,7 +1,7 @@
-package Domain;
+package HR.Domain;
 
-import DataLayer.IMP.*;
-import DataLayer.interfaces.*;
+import HR.DataLayer.IMP.*;
+import HR.DataLayer.interfaces.*;
 
 
 import java.net.NetworkInterface;
@@ -20,7 +20,7 @@ public class HRManager extends Manager{
         this.getAccess().add("HRUpdateBranchRolesOfShifts");
         this.getAccess().add("HRShowBranchShiftsAvailability");
         this.getAccess().add("HRAddBranch");
-        hRManagerDao.create(this);
+        this.getAccess().add("HROpenSupplierMenu");
     }
     public HRManager(int ID, String name, String bankAccountDetails, int salary, String startOfEmployment, String partOfJob, int vacationsDays,String password) {
         this(ID, name, bankAccountDetails, salary, startOfEmployment,null, partOfJob, vacationsDays,password);

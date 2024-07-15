@@ -1,12 +1,12 @@
-package DataUnitTests;
+package HR.DataUnitTests;
 
-import DataLayer.IMP.GeneralEmployeeDao;
-import DataLayer.IMP.NetworkRepositoryImp;
-import DataLayer.interfaces.EmployeeDao;
-import DataLayer.interfaces.NetworkRepository;
-import DataLayer.interfaces.ShiftRequestDao;
-import Domain.*;
-import Server.Utility;
+import HR.DataLayer.IMP.GeneralEmployeeDao;
+import HR.DataLayer.IMP.NetworkRepositoryImp;
+import HR.DataLayer.interfaces.EmployeeDao;
+import HR.DataLayer.interfaces.NetworkRepository;
+import HR.DataLayer.interfaces.ShiftRequestDao;
+import HR.Domain.*;
+import HR.Server.Utility;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

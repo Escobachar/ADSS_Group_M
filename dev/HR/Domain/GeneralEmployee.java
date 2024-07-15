@@ -1,9 +1,9 @@
-package Domain;
+package HR.Domain;
 
-import DataLayer.IMP.GeneralEmployeeDao;
-import DataLayer.IMP.ShiftRequestDaoImp;
-import DataLayer.interfaces.EmployeeDao;
-import DataLayer.interfaces.ShiftRequestDao;
+import HR.DataLayer.IMP.GeneralEmployeeDao;
+import HR.DataLayer.IMP.ShiftRequestDaoImp;
+import HR.DataLayer.interfaces.EmployeeDao;
+import HR.DataLayer.interfaces.ShiftRequestDao;
 
 import java.util.*;
 public class GeneralEmployee extends Employee {
@@ -88,12 +88,14 @@ public class GeneralEmployee extends Employee {
             rolesUpdate=branch.getRoles();
         for (Role r : rolesUpdate) {
             Set<GeneralEmployee>[][] shiftsOfTheWeek = shiftsAvailability.get(r);
-            for (int i = 0; i < shiftsOfTheWeek.length; i++) {
-                for (int j = 0; j < shiftsOfTheWeek[i].length; j++) {
-                    if (ShiftsRequest[i][j])
-                        shiftsOfTheWeek[i][j].add(this);
-                    else
-                        shiftsOfTheWeek[i][j].remove(this);
+            if(shiftsOfTheWeek!=null) {
+                for (int i = 0; i < shiftsOfTheWeek.length; i++) {
+                    for (int j = 0; j < shiftsOfTheWeek[i].length; j++) {
+                        if (ShiftsRequest[i][j])
+                            shiftsOfTheWeek[i][j].add(this);
+                        else
+                            shiftsOfTheWeek[i][j].remove(this);
+                    }
                 }
             }
         }

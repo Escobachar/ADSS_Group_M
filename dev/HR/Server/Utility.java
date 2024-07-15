@@ -1,9 +1,9 @@
-package Server;
+package HR.Server;
 
-import Domain.Branch;
-import Domain.GeneralEmployee;
-import Domain.Network;
-import Domain.Role;
+import HR.Domain.Branch;
+import HR.Domain.GeneralEmployee;
+import HR.Domain.Network;
+import HR.Domain.Role;
 import java.io.File;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -251,8 +251,7 @@ public class Utility {
         return shifts;
     }
     private static String getDBUrl(){
-        //return "jdbc:sqlite:C:\\uni\\D\\nitoz\\testing\\dev\\DataLayer\\DataBase.db";
-        String relativePath = "DataLayer/DataBase.db";
+        String relativePath = "dev/HR/DataLayer/DataBase.db";
         File databaseFile = Paths.get(relativePath).toFile();
         if (databaseFile.exists()) {
             return "jdbc:sqlite:"+databaseFile.getAbsolutePath().replace("\\", "\\\\");

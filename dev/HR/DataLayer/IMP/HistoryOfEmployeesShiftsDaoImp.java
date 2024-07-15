@@ -1,9 +1,9 @@
-package DataLayer.IMP;
+package HR.DataLayer.IMP;
 
-import DataLayer.interfaces.HistoryOfEmployeesShiftsDao;
-import Domain.Network;
-import Domain.Role;
-import Server.Utility;
+import HR.DataLayer.interfaces.HistoryOfEmployeesShiftsDao;
+import HR.Domain.Network;
+import HR.Domain.Role;
+import HR.Server.Utility;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

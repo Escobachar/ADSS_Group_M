@@ -1,7 +1,7 @@
-package Domain;
+package HR.Domain;
 
-import DataLayer.IMP.BranchManagerDao;
-import DataLayer.interfaces.EmployeeDao;
+import HR.DataLayer.IMP.BranchManagerDao;
+import HR.DataLayer.interfaces.EmployeeDao;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -21,6 +21,7 @@ public class BranchManager extends Manager{
         this.getAccess().add("UpdateBranchShifts");
         this.getAccess().add("UpdateRolesOfShifts");
         this.getAccess().add("ShowShiftsAvailability");
+        this.getAccess().add("OpenSupplierMenu");
 
         branch.getEmployeesList().add(this);
     }

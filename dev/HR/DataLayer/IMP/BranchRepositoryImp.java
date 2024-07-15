@@ -1,8 +1,9 @@
-package DataLayer.IMP;
+package HR.DataLayer.IMP;
 
-import DataLayer.interfaces.*;
-import Domain.*;
+import HR.DataLayer.interfaces.*;
+import HR.Domain.*;
 
+import java.util.LinkedList;
 import java.util.stream.*;
 import java.util.List;
 
@@ -54,6 +55,18 @@ public class BranchRepositoryImp implements BranchRepository {
         branch.setHistoryEmployeesShifts(historyOfEmployeesShiftsDao.read(branchName));
         branch.setEmployeesShifts(employeeShiftsDao.read(branchName));
         return branch;
+    }
+    @Override
+    public void NetworkBuilder(String branchName) {
+        Branch branch = branchDao.read(branchName);
+        List<Employee> employeeList = new LinkedList<>();
+        employeeList.add(branch.getBranchManager());
+        branch.setRolesOfShifts(roleOfShiftsDao.read(branchName));
+        branch.setShiftsAvailability(shiftAvailabilityDao.read(branchName));
+        branch.setHistoryEmployeesShifts(historyOfEmployeesShiftsDao.read(branchName));
+        branch.setEmployeesShifts(employeeShiftsDao.read(branchName));
+        Network.getNetwork().addBranch(branch);
+        branch=get(branchName);
     }
 
     @Override
@@ -107,4 +120,7 @@ public class BranchRepositoryImp implements BranchRepository {
             employeeShiftsDao.delete(branchName);
         }
     }
+
+
+
 }

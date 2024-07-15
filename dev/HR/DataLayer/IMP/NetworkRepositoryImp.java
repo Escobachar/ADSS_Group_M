@@ -1,20 +1,19 @@
-package DataLayer.IMP;
+package HR.DataLayer.IMP;
 
-import DataLayer.interfaces.BranchDao;
-import DataLayer.interfaces.EmployeeDao;
-import DataLayer.interfaces.NetworkRepository;
-import Domain.HRManager;
-import Domain.Network;
-import Server.Utility;
+import HR.DataLayer.interfaces.BranchDao;
+import HR.DataLayer.interfaces.EmployeeDao;
+import HR.DataLayer.interfaces.NetworkRepository;
+import HR.Domain.HRManager;
+import HR.Domain.Network;
+import HR.Server.Utility;
 import java.sql.SQLException;
 import java.sql.*;
 import java.util.List;
 
 public class NetworkRepositoryImp implements NetworkRepository {
     private BranchRepositoryImp branchRepository= new BranchRepositoryImp();
-    private RoleDaoImp RoleDao = new RoleDaoImp();
+    private RoleDaoImp roleDao = new RoleDaoImp();
     private BranchDao branchDao=new BranchDaoImp();
-    private DataLayer.interfaces.RoleDao roleDao=new RoleDaoImp();
     private EmployeeDao hrManagerDao=new HRManagerDao();
 
     @Override
@@ -24,7 +23,7 @@ public class NetworkRepositoryImp implements NetworkRepository {
         List<String> branchNames = branchDao.readAll();
         network.setRoles(roleDao.readAll());
         for(String branchName : branchNames) {
-            network.addBranch(branchRepository.get(branchName));
+            branchRepository.NetworkBuilder(branchName);
         }
         return network;
     }

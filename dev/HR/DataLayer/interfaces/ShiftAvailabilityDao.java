@@ -1,7 +1,7 @@
-package DataLayer.interfaces;
+package HR.DataLayer.interfaces;
 
-import Domain.GeneralEmployee;
-import Domain.Role;
+import HR.Domain.GeneralEmployee;
+import HR.Domain.Role;
 
 import java.util.HashMap;
 import java.util.Set;

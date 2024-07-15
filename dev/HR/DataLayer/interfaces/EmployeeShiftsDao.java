@@ -1,6 +1,6 @@
-package DataLayer.interfaces;
+package HR.DataLayer.interfaces;
 
-import Domain.Role;
+import HR.Domain.Role;
 
 import java.util.HashMap;
 

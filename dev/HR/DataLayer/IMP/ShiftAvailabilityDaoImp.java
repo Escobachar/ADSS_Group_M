@@ -1,10 +1,8 @@
-package DataLayer.IMP;
+package HR.DataLayer.IMP;
 
-import DataLayer.interfaces.ShiftAvailabilityDao;
-import Domain.GeneralEmployee;
-import Domain.Network;
-import Domain.Role;
-import Server.Utility;
+import HR.DataLayer.interfaces.*;
+import HR.Domain.*;
+import HR.Server.Utility;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
