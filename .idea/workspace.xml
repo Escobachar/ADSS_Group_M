@@ -10,57 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4077e5f5-6c62-424f-b469-a875ffef33d9" name="Changes" comment="fix add Manager">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/DataBase.db" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/DataBase.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchManagerDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchManagerDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/DriverDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/DriverDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/GeneralEmployeeDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/GeneralEmployeeDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/HRManagerDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/HRManagerDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/HistoryOfEmployeesShiftsDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/HistoryOfEmployeesShiftsDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/RoleDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/RoleDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/Domain/BranchManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/Domain/BranchManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/Domain/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/Domain/Network.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/Presentetion/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/Presentetion/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/CategoriesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/CategoriesDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/OrderDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/OrderDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/OrderDeliveryDayDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/OrderDeliveryDayDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/OrderItemDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/OrderItemDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/ProductsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/ProductsDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/ProductsDiscountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/ProductsDiscountDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/SupplierCategoriesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/SupplierCategoriesDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/SupplierContactDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/SupplierContactDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/SupplierDeliveryDaysDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/SupplierDeliveryDaysDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/SuppliersDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/SuppliersDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DataBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DaysOfTheWeek.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DaysOfTheWeek.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DomainLayer/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DomainLayer/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DomainLayer/DiscountQuantity.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DomainLayer/DiscountQuantity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DomainLayer/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DomainLayer/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DomainLayer/OrdersFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DomainLayer/OrdersFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DomainLayer/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DomainLayer/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DomainLayer/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DomainLayer/Supplier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DomainLayer/SuppliersFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DomainLayer/SuppliersFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/PresentationLayer/OrdersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/PresentationLayer/OrdersService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/PresentationLayer/Response.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/PresentationLayer/Response.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/PresentationLayer/SuppliersMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/PresentationLayer/SuppliersMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/PresentationLayer/SuppliersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/PresentationLayer/SuppliersService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/tests/SuppliersFacadeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/tests/SuppliersFacadeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_M_2/HR/DataLayer/DataBase.db" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_M_2/HR/DataLayer/DataBase.db" afterDir="false" />
-    </list>
-    <list id="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" name="Changes by shaih" comment="Changes by shaih">
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchDaoImp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchRepositoryImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchRepositoryImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/EmployeeShiftsDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/EmployeeShiftsDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/HistoryOfEmployeesShiftsDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/HistoryOfEmployeesShiftsDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/RoleOfShiftsDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/RoleOfShiftsDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/ShiftAvailabilityDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/ShiftAvailabilityDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/ShiftRequestDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/ShiftRequestDaoImp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/HR/Domain/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/Domain/Network.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/Server/init.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/Server/init.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/tests/OrdersFacadeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/tests/OrdersFacadeTest.java" afterDir="false" />
     </list>
+    <list id="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" name="Changes by shaih" comment="Changes by shaih" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -97,30 +51,6 @@
     "repository": "ADSS_Group_M"
   }
 }]]></component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/dev/HR/Domain/Network.java">
-      <ranges>
-        <range start1="76" end1="76" start2="76" end2="82" changelist="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" />
-        <range start1="98" end1="98" start2="104" end2="106" changelist="4077e5f5-6c62-424f-b469-a875ffef33d9" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchDaoImp.java">
-      <ranges>
-        <range start1="30" end1="31" start2="30" end2="30" changelist="4077e5f5-6c62-424f-b469-a875ffef33d9" />
-        <range start1="71" end1="72" start2="70" end2="71" changelist="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" />
-        <range start1="76" end1="76" start2="75" end2="76" changelist="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" />
-        <range start1="89" end1="94" start2="89" end2="89" changelist="4077e5f5-6c62-424f-b469-a875ffef33d9" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/dev/HR/DataLayer/IMP/HistoryOfEmployeesShiftsDaoImp.java">
-      <ranges>
-        <range start1="17" end1="18" start2="17" end2="18" changelist="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" />
-        <range start1="52" end1="53" start2="52" end2="53" changelist="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" />
-        <range start1="84" end1="85" start2="84" end2="85" changelist="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" />
-        <range start1="89" end1="93" start2="89" end2="90" changelist="4077e5f5-6c62-424f-b469-a875ffef33d9" />
-      </ranges>
-    </file>
-  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -133,7 +63,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Login.executor": "Debug",
-    "Application.Unnamed.executor": "Debug",
+    "Application.Unnamed.executor": "Run",
     "JUnit.GeneralEmployeeTest.updateShifts0.executor": "Run",
     "JUnit.GeneralEmployeeTest.updateShifts1.executor": "Run",
     "JUnit.GeneralEmployeeTest.updateShifts2.executor": "Run",
@@ -293,7 +223,7 @@
       <workItem from="1717964810433" duration="1063000" />
       <workItem from="1718627994793" duration="4859000" />
       <workItem from="1718792547775" duration="214000" />
-      <workItem from="1721049970398" duration="9374000" />
+      <workItem from="1721049970398" duration="9800000" />
     </task>
     <task id="LOCAL-00001" summary="Tomer working on login">
       <option name="closed" value="true" />
@@ -415,7 +345,23 @@
       <option name="project" value="LOCAL" />
       <updated>1721055539886</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="fix add Manager">
+      <option name="closed" value="true" />
+      <created>1721059584178</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1721059584178</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Changes by shaih">
+      <option name="closed" value="true" />
+      <created>1721059602725</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1721059602725</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -440,9 +386,9 @@
     <MESSAGE value=" Branch manager done" />
     <MESSAGE value="Login update" />
     <MESSAGE value="all done" />
-    <MESSAGE value="Changes by shaih" />
     <MESSAGE value="fix add Manager" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix add Manager" />
+    <MESSAGE value="Changes by shaih" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes by shaih" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -454,7 +400,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchRepositoryImp.java</url>
-          <line>69</line>
+          <line>70</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
