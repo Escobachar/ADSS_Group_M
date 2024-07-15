@@ -1,11 +1,11 @@
-package DataLayer.IMP;
+package HR.DataLayer.IMP;
 
-import DataLayer.interfaces.BranchDao;
-import DataLayer.interfaces.EmployeeDao;
-import Domain.BranchManager;
-import Domain.Employee;
-import Domain.Network;
-import Server.Utility;
+import HR.DataLayer.interfaces.BranchDao;
+import HR.DataLayer.interfaces.EmployeeDao;
+import HR.Domain.BranchManager;
+import HR.Domain.Employee;
+import HR.Domain.Network;
+import HR.Server.Utility;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

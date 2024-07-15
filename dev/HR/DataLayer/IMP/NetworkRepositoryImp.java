@@ -12,9 +12,8 @@ import java.util.List;
 
 public class NetworkRepositoryImp implements NetworkRepository {
     private BranchRepositoryImp branchRepository= new BranchRepositoryImp();
-    private RoleDaoImp RoleDao = new RoleDaoImp();
+    private RoleDaoImp roleDao = new RoleDaoImp();
     private BranchDao branchDao=new BranchDaoImp();
-    private DataLayer.interfaces.RoleDao roleDao=new RoleDaoImp();
     private EmployeeDao hrManagerDao=new HRManagerDao();
 
     @Override

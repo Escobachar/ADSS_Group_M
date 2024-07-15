@@ -1,7 +1,7 @@
-package DataLayer.IMP;
+package HR.DataLayer.IMP;
 
-import DataLayer.interfaces.*;
-import Domain.*;
+import HR.DataLayer.interfaces.*;
+import HR.Domain.*;
 
 import java.util.LinkedList;
 import java.util.stream.*;

@@ -1,9 +1,9 @@
-package Server;
+package HR.Server;
 
-import DataLayer.IMP.*;
-import DataLayer.interfaces.EmployeeDao;
-import DataLayer.interfaces.NetworkRepository;
-import Domain.*;
+import HR.DataLayer.IMP.*;
+import HR.DataLayer.interfaces.EmployeeDao;
+import HR.DataLayer.interfaces.NetworkRepository;
+import HR.Domain.*;
 
 import java.util.*;
 
@@ -12,7 +12,7 @@ public class init {
 
         NetworkRepository NR = new NetworkRepositoryImp();
         Network network = NR.get();
-        /*
+/*
         NR.delete();//delete
 
         HRManager hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, "04-06-2024", null, "Full", 18, "1111");
@@ -81,7 +81,7 @@ public class init {
         d1_b2.updateShifts(shiftRequest3);
         ge3_b2.updateShifts(shiftRequest2);
 
-           */
+         */
         return network;
     }
 }

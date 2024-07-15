@@ -1,8 +1,8 @@
-package DataLayer.IMP;
+package HR.DataLayer.IMP;
 
-import DataLayer.interfaces.RoleDao;
-import Domain.Role;
-import Server.Utility;
+import HR.DataLayer.interfaces.RoleDao;
+import HR.Domain.Role;
+import HR.Server.Utility;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,11 +17,19 @@ public class RoleDaoImp implements RoleDao {
         Connection connection = Utility.toConnect();
         String query = "INSERT INTO Role(roleName, access) VALUES(?, ?)";
         try {
-            for (String access : role.getAccess()) {
+            if (role.getAccess().isEmpty()){
                 PreparedStatement prepare = connection.prepareStatement(query);
-                prepare.setString(1, role.getRoleName());
-                prepare.setString(2, access);
-                prepare.executeUpdate();
+            prepare.setString(1, role.getRoleName());
+            prepare.setString(2, "");
+            prepare.executeUpdate();
+            }
+            else {
+                for (String access : role.getAccess()) {
+                    PreparedStatement prepare = connection.prepareStatement(query);
+                    prepare.setString(1, role.getRoleName());
+                    prepare.setString(2, access);
+                    prepare.executeUpdate();
+                }
             }
             System.out.println("Role " +role.getRoleName() + " has been added.");
         } catch (SQLException e) {

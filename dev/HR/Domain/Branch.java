@@ -1,9 +1,9 @@
 
-package Domain;
-import DataLayer.IMP.*;
-import DataLayer.interfaces.BranchRepository;
-import DataLayer.interfaces.EmployeeDao;
-import DataLayer.interfaces.ShiftAvailabilityDao;
+package HR.Domain;
+import HR.DataLayer.IMP.*;
+import HR.DataLayer.interfaces.BranchRepository;
+import HR.DataLayer.interfaces.EmployeeDao;
+import HR.DataLayer.interfaces.ShiftAvailabilityDao;
 
 import java.util.*;
 
@@ -31,7 +31,8 @@ public class Branch {
                 employeesShifts[i][j]=new HashMap<>();
         rolesOfShifts = new HashMap<Role,Integer[][]>();
         shiftsAvailability = new HashMap<Role,Set<GeneralEmployee>[][]>();
-        for(Role r: Network.getNetwork().getRoles()){
+        Network network = Network.getNetwork();
+        for(Role r: network.getRoles()){
             rolesOfShifts.put(r,new Integer[Network.shifts][Network.days]);
             shiftsAvailability.put(r,new HashSet[Network.shifts][Network.days]);
             Set<GeneralEmployee>[][] setList=shiftsAvailability.get(r);

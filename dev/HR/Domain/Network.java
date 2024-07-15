@@ -1,4 +1,4 @@
-package Domain;
+package HR.Domain;
 
 import HR.DataLayer.IMP.RoleDaoImp;
 import HR.DataLayer.interfaces.EmployeeDao;

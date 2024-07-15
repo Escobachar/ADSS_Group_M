@@ -6,13 +6,13 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import DataLayer.interfaces.EmployeeDao;
-import DataLayer.interfaces.ShiftRequestDao;
-import Server.Utility;
-import Domain.GeneralEmployee;
-import Domain.Employee;
-import Domain.Network;
-import Domain.Role;
+import HR.DataLayer.interfaces.*;
+import HR.DataLayer.interfaces.ShiftRequestDao;
+import HR.Server.Utility;
+import HR.Domain.GeneralEmployee;
+import HR.Domain.Employee;
+import HR.Domain.Network;
+import HR.Domain.Role;
 //import java.text.SimpleDateFormat;
 
 public class GeneralEmployeeDao implements EmployeeDao {
