@@ -116,10 +116,6 @@ public class RoleOfShiftsDaoImp implements RoleOfShiftsDao {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setString(1, branchName);
             int deleteRows = prepare.executeUpdate();
-            if (deleteRows > 0)
-                System.out.println("roleOfShifts has been deleted");
-            else
-                System.out.println("No roleOfShifts found with branchName: " + branchName);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

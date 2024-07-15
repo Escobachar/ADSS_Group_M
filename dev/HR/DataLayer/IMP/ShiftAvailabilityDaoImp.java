@@ -90,10 +90,6 @@ public class ShiftAvailabilityDaoImp implements ShiftAvailabilityDao {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setString(1, branchName);
             int deleteRows = prepare.executeUpdate();
-            if (deleteRows > 0)
-                System.out.println("ShiftAvailability has been deleted");
-            else
-                System.out.println("No ShiftAvailability found with branchName: " + branchName);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

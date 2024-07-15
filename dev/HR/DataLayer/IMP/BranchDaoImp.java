@@ -68,11 +68,12 @@ public class BranchDaoImp implements BranchDao {
 
     public void update(int BMID,String branchName){
         Connection connection = Utility.toConnect();
-        String query = "UPDATE Branch SET BMID = ? WHERE branchName = ?";;
+        String query = "UPDATE Branch SET BMID = ? WHERE branchName = ?";
         try {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setInt(1, BMID);
             prepare.setString(2, branchName);
+            prepare.executeUpdate();
         }catch (SQLException e) {
             System.out.println(e.getMessage());
         }

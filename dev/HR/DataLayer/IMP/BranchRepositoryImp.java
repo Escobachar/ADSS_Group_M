@@ -48,7 +48,8 @@ public class BranchRepositoryImp implements BranchRepository {
     @Override
     public Branch get(String branchName) {
         Branch branch = branchDao.read(branchName);
-        List<Employee> employeeList = Stream.concat(driverDao.readAll(branchName).stream(), generalEmployeeDao.readAll(branchName).stream()).toList();
+        List<Employee> employeeList = driverDao.readAll(branchName);
+        employeeList.addAll(generalEmployeeDao.readAll(branchName));
         employeeList.add(branch.getBranchManager());
         branch.setRolesOfShifts(roleOfShiftsDao.read(branchName));
         branch.setShiftsAvailability(shiftAvailabilityDao.read(branchName));
@@ -66,7 +67,7 @@ public class BranchRepositoryImp implements BranchRepository {
         branch.setHistoryEmployeesShifts(historyOfEmployeesShiftsDao.read(branchName));
         branch.setEmployeesShifts(employeeShiftsDao.read(branchName));
         Network.getNetwork().addBranch(branch);
-        branch=get(branchName);
+        Network.getNetwork().setBranch(branchName,get(branchName));
     }
 
     @Override

@@ -74,6 +74,12 @@ public class Network {
         }
         return null;
     }
+    public void setBranch(String branchName, Branch branch) {
+        for(Branch b:branchList) {
+            if(b.getBranchName().equals(branchName))
+                b=branch;
+        }
+    }
     public Branch getEmptyBranch(){
         for(Branch b:branchList) {
             if(b.getBranchName().equals(""))

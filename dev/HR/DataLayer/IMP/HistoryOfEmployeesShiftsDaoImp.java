@@ -15,7 +15,7 @@ import java.util.List;
 public class HistoryOfEmployeesShiftsDaoImp implements HistoryOfEmployeesShiftsDao {
     public void create(String branchName, HashMap<String, HashMap<Integer,Role>[][]> historyEmployeesShifts){
         Connection connection = Utility.toConnect();
-        String query = "INSERT INTO HistoryOfEmployeesShifts(branchNane, empID, roleName, day, shift, dateOfWeek) VALUES (?,?,?,?,?,?)";
+        String query = "INSERT INTO HistoryOfEmpShifts(branchNane, empID, roleName, day, shift, dateOfWeek) VALUES (?,?,?,?,?,?)";
         try {
 
             for(String dateOfWeek : historyEmployeesShifts.keySet()){
@@ -50,7 +50,7 @@ public class HistoryOfEmployeesShiftsDaoImp implements HistoryOfEmployeesShiftsD
                 employeesShifts[i][j]=new HashMap<>();
 
         Connection connection = Utility.toConnect();
-        String query = "SELECT * FROM HistoryOfEmployeesShifts WHERE branchName = ?";
+        String query = "SELECT * FROM HistoryOfEmpShifts WHERE branchName = ?";
         try{
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, branchName);
@@ -82,7 +82,7 @@ public class HistoryOfEmployeesShiftsDaoImp implements HistoryOfEmployeesShiftsD
 
     public void delete(String branchName){
         Connection connection = Utility.toConnect();
-        String query = "DELETE FROM HistoryOfEmployeesShifts WHERE branchName = ?";
+        String query = "DELETE FROM HistoryOfEmpShifts WHERE branchName = ?";
         try {
             PreparedStatement prepare = connection.prepareStatement(query);
             prepare.setString(1, branchName);
