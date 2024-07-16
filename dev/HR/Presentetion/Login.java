@@ -486,7 +486,7 @@ public class Login {
                 vacationDays=Integer.parseInt(vacationDaysScan);
         }while(!Network.checkVacationsDays(vacationDays));
 
-        System.out.println("Password: ");
+        System.out.print("Password: ");
         String password = scanner.nextLine();
         if(type=='g' ) {
             System.out.print("Is he a shift manager?(yes/no) ");
