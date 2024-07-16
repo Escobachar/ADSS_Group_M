@@ -8,11 +8,11 @@ import HR.Domain.*;
 import java.util.*;
 
 public class init {
-    public static Network init() {
+    public static Network init(boolean startup) {
 
         NetworkRepository NR = new NetworkRepositoryImp();
         Network network=null;
-        if(true)
+        if(!startup)
         network = NR.get();
         else {
             NR.delete();//delete

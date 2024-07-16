@@ -1,4 +1,6 @@
 package HR.DomainUnitTests;
+import HR.DataLayer.IMP.HRManagerDao;
+import HR.DataLayer.interfaces.EmployeeDao;
 import HR.Domain.*;
 import java.util.*;
 
@@ -21,8 +23,11 @@ public class HRManagerTest {
     @Before
     public void initTest() {
         hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, "04-06-2024", null, "Full", 18, "1111");
+        EmployeeDao HRMDao = new HRManagerDao();
+        HRMDao.create(hrm);
         Network network = Network.createNewNetwork(hrm);
         List<String> GeneralEmployeeAccess = new ArrayList<String>();
+        network.addRole(new Role("shift manager", GeneralEmployeeAccess));
         cashier= new Role("cashier",GeneralEmployeeAccess);
         storekeeper= new Role("storekeeper",GeneralEmployeeAccess);
         network.addRole(cashier);

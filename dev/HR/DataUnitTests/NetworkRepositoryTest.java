@@ -20,7 +20,7 @@ public class NetworkRepositoryTest {
     @Before
     public void setUp() {
         //enter data to db
-        network = HR.Server.init.init();
+        network = HR.Server.init.init(true);
     }
 
     @Test

@@ -31,8 +31,11 @@ public class GeneralEmployeeDaoTest {
         NR.delete();//delete all data before the test
 
         hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, "04-06-2024", null, "Full", 18, "1111");
+        EmployeeDao HRMDao = new HRManagerDao();
+        HRMDao.create(hrm);
         Network network = Network.createNewNetwork(hrm);
         List<String> GeneralEmployeeAccess = new ArrayList<>();
+        network.addRole(new Role("shift manager", GeneralEmployeeAccess));
         network.addRole(new Role("cashier", GeneralEmployeeAccess));
         network.addRole(new Role("storekeeper", GeneralEmployeeAccess));
         List<String> DriverAccess = new ArrayList<>();

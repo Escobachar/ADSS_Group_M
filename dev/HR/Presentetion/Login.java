@@ -13,7 +13,7 @@ import java.util.*;
 public class Login {
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
-        Network network=HR.Server.init.init();
+        Network network=HR.Server.init.init(false);
 
         System.out.print("Enter ID: ");
         String ID = scanner.nextLine();

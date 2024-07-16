@@ -9,10 +9,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4077e5f5-6c62-424f-b469-a875ffef33d9" name="Changes" comment="fix add Manager">
+    <list default="true" id="4077e5f5-6c62-424f-b469-a875ffef33d9" name="Changes" comment="all working">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchRepositoryImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchRepositoryImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/Domain/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/Domain/Network.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/DataBase.db" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/DataBase.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/HR/DataUnitTests/GeneralEmployeeDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataUnitTests/GeneralEmployeeDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/HR/DataUnitTests/NetworkRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataUnitTests/NetworkRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/HR/DomainUnitTests/GeneralEmployeeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DomainUnitTests/GeneralEmployeeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/HR/DomainUnitTests/HRManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DomainUnitTests/HRManagerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/HR/Presentetion/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/Presentetion/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/HR/Server/init.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/Server/init.java" afterDir="false" />
     </list>
     <list id="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" name="Changes by shaih" comment="Changes by shaih" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,22 +40,22 @@
     &quot;assignee&quot;: &quot;tomeraf&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Escobachar/ADSS_Group_M.git",
-    "accountId": "44fb85a6-1e05-4c99-bcd9-390abe37cf0a"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Escobachar/ADSS_Group_M.git&quot;,
+    &quot;accountId&quot;: &quot;44fb85a6-1e05-4c99-bcd9-390abe37cf0a&quot;
   },
-  "recentNewPullRequestHead": {
-    "server": {
-      "useHttp": false,
-      "host": "github.com",
-      "port": null,
-      "suffix": null
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
     },
-    "owner": "Escobachar",
-    "repository": "ADSS_Group_M"
+    &quot;owner&quot;: &quot;Escobachar&quot;,
+    &quot;repository&quot;: &quot;ADSS_Group_M&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -64,6 +69,7 @@
   "keyToString": {
     "Application.Login.executor": "Debug",
     "Application.Unnamed.executor": "Run",
+    "JUnit.GeneralEmployeeDaoTest.create.executor": "Run",
     "JUnit.GeneralEmployeeTest.updateShifts0.executor": "Run",
     "JUnit.GeneralEmployeeTest.updateShifts1.executor": "Run",
     "JUnit.GeneralEmployeeTest.updateShifts2.executor": "Run",
@@ -97,10 +103,26 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Unnamed">
+  <component name="RunManager" selected="JUnit.GeneralEmployeeDaoTest.create">
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="HR.Presentetion.Login" />
       <module name="ADSS_Group_M_2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GeneralEmployeeDaoTest.create" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS_Group_M_2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="HR.DataUnitTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="HR.DataUnitTests" />
+      <option name="MAIN_CLASS_NAME" value="HR.DataUnitTests.GeneralEmployeeDaoTest" />
+      <option name="METHOD_NAME" value="create" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -132,22 +154,6 @@
       <option name="PACKAGE_NAME" value="UnitTests" />
       <option name="MAIN_CLASS_NAME" value="UnitTests.HRManagerTest" />
       <option name="METHOD_NAME" value="UpdateEmployee1" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="HRManagerTest.addEmployee10" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="HRnew" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="UnitTests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="UnitTests" />
-      <option name="MAIN_CLASS_NAME" value="UnitTests.HRManagerTest" />
-      <option name="METHOD_NAME" value="addEmployee10" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -187,11 +193,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.GeneralEmployeeDaoTest.create" />
         <item itemvalue="JUnit.HRManagerTest.updateShiftsOfBranch" />
         <item itemvalue="JUnit.HRManagerTest.UpdateEmployee1" />
         <item itemvalue="JUnit.HRManagerTest.UpdateEmployee0" />
         <item itemvalue="JUnit.HRManagerTest.addEmployee11" />
-        <item itemvalue="JUnit.HRManagerTest.addEmployee10" />
       </list>
     </recent_temporary>
   </component>
@@ -223,7 +229,9 @@
       <workItem from="1717964810433" duration="1063000" />
       <workItem from="1718627994793" duration="4859000" />
       <workItem from="1718792547775" duration="214000" />
-      <workItem from="1721049970398" duration="9800000" />
+      <workItem from="1721049970398" duration="9835000" />
+      <workItem from="1721117438806" duration="858000" />
+      <workItem from="1721118330865" duration="635000" />
     </task>
     <task id="LOCAL-00001" summary="Tomer working on login">
       <option name="closed" value="true" />
@@ -361,7 +369,31 @@
       <option name="project" value="LOCAL" />
       <updated>1721059602725</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="fix add Manager">
+      <option name="closed" value="true" />
+      <created>1721059977659</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1721059977659</updated>
+    </task>
+    <task id="LOCAL-00019" summary="fix add Manager">
+      <option name="closed" value="true" />
+      <created>1721118349007</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1721118349007</updated>
+    </task>
+    <task id="LOCAL-00020" summary="all working">
+      <option name="closed" value="true" />
+      <created>1721118390439</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1721118390439</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -386,18 +418,14 @@
     <MESSAGE value=" Branch manager done" />
     <MESSAGE value="Login update" />
     <MESSAGE value="all done" />
-    <MESSAGE value="fix add Manager" />
     <MESSAGE value="Changes by shaih" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changes by shaih" />
+    <MESSAGE value="fix add Manager" />
+    <MESSAGE value="all working" />
+    <option name="LAST_COMMIT_MESSAGE" value="all working" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/dev/HR/DataLayer/IMP/NetworkRepositoryImp.java</url>
-          <line>25</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchRepositoryImp.java</url>
           <line>70</line>
