@@ -10,57 +10,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4077e5f5-6c62-424f-b469-a875ffef33d9" name="Changes" comment="fix add Manager">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_06_2024_17_06__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_06_2024_17_06__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/DataBase.db" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/DataBase.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchManagerDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchManagerDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/DriverDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/DriverDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/GeneralEmployeeDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/GeneralEmployeeDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/HRManagerDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/HRManagerDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/HistoryOfEmployeesShiftsDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/HistoryOfEmployeesShiftsDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/RoleDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/RoleDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/Domain/BranchManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/Domain/BranchManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/Domain/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/Domain/Network.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/Presentetion/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/Presentetion/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/CategoriesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/CategoriesDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/OrderDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/OrderDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/OrderDeliveryDayDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/OrderDeliveryDayDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/OrderItemDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/OrderItemDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/ProductsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/ProductsDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/ProductsDiscountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/ProductsDiscountDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/SupplierCategoriesDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/SupplierCategoriesDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/SupplierContactDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/SupplierContactDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/SupplierDeliveryDaysDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/SupplierDeliveryDaysDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DAO/SuppliersDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DAO/SuppliersDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DataAccessLayer/DataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DataAccessLayer/DataBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DaysOfTheWeek.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DaysOfTheWeek.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DomainLayer/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DomainLayer/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DomainLayer/DiscountQuantity.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DomainLayer/DiscountQuantity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DomainLayer/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DomainLayer/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DomainLayer/OrdersFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DomainLayer/OrdersFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DomainLayer/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DomainLayer/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DomainLayer/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DomainLayer/Supplier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/DomainLayer/SuppliersFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/DomainLayer/SuppliersFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/PresentationLayer/OrdersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/PresentationLayer/OrdersService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/PresentationLayer/Response.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/PresentationLayer/Response.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/PresentationLayer/SuppliersMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/PresentationLayer/SuppliersMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/PresentationLayer/SuppliersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/PresentationLayer/SuppliersService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/tests/SuppliersFacadeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/tests/SuppliersFacadeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_M_2/HR/DataLayer/DataBase.db" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ADSS_Group_M_2/HR/DataLayer/DataBase.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_M_2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_M_2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Suppliers.db" beforeDir="false" afterPath="$PROJECT_DIR$/Suppliers.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/Suppliers/tests/OrdersFacadeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/tests/OrdersFacadeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/Suppliers/tests/SuppliersFacadeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/tests/SuppliersFacadeTest.java" afterDir="false" />
     </list>
-    <list id="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" name="Changes by shaih" comment="Changes by shaih">
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchRepositoryImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchRepositoryImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/EmployeeShiftsDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/EmployeeShiftsDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/HistoryOfEmployeesShiftsDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/HistoryOfEmployeesShiftsDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/RoleOfShiftsDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/RoleOfShiftsDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/ShiftAvailabilityDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/ShiftAvailabilityDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/ShiftRequestDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/ShiftRequestDaoImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/Domain/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/Domain/Network.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/HR/Server/init.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/Server/init.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/suppliers/tests/OrdersFacadeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/tests/OrdersFacadeTest.java" afterDir="false" />
-    </list>
+    <list id="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" name="Changes by shaih" comment="Changes by shaih" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -81,45 +39,24 @@
     &quot;assignee&quot;: &quot;tomeraf&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Escobachar/ADSS_Group_M.git",
-    "accountId": "44fb85a6-1e05-4c99-bcd9-390abe37cf0a"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Escobachar/ADSS_Group_M.git&quot;,
+    &quot;accountId&quot;: &quot;44fb85a6-1e05-4c99-bcd9-390abe37cf0a&quot;
   },
-  "recentNewPullRequestHead": {
-    "server": {
-      "useHttp": false,
-      "host": "github.com",
-      "port": null,
-      "suffix": null
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
     },
-    "owner": "Escobachar",
-    "repository": "ADSS_Group_M"
+    &quot;owner&quot;: &quot;Escobachar&quot;,
+    &quot;repository&quot;: &quot;ADSS_Group_M&quot;
   }
-}]]></component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/dev/HR/Domain/Network.java">
-      <ranges>
-        <range start1="76" end1="76" start2="76" end2="82" changelist="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" />
-        <range start1="98" end1="98" start2="104" end2="106" changelist="4077e5f5-6c62-424f-b469-a875ffef33d9" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchDaoImp.java">
-      <ranges>
-        <range start1="30" end1="31" start2="30" end2="30" changelist="4077e5f5-6c62-424f-b469-a875ffef33d9" />
-        <range start1="71" end1="72" start2="70" end2="71" changelist="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" />
-        <range start1="76" end1="76" start2="75" end2="76" changelist="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" />
-        <range start1="89" end1="94" start2="89" end2="89" changelist="4077e5f5-6c62-424f-b469-a875ffef33d9" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/dev/HR/DataLayer/IMP/HistoryOfEmployeesShiftsDaoImp.java">
-      <ranges>
-        <range start1="17" end1="18" start2="17" end2="18" changelist="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" />
-        <range start1="52" end1="53" start2="52" end2="53" changelist="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" />
-        <range start1="84" end1="85" start2="84" end2="85" changelist="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" />
-        <range start1="89" end1="93" start2="89" end2="90" changelist="4077e5f5-6c62-424f-b469-a875ffef33d9" />
-      </ranges>
-    </file>
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
@@ -154,7 +91,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/uni/D/nitoz/jars i need/sqlite-jdbc-3.46.0.0.jar",
+    "last_opened_file_path": "C:/Users/GoomeGum/Desktop/omer/semester D/nitutz/ADSS_Group_M/lib/slf4j-api-2.0.13.jar",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -167,74 +104,10 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Unnamed">
+  <component name="RunManager" selected="JUnit.SuppliersFacadeTest">
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="HR.Presentetion.Login" />
       <module name="ADSS_Group_M_2" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="HRManagerTest.UpdateEmployee0" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="HRnew" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="UnitTests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="UnitTests" />
-      <option name="MAIN_CLASS_NAME" value="UnitTests.HRManagerTest" />
-      <option name="METHOD_NAME" value="UpdateEmployee0" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="HRManagerTest.UpdateEmployee1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="HRnew" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="UnitTests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="UnitTests" />
-      <option name="MAIN_CLASS_NAME" value="UnitTests.HRManagerTest" />
-      <option name="METHOD_NAME" value="UpdateEmployee1" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="HRManagerTest.addEmployee10" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="HRnew" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="UnitTests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="UnitTests" />
-      <option name="MAIN_CLASS_NAME" value="UnitTests.HRManagerTest" />
-      <option name="METHOD_NAME" value="addEmployee10" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="HRManagerTest.addEmployee11" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="HRnew" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="UnitTests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="UnitTests" />
-      <option name="MAIN_CLASS_NAME" value="UnitTests.HRManagerTest" />
-      <option name="METHOD_NAME" value="addEmployee11" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -255,13 +128,75 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="OrdersFacadeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS_Group_M_2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Suppliers.Tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Suppliers.Tests" />
+      <option name="MAIN_CLASS_NAME" value="Suppliers.Tests.OrdersFacadeTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OrdersFacadeTest.A_testAddOrderByParamsEmptyItems" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS_Group_M_2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Suppliers.Tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Suppliers.Tests" />
+      <option name="MAIN_CLASS_NAME" value="Suppliers.Tests.OrdersFacadeTest" />
+      <option name="METHOD_NAME" value="A_testAddOrderByParamsEmptyItems" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OrdersFacadeTest.F_testRemoveConstDeliveryDay" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS_Group_M_2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Suppliers.Tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Suppliers.Tests" />
+      <option name="MAIN_CLASS_NAME" value="Suppliers.Tests.OrdersFacadeTest" />
+      <option name="METHOD_NAME" value="F_testRemoveConstDeliveryDay" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SuppliersFacadeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS_Group_M_2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Suppliers.Tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Suppliers.Tests" />
+      <option name="MAIN_CLASS_NAME" value="Suppliers.Tests.SuppliersFacadeTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SuppliersFacadeTest" />
+        <item itemvalue="JUnit.OrdersFacadeTest" />
+        <item itemvalue="JUnit.OrdersFacadeTest.A_testAddOrderByParamsEmptyItems" />
+        <item itemvalue="JUnit.OrdersFacadeTest.F_testRemoveConstDeliveryDay" />
         <item itemvalue="JUnit.HRManagerTest.updateShiftsOfBranch" />
-        <item itemvalue="JUnit.HRManagerTest.UpdateEmployee1" />
-        <item itemvalue="JUnit.HRManagerTest.UpdateEmployee0" />
-        <item itemvalue="JUnit.HRManagerTest.addEmployee11" />
-        <item itemvalue="JUnit.HRManagerTest.addEmployee10" />
       </list>
     </recent_temporary>
   </component>
