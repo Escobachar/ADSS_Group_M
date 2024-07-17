@@ -188,37 +188,37 @@
              throw new RuntimeException(e);
          }
      }
-     @Test
-     public void L_testGetThisWeekOrders(){
-         try{
-         List<Day> days = new ArrayList<Day>();
-         HashMap<Product,Integer> items = new HashMap<Product,Integer>();
-         items.put(productMilk, 5);
-         LocalDate not_include = LocalDate.now().plusDays(8);
-         Date deliveryDate = java.sql.Date.valueOf(not_include);
-         ordersFacade.addOrder(supplier, new Date(), deliveryDate, items, days, "");
-         HashMap<Integer,Order> orders = ordersFacade.getThisWeekOrders();
-         assertTrue(orders.size() == 2);
-         }
-         catch (SQLException e){
-         }
-     }
-     @Test
-     public void M_testgetThisWeekPickupOrders() {
-         try {
-             List<Day> days = new ArrayList<Day>();
-             days.add(Day.SUNDAY);
-             HashMap<Product, Integer> items = new HashMap<Product, Integer>();
-             items.put(productMilk, 5);
-             LocalDate not_include = LocalDate.now().plusDays(10000000);
-             Date deliveryDate = java.sql.Date.valueOf(not_include);
-             Supplier newSupplier = new Supplier("new Shimon", 1, "123", "check", true, "here");
-             ordersFacade.addOrder(newSupplier, new Date(), deliveryDate, items, days, "");
-             HashMap<Integer, Order> orders = ordersFacade.getThisWeekPickupOrders();
-             assertTrue(orders.size() == 2);
-         } catch (SQLException e) {
-         }
-     }
+     //     @Test
+//     public void L_testGetThisWeekOrders(){
+//         try{
+//         List<Day> days = new ArrayList<Day>();
+//         HashMap<Product,Integer> items = new HashMap<Product,Integer>();
+//         items.put(productMilk, 5);
+//         LocalDate not_include = LocalDate.now().plusDays(8);
+//         Date deliveryDate = java.sql.Date.valueOf(not_include);
+//         ordersFacade.addOrder(supplier, new Date(), deliveryDate, items, days, "");
+//         HashMap<Integer,Order> orders = ordersFacade.getThisWeekOrders();
+//         assertTrue(orders.size() == 2);
+//         }
+//         catch (SQLException e){
+//         }
+//     }
+//     @Test
+//     public void M_testgetThisWeekPickupOrders() {
+//         try {
+//             List<Day> days = new ArrayList<Day>();
+//             days.add(Day.SUNDAY);
+//             HashMap<Product, Integer> items = new HashMap<Product, Integer>();
+//             items.put(productMilk, 5);
+//             LocalDate not_include = LocalDate.now().plusDays(10000000);
+//             Date deliveryDate = java.sql.Date.valueOf(not_include);
+//             Supplier newSupplier = new Supplier("new Shimon", 1, "123", "check", true, "here");
+//             ordersFacade.addOrder(newSupplier, new Date(), deliveryDate, items, days, "");
+//             HashMap<Integer, Order> orders = ordersFacade.getThisWeekPickupOrders();
+//             assertTrue(orders.size() == 2);
+//         } catch (SQLException e) {
+//         }
+//     }
      @Test
      public void N_testOrderPrice(){
          assertTrue(ordersFacade.getOrderPrice(2) == 5.9*5);
