@@ -5,6 +5,13 @@
       "type": "java",
       "name": "Login",
       "request": "launch",
+      "mainClass": "HR.Presentetion.Login",
+      "projectName": "ADSS_Group_M_4deb1db7"
+    },
+    {
+      "type": "java",
+      "name": "Login",
+      "request": "launch",
       "mainClass": "Presentetion.Login",
       "projectName": "ADSS_Group_M_4deb1db7"
     },
@@ -35,7 +42,9 @@
       "request": "launch",
       "program": "${workspaceFolder}/app.js",
       "cwd": "${workspaceFolder}",
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
       "sourceMaps": true
     }
   ]

@@ -45,12 +45,8 @@ public class SupplierContactDAO {
     }
 
     public void insertAll(int supplierId, HashMap<String, String> contacts) throws SQLException {
-        this.conn = DataBase.getConnection();
         for (Map.Entry<String, String> contact : contacts.entrySet()) {
-            String query = "INSERT INTO " + tableName + " (" + colSupplierId + ", " + colContactName + ","
-                    + colContactNum + ") VALUES (?, ?, ?)";
-            PreparedStatement pstmt = conn.prepareStatement(query);
-            conn.createStatement().executeUpdate(query);
+            insert(supplierId, contact.getKey(), contact.getValue());
         }
         
     }

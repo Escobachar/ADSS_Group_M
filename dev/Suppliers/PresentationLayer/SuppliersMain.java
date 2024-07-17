@@ -241,8 +241,7 @@ public class SuppliersMain {
             switch (choice) {
                 case 1 -> printOrder();
                 case 2 -> printOrderPrice();
-                case 3 -> displayBoughtSupplierProducts();
-                case 4 -> flag = false;
+                case 3 -> flag = false;
                 default -> System.out.println("Invalid choice");
             }
         }
@@ -344,8 +343,8 @@ public class SuppliersMain {
                 System.out.println("Invalid catalog number");
                 return;
             }
-            if (ss.isProductExistsInSupplier(supplierId, null, catalogNumber)) {
-                System.out.println("Product Doesn't Already Exists in Supplier " + supplierId);
+            if (!ss.isProductExistsInSupplier(supplierId, null, catalogNumber)) {
+                System.out.println("Product Doesn't Exists in Supplier " + supplierId);
             } else {
                 System.out.println("Enter product amount");
                 Integer amount = inputToInt();
@@ -356,7 +355,7 @@ public class SuppliersMain {
                 items.put(catalogNumber, amount);
             }
         }
-        os.addOrder(supplierId, deliveryDate, items, constDeliveryDays, branch);
+        System.out.println(os.addOrder(supplierId, deliveryDate, items, constDeliveryDays, branch));
     }
 
     public static void suppliers() {

@@ -157,8 +157,16 @@ public class Supplier {
 
     }
 
+    private boolean isCategoryExist(Category category) {
+        for (Category cat : categories.keySet()) {
+            if (cat.getCategoryId() == category.getCategoryId())
+                return true;
+        }
+        return false;
+    }
+
     public void addCategory(Category category) throws SQLException {
-        if (!categories.containsKey(category)){
+        if (!isCategoryExist(category)){
             categories.put(category, new HashMap<Integer, Product>());
             supplierCategoriesDAO.addSupplierCategory(id,category.getCategoryId());
         }
@@ -269,13 +277,15 @@ public class Supplier {
         {
             return isProductExist(catalogNumber);
         }
+        if(categories.get(category)==null)
+            return false;
         return categories.get(category).containsKey(catalogNumber);
     }
 
     public boolean isProductExist(Integer catalogNumber){
         for (HashMap<Integer, Product> productsMap : categories.values()) {
             for (Integer catalog : productsMap.keySet()) {
-                if(catalog == catalogNumber)
+                if(catalog.equals(catalogNumber))
                     return true;
             }
         }

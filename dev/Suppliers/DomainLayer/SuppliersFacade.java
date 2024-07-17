@@ -11,6 +11,7 @@ import Suppliers.DomainLayer.Category;
 import Suppliers.DomainLayer.Product;
 
 import java.text.ParseException;
+import java.util.Locale;
 
 public class SuppliersFacade {
     private HashMap<Integer, Supplier> suppliers;
@@ -52,6 +53,13 @@ public class SuppliersFacade {
             HashMap<Category, HashMap<Integer, Product>> categories, boolean isDelivering, String address) throws SQLException {
         if (suppliers.containsKey(id)) {
             throw new IllegalArgumentException("Supplier with ID " + id + " already exists");
+        }
+        for (Category category : categories.keySet()) {
+            if (!this.categories.containsKey(category.getCategoryName())) {
+                this.categories.put(category.getCategoryName(), category.getCategoryId());
+                categoriesDAO.addCategory(category);
+            }
+            
         }
         Supplier supplier = new Supplier(name, id, bankAccount, paymentOption, contacts, deliveryDays, categories,
                 isDelivering, address);
@@ -108,7 +116,7 @@ public class SuppliersFacade {
     public void addProductToSupplier(int supplierId, Product product) throws SQLException {
         getSupplier(supplierId).addProduct(product.getCategory(), product);
         Category category = product.getCategory();
-        if(!categories.containsKey(category.getCategoryId())){
+        if(!categories.containsValue(category.getCategoryId())){
             categories.put(category.getCategoryName(),category.getCategoryId());
             categoriesDAO.addCategory(category);
         }

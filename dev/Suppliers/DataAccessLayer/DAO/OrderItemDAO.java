@@ -48,7 +48,7 @@ public class OrderItemDAO {
             int catalogNum = entry.getKey().getCatalogNumber();
             int amount = entry.getValue();
             PreparedStatement stmt = conn.prepareStatement(
-                    "INSERT INTO " + tableName + " (OrderId, catalogNum, SupplierId, amount)  VALUES (?, ?, ?, ?");
+                    "INSERT INTO " + tableName + " (OrderId, catalogNum, SupplierId, amount)  VALUES (?, ?, ?, ?)");
             stmt.setInt(1, orderId);
             stmt.setInt(2, catalogNum);
             stmt.setInt(3, supId);
@@ -62,7 +62,7 @@ public class OrderItemDAO {
         Connection conn = DataBase.getConnection();
         int catalogNum = product.getCatalogNumber();
         PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO " + tableName + " (OrderId, catalogNum, SupplierId, amount)  VALUES (?, ?, ?, ?");
+                "INSERT INTO " + tableName + " (OrderId, catalogNum, SupplierId, amount)  VALUES (?, ?, ?, ?)");
         stmt.setInt(1, orderId);
         stmt.setInt(2, catalogNum);
         stmt.setInt(3, supId);
