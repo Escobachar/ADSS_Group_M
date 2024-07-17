@@ -10,13 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4077e5f5-6c62-424f-b469-a875ffef33d9" name="Changes" comment="fix add Manager">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_06_2024_17_06__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_17_06_2024_17_06__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_M_2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_M_2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Suppliers.db" beforeDir="false" afterPath="$PROJECT_DIR$/Suppliers.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/Suppliers/tests/OrdersFacadeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/tests/OrdersFacadeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/Suppliers/tests/SuppliersFacadeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Suppliers/tests/SuppliersFacadeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchRepositoryImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchRepositoryImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/HR/Domain/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/HR/Domain/Network.java" afterDir="false" />
     </list>
     <list id="9b5a61b1-7aa5-4086-bd11-e190c5cdd5f1" name="Changes by shaih" comment="Changes by shaih" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,25 +35,22 @@
     &quot;assignee&quot;: &quot;tomeraf&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Escobachar/ADSS_Group_M.git&quot;,
-    &quot;accountId&quot;: &quot;44fb85a6-1e05-4c99-bcd9-390abe37cf0a&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Escobachar/ADSS_Group_M.git",
+    "accountId": "44fb85a6-1e05-4c99-bcd9-390abe37cf0a"
   },
-  &quot;recentNewPullRequestHead&quot;: {
-    &quot;server&quot;: {
-      &quot;useHttp&quot;: false,
-      &quot;host&quot;: &quot;github.com&quot;,
-      &quot;port&quot;: null,
-      &quot;suffix&quot;: null
+  "recentNewPullRequestHead": {
+    "server": {
+      "useHttp": false,
+      "host": "github.com",
+      "port": null,
+      "suffix": null
     },
-    &quot;owner&quot;: &quot;Escobachar&quot;,
-    &quot;repository&quot;: &quot;ADSS_Group_M&quot;
+    "owner": "Escobachar",
+    "repository": "ADSS_Group_M"
   }
-}</component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -70,7 +63,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Login.executor": "Debug",
-    "Application.Unnamed.executor": "Debug",
+    "Application.Unnamed.executor": "Run",
     "JUnit.GeneralEmployeeTest.updateShifts0.executor": "Run",
     "JUnit.GeneralEmployeeTest.updateShifts1.executor": "Run",
     "JUnit.GeneralEmployeeTest.updateShifts2.executor": "Run",
@@ -91,7 +84,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/GoomeGum/Desktop/omer/semester D/nitutz/ADSS_Group_M/lib/slf4j-api-2.0.13.jar",
+    "last_opened_file_path": "C:/uni/D/nitoz/jars i need/sqlite-jdbc-3.46.0.0.jar",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -104,10 +97,74 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.SuppliersFacadeTest">
+  <component name="RunManager" selected="Application.Unnamed">
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="HR.Presentetion.Login" />
       <module name="ADSS_Group_M_2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HRManagerTest.UpdateEmployee0" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HRnew" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="UnitTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="UnitTests" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests.HRManagerTest" />
+      <option name="METHOD_NAME" value="UpdateEmployee0" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HRManagerTest.UpdateEmployee1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HRnew" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="UnitTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="UnitTests" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests.HRManagerTest" />
+      <option name="METHOD_NAME" value="UpdateEmployee1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HRManagerTest.addEmployee10" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HRnew" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="UnitTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="UnitTests" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests.HRManagerTest" />
+      <option name="METHOD_NAME" value="addEmployee10" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HRManagerTest.addEmployee11" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HRnew" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="UnitTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="UnitTests" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests.HRManagerTest" />
+      <option name="METHOD_NAME" value="addEmployee11" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -128,75 +185,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="OrdersFacadeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ADSS_Group_M_2" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Suppliers.Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Suppliers.Tests" />
-      <option name="MAIN_CLASS_NAME" value="Suppliers.Tests.OrdersFacadeTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="OrdersFacadeTest.A_testAddOrderByParamsEmptyItems" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ADSS_Group_M_2" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Suppliers.Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Suppliers.Tests" />
-      <option name="MAIN_CLASS_NAME" value="Suppliers.Tests.OrdersFacadeTest" />
-      <option name="METHOD_NAME" value="A_testAddOrderByParamsEmptyItems" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="OrdersFacadeTest.F_testRemoveConstDeliveryDay" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ADSS_Group_M_2" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Suppliers.Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Suppliers.Tests" />
-      <option name="MAIN_CLASS_NAME" value="Suppliers.Tests.OrdersFacadeTest" />
-      <option name="METHOD_NAME" value="F_testRemoveConstDeliveryDay" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SuppliersFacadeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ADSS_Group_M_2" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Suppliers.Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Suppliers.Tests" />
-      <option name="MAIN_CLASS_NAME" value="Suppliers.Tests.SuppliersFacadeTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.SuppliersFacadeTest" />
-        <item itemvalue="JUnit.OrdersFacadeTest" />
-        <item itemvalue="JUnit.OrdersFacadeTest.A_testAddOrderByParamsEmptyItems" />
-        <item itemvalue="JUnit.OrdersFacadeTest.F_testRemoveConstDeliveryDay" />
         <item itemvalue="JUnit.HRManagerTest.updateShiftsOfBranch" />
+        <item itemvalue="JUnit.HRManagerTest.UpdateEmployee1" />
+        <item itemvalue="JUnit.HRManagerTest.UpdateEmployee0" />
+        <item itemvalue="JUnit.HRManagerTest.addEmployee11" />
+        <item itemvalue="JUnit.HRManagerTest.addEmployee10" />
       </list>
     </recent_temporary>
   </component>
@@ -228,7 +223,7 @@
       <workItem from="1717964810433" duration="1063000" />
       <workItem from="1718627994793" duration="4859000" />
       <workItem from="1718792547775" duration="214000" />
-      <workItem from="1721049970398" duration="9374000" />
+      <workItem from="1721049970398" duration="9800000" />
     </task>
     <task id="LOCAL-00001" summary="Tomer working on login">
       <option name="closed" value="true" />
@@ -350,7 +345,23 @@
       <option name="project" value="LOCAL" />
       <updated>1721055539886</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="fix add Manager">
+      <option name="closed" value="true" />
+      <created>1721059584178</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1721059584178</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Changes by shaih">
+      <option name="closed" value="true" />
+      <created>1721059602725</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1721059602725</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -375,9 +386,9 @@
     <MESSAGE value=" Branch manager done" />
     <MESSAGE value="Login update" />
     <MESSAGE value="all done" />
-    <MESSAGE value="Changes by shaih" />
     <MESSAGE value="fix add Manager" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix add Manager" />
+    <MESSAGE value="Changes by shaih" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes by shaih" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -389,7 +400,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/HR/DataLayer/IMP/BranchRepositoryImp.java</url>
-          <line>69</line>
+          <line>70</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

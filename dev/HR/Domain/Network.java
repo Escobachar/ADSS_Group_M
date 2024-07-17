@@ -74,10 +74,10 @@ public class Network {
         }
         return null;
     }
-    public void setBranch(String branchName, Branch branch) {
+    public void setEMPListBranch(String branchName, Branch branch) {
         for(Branch b:branchList) {
             if(b.getBranchName().equals(branchName))
-                b=branch;
+                b.setEmployeesList(branch.getEmployeesList());
         }
     }
     public Branch getEmptyBranch(){

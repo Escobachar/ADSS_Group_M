@@ -486,10 +486,10 @@ public class Login {
                 vacationDays=Integer.parseInt(vacationDaysScan);
         }while(!Network.checkVacationsDays(vacationDays));
 
-        System.out.println("Password: ");
+        System.out.print("Password: ");
         String password = scanner.nextLine();
         if(type=='g' ) {
-            System.out.println("Is he a shift manager?: ");
+            System.out.print("Is he a shift manager?(yes/no) ");
             String shiftManager = scanner.nextLine();
             boolean SM = true;
             List<Role> newRL = new ArrayList<>();
@@ -510,17 +510,17 @@ public class Login {
                 do {
                     if(rolesLine!=null)
                         System.out.println("Roles not valid");
-                    System.out.println("press all the numbers of the roles you desire then enter: : ");
+                    System.out.print("press all the numbers of the roles you desire then enter: ");
                     rolesLine = scanner.nextLine();
                 }while(!Utility.onlyNumbers(rolesLine));
 
                 i = 1;
                 for (Role r : RL) {
                     int j = 0;
-                    while (rolesLine.length()>j && !Integer.toString(i).equals(Character.toString(rolesLine.charAt(j)))) {
+                    while (rolesLine.length()>j && !(""+i).equals(""+rolesLine.charAt(j))) {
                         j++;
                     }
-                    if(Integer.toString(i).equals(Character.toString(rolesLine.charAt(j))))
+                    if(rolesLine.length()!=j)
                         newRL.add(r);
                     i++;
                 }
