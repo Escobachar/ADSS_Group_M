@@ -1,8 +1,10 @@
 package HR.Domain;
 
+import HR.DataLayer.IMP.EmployeeShiftsDaoImp;
 import HR.DataLayer.IMP.GeneralEmployeeDao;
 import HR.DataLayer.IMP.ShiftRequestDaoImp;
 import HR.DataLayer.interfaces.EmployeeDao;
+import HR.DataLayer.interfaces.EmployeeShiftsDao;
 import HR.DataLayer.interfaces.ShiftRequestDao;
 
 import java.util.*;
@@ -77,9 +79,33 @@ public class GeneralEmployee extends Employee {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+    public void updateShiftsWithoutDao(boolean[][] shifts) {
+        ShiftsRequest = shifts;
+        HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability = branch.getShiftsAvailability();
+        List<Role> rolesUpdate;
+        if(!isManager)
+            rolesUpdate = roles;
+        else
+            rolesUpdate=branch.getRoles();
+        for (Role r : rolesUpdate) {
+            Set<GeneralEmployee>[][] shiftsOfTheWeek = shiftsAvailability.get(r);
+            if(shiftsOfTheWeek!=null) {
+                for (int i = 0; i < shiftsOfTheWeek.length; i++) {
+                    for (int j = 0; j < shiftsOfTheWeek[i].length; j++) {
+                        if (ShiftsRequest[i][j])
+                            shiftsOfTheWeek[i][j].add(this);
+                        else
+                            shiftsOfTheWeek[i][j].remove(this);
+                    }
+                }
+            }
+        }
+    }
 
     public void updateShifts(boolean[][] shifts) {
         ShiftsRequest = shifts;
+        ShiftRequestDao s = new ShiftRequestDaoImp();
+        s.update(shifts,this.getID());
         HashMap<Role,Set<GeneralEmployee>[][]> shiftsAvailability = branch.getShiftsAvailability();
         List<Role> rolesUpdate;
         if(!isManager)

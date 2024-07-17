@@ -91,7 +91,7 @@ public class EmployeeShiftsDaoImp implements EmployeeShiftsDao {
             }
         }
         else{
-            String query = "INSERT into EmployeeShifts where BranchName = ?  AND role = ? AND empID = ? AND day = ? AND shift = ?";
+            String query = "INSERT into EmployeeShifts(BranchName,role,empID,day,shift) VALUES (?,?,?,?,?)";
             try {
                 PreparedStatement prepare = connection.prepareStatement(query);
                 prepare.setString(1, branchName);

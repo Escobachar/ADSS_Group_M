@@ -28,8 +28,8 @@ public class ShiftRequestDaoImp implements ShiftRequestDao {
                     } catch (SQLException e) {
                         System.out.println(e.getMessage());
                     }
-                    Utility.Close(connection);
                 }
+        Utility.Close(connection);
     }
 
     @Override

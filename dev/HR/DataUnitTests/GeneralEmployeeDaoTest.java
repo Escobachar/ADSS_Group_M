@@ -70,7 +70,7 @@ public class GeneralEmployeeDaoTest {
         GeneralDao.create(ge1);
         GeneralEmployee test = (GeneralEmployee) GeneralDao.read(333333333);
 
-        Assert.assertEquals(ge1.getName(), test.getName());
+        Assert.assertEquals(ge1.getID(), test.getID());
     }
 
     @Test

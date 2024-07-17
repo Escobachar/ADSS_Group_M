@@ -15,7 +15,7 @@ public class RoleOfShiftsDaoImp implements RoleOfShiftsDao {
     @Override
     public void create(String branchName, HashMap<Role,Integer[][]> roleOfShifts){
         Connection connection = Utility.toConnect();
-        String query = "INSERT INTO RoleOfShifts(branchNane, roleName, day, shift, amount) VALUES (?,?,?,?,?)";
+        String query = "INSERT INTO RoleOfShifts(branchName, roleName, day, shift, amount) VALUES (?,?,?,?,?)";
         try{
 
             for(Role role : roleOfShifts.keySet()){
@@ -82,18 +82,19 @@ public class RoleOfShiftsDaoImp implements RoleOfShiftsDao {
     @Override
     public void update(String branchName, String roleName, int day, int shift, int numOfEmployees) {
         Connection connection = Utility.toConnect();
-            String query = "DELETE FROM RoleOfShift where BranchName = ?  AND roleName = ?  AND day = ? AND shift = ? AND empID = ?";
+            String query = "DELETE FROM RoleOfShifts where BranchName = ?  AND roleName = ?  AND day = ? AND shift = ? AND amount = ?";
             try {
                 PreparedStatement prepare = connection.prepareStatement(query);
                 prepare.setString(1, branchName);
                 prepare.setString(2, roleName);
                 prepare.setInt(3, day);
                 prepare.setInt(4, shift);
+                prepare.setInt(5, numOfEmployees);
                 prepare.executeUpdate();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
-        query = "INSERT INTO RoleOfShifts(branchNane, roleName, day, shift, amount) VALUES (?,?,?,?,?)";
+        query = "INSERT INTO RoleOfShifts(branchName, roleName, day, shift, amount) VALUES (?,?,?,?,?)";
             try {
                 PreparedStatement prepare = connection.prepareStatement(query);
                 prepare.setString(1, branchName);

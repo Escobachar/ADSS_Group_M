@@ -42,8 +42,8 @@ public class NetworkRepositoryTest {
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
-            Utility.Close(connection);
         }
+        Utility.Close(connection);
         Assert.assertEquals(0, rowCount);
     }
 

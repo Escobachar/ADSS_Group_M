@@ -1,9 +1,12 @@
 package HR.DataUnitTests;
 
+import HR.DataLayer.IMP.HRManagerDao;
+import HR.DataLayer.IMP.NetworkRepositoryImp;
+import HR.DataLayer.IMP.RoleOfShiftsDaoImp;
+import HR.DataLayer.interfaces.EmployeeDao;
+import HR.DataLayer.interfaces.NetworkRepository;
 import HR.DataLayer.interfaces.RoleOfShiftsDao;
-import HR.Domain.GeneralEmployee;
-import HR.Domain.Network;
-import HR.Domain.Role;
+import HR.Domain.*;
 import HR.Server.Utility;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,22 +18,30 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 public class RoleOfShiftsDaoTest {
     public HashMap<Role,Integer[][]> rolesOfShifts;
-    RoleOfShiftsDao roleOfShiftsDao;
+    RoleOfShiftsDao roleOfShiftsDao= new RoleOfShiftsDaoImp();
 
     @Before
     public void setUp() {
+        NetworkRepository NR = new NetworkRepositoryImp();
+        NR.delete();//delete all data before the test
+        HRManager hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, "04-06-2024", null, "Full", 18, "1111");
+        EmployeeDao HRMDao = new HRManagerDao();
+        HRMDao.create(hrm);
+        Network network = Network.createNewNetwork(hrm);
+        network.addRole(new Role("shift manager", new LinkedList<>()));
         rolesOfShifts = new HashMap<Role,Integer[][]>();
+        Branch branch = hrm.addBranch("branch", "branch", null);
         for(Role r: Network.getNetwork().getRoles()) {
             rolesOfShifts.put(r, new Integer[Network.shifts][Network.days]);
             for (int i = 0; i < Network.shifts; i++) {
                 rolesOfShifts.get(r)[i] = new Integer[Network.days];
-                for (int j = 0; j < Network.days; j++) {
+                for (int j = 0; j < Network.days; j++)
                     rolesOfShifts.get(r)[i][j] = 1;
-                }
             }
         }
     }
@@ -72,7 +83,7 @@ public class RoleOfShiftsDaoTest {
         }
         Utility.Close(connection);
 
-        Assert.assertEquals(1, rowCount);
+        Assert.assertEquals(13, rowCount);
 
     }
 

@@ -103,7 +103,7 @@ public class GeneralEmployeeDao implements EmployeeDao {
                         }
 
                         ge = new GeneralEmployee(id, name, bankAccountDetails, salary,startOfEmployment, endOfEmployment, partOfJob, vacationsDays,roles, isManager==1,Network.getNetwork().getBranch(branch),password);
-                        ge.updateShifts(shiftRequestDao.read(id));
+                        ge.updateShiftsWithoutDao(shiftRequestDao.read(id));
                     }
                 }
             } catch (SQLException e) {

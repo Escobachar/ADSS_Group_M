@@ -1,7 +1,9 @@
 package HR.DataUnitTests;
 
 import HR.DataLayer.IMP.GeneralEmployeeDao;
+import HR.DataLayer.IMP.HRManagerDao;
 import HR.DataLayer.IMP.NetworkRepositoryImp;
+import HR.DataLayer.IMP.ShiftRequestDaoImp;
 import HR.DataLayer.interfaces.EmployeeDao;
 import HR.DataLayer.interfaces.NetworkRepository;
 import HR.DataLayer.interfaces.ShiftRequestDao;
@@ -16,28 +18,31 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ShiftRequestDaoTest {
     public boolean[][] shiftsRequest;
-    ShiftRequestDao ShiftRequestDao;
+    ShiftRequestDao ShiftRequestDao=new ShiftRequestDaoImp();
     EmployeeDao GeneralDao = new GeneralEmployeeDao();
     public GeneralEmployee ge1;
 
 
     @Before
     public void setUp() {
+        NetworkRepository NR = new NetworkRepositoryImp();
+        NR.delete();//delete all data before the test
+        HRManager hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, "04-06-2024", null, "Full", 18, "1111");
+        EmployeeDao HRMDao = new HRManagerDao();
+        HRMDao.create(hrm);
+        Network network = Network.createNewNetwork(hrm);
+        network.addRole(new Role("shift manager", new LinkedList<>()));
+
         shiftsRequest=new boolean[Network.shifts][Network.days];
         for(int i=0;i<shiftsRequest.length;i++)
             for(int j=0;j<shiftsRequest[i].length;j++)
                 shiftsRequest[i][j]=false;
         shiftsRequest[1][1]=true;
-
-        NetworkRepository NR = new NetworkRepositoryImp();
-        NR.delete();//delete all data before the test
-
-        HRManager hrm = new HRManager(111111111, "Shai Hubashi", "11111111111", 50, "04-06-2024", null, "Full", 18, "1111");
-        Network network = Network.createNewNetwork(hrm);
         List<String> GeneralEmployeeAccess = new ArrayList<>();
         network.addRole(new Role("cashier", GeneralEmployeeAccess));
         network.addRole(new Role("storekeeper", GeneralEmployeeAccess));
@@ -55,7 +60,7 @@ public class ShiftRequestDaoTest {
     public void create(){
         ShiftRequestDao.create(shiftsRequest, 333333333);
         Connection connection = Utility.toConnect();
-        String query = "SELECT COUNT(*) FROM ShiftRequests";
+        String query = "SELECT COUNT(*) FROM ShiftsRequests";
         try {
             PreparedStatement prepare = connection.prepareStatement(query);
             ResultSet resultSet = prepare.executeQuery();
@@ -77,7 +82,7 @@ public class ShiftRequestDaoTest {
 
         Connection connection = Utility.toConnect();
         int rowCount = 0;
-        String query = "SELECT COUNT(*) FROM ShiftRequests";
+        String query = "SELECT COUNT(*) FROM ShiftsRequests";
         try {
             PreparedStatement prepare = connection.prepareStatement(query);
             ResultSet resultSet = prepare.executeQuery();
