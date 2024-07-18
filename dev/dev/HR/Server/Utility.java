@@ -251,7 +251,7 @@ public class Utility {
         return shifts;
     }
     private static String getDBUrl(){
-        String relativePath = "dev/HR/DataLayer/DataBase.db";
+        String relativePath = "dev/dev/HR/DataLayer/DataBase.db";
         File databaseFile = Paths.get(relativePath).toFile();
         if (databaseFile.exists()) {
             return "jdbc:sqlite:"+databaseFile.getAbsolutePath().replace("\\", "\\\\");

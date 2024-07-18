@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 public final class DataBase {
     private static DataBase dataBase = null;
-    private static final String url = "jdbc:sqlite:Suppliers.db";
     public static Connection conn = null;
     private DataBase() {
         connectToDatabase();
@@ -29,7 +28,7 @@ public final class DataBase {
     public  void connectToDatabase() {
         try {
             // db parameters
-            String url = "jdbc:sqlite:Suppliers.db";
+            String url = "jdbc:sqlite:dev/Suppliers.db";
             // create a connection to the database
             this.conn = DriverManager.getConnection(url);
         }
